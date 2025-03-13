@@ -1,0 +1,34 @@
+Source: e-ag
+Section: utils
+Priority: optional
+Maintainer: Bayram KARAHAN <bayramk@gmail.com>
+Build-Depends: debhelper (>= 9), 
+    qtdeclarative5-dev
+Standards-Version: 3.9.8
+Homepage: http://pardus.org.tr
+
+Package: e-ag
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends},
+	libqt5core5a,
+    	libqt5gui5,
+    	libqt5network5,
+    	libqt5widgets5,
+    	libqt5printsupport5,
+	openssh-server,
+	sshpass,
+	x11vnc,
+	vsftpd,
+	rdesktop,
+	xtightvncviewer,
+	ssvnc,
+	net-tools,
+	netcat-openbsd,
+	xrdp,
+	nginx,
+	libnginx-mod-rtmp,
+	ffmpeg,
+	filezilla,
+	ethtool,
+	wakeonlan
+Description: e-ag Server Uygulaması
