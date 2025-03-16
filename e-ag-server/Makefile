@@ -30,7 +30,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = e-ag-server1.0.0
-DISTDIR = /home/etapadmin/Masaüstü/c/e-ag-server/.tmp/e-ag-server1.0.0
+DISTDIR = /home/etapadmin/Masaüstü/eag/e-ag-server/.tmp/e-ag-server1.0.0
 SUBTARGETS    =  \
 		sub-e-ag \
 		sub-scd-client
@@ -38,54 +38,54 @@ SUBTARGETS    =  \
 
 sub-e-ag-qmake_all:  FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr
+	cd e-ag/ && $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr
 	cd e-ag/ && $(MAKE) -f Makefile qmake_all
 sub-e-ag: FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile
 sub-e-ag-make_first: FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile 
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile 
 sub-e-ag-all: FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile all
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile all
 sub-e-ag-clean: FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile clean
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile clean
 sub-e-ag-distclean: FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile distclean
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile distclean
 sub-e-ag-install_subtargets: FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile install
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile install
 sub-e-ag-uninstall_subtargets: FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
 sub-scd-client-qmake_all:  FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr
+	cd scd-client/ && $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr
 	cd scd-client/ && $(MAKE) -f Makefile qmake_all
 sub-scd-client: FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile
 sub-scd-client-make_first: FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile 
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile 
 sub-scd-client-all: FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile all
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile all
 sub-scd-client-clean: FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile clean
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile clean
 sub-scd-client-distclean: FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile distclean
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile distclean
 sub-scd-client-install_subtargets: FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile install
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile install
 sub-scd-client-uninstall_subtargets: FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
 
 Makefile: e-ag-server.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -254,18 +254,18 @@ uninstall_subtargets: sub-e-ag-uninstall_subtargets sub-scd-client-uninstall_sub
 
 sub-e-ag-check:
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
 sub-scd-client-check:
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
 check: sub-e-ag-check sub-scd-client-check
 
 sub-e-ag-benchmark:
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
 sub-scd-client-benchmark:
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
 benchmark: sub-e-ag-benchmark sub-scd-client-benchmark
 install:install_subtargets  FORCE
 
@@ -282,9 +282,9 @@ distdir: sub-e-ag-distdir sub-scd-client-distdir FORCE
 
 sub-e-ag-distdir: FORCE
 	@test -d e-ag/ || mkdir -p e-ag/
-	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/e-ag
+	cd e-ag/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/e-ag
 
 sub-scd-client-distdir: FORCE
 	@test -d scd-client/ || mkdir -p scd-client/
-	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/c/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/scd-client
+	cd scd-client/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/scd-client/scd-client.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/scd-client
 

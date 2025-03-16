@@ -93,9 +93,12 @@ protected:
      void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
      void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
      void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-
+ public slots:
+     void slotVnc0();
+     void slotVnc1();
+     void slotVnc2();
 private slots:
-     void pcMenu(QWidget *_obj);
+     void pcMenu(bool singlepc);
      QStringList readArp();
      void udpSocketServerRead();
      QString getIpPortStatus(QString service);

@@ -752,12 +752,15 @@ slotMouseClick();
     if (event->button()==Qt::RightButton)
     {
     if(!multiSelect){
-        pcselectMenu();
-        pContextSelectMenu->exec(mapToGlobal(event->pos()),nullptr);
+        //pcselectMenu();
+        //pContextSelectMenu->exec(mapToGlobal(event->pos()),nullptr);
+        //qDebug()<<"burası pc içi";
+        emit pcMenuSignal(mac,ip,"rightmenutrue");
+        QWidget::mousePressEvent(event);
     }
     else
     {
-        qDebug()<<"burası pc içi";
+        //qDebug()<<"burası pc içi";
         emit pcMenuSignal(mac,ip,"rightmenutrue");
         QWidget::mousePressEvent(event);
     }

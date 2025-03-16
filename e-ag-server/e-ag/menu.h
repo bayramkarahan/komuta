@@ -611,14 +611,57 @@ slotVncFlipAll(ekranScale->currentText(),"-viewonly");
 }
 
 
-void MainWindow::pcMenu(QWidget *_obj)
+void MainWindow::pcMenu(bool singlepc)
 {
-    pContextMenu = new QMenu(_obj);
+    pContextMenu = new QMenu();
     pContextMenu->setStyleSheet("width:165px; background-color: gray; font-size:"+font+"px;");
-    QAction *pcaptionAction = new QAction("Seçilenlere Uygula",this);
+
+    if (singlepc)
+    {
+        //qDebug()<<"tek pc seçilmiş";
+        for(int i=0;i<btnlist.length();i++)
+        {
+            if(btnlist[i]->mac==selectMac)
+              {
+            //qDebug()<<btnlist[i]->ip;
+            //qDebug()<<btnlist[i]->mac;
+            //qDebug()<<btnlist[i]->vncport.split("-");
+                QStringList vncports=btnlist[i]->vncport.split("-");
+                if(vncports.length()>0&&vncports[0]!="0")
+                {
+                    QAction *pVncAction0 = new QAction("Vnc Bağlan-"+vncports[0],this);
+                    pVncAction0->setIcon(QIcon(":/icons/vnc.svg"));
+                    pVncAction0->setIconVisibleInMenu(true);
+                    connect(pVncAction0 ,SIGNAL(triggered()),this,SLOT(slotVnc0()));
+                    pContextMenu->addAction(pVncAction0 );
+                }
+
+                if(vncports.length()>1)
+                {
+                    QAction *pVncAction1 = new QAction("Vnc Bağlan-"+vncports[1],this);
+                    pVncAction1->setIcon(QIcon(":/icons/vnc.svg"));
+                    pVncAction1->setIconVisibleInMenu(true);
+                    connect(pVncAction1 ,SIGNAL(triggered()),this,SLOT(slotVnc1()));
+                    pContextMenu->addAction(pVncAction1 );
+                }
+                if(vncports.length()>2)
+                {
+                    QAction *pVncAction2 = new QAction("Vnc Bağlan-"+vncports[2],this);
+                    pVncAction2->setIcon(QIcon(":/icons/vnc.svg"));
+                    pVncAction2->setIconVisibleInMenu(true);
+                    connect(pVncAction2 ,SIGNAL(triggered()),this,SLOT(slotVnc2()));
+                    pContextMenu->addAction(pVncAction2 );
+                }
+
+            }
+        }
+    }
+   // else
+        //qDebug()<<"çoklu pc seçilmiş";
+   /* QAction *pcaptionAction = new QAction("Seçilenlere Uygula",this);
     pcaptionAction->setIconVisibleInMenu(true);
     pContextMenu->addAction(pcaptionAction );
-
+*/
     pContextMenu->setStyleSheet("width:165px; background-color: gray; font-size:"+font+"px;");
     QAction *pVncFlipAction = new QAction("Ekranı Yansıt",this);
     pVncFlipAction->setIcon(QIcon(":/icons/vnc.svg"));
@@ -740,6 +783,48 @@ void MainWindow::pcMenu(QWidget *_obj)
     //pContextMenu->exec();
 
 
+}
+void MainWindow::slotVnc0(){
+    for(int i=0;i<btnlist.length();i++)
+    {
+        if(btnlist[i]->mac==selectMac)
+        {
+            QStringList vncports=btnlist[i]->vncport.split("-");
+            QString komut="";
+            komut.append("nohup ssvncviewer -scale 0.9 ").append(btnlist[i]->ip).append(":"+vncports[0]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+            qDebug()<<"vnc:"<<komut;
+            system(komut.toStdString().c_str());
+        }
+    }
+
+}
+void MainWindow::slotVnc1(){
+    //emit pcClickSignal(mac);//nesneler arası data transferi***
+    //emit pcMenuSignal(mac,ip,"slotVnc1");
+    for(int i=0;i<btnlist.length();i++)
+    {
+        if(btnlist[i]->mac==selectMac)
+        {
+            QStringList vncports=btnlist[i]->vncport.split("-");
+    QString komut="";
+    komut.append("nohup ssvncviewer -scale 0.9 ").append(btnlist[i]->ip).append(":"+vncports[1]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+    qDebug()<<"vnc:"<<komut;
+    system(komut.toStdString().c_str());
+        }
+    }
+}
+void MainWindow::slotVnc2(){
+    for(int i=0;i<btnlist.length();i++)
+    {
+        if(btnlist[i]->mac==selectMac)
+        {
+            QStringList vncports=btnlist[i]->vncport.split("-");
+            QString komut="";
+            komut.append("nohup ssvncviewer -scale 0.9 ").append(btnlist[i]->ip).append(":"+vncports[2]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+            qDebug()<<"vnc:"<<komut;
+            system(komut.toStdString().c_str());
+        }
+    }
 }
 
 #endif // MENU_H

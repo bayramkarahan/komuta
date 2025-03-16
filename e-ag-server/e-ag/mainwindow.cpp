@@ -41,8 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
 
-
-    /*****************************************************/
+      /*****************************************************/
     QSize screenSize = qApp->screens()[0]->size();
     boy=screenSize.height()/153.6;
     en=boy*1.1;
@@ -63,12 +62,24 @@ MainWindow::MainWindow(QWidget *parent) :
     acountLoad();///hesap ve ayarların yüklenmesi yapılıyor...
 //setMouseTracking(true);
 //installEventFilter(this);
-    setWindowTitle("e-ag 2.3.9");
-
+    /************************version*******************************************/
+    QStringList arguments;
+    arguments << "-c" << "dpkg -s e-ag|grep -i version";
+    QString resultVersion;
+    QProcess process;
+    process.start("/bin/bash",arguments);
+    if(process.waitForFinished())
+    {
+        resultVersion = process.readAll();
+    }
+    resultVersion.chop(1);
+    QString version = resultVersion.right(5);
+    setWindowTitle("e-ag "+version);
+    /***********************************************************************/
     auto appIcon = QIcon(":/icons/e-ag.svg");
     this->setWindowIcon(appIcon);
 
-   /************************************************************/
+   /***********************************************************************/
     pcMac=new QLabel();
     pcName=new QLabel();
     pcIp=new QLabel();
@@ -233,30 +244,56 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     mouseClickState=true;
     if (event->button()==Qt::RightButton)
     {
-       //qDebug()<<"burası main sağtuş";
-        bool pcmultiselect=false;
+    //qDebug()<<"burası main sağtuş";
+        int  pcmultiselect=0;
+        //if(pcrightmenu) pcmultiselect++;
         for(int i=0;i<btnlist.length();i++)
         {
             //if(btnlist[i]->mac==selectMac)
           //  {
-            if(btnlist[i]->multiSelect){
-                    if (QWidget *w =(QWidget*) qApp->widgetAt(QCursor::pos())) {
-                        if(w->objectName()=="hostListe"||pcrightmenu)
-                        {
-                            pcmultiselect=true;
-                        }
-                    }
+            if(btnlist[i]->multiSelect||btnlist[i]->select){
+               // if (QWidget *w =(QWidget*) qApp->widgetAt(QCursor::pos())) {
+                   // if(w->objectName()=="hostListe")
+                  //  {
+                        pcmultiselect++;
+                    //}
+                //}
             }
            // }
         }
         ///
-        if(pcmultiselect)
+
+        if(pcmultiselect>0)
         {
-            pcMenu(hostListe);
+            bool singleSelectPcStatus=false;
+            bool multiSelectPcStatus=false;
+            bool hostListeRightClick=false;
+            bool hostListeRightClickStatus=false;
+            if (QWidget *w =(QWidget*) qApp->widgetAt(QCursor::pos())) {
+                if(w->objectName()=="hostListe")
+                {
+                    hostListeRightClick=true;
+                }
+            }
+
+            if(pcmultiselect==1&&pcrightmenu) singleSelectPcStatus=true;
+            if(pcmultiselect>1&&pcrightmenu) multiSelectPcStatus=true;
+            if(pcmultiselect>1&&hostListeRightClick) hostListeRightClickStatus=true;
+
+            // qDebug()<<"seçilen pc sayısı: "<<pcmultiselect<<pcrightmenu<<singleSelectPcStatus<<multiSelectPcStatus<<hostListeRightClickStatus;
+            if(singleSelectPcStatus||multiSelectPcStatus||hostListeRightClickStatus)
+            {
+                if(singleSelectPcStatus)
+                    pcMenu(true); //single select pc
+                else
+                    pcMenu(false); //multi select pc
+
             pContextMenu->exec(mapToGlobal(event->pos()),nullptr);
             // qDebug()<<"burası main sağ menu"<<mouseClickState;
             mouseClickState=false;
             pcrightmenu=false;
+            pcmultiselect=0;
+        }
         }
     }
 
@@ -852,8 +889,10 @@ if(ftpState(pcMac->text())==false){ mesajSlot("Pc Seçiniz"); return;}
 MainWindow::~MainWindow()
 {
     qDebug()<<"Kapatıldı.";
-    videoProcess.terminate();
+    slotVncFlipStop();
 
+    videoProcess.terminate();
+    system("sleep 1");
 }
 
 QStringList MainWindow::listMerge(QStringList list1, QStringList list2, int dataIndex)

@@ -64,11 +64,8 @@ QString hostname=sysinfo.machineHostName();
  /******************************************************/
       if(clientTrayEnv=="")
  {
-     qDebug()<<"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww";
           clientTrayEnv="noLogin|0|0|0|0";
-     qDebug()<<"wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww";
-
-      }
+       }
      // else
       //    x11env=x11env;
      // QString result1=arg;
@@ -119,7 +116,8 @@ QString hostname=sysinfo.machineHostName();
       }
 
       data="";
-      if (!uygulamaCalisiyorMu("e-ag-client-tray")) {
+      //pgrep 15 karakterden fazla olmamalı bundan dolayı tray yerine tra bırakılmıştır
+      if (!uygulamaCalisiyorMu("pgrep e-ag-client-tra")) {
           clientTrayEnv="noLogin|0|0|0|0";
       }
 
@@ -346,9 +344,9 @@ void Client::udpTrayGetSlot()
         udpTrayGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString rmesaj=datagram.constData();
-        qDebug()<<"**********************************************************";
-        qDebug()<<"udpClientTrayRead:"<<rmesaj;
-        qDebug()<<"**********************************************************";
+        //qDebug()<<"**********************************************************";
+        //qDebug()<<"udpClientTrayRead:"<<rmesaj;
+        //qDebug()<<"**********************************************************";
         clientTrayEnv=rmesaj;
 
     }
@@ -825,10 +823,13 @@ QString Client::getIpPortStatus(QString service,int number)
     else {return "close";}
 }
 bool Client::uygulamaCalisiyorMu(const QString& uygulamaAdi) {
+    QString komut=uygulamaAdi;
+    QStringList arguments;
+    arguments << "-c" << komut;
     QProcess process;
-    process.start("pgrep", QStringList() << uygulamaAdi);
+    process.start("/bin/bash",arguments);
     process.waitForFinished();
-
+    //qDebug()<<"çalışan komut: "<<komut;
     if (process.exitCode() == 0) {
         // Uygulama çalışıyor
         return true;

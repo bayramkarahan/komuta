@@ -23,6 +23,7 @@
 #include<QTableWidget>
 #include<QApplication>
 #include<QDesktopServices>
+#include<QDateTime>
 void MainWindow::ayarKaydetButtonSlot()
 {
 
@@ -3307,7 +3308,7 @@ void MainWindow::bilgiAlButtonSlot()
 {
 
     QTextDocument *doc=new QTextDocument();
-
+    QString yil=QString::number( QDateTime::currentDateTime().date().year());
     doc->setHtml("<center><h2>Program Hakkında</h2></center>"
                  "<center><img src=\":/icons/e-ag.svg\" width=100 height=100 /></center> "
                  "Bu uygulama yerel ağda bilgisayarlara erişim ve yönetmek için yazılmıştır."
@@ -3330,8 +3331,9 @@ void MainWindow::bilgiAlButtonSlot()
 
 
                  "<br/><br/>Bu uygulamayı kullanmaktan doğabilecek her türlü hukuki sorumluluğu kullanıcı kabul etmiş sayılır."
-                  "<br/><br/> Copyright (C) 2023 by Bayram KARAHAN"
+                  "<br/><br/> Copyright (C) "+yil+" by Bayram KARAHAN"
                  "<br/>  bayramk@gmail.com"
+                 "<br/>  www.bayramkarahan.com.tr"
                  "<br/>  www.bayramkarahan.blogspot.com"
 
                   "<br/><br/>This program is free software; you can redistribute it and/or modify it under"
