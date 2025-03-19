@@ -24,6 +24,7 @@
 #include<QVBoxLayout>
 #include<QTranslator>
 #include <QApplication>
+#include<QSettings>
 QMenu *MainWindow::commandExampleMenu()
 {   QMenu *menu = new QMenu(this);
 
@@ -502,7 +503,6 @@ QMenu *MainWindow::sessionMenu()
 
 }
 
-
 QMenu *MainWindow::rdpMenu()
 {   QMenu *menu = new QMenu(this);
 
@@ -630,30 +630,36 @@ void MainWindow::pcMenu(bool singlepc)
             //qDebug()<<btnlist[i]->mac;
             //qDebug()<<btnlist[i]->vncport.split("-");
                 QStringList vncports=btnlist[i]->vncport.split("-");
-                if(vncports.length()>0&&vncports[0]!="0")
+                if(vncports.length()>0)
                 {
+                    if(vncports[0]!="0"&&vncports[0]!=""){
                     QAction *pVncAction0 = new QAction("Vnc Bağlan-"+vncports[0],this);
                     pVncAction0->setIcon(QIcon(":/icons/vnc.svg"));
                     pVncAction0->setIconVisibleInMenu(true);
                     connect(pVncAction0 ,SIGNAL(triggered()),this,SLOT(slotVnc0()));
                     pContextMenu->addAction(pVncAction0 );
+                    }
                 }
 
                 if(vncports.length()>1)
                 {
+                    if(vncports[1]!="0"&&vncports[1]!=""){
                     QAction *pVncAction1 = new QAction("Vnc Bağlan-"+vncports[1],this);
                     pVncAction1->setIcon(QIcon(":/icons/vnc.svg"));
                     pVncAction1->setIconVisibleInMenu(true);
                     connect(pVncAction1 ,SIGNAL(triggered()),this,SLOT(slotVnc1()));
                     pContextMenu->addAction(pVncAction1 );
+                    }
                 }
                 if(vncports.length()>2)
                 {
+                    if(vncports[2]!="0"&&vncports[2]!=""){
                     QAction *pVncAction2 = new QAction("Vnc Bağlan-"+vncports[2],this);
                     pVncAction2->setIcon(QIcon(":/icons/vnc.svg"));
                     pVncAction2->setIconVisibleInMenu(true);
                     connect(pVncAction2 ,SIGNAL(triggered()),this,SLOT(slotVnc2()));
                     pContextMenu->addAction(pVncAction2 );
+                    }
                 }
 
             }
@@ -862,11 +868,18 @@ QMenu *MainWindow::languageMenu()
             languageButton->setText(dil);
             languageButton->setFlat(true);
             connect(languageButton, &QPushButton::clicked, [=]() {
-                //qDebug() << languageButton->text();
-                QTranslator *translator = new QTranslator(this);
-                translator->load("translations/"+languageButton->text()+".qm");
-                qApp->installTranslator(translator);
-                qDebug()<<"translations/"+languageButton->text()+".qm";
+                QString appPath ="/usr/share/e-ag";// a.applicationDirPath();
+                QSettings cfg(appPath + "/config.cfg",QSettings::IniFormat);
+                int port = cfg.value("port",12345).toInt();
+                cfg.setValue("port",port);
+                QString rootPath = cfg.value("rootpath","/tmp/").toString();
+                cfg.setValue("rootpath",rootPath);
+                //QString language = cfg.value("language","tr_TR").toString();
+                cfg.setValue("language",languageButton->text());
+                cfg.sync();
+                QMessageBox msgBox;
+                msgBox.setText(tr("Uygulama dilinin değişmesi için uygulamayı yeniden başlatın."));
+                msgBox.exec();
             });
             //  layout->setColumnMinimumWidth(0, 37);
             layout->addWidget(languageButton);

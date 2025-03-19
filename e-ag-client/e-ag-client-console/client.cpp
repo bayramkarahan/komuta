@@ -398,29 +398,16 @@ void Client::udpServerGetSlot()
             QString _mac=mesaj[2];
             QString record=_ip+"|"+_port+"|"+_mac+"|Server";
             /*********************************************************************/
-            /*if(mesaj.length()>5){
-            QString serverpublickey=mesaj[5];
-            QString filename="/usr/share/e-ag/5100.pub";
-            QFile file( filename );
-            if ( file.open(QIODevice::ReadWrite) )
-            {
-                QTextStream stream( &file );
-                stream << serverpublickey << endl;
-            }
-            system("cat /usr/share/e-ag/5100.pub> /home/etapadmin/.ssh/authorized_keys");
-            system("chmod 644 /home/etapadmin/.ssh/authorized_keys");
-            system("chown etapadmin:etapadmin /home/etapadmin/.ssh/authorized_keys");
-            }*/
             /*****************************************************************/
           //  QStringList closerecord=mesaj[1]+"|"+mesaj[3]+"|"+mesaj[2]+"|Server";
 
             QStringList hostlist=fileToList("/usr/share/e-ag/","hostport");
             QStringList clientcloselist=fileToList("/usr/share/e-ag/","clientclose.sh");
-
+            //listGetLine
             if(hostlist.count()>2)hostlist.clear();
             if(clientcloselist.count()>2)clientcloselist.clear();
 
-            if(listGetLine(hostlist,record)==""||mesaj[4]=="0")
+            if(listGetLine(hostlist,_mac)==""||mesaj[4]=="0")
             {
                 hostlist=listRemove(hostlist,_mac);///mac ad. göre server kayıt
                 hostlist.append(record);
@@ -442,10 +429,6 @@ void Client::udpServerGetSlot()
                              system("chmod 755 /usr/share/e-ag/clientclose.sh");
                         }
                     }
-
-
-
-
                 /********************************************************* */
                      tcpMesajSendTimerSlot();
             }

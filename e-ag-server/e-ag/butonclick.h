@@ -2766,10 +2766,9 @@ QWidget* MainWindow::languageWidget()
     int y = (screenGeometry.height() - sor->height()) / 2;
     sor->move(x, y);
     /******************************************************/
-    QLocale locale;
-    QString language = locale.name();
-    qDebug()<<"Sistem dili:"<<language;
-
+    QString appPath ="/usr/share/e-ag";// a.applicationDirPath();
+    QSettings cfg(appPath + "/config.cfg",QSettings::IniFormat);
+    QString language = cfg.value("language").toString();
     /******************************************************/
     QToolButton *languageLabelButton= new QToolButton();
     languageLabelButton->setIcon(QIcon(":/icons/language.svg"));
@@ -3094,7 +3093,7 @@ QWidget* MainWindow::temelIslemler()
 
     layout->addWidget(logoutWidget(), 0,25,3,1);
     layout->addWidget(agProfilWidget(), 0,26,3,1);
-    layout->addWidget(languageWidget(), 0,28,3,1);
+  //  layout->addWidget(languageWidget(), 0,28,3,1);
 
     layout->addWidget(helpButton, 0,30,3,1);
     d->setLayout(layout);

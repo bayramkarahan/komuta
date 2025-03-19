@@ -34,34 +34,34 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-
-    //! [5]
-    QTranslator translator;
-    //! [5] //! [6]
-    Q_UNUSED(translator.load("./translations/en_EN"));
-    //! [6] //! [7]
-    a.installTranslator(&translator);
-    //! [4] //! [7]
-    //QCoreApplication a(argc, argv);
-    w.show();
     //return a.exec();
+    QLocale locale;
+    QString systemlanguage = locale.name();
+    //qDebug()<<"Sistem dili:"<<systemlanguage;
+
     QString appPath ="/usr/share/e-ag";// a.applicationDirPath();
-
     QSettings cfg(appPath + "/config.cfg",QSettings::IniFormat);
-
     int port = cfg.value("port",12345).toInt();
-    QString rootPath = cfg.value("rootpath","/tmp/").toString();
-
     cfg.setValue("port",port);
+    QString rootPath = cfg.value("rootpath","/tmp/").toString();
     cfg.setValue("rootpath",rootPath);
-
+    QString language = cfg.value("language",systemlanguage).toString();
+    cfg.setValue("language",language);
+    //qDebug()<<"config dili: "<<language;
     cfg.sync();
+/*
+    QTranslator *translator = new QTranslator();
+    translator->load("translations/"+language+".qm");
+    qApp->installTranslator(translator);
+*/
+
 
     SCDImgServer srv(0,port,rootPath);
 
     if (srv.start())
     {
+        MainWindow w;
+        w.show();
         return a.exec();
     }
 
