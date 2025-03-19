@@ -25,17 +25,27 @@
 #include<pcdata.h>
 #include "scdimgserver.h"
 #include <QSettings>
+#include <QApplication>
+#include <QPushButton>
+//! [0]
+#include <QTranslator>
 #define  echo QTextStream(stderr) <<
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+
+    //! [5]
+    QTranslator translator;
+    //! [5] //! [6]
+    Q_UNUSED(translator.load("./translations/en_EN"));
+    //! [6] //! [7]
+    a.installTranslator(&translator);
+    //! [4] //! [7]
+    //QCoreApplication a(argc, argv);
     w.show();
     //return a.exec();
-
-    //QCoreApplication a(argc, argv);
-
     QString appPath ="/usr/share/e-ag";// a.applicationDirPath();
 
     QSettings cfg(appPath + "/config.cfg",QSettings::IniFormat);

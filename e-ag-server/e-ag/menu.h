@@ -21,6 +21,9 @@
 #define MENU_H
 #include<QWidgetAction>
 #include <QDesktopWidget>
+#include<QVBoxLayout>
+#include<QTranslator>
+#include <QApplication>
 QMenu *MainWindow::commandExampleMenu()
 {   QMenu *menu = new QMenu(this);
 
@@ -827,4 +830,86 @@ void MainWindow::slotVnc2(){
     }
 }
 
+QMenu *MainWindow::languageMenu()
+{
+    QMenu *menu = new QMenu(this);
+    int yukseklik=en;
+
+    auto widget = new QWidget;
+    auto layout = new QVBoxLayout(widget);
+    layout->setContentsMargins(0, 0, 0,0);
+    /**********************************************************************************/
+    // .qm dosyalarının bulunduğu dizini belirtin
+    QString directory = "./translations"; // Örnek olarak "./translations" dizini
+
+    QStringList qmFiles = listQmFiles(directory);
+    int dilSayisi=0;
+    if (qmFiles.isEmpty()) {
+        qDebug() << "Belirtilen dizinde .qm dosyası bulunamadı.";
+    } else {
+        //qDebug() << ".qm dosyaları:";
+        for (const QString &file : qmFiles) {
+
+            QFileInfo fi(file);
+            QString name = fi.fileName();
+            //qDebug() << name.split(".")[0];
+            QString dil=name.split(".")[0];
+            QPushButton *languageButton= new QPushButton;
+            languageButton->setFixedSize(yukseklik*10, yukseklik*5);
+            languageButton->setIconSize(QSize(yukseklik*10,yukseklik*5));
+            //languageButton->setIcon(QIcon(":icons/login.svg"));
+            languageButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
+            languageButton->setText(dil);
+            languageButton->setFlat(true);
+            connect(languageButton, &QPushButton::clicked, [=]() {
+                //qDebug() << languageButton->text();
+                QTranslator *translator = new QTranslator(this);
+                translator->load("translations/"+languageButton->text()+".qm");
+                qApp->installTranslator(translator);
+                qDebug()<<"translations/"+languageButton->text()+".qm";
+            });
+            //  layout->setColumnMinimumWidth(0, 37);
+            layout->addWidget(languageButton);
+            dilSayisi++;
+        }
+    }
+    /*******************************************************************************/
+
+      /*************************************/
+
+
+
+
+    // add a widget action to the context menu
+    auto wa = new QWidgetAction(this);
+    //  wa->setIcon(QIcon(":/icon1"));
+    wa->setDefaultWidget(widget);
+    menu->addAction(wa);
+
+    menu->setStyleSheet("QMenu { width: "+QString::number(yukseklik*10)+" px; height: "+QString::number(yukseklik*dilSayisi*5.2) +"px; }");
+    return menu;
+
+
+
+}
+
+QStringList MainWindow::listQmFiles(const QString &directory) {
+    QDir dir(directory);
+    QStringList files;
+
+    if (!dir.exists()) {
+        qDebug() << "Belirtilen dizin bulunamadı:" << directory;
+        return files;
+    }
+
+    dir.setFilter(QDir::Files | QDir::NoDotAndDotDot);
+    dir.setNameFilters(QStringList() << "*.qm");
+
+    files = dir.entryList();
+    for (int i = 0; i < files.size(); ++i) {
+        files[i] = dir.absoluteFilePath(files[i]);
+    }
+
+    return files;
+}
 #endif // MENU_H

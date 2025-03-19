@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     en=boy*1.1;
     int e=en;
     int b=boy;
-    this->resize(boy*180,en*105);
+    this->resize(boy*200,en*105);
     int x = (screenSize.width() - this->width())/2;
     int y = (screenSize.height() - this->height()) / 2;
     this->move(x, y);
@@ -119,7 +119,7 @@ MainWindow::MainWindow(QWidget *parent) :
    /***********************************************************************/
     tabwid=new QTabWidget();
     tabwid->setFixedSize(this->width(),boy*24);
-    tabwid->addTab(pcInfo(),QIcon(":/icons/toolbox.svg"),"Temel İşlemler");
+    tabwid->addTab(temelIslemler(),QIcon(":/icons/toolbox.svg"),"Temel İşlemler");
     tabwid->addTab(rdpWidget(),QIcon(":/icons/vnc.svg"),"Ekran Paylaşımı");
     tabwid->addTab(sshCommandWidget(),QIcon(":/icons/bash.svg"),"Komut Çalıştır");
     tabwid->addTab(duyuruWidget(),QIcon(":/icons/message.svg"),"Mesaj Yaz");

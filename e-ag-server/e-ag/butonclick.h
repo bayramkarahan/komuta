@@ -2748,6 +2748,71 @@ QWidget* MainWindow::logoutWidget()
     //slotVncFlip(ekranScale->currentText());
 }
 
+QWidget* MainWindow::languageWidget()
+{
+    int e=en;
+    int b=boy;
+    int yukseklik=e*12;
+
+    QWidget *sor=new QWidget();
+    sor->setWindowTitle("Çoklu Dil");
+    sor->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
+
+    sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
+    sor->setFixedSize(e*8,b*16);
+
+    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+    int x = (screenGeometry.width() - sor->width())/2;
+    int y = (screenGeometry.height() - sor->height()) / 2;
+    sor->move(x, y);
+    /******************************************************/
+    QLocale locale;
+    QString language = locale.name();
+    qDebug()<<"Sistem dili:"<<language;
+
+    /******************************************************/
+    QToolButton *languageLabelButton= new QToolButton();
+    languageLabelButton->setIcon(QIcon(":/icons/language.svg"));
+    languageLabelButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    languageLabelButton->setFixedSize(e*8,b*5);
+    languageLabelButton->setAutoRaise(true);
+    //languageLabelButton->setAutoFillBackground(true);
+    languageLabelButton->setText(language.split("_")[0]);
+    languageLabelButton->setStyleSheet("font-size:"+QString::number(font.toInt())+"px;");
+
+    QToolButton *languageMenuButton= new QToolButton();
+        // sessionMenuButton->setIcon(QIcon(":/icons/transparanlock.svg"));
+    languageMenuButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    languageMenuButton->setFixedSize(e*8,b*7);
+    languageMenuButton->setAutoRaise(true);
+    //languageMenuButton->setAutoFillBackground(true);
+    languageMenuButton->setText(tr("Dil Seç"));
+    languageMenuButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
+    QMenu *menuu=languageMenu();
+    languageMenuButton->setMenu(menuu);
+    languageMenuButton->setPopupMode(QToolButton::InstantPopup);
+
+    connect(languageMenuButton, &QPushButton::clicked, [=]() {
+        // slotKilitAcAll();
+    });
+
+    auto widget = new QWidget;
+    auto layout = new QGridLayout(sor);
+    layout->setContentsMargins(0, 0, 0,0);
+    layout->setVerticalSpacing(0);
+    layout->setHorizontalSpacing(0);
+
+    //layout->addWidget(cb, 4,0,1,2);
+
+    layout->addWidget(languageLabelButton, 5,0,1,1,Qt::AlignRight);
+    layout->addWidget(languageMenuButton, 7,0,1,1,Qt::AlignRight);
+
+    return sor;
+        // sor->show();
+
+    //slotVncFlip(ekranScale->currentText());
+}
+
 QWidget* MainWindow::agProfilWidget()
 {
     int e=en;
@@ -2760,7 +2825,7 @@ QWidget* MainWindow::agProfilWidget()
     sor->setStyleSheet("QWidget#ag{border: 1px solid #bcbcbc;border-radius: 5px; font-size:"+QString::number(font.toInt()-2)+"px;}");
 
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
-    sor->setFixedSize(yukseklik*1.2,boy*16);
+    sor->setFixedSize(yukseklik*1,boy*16);
 
     QRect screenGeometry = QApplication::desktop()->screenGeometry();
     int x = (screenGeometry.width() - sor->width())/2;
@@ -2819,7 +2884,7 @@ baslik->setText("Ağ Profilleri");
     //slotVncFlip(ekranScale->currentText());
 }
 
-QWidget* MainWindow::pcInfo()
+QWidget* MainWindow::temelIslemler()
 {
     int e=en;
     int b=boy;
@@ -2836,7 +2901,7 @@ QWidget* MainWindow::pcInfo()
     //hostListePcButton->setAutoFillBackground(true);
     hostListePcButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
    hostListePcButton->setFixedSize(yukseklik*0.95,yukseklik*1.5);
-    hostListePcButton->setText("Yenile");
+    hostListePcButton->setText(tr("Yenile"));
     connect(hostListePcButton, &QToolButton::clicked, [=]() {
         tamReset=true;
      pcListeSlot();
@@ -2892,7 +2957,7 @@ QWidget* MainWindow::pcInfo()
     terminalPcButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
     terminalPcButton->setFixedSize(yukseklik*0.95,yukseklik*1.5);
-    terminalPcButton->setText("Terminal");
+    terminalPcButton->setText(tr("Terminal"));
     connect(terminalPcButton, &QToolButton::clicked, [=]() {
         terminalSlot();
     });
@@ -2906,7 +2971,7 @@ QWidget* MainWindow::pcInfo()
     // selectPcButton->setAutoFillBackground(true);
      selectPcButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
-      selectPcButton->setText("Pc Seç");
+      selectPcButton->setText(tr("Pc Seç"));
      connect(selectPcButton, &QToolButton::clicked, [=]() {
           selectSlot();
 
@@ -2947,7 +3012,7 @@ QWidget* MainWindow::pcInfo()
     helpButton->setIconSize(QSize(yukseklik,boy*8));
     helpButton->setIcon(QIcon(":/icons/help.svg"));
     helpButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-    helpButton->setText("Yardım");
+    helpButton->setText(tr("Yardım"));
     helpButton->setAutoRaise(true);
 
      helpButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -3029,12 +3094,10 @@ QWidget* MainWindow::pcInfo()
 
     layout->addWidget(logoutWidget(), 0,25,3,1);
     layout->addWidget(agProfilWidget(), 0,26,3,1);
+    layout->addWidget(languageWidget(), 0,28,3,1);
 
-    layout->addWidget(helpButton, 0,27,3,1);
-
-
-
-     d->setLayout(layout);
+    layout->addWidget(helpButton, 0,30,3,1);
+    d->setLayout(layout);
     return d;
 }
 

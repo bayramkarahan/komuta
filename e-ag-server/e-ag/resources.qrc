@@ -73,5 +73,6 @@
         <file>icons/bash.svg</file>
         <file>icons/volumeoff.svg</file>
         <file>icons/volumeon.svg</file>
+        <file>icons/language.svg</file>
     </qresource>
 </RCC>

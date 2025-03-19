@@ -123,7 +123,8 @@ private slots:
     QWidget *logoutWidget();
     QWidget *agProfilWidget();
 
-    QWidget *pcInfo();
+    QWidget *temelIslemler();
+    QWidget *languageWidget();
     QWidget *macListWidget();
     void webBlockSlot();
     void wolSlot();
@@ -372,6 +373,8 @@ private:
      QMenu *rdpMenu();
      QMenu *commandExampleMenu();
      QMenu *sessionMenu();
+     QMenu *languageMenu();
+     QStringList listQmFiles(const QString &directory);
     QUdpSocket *udpSocketGet;
     QString localDir;
     QLineEdit *commandFileL;
