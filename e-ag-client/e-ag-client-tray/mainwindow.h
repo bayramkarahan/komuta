@@ -31,7 +31,9 @@
 #include <QNetworkInterface>
 #include<QObject>
 #include<QUdpSocket>
-
+#include <gst/gst.h>
+#include <iostream>
+#include<gst/gsterror.h>
 class IpMac
 {
 public:
@@ -126,7 +128,7 @@ private:
     QUdpSocket *udpConsoleGet = nullptr;
     QUdpSocket *udpConsoleSend= nullptr;
     QString serverIp;
-
+GstElement *pipeline;
 };
 
 #endif // MAINWINDOW_H

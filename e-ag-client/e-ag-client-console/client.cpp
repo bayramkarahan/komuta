@@ -722,7 +722,20 @@ void Client::udpServerGetSlot()
             qDebug()<<"ClientTray'a gonderildi: "<<komut;
             x11mesaj=komut; sendStatus=true;
         }
-
+        if(mesaj[0]=="videoyayinbaslat")
+        {
+            // qDebug()<<"Client-Gelen Mesaj:"<<rmesaj;
+            QString komut=mesaj[0]+"|"+mesaj[1]+"|"+mesaj[2]+"|"+mesaj[3]+"|"+mesaj[4]+"|"+mesaj[5]+"|"+mesaj[6]+"|"+mesaj[7];
+            qDebug()<<"ClientTray'a gonderildi: "<<komut;
+            x11mesaj=komut; sendStatus=true;
+        }
+        if(mesaj[0]=="videoyayindurdur")
+        {
+            // qDebug()<<"Client-Gelen Mesaj:"<<rmesaj;
+            QString komut=mesaj[0]+"|"+mesaj[1]+"|"+mesaj[2]+"|"+mesaj[3]+"|"+mesaj[4]+"|"+mesaj[5]+"|"+mesaj[6]+"|"+mesaj[7];
+            qDebug()<<"ClientTray'a gonderildi: "<<komut;
+            x11mesaj=komut; sendStatus=true;
+        }
         if(mesaj[0]=="pckapat")
         {
             qDebug()<<"Client-Gelen Mesaj:"<<rmesaj;

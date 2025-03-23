@@ -42,7 +42,9 @@
 #include<ekranresmi.h>
 #include <stdio.h>
 #include <QtCore/QCoreApplication>
-
+#include <gst/gst.h>
+#include <iostream>
+#include<gst/gsterror.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
  {
@@ -442,8 +444,60 @@ void MainWindow::tcpMessageControlSlot(QString _data)
 
             //  komutSudoExpect(lst[1],lst[6],lst[7]);
         }
+        if(lst[0]=="videoyayinbaslat")
+        {
+            qDebug()<<"komut:"<<lst[0]<<lst[1];
 
-   }
+            gst_init(nullptr, nullptr);
+
+
+            GError *error = NULL;
+
+            // Video ve ses pipeline'ları
+            std::string videoPipeline = "udpsrc port=5000 ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert ! autovideosink";
+            std::string audioPipeline = "udpsrc port=5001 ! capsfilter caps=\"application/x-rtp, media=(string)audio, clock-rate=(int)48000, encoding-name=(string)OPUS, payload=(int)97\" ! rtpopusdepay ! opusdec ! autoaudiosink";
+
+            // Video pipeline'ı oluştur
+            pipeline = gst_parse_launch(videoPipeline.c_str(), &error);
+            if (error) {
+                std::cerr << "Video pipeline oluşturulamadı: " << error->message << std::endl;
+                g_clear_error(&error);
+                return;
+            }
+            gst_element_set_state(pipeline, GST_STATE_PLAYING);
+
+
+            // Ses pipeline'ı oluştur
+            pipeline = gst_parse_launch(audioPipeline.c_str(), &error);
+            if (error) {
+                std::cerr << "Ses pipeline oluşturulamadı: " << error->message << std::endl;
+                g_clear_error(&error);
+                return ;
+            }
+            gst_element_set_state(pipeline, GST_STATE_PLAYING);
+
+            /*std::cout << "Alıcı başladı (Ctrl+C ile durdurun)..." << std::endl;
+
+            // Alıcı devam ederken (Ctrl+C ile durdurulana kadar) bekleyin
+            GMainLoop *loop = g_main_loop_new(NULL, FALSE);
+            g_main_loop_run(loop);
+
+            // Pipeline'ları durdur ve temizle
+            gst_element_set_state(pipeline, GST_STATE_NULL);
+            gst_object_unref(pipeline);
+*/
+
+        }
+        if(lst[0]=="videoyayindurdur")
+        {
+            // Pipeline'ları durdur ve temizle
+            gst_element_set_state(pipeline, GST_STATE_NULL);
+            gst_object_unref(pipeline);
+
+        }
+
+
+}
 QString MainWindow::myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon)
 {
     Qt::WindowFlags flags = 0;

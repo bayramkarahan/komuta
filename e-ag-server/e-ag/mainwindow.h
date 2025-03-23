@@ -61,6 +61,8 @@
 #include <QRubberBand>
 #include "scdimgclient.h"
 #include<QInputDialog>
+#include <gst/gst.h>
+#include <iostream>
 namespace Ui {
 class MainWindow;
 }
@@ -381,7 +383,8 @@ private:
     QRadioButton *rb1;
     QRadioButton *rb2;
     bool sendBroadcastStatus=false;
-
+    GstElement *audio_pipeline;
+    GstElement *video_pipeline;
   };
 
 #endif // MAINWINDOW_H
