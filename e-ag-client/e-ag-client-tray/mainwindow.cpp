@@ -454,8 +454,8 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             GError *error = NULL;
 
             // Video ve ses pipeline'ları
-            std::string videoPipeline = "udpsrc port=5000 ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert ! autovideosink";
-            std::string audioPipeline = "udpsrc port=5001 ! capsfilter caps=\"application/x-rtp, media=(string)audio, clock-rate=(int)48000, encoding-name=(string)OPUS, payload=(int)97\" ! rtpopusdepay ! opusdec ! autoaudiosink";
+            std::string videoPipeline = "udpsrc port=5000 address=239.0.0.1 ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert ! autovideosink";
+            std::string audioPipeline = "udpsrc port=5001 address=239.0.0.1 ! capsfilter caps=\"application/x-rtp, media=(string)audio, clock-rate=(int)48000, encoding-name=(string)OPUS, payload=(int)97\" ! rtpopusdepay ! opusdec ! autoaudiosink";
 
             // Video pipeline'ı oluştur
             pipeline = gst_parse_launch(videoPipeline.c_str(), &error);

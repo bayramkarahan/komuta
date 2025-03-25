@@ -1462,7 +1462,8 @@ QWidget* MainWindow::videoWidget()
          QString name = QUrl::fromLocalFile(commandFileLE->text()).path(QUrl::FullyEncoded);
         name.replace("%20","%5C%20");
          QUrl pth;
-
+        //String::toStdString()
+        //pth.fromPercentEncoding(name.toUtf8()).
          /*if(commandFileLE->text()!="")
          {
              QString result="";
@@ -1493,58 +1494,23 @@ QWidget* MainWindow::videoWidget()
              }
             mesajSlot("Ağ'a Komut Gönderildi.");
          }*/
+        if(commandFileLE->text()!="")
+         {
          gst_init(nullptr, nullptr);
 
          GError *error = NULL;
 
-         // Video ve ses pipeline'ları
-         //std::string videoPipeline = "v4l2src device=/dev/video0 ! videoconvert ! x264enc tune=zerolatency ! rtph264pay config-interval=1 pt=96 ! udpsink host=192.168.1.255 port=5000";
-         //std::string audioPipeline = "autoaudiosrc ! audioconvert ! opusenc ! rtpopuspay pt=97 ! udpsink host=192.168.1.255 port=5001";
-         //alsasrc device=hw:1,0
-         video_pipeline = gst_pipeline_new ("vmypipeline");
-         audio_pipeline = gst_pipeline_new ("amypipeline");
-         //GstElement *video_source = gst_element_factory_make ("v4l2src", "source"); // Kamera kaynağı
-         GstElement *video_convert = gst_element_factory_make ("videoconvert", "convert");
-         GstElement *video_encode = gst_element_factory_make ("x264enc", "encode"); // Video kodlayıcı
-         GstElement *video_pay = gst_element_factory_make ("rtph264pay", "pay"); // RTP paketleyici
-         GstElement *video_sink = gst_element_factory_make ("udpsink", "sink"); // UDP yayını
-         //pipeline = gst_pipeline_new("video-player");
-         GstElement *video_source = gst_element_factory_make("filesrc", "file-source");
-         //decoder = gst_element_factory_make("decodebin", "decoder");
-         //converter = gst_element_factory_make("videoconvert", "converter");
-         //sink = gst_element_factory_make("autovideosink", "video-output")
-         g_object_set(video_source, "location", "a.mp4", nullptr); // Dosya yolunu ayarlayın
-
-         g_object_set (G_OBJECT (video_sink), "host", "192.168.1.255", "port", 5000, NULL); // Hedef IP ve port
-         g_object_set(video_encode, "tune", 4, NULL); // veya "stillimage", "fastdecode" vb.
-
-
-
-         GstElement *audio_source = gst_element_factory_make("autoaudiosrc", "audio-source");
-         GstElement *audio_encode = gst_element_factory_make("opusenc", "opus-encoder");
-         GstElement *audio_convert = gst_element_factory_make("audioconvert", "audio_convert");
-         GstElement *audio_pay = gst_element_factory_make("rtpopuspay", "rtp-payloader");
-         GstElement *audio_sink = gst_element_factory_make("udpsink", "udp-sink");
-         g_object_set (G_OBJECT (audio_sink), "host", "192.168.1.255", "port", 5001, NULL); // Hedef IP ve port
-         g_object_set(audio_pay, "pt", 97, NULL);
-
-
-         gst_bin_add_many (GST_BIN (audio_pipeline), audio_source, audio_convert,audio_encode, audio_pay, audio_sink, NULL);
-         gst_element_link_many (audio_source,audio_convert, audio_encode, audio_pay,audio_sink, nullptr);
-
-         gst_bin_add_many (GST_BIN (video_pipeline), video_source, video_convert, video_encode, video_pay, video_sink, NULL);
-         gst_element_link_many (video_source, video_convert, video_encode, video_pay, video_sink, nullptr);
-
-         GstStateChangeReturn video_ret = gst_element_set_state(video_pipeline, GST_STATE_PLAYING);
-         GstStateChangeReturn audio_ret  = gst_element_set_state(audio_pipeline, GST_STATE_PLAYING);
-
-         if (video_ret == GST_STATE_CHANGE_FAILURE) {
-             std::cout << "video  başlatılamadı." << std::endl;
+         std::string videoPipeline = "filesrc location="+pth.fromPercentEncoding(name.toUtf8()).toStdString()+" ! decodebin ! videoconvert ! x264enc tune=zerolatency bitrate=1024 ! rtph264pay ! udpsink host=239.0.0.1 port=5000 filesrc location="+pth.fromPercentEncoding(name.toUtf8()).toStdString()+" ! decodebin ! audioconvert ! opusenc ! rtpopuspay ! udpsink host=239.0.0.1 port=5001";
+         // Video pipeline'ı oluştur
+         video_pipeline = gst_parse_launch(videoPipeline.c_str(), &error);
+         if (error) {
+             std::cerr << "Video pipeline oluşturulamadı: " << error->message << std::endl;
+             g_clear_error(&error);
+             return;
          }
-         if (audio_ret == GST_STATE_CHANGE_FAILURE) {
-             std::cout << "ses  başlatılamadı." << std::endl;
-         }
+         gst_element_set_state(video_pipeline, GST_STATE_PLAYING);
          slotSelectCommand("videoyayinbaslat","");
+        }
      });
 
      fileSelectButton=new QToolButton();
@@ -1674,7 +1640,7 @@ QWidget* MainWindow::videoWidget()
           GstElement *video_encode = gst_element_factory_make ("x264enc", "encode"); // Video kodlayıcı
           GstElement *video_pay = gst_element_factory_make ("rtph264pay", "pay"); // RTP paketleyici
           GstElement *video_sink = gst_element_factory_make ("udpsink", "sink"); // UDP yayını
-          g_object_set (G_OBJECT (video_sink), "host", "192.168.1.255", "port", 5000, NULL); // Hedef IP ve port
+          g_object_set (G_OBJECT (video_sink), "host", "239.0.0.1", "port", 5000, NULL); // Hedef IP ve port
           g_object_set(video_encode, "tune", 4, NULL); // veya "stillimage", "fastdecode" vb.
 
 
@@ -1684,7 +1650,7 @@ QWidget* MainWindow::videoWidget()
           GstElement *audio_convert = gst_element_factory_make("audioconvert", "audio_convert");
           GstElement *audio_pay = gst_element_factory_make("rtpopuspay", "rtp-payloader");
           GstElement *audio_sink = gst_element_factory_make("udpsink", "udp-sink");
-          g_object_set (G_OBJECT (audio_sink), "host", "192.168.1.255", "port", 5001, NULL); // Hedef IP ve port
+          g_object_set (G_OBJECT (audio_sink), "host", "239.0.0.1", "port", 5001, NULL); // Hedef IP ve port
           g_object_set(audio_pay, "pt", 97, NULL);
 
 
@@ -1728,10 +1694,15 @@ QWidget* MainWindow::videoWidget()
             connect(videoStopButton, &QToolButton::clicked, [=]() {
                 if(streamState)
                 {
-                    videoProcess.terminate();
+                    /*videoProcess.terminate();
                     streamState=false;
                     videoStopButton->setStyleSheet("background-color: #dcdcdc");
-                    slotPcCommandSelect("pkill vlc");
+                    slotPcCommandSelect("pkill vlc");*/
+                    gst_element_set_state(video_pipeline, GST_STATE_NULL);
+                    gst_object_unref(video_pipeline);
+                    //gst_element_set_state(audio_pipeline, GST_STATE_NULL);
+                    //gst_object_unref(audio_pipeline);
+                    slotSelectCommand("videoyayindurdur","");
                     mesajSlot("Video durduruldu.");
                 }
 
