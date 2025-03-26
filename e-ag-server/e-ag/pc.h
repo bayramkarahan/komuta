@@ -32,6 +32,8 @@
 #include<QScreen>
 #include<pcdata.h>
 #include<QDesktopServices>
+#include<QMediaPlayer>
+#include<QVideoWidget>
 class Pc : public QWidget
 {
     Q_OBJECT
@@ -188,7 +190,10 @@ bool refreshContinueState=false;
     QLabel *ftpdrmLabel;
     QLabel *selectLabel;
     QLabel *userstateLabel;
+    QMediaPlayer *receiver;
+    //QMediaPlayer *receiver1 = new QMediaPlayer;
 
+    QVideoWidget *videoWidget;
 };
 
 #endif // PC_H

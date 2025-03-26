@@ -92,13 +92,40 @@ Pc::Pc(QWidget *parent) : QWidget(parent)
     userstateLabel->setAlignment(Qt::AlignCenter);
     nameLabel->setAlignment(Qt::AlignTop|Qt::AlignCenter);
     nameLabel->raise();
+    receiver = new QMediaPlayer;
+    //QMediaPlayer *receiver1 = new QMediaPlayer;
 
+    videoWidget = new QVideoWidget(this);
+   // QVideoWidget *videoWidget1 = new QVideoWidget;
+    receiver->setVideoOutput(videoWidget);
+    //receiver1->setVideoOutput(videoWidget1);
     /*********************************************************/
    // btnayar->setStyleSheet("background-color: #dcdcdc");
     ///connect(btnayar, SIGNAL(clicked()),this, SLOT(slotPcAyar()));
     connect(btnayar, &QToolButton::clicked, [=]() {
-           //   qDebug()<<"menu açılacak";
-        slotPcAyar();
+              qDebug()<<"menu açılacak";
+        ///slotPcAyar();
+
+
+        QStringList ipparts=ip.split(".");
+        QString newIp="239.0."+ipparts[2]+"."+ipparts[3];
+        //qDebug()<<newIp;
+
+    //return;
+              //receiver->setMedia(QUrl("gst-pipeline: udpsrc address=239.0.0.1 port=5000 ! \
+              //  application/x-rtp,encoding-name=JPEG ! rtpjpegdepay ! jpegdec ! \
+              // xvimagesink name=qtvideosink"));
+              //receiver->setMedia(QUrl("gst-pipeline: udpsrc address=239.0.0.1 port=5000 ! application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96 ! rtph264depay ! avdec_h264 !  xvimagesink name=qtvideosink"));
+              //receiver->play();
+
+              receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address="+newIp+" ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert !  xvimagesink name=qtvideosink"));
+              receiver->play();
+              videoWidget->setStyleSheet("  background-color: rgba(50, 50, 50, 0);");
+              //receiver->setStyleSheet("  background-color: rgba(50, 50, 50, 0);");
+              //receiver1->setMedia(QUrl("gst-pipeline: udpsrc port=5001 address=239.0.0.1 ! capsfilter caps=\"application/x-rtp, media=(string)audio, clock-rate=(int)48000, encoding-name=(string)OPUS, payload=(int)97\" ! rtpopusdepay ! opusdec ! autoaudiosink"));
+              //receiver1->play();
+              // Content will be shown in this widget.
+              //videoWidget->show();
     });
     btnayar->setIcon(QIcon(":icons/settings.svg"));
     //btnayar->setAutoFillBackground(true);
@@ -120,8 +147,11 @@ Pc::Pc(QWidget *parent) : QWidget(parent)
     //layout->addWidget(multiSelect, 2,1,1,1,Qt::AlignHCenter);
     layout->addWidget(nameLabel, 2, 1,1,6,Qt::AlignHCenter);
     // layout->addWidget(btnctrl, 2, 5,1,1,Qt::AlignHCenter);
-    layout->addWidget(btnpc, 3,1,1,5,Qt::AlignHCenter);
+    //layout->addWidget(btnpc, 3,1,1,5,Qt::AlignHCenter);
+    layout->addWidget(videoWidget, 3,1,1,5,Qt::AlignHCenter);
+
     layout->addWidget(iconLabel, 3,1,1,6,Qt::AlignHCenter);
+
     layout->addWidget(pcstateLabel, 4,1,1,1,Qt::AlignHCenter);
     layout->addWidget(sshstateLabel, 4, 2,1,1,Qt::AlignHCenter);
     layout->addWidget(vncstateLabel, 4, 3,1,1,Qt::AlignHCenter);
@@ -441,6 +471,7 @@ void Pc::setSize(int _w, int _h, QString _font)
 
     selectLabel->setFixedSize(w*7, w*5.9);
     btnpc->setFixedSize(w*7, w*3);
+    videoWidget->setFixedSize(w*7, w*3);
     iconLabel->setFixedSize(w*5.2, w*2.7);
 
     btnayar->setFixedSize(w*1, w*1);
