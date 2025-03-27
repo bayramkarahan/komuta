@@ -119,8 +119,10 @@ Pc::Pc(QWidget *parent) : QWidget(parent)
               //receiver->play();
 
               receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address="+newIp+" ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert !  xvimagesink name=qtvideosink"));
-              receiver->play();
+
               videoWidget->setStyleSheet("  background-color: rgba(50, 50, 50, 0);");
+
+              //videoWidget->setAspectRatioMode(Qt::KeepAspectRatioByExpanding);
               //receiver->setStyleSheet("  background-color: rgba(50, 50, 50, 0);");
               //receiver1->setMedia(QUrl("gst-pipeline: udpsrc port=5001 address=239.0.0.1 ! capsfilter caps=\"application/x-rtp, media=(string)audio, clock-rate=(int)48000, encoding-name=(string)OPUS, payload=(int)97\" ! rtpopusdepay ! opusdec ! autoaudiosink"));
               //receiver1->play();
@@ -459,28 +461,34 @@ void Pc::setSize(int _w, int _h, QString _font)
     // nameLabel->setStyleSheet("background-color:rgba(200,200,0,255)");
 
     w=_w/6;
-    setFixedSize(w*7,w*5.9);
+    h=_h/6;
+    setFixedSize(w*7,h*7);
     /**************************************/
-    nameLabel->setFixedSize(w*5.2,w*1.3);
+    nameLabel->setFixedSize(w*5.2,h*0.9);
 
-    pcstateLabel->setFixedSize(w*1,w*1);
-    sshstateLabel->setFixedSize(w*1,w*1);
-    vncstateLabel->setFixedSize(w*1,w*1);
-    ftpstateLabel->setFixedSize(w*1,w*1);
-    userstateLabel->setFixedSize(w*1,w*1);
+    pcstateLabel->setFixedSize(w*1,h*1);
+    sshstateLabel->setFixedSize(w*1,h*1);
+    vncstateLabel->setFixedSize(w*1,h*1);
+    ftpstateLabel->setFixedSize(w*1,h*1);
+    userstateLabel->setFixedSize(w*1,h*1);
 
-    selectLabel->setFixedSize(w*7, w*5.9);
-    btnpc->setFixedSize(w*7, w*3);
-    videoWidget->setFixedSize(w*7, w*3);
-    iconLabel->setFixedSize(w*5.2, w*2.7);
+    selectLabel->setFixedSize(w*7, h*6.9);
+    //btnpc->setFixedSize(w*7, h*3);
+    videoWidget->setFixedSize(w*7, h*5);
+   // iconLabel->setFixedSize(w*5.2, w*2.7);
+    //layout1->SetFixedSize->setFixedSize(w*7, h*5);
 
-    btnayar->setFixedSize(w*1, w*1);
-    btnayar->setIconSize(QSize(w*1.4,w*1.4));
+    btnayar->setFixedSize(w*1, h*1);
+    btnayar->setIconSize(QSize(w*1.4,h*1.4));
     userstateLabel->setStyleSheet("border: 1px solid gray; "
                                   "border-radius: 6px;"
                                   "font-size:8px;"
                                   " text-align: center;"
                                   "background-color: #ff0000;");
+    videoWidget->show();
+    videoWidget->setAspectRatioMode(Qt::IgnoreAspectRatio);
+    receiver->play();
+
 }
 
 void Pc::setMac(QString _mac, int _w, int _h, QString _font)

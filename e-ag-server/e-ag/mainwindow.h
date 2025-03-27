@@ -175,6 +175,7 @@ private slots:
     void sshCommandSlot(QString kmt,QString _ip);
 
     void pcListeGuncelleSlot(int _ColumnSayisi, int pcw, int pch);
+    void pcListeGuncelleSlotnew(int _ColumnSayisi, int pcw, int pch);
     void bilgiAlButtonSlot();
     void ayarKaydetButtonSlot();
 

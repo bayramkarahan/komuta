@@ -144,6 +144,7 @@ MainWindow::MainWindow(QWidget *parent) :
     newPcDetectTimer= new QTimer(this);
     connect(newPcDetectTimer, SIGNAL(timeout()), this, SLOT(newPcDetect()));
     newPcDetectTimer->start(5000);
+
     connect(timerUdpSocketSend, SIGNAL(timeout()), this, SLOT(sendBroadcastDatagram()));
     timerUdpSocketSend->start(10000);
 
@@ -194,9 +195,9 @@ sendBroadcastDatagram();
 
  void MainWindow::pcListeSlot()
  {
-
-    double nwidth=en*13*slider->value()/100;
-    double nheight=en*15*slider->value()/100;
+//double nwidth=en*13*slider->value()/100;
+    double nwidth=en*15*slider->value()/100;
+    double nheight=en*12*slider->value()/100;
     int columnSayisi=hostListe->width()/(nwidth+en*4);
     pcListeGuncelleSlot(columnSayisi,nwidth,nheight);
     qDebug()<<"Liste Yenilendi.......";
@@ -310,6 +311,16 @@ void MainWindow::resizeEvent(QResizeEvent *event)
  scrollArea->setFixedSize(this->width(),this->height()-tabwid->height()-selectWidget->height()-boy*6);
  ///QWidget::resizeEvent(event);
  }
+ void MainWindow::pcListeGuncelleSlotnew(int _ColumnSayisi,int pcw,int pch)
+ {
+     qDebug()<<"Hosts Listesi Güncellendi.."<<_ColumnSayisi<<pcw<<pch;
+     for(int p=0;p<btnlist.count();p++)
+     {
+        //btnlist[p]->setFixedSize(pcw,pch);
+        btnlist[p]->setSize(pcw,pch,font);
+     }
+ }
+
 void MainWindow::pcListeGuncelleSlot(int _ColumnSayisi,int pcw,int pch)
 {
     qDebug()<<"Hosts Listesi Güncellendi..";
@@ -553,13 +564,13 @@ void MainWindow::newPcDetect()
 if(arpList.count()<pcopencount)
 {
       qDebug()<<"host kapatıldı.";
-pcListeSlot();//Yenileme butonu çalışacak
+///pcListeSlot();//Yenileme butonu çalışacak
 return;
 }
 if(arpList.count()>pcopencount)
 {
 qDebug()<<"host açıldı.";
-pcListeSlot();//Yenileme butonu çalışacak
+///pcListeSlot();//Yenileme butonu çalışacak
 return;
 }
 

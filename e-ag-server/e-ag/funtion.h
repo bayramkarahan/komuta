@@ -5,13 +5,13 @@
 void MainWindow::updateSlider(int val)
 {
      sliderValuelabel->setText(QString::number(val));
-    double nwidth=en*13*val/100;
-    double nheight=en*15*val/100;
+    //double nwidth=en*13*val/100;
+    double nwidth=en*20*val/100;
+    double nheight=en*20*val/100;
     int columnSayisi=hostListe->width()/(nwidth+en*4);
-     pcListeGuncelleSlot(columnSayisi,nwidth,nheight);
-
+     //pcListeGuncelleSlot(columnSayisi,nwidth,nheight);
+pcListeGuncelleSlotnew(columnSayisi,nwidth,nheight);
     mesajSlot("Host Boyutları Değiştirildi.");
-return;
 }
 void MainWindow::selectSlot()
 {
