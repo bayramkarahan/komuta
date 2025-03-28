@@ -954,7 +954,7 @@ int yukseklik=b*7.5;
 
       connect(fileSelectButton, &QToolButton::clicked, [=]() {
        //pcClickSlot(pcMac->text());
-          QString fileName = QFileDialog::getOpenFileName(this,tr("Dosya Seç"),QDir::homePath(), tr("Files (*.*)"));
+          QString fileName = QFileDialog::getOpenFileName(this,tr("Dosya Seç"),QDir::homePath(), tr("Files (*)"));
           le->setText(fileName);
 
             QFileInfo fi(le->text());
@@ -2483,6 +2483,29 @@ QWidget* MainWindow::volumeWidget()
     offVolumePc->setAutoRaise(true);
     offVolumePc->setText("Ses Kapat");
     connect(offVolumePc, &QToolButton::clicked, [=]() {
+         QList<Pc*> tmpbtnlist;
+        for(int i=0;i<btnlist.count();i++)
+        {
+            if(pcIp->text()==btnlist[i]->ip)
+            {
+            qDebug()<<btnlist[i]->ip<<"";
+
+            layout->removeWidget(btnlist[i]);
+            btnlist[i]->deleteLater();
+            btnlist.removeAt(i);
+            //qDeleteAll(layout->findChildren<QWidget *>(QString(), Qt::FindDirectChildrenOnly));
+                //if (Pc *w =(Pc*)
+            }else
+            {
+               // layout->addWidget(cpc, i,j,1,1);
+               tmpbtnlist.append(btnlist[i]);
+               layout->removeWidget(btnlist[i]);
+               btnlist[i]->deleteLater();
+               btnlist.removeAt(i);
+            }
+        }
+        qDebug()<<tmpbtnlist.count();
+        return;
         if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
         slotSelectCommand("volumeoff","");
     });
@@ -2496,6 +2519,11 @@ QWidget* MainWindow::volumeWidget()
     onVolumePc->setText("Ses Aç");
 
     connect(onVolumePc, &QToolButton::clicked, [=]() {
+        for(int i=0;i<btnlist.count();i++)
+        {
+            qDebug()<<btnlist[i]->ip;
+        }
+        return;
         if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
         slotSelectCommand("volumeon","");
     });

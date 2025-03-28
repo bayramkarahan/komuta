@@ -505,6 +505,7 @@ void MainWindow::pcListeGuncelleSlot(int _ColumnSayisi,int pcw,int pch)
 
 
                      layout->addWidget(cpc, i,j,1,1);
+
                      // cpc->setCaption("deneme");
 
                      //cpc->setFixedSize(en*15,boy*14);

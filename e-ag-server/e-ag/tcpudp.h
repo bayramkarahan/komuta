@@ -184,10 +184,10 @@ void MainWindow::sendBroadcastDatagram()
             {
                 QString broadadres;
                 broadadres=broadCastAddress1.section(".",0,2)+"."+QString::number(i);
-               // qDebug()<<broadadres;
-                //udpSocketSend->writeDatagram(datagram,QHostAddress(broadCastAddress1), uport.toInt());
+                //broadadres=broadCastAddress1.section(".",0,2)+".255";
+                // qDebug()<<broadadres;
+                //udpSocketSend->writeDatagram(datagram,QHostAddress("255.255.255.255"), uport.toInt());
                 udpSocketSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt());
-
             }
 
             qDebug()<<"Udp<<Post-1>>.."<<uport<<broadCastAddress1;
