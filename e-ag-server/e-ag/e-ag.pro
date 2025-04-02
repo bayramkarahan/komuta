@@ -27,7 +27,7 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    pc.cpp \
+    mypc.cpp \
     pcdata.cpp \
     rubberband.cpp \
     scdimgclient.cpp \
@@ -35,20 +35,29 @@ SOURCES += \
     scdimgserverthread.cpp
 
 HEADERS += \
+    Database.h \
+    SettingsWidget.h \
+    filecopyWidget.h \
+    lockWidget.h \
+    loginLogoutWidget.h \
         mainwindow.h \
     filecrud.h \
     menu.h \
     butonclick.h \
+    mypc.h \
     pcdata.h \
+    powerrebootWidget.h \
     rubberband.h \
+    runcommandWidget.h \
     scdimgclient.h \
     scdimgserver.h \
     scdimgserverthread.h \
+    screenViewWidget.h \
     tcpudp.h \
-    init.h \
-    pc.h \
     selectpc.h \
-    funtion.h
+    funtion.h \
+    vncrdpWidget.h \
+    volumeWidget.h
 
 FORMS +=
 

@@ -19,7 +19,7 @@
  *****************************************************************************/
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
+#include<QList>
 #include <QMainWindow>
 #include<QTableWidget>
 #include<QPushButton>
@@ -42,7 +42,7 @@
 #include<QUdpSocket>
 #include<QMenu>
 #include <QStyle>
-#include<pc.h>
+#include<mypc.h>
 #include<QPalette>
 #include <QDialog>
 #include <QLineEdit>
@@ -63,9 +63,27 @@
 #include<QInputDialog>
 #include <gst/gst.h>
 #include <iostream>
+#include<Database.h>
+
 namespace Ui {
 class MainWindow;
 }
+class PcRecord
+{
+public:
+    QString ip;
+    QString mac;
+    QString name;
+    QString vncPort;
+    QString hostname;
+    bool pcState;
+    bool sshState;
+    bool ftpState;
+    bool vncState;
+    bool connectState;
+    bool visibleState;
+};
+
 class IpMac
 {
 public:
@@ -95,26 +113,27 @@ protected:
      void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
      void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
      void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+     void paintEvent(QPaintEvent* event);
  public slots:
      void slotVnc0();
      void slotVnc1();
      void slotVnc2();
+     static  bool karsilastirMyPc(const MyPc *mypc1, const MyPc *mypc2);
+
 private slots:
      void pcMenu(bool singlepc);
      QStringList readArp();
      void udpSocketServerRead();
      QString getIpPortStatus(QString service);
      void udpSendData(QString _mesajTur,QString _mesaj,QString _ip);
-     void layoutTemizle();
-     void pcListeStateSlot();
-     void newPcDetect();
-     QWidget *sshCommandWidget();
+     void pcDetect();
+     QWidget *commandWidget();
      QWidget *sliderWidget();
 
-     QWidget *sshScpWidget();
+     QWidget *fileWidget();
      QWidget *videoWidget();
      QWidget *duyuruWidget();
-     QWidget *ayarlarWidget();
+     QWidget *settingsWidget();
      QWidget* volumeWidget();
 
     QWidget *ekranWidget();
@@ -123,49 +142,25 @@ private slots:
     QWidget *rdpWidget();
     QWidget *poweroffrebootWidget();
     QWidget *logoutWidget();
-    QWidget *agProfilWidget();
+
 
     QWidget *temelIslemler();
     QWidget *languageWidget();
-    QWidget *macListWidget();
+    QWidget *HostListWidget();
     void webBlockSlot();
     void wolSlot();
     void hideShowPcSlot();
+    void networkProfil();
     void updateSlider(int val);
     QString getIpPortStatus(QString ip_,QString port);
-    void slotServisControl();
-    QWidget *acountButtonSlot1();
-    QWidget *acountButtonSlot2();
-    void acountButtonSlot();
 
     void selectSlot();
     void terminalSlot();
     void vncDisplaySlot();
-    void pcTcpPortControlSignalSlot(QString _mac,QString _ip);
-    void pcSshPortControlSignalSlot(QString _mac,QString _ip);
-    void pcVncPortControlSignalSlot(QString _mac,QString _ip);
-    void pcFtpPortControlSignalSlot(QString _mac,QString _ip);
-    void pcKilitStateControlSignalSlot(QString _mac, QString _ip, bool kilitstate);
-    void pcKilitTransparanStateControlSignalSlot(QString _mac, QString _ip, bool transparankilitstate);
-    void pcIconStateControlSignalSlot(QString _mac, QString _ip, bool iconstate);
-    void pcMenuSignalSlot(QString _mac,QString _ip,QString _slot);
-    void cellDoubleClicked(int iRow, int iColumn);
-    void webTableCellDoubleClicked(int iRow, int iColumn);
 
-
-    void acountLoad();
+    void networkProfilLoad();
     void selectPc();
-
-
-     void printButtonSlot();
-
-
-    void macListSaveButtonSlot();
-    void ftpConnectButtonSlot();
     void hostAddressMacButtonSlot();
-    void pcListeSlot();
-    void hostListReset();
-    QStringList arpListInit();
     void sshCommandAllSlot(QString kmt);
     void sshFileCopyAllSlot(QString _sourcePath, QString _targetPath);
     void sshSelectFileCopySlot(QString _sourcePath, QString _targetPath);
@@ -174,23 +169,16 @@ private slots:
     void sshSelectPcCommandSlot(QString kmt);
     void sshCommandSlot(QString kmt,QString _ip);
 
-    void pcListeGuncelleSlot(int _ColumnSayisi, int pcw, int pch);
-    void pcListeGuncelleSlotnew(int _ColumnSayisi, int pcw, int pch);
+    void pcListeGuncelleSlotnew(QString mission);
+    void pcHideSignalSlot(QString _mac);
+
     void bilgiAlButtonSlot();
-    void ayarKaydetButtonSlot();
 
+    void pcRightClickSignalSlot();
     void mesajSlot(QString msg);
-    QStringList listRemoveToList(QStringList sourceList, QStringList removeList, int dataIndex);
-    void listToFile(QStringList list, QString filename);
-    QStringList fileToList(QString filename,QString path);
-    QString listGetLine(QStringList list,QString data);
-    QStringList listRemove(QStringList list,QString data);
-    QStringList listReplace(QStringList list,QString oldData,QString newData,int index);
-    QStringList listMerge(QStringList list1, QStringList list2,int dataIndex);
-    QStringList listGetList(QStringList list, QString data,int index);
-    QStringList listSort(QStringList list ,int dataIndex);
 
-     QString getMacForIP(QString ipAddress);
+
+QString getMacForIP(QString ipAddress);
     void sendBroadcastDatagram();
     void pcClickSlot(QString _mac);
     void slotWakeOnLan(QString _ip,QString _mac);
@@ -203,14 +191,9 @@ private slots:
     void slotRdp();
     void slotFtp();
     void slotKilit();
-    void slotKilitAll();
     void slotTransparanKilit();
-    void slotTransparanKilitAll();
     void slotKilitAc();
     void slotTransparanKilitAc();
-    void slotKilitAcAll();
-    void slotTransparanKilitAcAll();
-    void slotHide();
     void slotLogin();
     void slotLogout();
     void slotLogoutAll();
@@ -226,13 +209,13 @@ private slots:
     void slotPcCommandSelect(QString _kmt);
     void slotSelectCommand(QString _runSession,QString _kmt);
     void slotPcCommandAll(QString _kmt);
-    bool vncState(QString _mac);
-    bool ftpState(QString _mac);
-
     void slotEkranIzle();
     void slotEkranIzleDurdur();
     void slotEkranIzleAll();
     void slotEkranIzleAllDurdur();
+    void slotPcEkle(QString _ip,QString _mac);
+    void slotPcSil(int _index,QString _ip,QString _mac);
+
 private:
     bool pcrightmenu;
     QMenu *pContextMenu;
@@ -245,8 +228,8 @@ private:
     QSlider *slider;
     QList<IpMac> ipmaclist;
     bool tamReset=false;
-      QWidget *maclistwidget;
-    QTableWidget *tablewidget;
+    QWidget *maclistwidget;
+    //QTableWidget *tablewidget;
     QComboBox * ekranScale;
     int gercekliste;
     int pcopencount;
@@ -257,18 +240,18 @@ private:
     QLabel *hostsCountLabel;
 
     QTabWidget *tabwid;
-     QTabWidget *tabwidprofil;
+    QTabWidget *tabwidprofil;
     bool streamState;
     QProcess videoProcess;
 
-     QTableWidget *twl;
+     //QTableWidget *twl;
 
     int en,boy;
 
     QGridLayout *layout;
 
     QPushButton *ayarKaydetButton;
-     QToolButton *hostTableListButton;
+    QToolButton *hostTableListButton;
     QToolButton *hostTableListNameFindButton;
     QToolButton *vncConnectButton;
     QToolButton *ftpConnectButton;
@@ -328,7 +311,7 @@ private:
     QString tcpPort;
     QString broadCastAddress1;
     QString broadCastAddress2;
-    bool webblockstate;
+
     bool selectAgProfil1;
     QString agProfil1;
     QString remotePassword1;
@@ -338,7 +321,7 @@ private:
     QString tcpPort1;
     QString broadCastAddress11;
     QString broadCastAddress12;
-    //bool webblockstate1;
+
     bool selectAgProfil2;
     QString agProfil2;
     QString remotePassword2;
@@ -348,7 +331,28 @@ private:
     QString tcpPort2;
     QString broadCastAddress21;
     QString broadCastAddress22;
-    //bool webblockstate2;
+    /**********************Network Profil*****************************/
+    bool selectedNetworkProfil;
+    QString networkIndex;
+    QString networkName;
+    QString networkTcpPort;
+    QString networkBroadCastAddress;
+    QString serverAddress;
+
+    bool selectedNetworkProfil1;
+    QString networkProfil1;
+    QString networkTcpPort1;
+    QString networkBroadCastAddress11;
+    QString networkBroadCastAddress12;
+
+    bool selectedNetworkProfil2;
+    QString networkProfil2;
+    QString networkTcpPort2;
+    QString networkBroadCastAddress21;
+    QString networkBroadCastAddress22;
+
+    /*****************************************************************/
+    bool webblockstate;
     /*****************************************************************/
     QLineEdit *status;
     QWidget *hostListe;
@@ -362,9 +366,8 @@ private:
     QPlainTextEdit *textBrowser_receivedMessages;
     QUdpSocket *udpSocketSend = nullptr;
     QTimer *timerUdpSocketSend;
-     QString selectMac="";
-     QList<Pc*> btnlist;
-    QList<Pc*> tempbtnlist;
+    QString selectMac="";
+    QList<MyPc*> onlinePcList;
      QMenu *transparanKilitMenu();
      QMenu *kilitMenu();
      QMenu *poweroffRebootMenu();
@@ -386,6 +389,7 @@ private:
     bool sendBroadcastStatus=false;
     GstElement *audio_pipeline;
     GstElement *video_pipeline;
+    bool firstRun=false;
   };
 
 #endif // MAINWINDOW_H

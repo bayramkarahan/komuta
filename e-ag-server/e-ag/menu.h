@@ -172,126 +172,6 @@ QMenu *MainWindow::commandExampleMenu()
      menu->setStyleSheet("QMenu { width: 190 px; height: 250 px; font-size:"+font+"px;}");
    return menu;
 }
-QMenu *MainWindow::kilitMenu()
-{
-    QMenu *menu = new QMenu(this);
-    int yukseklik=en*14;
-  /*************************************/
-
-    QPushButton *kilitAllButton= new QPushButton;
-    kilitAllButton->setFixedSize(yukseklik*1.7, yukseklik/3);
-    kilitAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
-
-    kilitAllButton->setText(" Tümünü Kilitle");
-    kilitAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-    kilitAllButton->setFlat(true);
-    kilitAllButton->setIcon(QIcon(":icons/lock.svg"));
-
-    connect(kilitAllButton, &QPushButton::clicked, [=]() {
-          slotKilitAll();
-        menu->close();
-    });
-
-
-
-
-    QPushButton *kilitAcAllButton= new QPushButton;
-    kilitAcAllButton->setFixedSize(yukseklik*1.7, yukseklik/3);
-    kilitAcAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
-     kilitAcAllButton->setText(" Tüm Kilitleri Aç");
-    kilitAcAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-    kilitAcAllButton->setFlat(true);
-    kilitAcAllButton->setIcon(QIcon(":icons/unlock.svg"));
-
-    connect(kilitAcAllButton, &QPushButton::clicked, [=]() {
-        slotKilitAcAll();
-        menu->close();
-    });
-
-    auto widget = new QWidget;
-    auto layout = new QGridLayout(widget);
-    layout->setContentsMargins(0, 0, 0,0);
-    layout->setVerticalSpacing(0);
-  //  layout->setColumnMinimumWidth(0, 37);
-   layout->addWidget(kilitAllButton, 5,0,1,1);
-  layout->addWidget(kilitAcAllButton, 6,0,1,1);
-
-    // layout->addWidget(new QLabel("<font size=1>Ayarları Kaydet</font>"),6,1,1,1,Qt::AlignHCenter);
-      //layout->setColumnStretch(6, 255);
-
-    // add a widget action to the context menu
-    auto wa = new QWidgetAction(this);
-  //  wa->setIcon(QIcon(":/icon1"));
-    wa->setDefaultWidget(widget);
-    menu->addAction(wa);
-
-     menu->setStyleSheet("QMenu { width: "+QString::number(yukseklik*1.7)+" px; height: "+QString::number(yukseklik/1.5) +"px; }");
-   return menu;
-
-
-
-
-}
-
-QMenu *MainWindow::transparanKilitMenu()
-{
-    QMenu *menu = new QMenu(this);
-    int yukseklik=en*14;
-  /*************************************/
-    QPushButton *transparanKilitAllButton= new QPushButton;
-    transparanKilitAllButton->setFixedSize(yukseklik*1.7, yukseklik/3);
-    transparanKilitAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
-    transparanKilitAllButton->setText(" Tümünü Kilitle");
-    transparanKilitAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-    transparanKilitAllButton->setFlat(true);
-    transparanKilitAllButton->setIcon(QIcon(":icons/transparanlock.svg"));
-
-    connect(transparanKilitAllButton, &QPushButton::clicked, [=]() {
-         slotTransparanKilitAll();
-      menu->close();
-      });
-
-
-
-   QPushButton *transparankilitAcAllButton= new QPushButton;
-   transparankilitAcAllButton->setFixedSize(yukseklik*1.7, yukseklik/3);
-   transparankilitAcAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
-   transparankilitAcAllButton->setText(" Tüm Kilitleri Aç");
-   transparankilitAcAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-   transparankilitAcAllButton->setFlat(true);
-   transparankilitAcAllButton->setIcon(QIcon(":icons/transparanunlock.svg"));
-
-   connect(transparankilitAcAllButton, &QPushButton::clicked, [=]() {
-
-       slotTransparanKilitAcAll();
-    menu->close();
-
-});
-
-    auto widget = new QWidget;
-    auto layout = new QGridLayout(widget);
-    layout->setContentsMargins(0, 0, 0,0);
-    layout->setVerticalSpacing(0);
-  //  layout->setColumnMinimumWidth(0, 37);
-   // layout->addWidget(kilitButton, 2,0,1,2);
-  // layout->addWidget(kilitAllButton, 3,0,1,2);
-  // layout->addWidget(logoutButton, 4,0,1,2);
-  layout->addWidget(transparanKilitAllButton, 5,0,1,1);
-  layout->addWidget(transparankilitAcAllButton, 6,0,1,1);
-
-    // layout->addWidget(new QLabel("<font size=1>Ayarları Kaydet</font>"),6,1,1,1,Qt::AlignHCenter);
-      //layout->setColumnStretch(6, 255);
-
-    // add a widget action to the context menu
-    auto wa = new QWidgetAction(this);
-  //  wa->setIcon(QIcon(":/icon1"));
-    wa->setDefaultWidget(widget);
-    menu->addAction(wa);
-
-     menu->setStyleSheet("QMenu { width: "+QString::number(yukseklik*1.7)+" px; height: "+QString::number(yukseklik/1.5) +"px; }");
-   return menu;
-
-}
 
 QMenu *MainWindow::poweroffRebootMenu()
 {
@@ -426,9 +306,9 @@ QMenu *MainWindow::komutMenu()
   // kilitButton->setIcon(QIcon(":icons/saveprofile.png"));
 
    connect(kilitAllButton, &QPushButton::clicked, [=]() {
-         for(int i=0;i<btnlist.count();i++)
+         for(int i=0;i<onlinePcList.count();i++)
        {
-        udpSendData("x11komut",lineEdit_message->text(),btnlist[i]->ip);
+        udpSendData("x11komut",lineEdit_message->text(),onlinePcList[i]->ip);
        }
         menu->close();
 });
@@ -622,14 +502,14 @@ void MainWindow::pcMenu(bool singlepc)
     if (singlepc)
     {
         //qDebug()<<"tek pc seçilmiş";
-        for(int i=0;i<btnlist.length();i++)
+        for(int i=0;i<onlinePcList.length();i++)
         {
-            if(btnlist[i]->mac==selectMac)
+            if(onlinePcList[i]->mac==selectMac)
               {
             //qDebug()<<btnlist[i]->ip;
             //qDebug()<<btnlist[i]->mac;
             //qDebug()<<btnlist[i]->vncport.split("-");
-                QStringList vncports=btnlist[i]->vncport.split("-");
+                QStringList vncports=onlinePcList[i]->vncport.split("-");
                 if(vncports.length()>0)
                 {
                     if(vncports[0]!="0"&&vncports[0]!=""){
@@ -758,8 +638,19 @@ void MainWindow::pcMenu(bool singlepc)
     QAction *pshowhostAction = new QAction("Listeden Gizle",this);
     pshowhostAction->setIcon(QIcon(":/icons/showhost.svg"));
     pshowhostAction->setIconVisibleInMenu(true);
-    connect(pshowhostAction ,SIGNAL(triggered()),this,SLOT(slotHide()));
-
+     QObject::connect(pshowhostAction, &QAction::triggered, [&]() {
+        bool updateState=false;
+        for(int i=0;i<onlinePcList.count();i++)
+        {
+            if(onlinePcList[i]->mac==pcMac->text())
+            {
+                onlinePcList[i]->slothidePc();
+                updateState=true;
+            }
+        }
+        if(updateState) pcHideSignalSlot(pcMac->text());
+        //pcListeGuncelleSlotnew("Gizlenecek");
+    });
 
 
     //pContextMenu->addAction(pVncAction1 );
@@ -778,7 +669,7 @@ void MainWindow::pcMenu(bool singlepc)
     // pContextMenu->addAction(pLoginAction );
     pContextMenu->addAction(pLogoutAction );
     //pContextMenu->addAction(pMesajAction );
-    pContextMenu->addAction(pshowhostAction );
+    ///pContextMenu->addAction(pshowhostAction );
     // pContextMenu->addAction(pserviceAction );
     // pContextMenu->addAction(psettingAction );
      pContextMenu->addAction(pvolumeoffAction );
@@ -794,13 +685,13 @@ void MainWindow::pcMenu(bool singlepc)
 
 }
 void MainWindow::slotVnc0(){
-    for(int i=0;i<btnlist.length();i++)
+    for(int i=0;i<onlinePcList.length();i++)
     {
-        if(btnlist[i]->mac==selectMac)
+        if(onlinePcList[i]->mac==selectMac)
         {
-            QStringList vncports=btnlist[i]->vncport.split("-");
+            QStringList vncports=onlinePcList[i]->vncport.split("-");
             QString komut="";
-            komut.append("nohup ssvncviewer -scale 0.9 ").append(btnlist[i]->ip).append(":"+vncports[0]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+            komut.append("nohup ssvncviewer -scale 0.9 ").append(onlinePcList[i]->ip).append(":"+vncports[0]+" \-passwd \/usr\/bin\/x11vncpasswd &");
             qDebug()<<"vnc:"<<komut;
             system(komut.toStdString().c_str());
         }
@@ -810,26 +701,26 @@ void MainWindow::slotVnc0(){
 void MainWindow::slotVnc1(){
     //emit pcClickSignal(mac);//nesneler arası data transferi***
     //emit pcMenuSignal(mac,ip,"slotVnc1");
-    for(int i=0;i<btnlist.length();i++)
+    for(int i=0;i<onlinePcList.length();i++)
     {
-        if(btnlist[i]->mac==selectMac)
+        if(onlinePcList[i]->mac==selectMac)
         {
-            QStringList vncports=btnlist[i]->vncport.split("-");
+            QStringList vncports=onlinePcList[i]->vncport.split("-");
     QString komut="";
-    komut.append("nohup ssvncviewer -scale 0.9 ").append(btnlist[i]->ip).append(":"+vncports[1]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+    komut.append("nohup ssvncviewer -scale 0.9 ").append(onlinePcList[i]->ip).append(":"+vncports[1]+" \-passwd \/usr\/bin\/x11vncpasswd &");
     qDebug()<<"vnc:"<<komut;
     system(komut.toStdString().c_str());
         }
     }
 }
 void MainWindow::slotVnc2(){
-    for(int i=0;i<btnlist.length();i++)
+    for(int i=0;i<onlinePcList.length();i++)
     {
-        if(btnlist[i]->mac==selectMac)
+        if(onlinePcList[i]->mac==selectMac)
         {
-            QStringList vncports=btnlist[i]->vncport.split("-");
+            QStringList vncports=onlinePcList[i]->vncport.split("-");
             QString komut="";
-            komut.append("nohup ssvncviewer -scale 0.9 ").append(btnlist[i]->ip).append(":"+vncports[2]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+            komut.append("nohup ssvncviewer -scale 0.9 ").append(onlinePcList[i]->ip).append(":"+vncports[2]+" \-passwd \/usr\/bin\/x11vncpasswd &");
             qDebug()<<"vnc:"<<komut;
             system(komut.toStdString().c_str());
         }

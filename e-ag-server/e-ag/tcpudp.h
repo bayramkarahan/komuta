@@ -21,41 +21,36 @@
 #define TCPUDP_H
 void  MainWindow::udpSendData(QString _mesajTur,QString _mesaj,QString _ip)
 {
-    QString uport=tcpPort;
-    std::reverse(uport.begin(), uport.end());
-
-    localUserName = qgetenv("USER");  //getenv("USERNAME"); //for windows
-    //qDebug() << localUserName;
-
-       hostAddressMacButtonSlot();
-    for(int i=0;i<ipmaclist.count();i++)
-    {
-       // qDebug()<<"ip:"<<ipmaclist[i].ip<<broadCastAddress1<<broadCastAddress2<<_ip;
-        if(broadCastAddress1!=""&&
-                ipmaclist[i].ip.section(".",0,2)==broadCastAddress1.section(".",0,2)&&
-                ipmaclist[i].ip.section(".",0,2)==_ip.section(".",0,2))
+    //qDebug()<<"Mesaj Gönderilecek:"<<_mesajTur<<_mesaj<<_ip;
+    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+    QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
+    for (const QJsonValue &item : dizi) {
+        QJsonObject veri=item.toObject();
+        this->networkIndex=veri["networkIndex"].toString();
+        this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
+        this->networkName=veri["networkName"].toString();
+        this->networkTcpPort=veri["networkTcpPort"].toString();
+        this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
+        this->serverAddress=veri["serverAddress"].toString();
+        qDebug()<<"Mesajın Gideceği Ağ:" <<networkBroadCastAddress;
+        QString uport=networkTcpPort;
+        std::reverse(uport.begin(), uport.end());
+        if(networkBroadCastAddress!=""&&
+            serverAddress.section(".",0,2)==networkBroadCastAddress.section(".",0,2)&&
+            serverAddress.section(".",0,2)==_ip.section(".",0,2))
         {
-
-           QString msg=_mesajTur+"|"+_mesaj+"|"+ipmaclist[i].ip+"|"+uport+"|"+localUserName+"|"+localPassword+"|"+remoteUserName+"|"+remotePassword;
-            QByteArray datagram = msg.toUtf8();
-           udpSocketSend->writeDatagram(datagram,QHostAddress(_ip), uport.toInt());
-        }
-        if(broadCastAddress2!=""&&
-                ipmaclist[i].ip.section(".",0,2)==broadCastAddress2.section(".",0,2)&&
-                ipmaclist[i].ip.section(".",0,2)==_ip.section(".",0,2))
-        {
-            QString msg=_mesajTur+"|"+_mesaj+"|"+ipmaclist[i].ip+"|"+uport+"|"+localUserName+"|"+localPassword+"|"+remoteUserName+"|"+remotePassword;
-            QByteArray datagram = msg.toUtf8();
-            udpSocketSend->writeDatagram(datagram,QHostAddress(_ip), uport.toInt());
+        QString msg=_mesajTur+"|"+_mesaj+"|"+serverAddress+"|"+uport;
+            qDebug()<<"Mesaj Gönderildi:"<<msg;
+        QByteArray datagram = msg.toUtf8();
+        udpSocketSend->writeDatagram(datagram,QHostAddress(_ip), uport.toInt());
         }
         system("sleep 0.1");
     }
 }
-
 void MainWindow::udpSocketServerRead()
 {
     // qDebug()<<"Client Gelen Udp Mesaj:";
-               QByteArray datagram;
+    QByteArray datagram;
     QStringList mesaj;
 
     while (udpSocketGet->hasPendingDatagrams()) {
@@ -66,26 +61,15 @@ void MainWindow::udpSocketServerRead()
         udpSocketGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString rmesaj=datagram.constData();
-      // qDebug()<<"Client Gelen Udp Mesaj:"<<rmesaj;
+        //qDebug()<<"Client Gelen Udp Mesaj:"<<rmesaj;
 
         mesaj=rmesaj.split("|");
-         // qDebug()<<"Client Gelen Udp Mesaj:"<<mesaj[0]<<mesaj[1]<<mesaj[2]<<mesaj[3];
+        // qDebug()<<"Client Gelen Udp Mesaj:"<<mesaj[0]<<mesaj[1]<<mesaj[2]<<mesaj[3];
         QStringList lst;
         QString _mac=mesaj[2];
-        for(int i=0;i<btnlist.count();i++)
+        for(int i=0;i<onlinePcList.count();i++)
         {
-           /* btnlist[i]->tcpConnectCounter++;
-                        if(btnlist[i]->tcpConnectCounter>btnlist.count()+3)
-                        {
-                            btnlist[i]->setTcpConnect(false);
-                            btnlist[i]->setSshConnect(false);
-                            btnlist[i]->setVncConnect(false);
-                            btnlist[i]->setFtpConnect(false);
-                            btnlist[i]->setUser("noLogin");
-                            btnlist[i]->tcpConnectCounter=0;
-                        }
-*/
-            if(_mac.toUpper()==btnlist[i]->mac.toUpper()&&mesaj[3]=="sendfileclient"){
+            if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[3]=="sendfileclient"){
                qDebug()<<"Dosya Geldi: "<<mesaj[3]<<mesaj[4];
                 QString dosya=mesaj[4];
                QString guiusername = qgetenv("USER");  //getenv("USERNAME"); //for windows
@@ -96,56 +80,58 @@ void MainWindow::udpSocketServerRead()
                 system(kmt2.toStdString().c_str());system("sleep 0.1");
                 system(kmt3.toStdString().c_str());
            }
-            if(_mac.toUpper()==btnlist[i]->mac.toUpper()&&mesaj[3]=="portStatus"){
-                btnlist[i]->tcpConnectCounter=0;
 
-                qDebug()<<"gelen mesaj:"<<rmesaj<<mesaj.count();
+            if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[3]=="portStatus"){
+                ///btnlist[i]->tcpConnectCounter=0;
+                //qDebug()<<"gelen mesaj:"<<rmesaj<<mesaj.count();
                 // btnlist[i]->tcpConnectCounter=0;
-                btnlist[i]->setPcState(true);
-                btnlist[i]->setTcpConnect(true);
-                btnlist[i]->ip=mesaj[1];
+                onlinePcList[i]->setPcState(true);
+                onlinePcList[i]->setConnectState(true);
+                onlinePcList[i]->ip=mesaj[1];
 
                 if(mesaj.count()==19)
                 {
-                    btnlist[i]->setUser(mesaj[5]);
-                    btnlist[i]->setDisplay(mesaj[6]);
-                    if(btnlist[i]->hostname=="?"){
-                        btnlist[i]->setHostname(mesaj[14]);
-                    }
-                    btnlist[i]->setCaption(mesaj[14]);
+                    onlinePcList[i]->setUser(mesaj[5]);
+                    ///onlinePcList[i]->setDisplay(mesaj[6]);
+                    //if(onlinePcList[i]->caption==""){
+                        onlinePcList[i]->setHostname(mesaj[14]);
+                   // }
+                    //onlinePcList[i]->setCaption(mesaj[14]);
 
-                    if(mesaj[7]=="1")
-                        btnlist[i]->setKilitControlState(true);
+                    /*if(mesaj[7]=="1")
+                        onlinePcList[i]->setKilitControlState(true);
                     else
-                        btnlist[i]->setKilitControlState(false);
+                        onlinePcList[i]->setKilitControlState(false);
 
 
                     if(mesaj[8]=="1")
-                        btnlist[i]->setKilitTransparanControlState(true);
+                        onlinePcList[i]->setKilitTransparanControlState(true);
                     else
-                        btnlist[i]->setKilitTransparanControlState(false);
+                        onlinePcList[i]->setKilitTransparanControlState(false);
 
                     if(mesaj[9]=="1")
-                        btnlist[i]->setIconControlState(true);
+                        onlinePcList[i]->setIconControlState(true);
                     else
-                        btnlist[i]->setIconControlState(false);
+                        onlinePcList[i]->setIconControlState(false);
+*/
 
                     if(mesaj[16]=="1")
-                        btnlist[i]->setSshConnect(true);
+                        onlinePcList[i]->setSshState(true);
                     else
-                        btnlist[i]->setSshConnect(false);
+                        onlinePcList[i]->setSshState(false);
 
                     if(mesaj[17]!="0"){
-                        btnlist[i]->setVncConnect(true);
-                        btnlist[i]->vncport=mesaj[17];
+                        onlinePcList[i]->setVncState(true);
+                        onlinePcList[i]->vncport=mesaj[17];
                     }
                     else {
-                        btnlist[i]->setVncConnect(false);
-                        btnlist[i]->vncport=mesaj[17];
+                        onlinePcList[i]->setVncState(false);
+                        onlinePcList[i]->vncport=mesaj[17];
                     }
 
-                    if(mesaj[18]=="1")btnlist[i]->setFtpConnect(true);
-                    else btnlist[i]->setFtpConnect(false);
+                    if(mesaj[18]=="1")onlinePcList[i]->setFtpState(true);
+                    else onlinePcList[i]->setFtpState(false);
+
                 }
             }
 
@@ -157,72 +143,33 @@ void MainWindow::udpSocketServerRead()
 }
 void MainWindow::sendBroadcastDatagram()
 {
-    if(remoteUserName==""||remotePassword==""||
-            localUserName==""||localPassword=="") return;
-    QString uport=tcpPort;
-    std::reverse(uport.begin(), uport.end());
-    /// qDebug()<<"tcp"<<tcpPort->text()<<"udp:"<<port;
-    hostAddressMacButtonSlot();
-    for(int i=0;i<ipmaclist.count();i++)
-    {
-        if(broadCastAddress1!=""&&
-                ipmaclist[i].ip.section(".",0,2)==broadCastAddress1.section(".",0,2))
+    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+    QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
+    for (const QJsonValue &item : dizi) {
+        QJsonObject veri=item.toObject();
+        this->networkIndex=veri["networkIndex"].toString();
+        this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
+        this->networkName=veri["networkName"].toString();
+        this->networkTcpPort=veri["networkTcpPort"].toString();
+        this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
+        this->serverAddress=veri["serverAddress"].toString();
+       ///qDebug()<<"Broadcast Yapılan Ağ:" <<networkBroadCastAddress<<networkTcpPort;
+        QString uport=networkTcpPort;
+        std::reverse(uport.begin(), uport.end());
+        QString msg;
+        msg="hostport|"+serverAddress+"||"+networkTcpPort+"|0";
+        QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
+
+        for(int i=1;i<255;i++)
         {
-            QString msg;
-            if(sendBroadcastStatus==false)
-            {
-                sendBroadcastStatus=true;
-                msg="hostport|"+ipmaclist[i].ip+"|"+ipmaclist[i].mac+"|"+tcpPort+"|0|"+publickey;
-            }else
-            {
-                msg="hostport|"+ipmaclist[i].ip+"|"+ipmaclist[i].mac+"|"+tcpPort+"|1|"+publickey;
-            }
-            QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
-
-            //qDebug()<<broadCastAddress1.section(".",0,2)+".";
-            for(int i=1;i<255;i++)
-            {
-                QString broadadres;
-                broadadres=broadCastAddress1.section(".",0,2)+"."+QString::number(i);
-                //broadadres=broadCastAddress1.section(".",0,2)+".255";
-                // qDebug()<<broadadres;
-                //udpSocketSend->writeDatagram(datagram,QHostAddress("255.255.255.255"), uport.toInt());
-                udpSocketSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt());
-            }
-
-            qDebug()<<"Udp<<Post-1>>.."<<uport<<broadCastAddress1;
-
+            QString broadadres;
+            broadadres=networkBroadCastAddress.section(".",0,2)+"."+QString::number(i);
+            //qDebug()<<broadadres;
+            //udpSocketSend->writeDatagram(datagram,QHostAddress("255.255.255.255"), uport.toInt());
+            udpSocketSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt());
         }
-        if(broadCastAddress2!=""&&
-                ipmaclist[i].ip.section(".",0,2)==broadCastAddress2.section(".",0,2))
-        {
-            ///QString msg="hostport|"+ipmaclist[i].ip+"|"+ipmaclist[i].mac+"|"+tcpPort;
-
-            QString msg;
-            if(sendBroadcastStatus==false)
-            {
-                sendBroadcastStatus=true;
-                msg="hostport|"+ipmaclist[i].ip+"|"+ipmaclist[i].mac+"|"+tcpPort+"|0|"+publickey;
-            }else
-            {
-                msg="hostport|"+ipmaclist[i].ip+"|"+ipmaclist[i].mac+"|"+tcpPort+"|1|"+publickey;
-            }
-
-               QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
-            for(int i=1;i<255;i++)
-            {
-                QString broadadres;
-                broadadres=broadCastAddress1.section(".",0,2)+"."+QString::number(i);
-               // qDebug()<<broadadres;
-                //udpSocketSend->writeDatagram(datagram,QHostAddress(broadCastAddress2), uport.toInt());
-                udpSocketSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt());
-
-            }
-            qDebug()<<"Udp<<Post-2>>.."<<uport<<broadCastAddress2;
-
-        }
+        pcDetect();
     }
-
 }
 void MainWindow::hostAddressMacButtonSlot()
 {
@@ -348,6 +295,128 @@ QString MainWindow::getIpPortStatus(QString service)
     else {return "close";}
 }
 
+void MainWindow::pcDetect()
+{
+    QStringList arpList=readArp();
+    arpList.append("192.168.1.211|11:1d:65:ea:11:22");
+    arpList.append("192.168.1.212|12:1d:65:ea:11:22");
+    arpList.append("192.168.1.213|13:1d:65:ea:11:22");
+    arpList.append("192.168.1.214|14:1d:65:ea:11:22");
+    arpList.append("192.168.1.215|15:1d:65:ea:11:22");
+    arpList.append("192.168.1.216|16:1d:65:ea:11:22");
+    arpList.append("192.168.1.217|17:1d:65:ea:11:22");
+    arpList.append("192.168.1.218|18:1d:65:ea:11:22");
+    arpList.append("192.168.1.219|19:1d:65:ea:11:22");
+    arpList.append("192.168.1.221|21:1d:65:ea:11:22");
+    arpList.append("192.168.1.222|22:1d:65:ea:11:22");
+    arpList.append("192.168.1.223|23:1d:65:ea:11:22");
+    arpList.append("192.168.1.224|24:1d:65:ea:11:22");
+    arpList.append("192.168.1.225|25:1d:65:ea:11:22");
+    arpList.append("192.168.1.226|26:1d:65:ea:11:22");
+    arpList.append("192.168.1.227|27:1d:65:ea:11:22");
+    arpList.append("192.168.1.228|28:1d:65:ea:11:22");
+    arpList.append("192.168.1.229|29:1d:65:ea:11:22");
+
+    /*************************************************************/
+    bool openrefreshState=false;
+    bool closerefreshState=false;
+    for(int i=0;i<arpList.count();i++)
+    {
+        QString fmac = arpList[i].split("|")[1];
+        bool bul=false;
+        for (int i=0;i<onlinePcList.count();i++) {
+            if (onlinePcList[i]->mac == fmac)
+                bul=true;
+        }
+        if (!bul) {
+            //Yeni pc varsa ekleme yapılır
+            slotPcEkle(arpList[i].split("|")[0],arpList[i].split("|")[1]);
+            openrefreshState=true;
+        }
+    }
+
+    /******************************************************/
+    for(int i=0;i<onlinePcList.count();i++)
+    {
+        QString fmac = onlinePcList[i]->mac;
+        bool bul=false;
+        for (int i=0;i<arpList.count();i++) {
+            if (arpList[i].split("|")[1] == fmac)
+                bul=true;
+        }
+        if (!bul) {
+            // Kapatılan pc varsa kaldırılır
+           slotPcSil(i,onlinePcList[i]->ip,onlinePcList[i]->mac);
+            closerefreshState=true;
+        }
+    }
+    if(openrefreshState)
+    {
+        //qDebug() << "Liste Güncellemesi yapılıyor.....: ";
+        pcListeGuncelleSlotnew("openpcDetect");
+    }
+    if(closerefreshState)
+    {
+        //qDebug() << "Liste Güncellemesi yapılıyor.....: ";
+        pcListeGuncelleSlotnew("closepcDetect");
+    }
+
+}
+
+void MainWindow::slotPcEkle(QString _ip,QString _mac)
+{
+    //qDebug() << "Pc Ekle Başla: "<<_ip;
+    qDebug() << "Açılan Pc: "<<_ip;
+    MyPc *mypc=new MyPc(_mac,_ip);
+    connect(mypc, SIGNAL(pcClickSignal(QString)),this, SLOT(pcClickSlot(QString)));
+
+    connect(mypc, SIGNAL(pcHideSignal(QString)),this,
+    SLOT(pcHideSignalSlot(QString)));
+    /*
+    connect(cpc, SIGNAL(pcTcpPortControlSignal(QString,QString)),
+            this, SLOT(pcTcpPortControlSignalSlot(QString,QString)));
+
+    connect(cpc, SIGNAL(pcSshPortControlSignal(QString,QString)),
+            this, SLOT(pcSshPortControlSignalSlot(QString,QString)));
+
+    connect(cpc, SIGNAL(pcVncPortControlSignal(QString,QString)),
+            this, SLOT(pcVncPortControlSignalSlot(QString,QString)));
+
+    connect(cpc, SIGNAL(pcFtpPortControlSignal(QString,QString)),
+            this, SLOT(pcFtpPortControlSignalSlot(QString,QString)));
+
+    connect(cpc, SIGNAL(pcKilitStateControlSignal(QString,QString,bool)),
+            this, SLOT(pcKilitStateControlSignalSlot(QString,QString,bool)));
+
+    connect(cpc, SIGNAL(pcKilitTransparanStateControlSignal(QString,QString,bool)),
+            this, SLOT(pcKilitTransparanStateControlSignalSlot(QString,QString,bool)));
+
+    connect(cpc, SIGNAL(pcIconStateControlSignal(QString,QString,bool)),
+            this, SLOT(pcIconStateControlSignalSlot(QString,QString,bool)));
+
+    connect(cpc, SIGNAL(pcMenuSignal(QString,QString,QString)),
+            this, SLOT(pcMenuSignalSlot(QString,QString,QString)));
+
+    connect(cpc, SIGNAL(pcListeStateSignal()),
+            this, SLOT(pcListeStateSlot()));
+*/
+    connect(mypc, SIGNAL(pcRightClickSignal()),
+            this, SLOT(pcRightClickSignalSlot()));
+
+    onlinePcList.append(mypc);
+    pcopencount++;
+    //pcListeGuncelleSlotnew();
+    //qDebug() << "Pc Ekle Son: "<<_ip;
+}
+void MainWindow::slotPcSil(int _index,QString _ip,QString _mac)
+{
+    qDebug() << "Kapatılan Pc: "<<onlinePcList[_index]->ip;
+    pcopencount--;
+    layout->removeWidget(onlinePcList[_index]);
+    onlinePcList[_index]->deleteLater();
+    onlinePcList.removeAt(_index);
+    //pcListeGuncelleSlotnew();
+}
 
 
 #endif // TCPUDP_H

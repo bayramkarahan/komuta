@@ -36,7 +36,7 @@ signals:
     void tcpMesajSendTimerSlot();
     void socketBaglama();
 private slots:
-     void commandExecuteSlot(QString command,QString username,QString password);
+    void commandExecuteSlot(QString command);
     void udpServerGetSlot();
      bool uygulamaCalisiyorMu(const QString& uygulamaAdi);
       void udpTrayGetSlot();

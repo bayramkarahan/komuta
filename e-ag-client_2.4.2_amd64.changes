@@ -15,20 +15,20 @@ Changes:
  .
    * Initial Release
 Checksums-Sha1:
- e8098013797020616d5ab1b65a63ce57ab68ad58 578 e-ag-client_2.4.2.dsc
- 1ba8b97143c80dca13b47f2f33819b46eb0af37f 211333 e-ag-client_2.4.2.tar.gz
- 7cd48117e5270fa18d70b6718c5b7fab62f99465 18424 e-ag-client-dbgsym_2.4.2_amd64.deb
- cf574d1a96d85d9a6680882894cefe7c2a37b9d5 10147 e-ag-client_2.4.2_amd64.buildinfo
- 9ddd0c2049088f1c8835eb9149d5a5ee3273bbfe 145420 e-ag-client_2.4.2_amd64.deb
+ 33ad33b5dc9dcd8f3ebf7446b5363a906effc19b 578 e-ag-client_2.4.2.dsc
+ 1a6ad7090182ac30732faeebe905369340d1bf85 210803 e-ag-client_2.4.2.tar.gz
+ 88364c354d65604a6fb9b6ace99879fa80357b4e 18352 e-ag-client-dbgsym_2.4.2_amd64.deb
+ 1237b4967881cf6cc850875f5f8643e959b9f5d1 10147 e-ag-client_2.4.2_amd64.buildinfo
+ dfea397d31a17dab2ab48ab7fe7c1f48b1530342 142584 e-ag-client_2.4.2_amd64.deb
 Checksums-Sha256:
- 6354528ab247cd17b15936c129f8b33d87b5870c806009fd9fab7919bfd1245c 578 e-ag-client_2.4.2.dsc
- 4a016dfcc4e4fa58d1aabe1a5d937ccf60f7633fecc07bb7c581608124cdf4f8 211333 e-ag-client_2.4.2.tar.gz
- d6e1192780611fc14b505252c299a40b84bf2ac963a1fdc489656b6b44712258 18424 e-ag-client-dbgsym_2.4.2_amd64.deb
- 47b7e7e10a687bd1e6c5d12a030bfb23f5e4ff8811ad1b591cfa153160793e2d 10147 e-ag-client_2.4.2_amd64.buildinfo
- 25792e0ddc7892c8a08968c423d173d6047b30b01ac558aa8ab8cf23ae440bda 145420 e-ag-client_2.4.2_amd64.deb
+ 7ff4c955ff40d5e096b70061383adfb8e98bf397ee485cb17f0aa564999fb468 578 e-ag-client_2.4.2.dsc
+ 70351e00cef681d41d05dfb1fe2b14c3f16dbd1396b8453a5253259a1de23926 210803 e-ag-client_2.4.2.tar.gz
+ 5fb10ae2ed202c3b61f0315fd87a14bb800a97795368bae3205c77dfae1cf25c 18352 e-ag-client-dbgsym_2.4.2_amd64.deb
+ 398bac928040857349213f2e34f43ccc79f206ed5cc559740a56022b0de4df9d 10147 e-ag-client_2.4.2_amd64.buildinfo
+ 95f36bd9dcb3ec5cdcb8c012b5e811f009e766a2c26a4b01b39eabe8919db1ee 142584 e-ag-client_2.4.2_amd64.deb
 Files:
- 57fa94e17f9a4673fe33b03884510d81 578 utils optional e-ag-client_2.4.2.dsc
- 3c80266539989c0925b3d7ad4c5f9d60 211333 utils optional e-ag-client_2.4.2.tar.gz
- 7e397892cc8d5caf2284c4c18352bf2d 18424 debug optional e-ag-client-dbgsym_2.4.2_amd64.deb
- c32b8d78f249a6253d72560bce186b7f 10147 utils optional e-ag-client_2.4.2_amd64.buildinfo
- 7bfee6cb689c6c8ae921a8955df3227a 145420 utils optional e-ag-client_2.4.2_amd64.deb
+ 909293207ae5ece958738405ee58a6f1 578 utils optional e-ag-client_2.4.2.dsc
+ 5a6f884e2bea6059cbf959d05fc62329 210803 utils optional e-ag-client_2.4.2.tar.gz
+ e9cfeb39e6a60970b7d318c1bf392e1b 18352 debug optional e-ag-client-dbgsym_2.4.2_amd64.deb
+ 39142d67d2c333c61080c730aff0cefb 10147 utils optional e-ag-client_2.4.2_amd64.buildinfo
+ 12fe9c5b9af93f2fa0bd1210c96a9f77 142584 utils optional e-ag-client_2.4.2_amd64.deb

@@ -25,10 +25,6 @@ void MainWindow::selectPc()
     int e=en;
     int b=boy;
 
-    QAction *listeleAction = new QAction(QIcon(":/icons/liste.svg"), tr("&Liste Yenile"), this);
-    listeleAction->setShortcut(tr("Listele"));
-    listeleAction->setStatusTip(tr("Hostlar Listelendi"));
-    connect(listeleAction, SIGNAL(triggered()), this, SLOT(pcListeSlot()));
 
     QAction *selectAction = new QAction(QIcon(":/icons/select.svg"), tr("&İstemci Seç"), this);
     selectAction->setShortcut(tr("Seç"));
@@ -51,10 +47,6 @@ void MainWindow::selectPc()
     terminalAction->setStatusTip(tr("Terminal Bağlantısı Yapıldı"));
     connect(terminalAction, SIGNAL(triggered()), this, SLOT(terminalSlot()));
 
-    QAction *ftpAction = new QAction(QIcon(":/icons/ftp.svg"), tr("&Dosya Transfer"), this);
-    ftpAction->setShortcut(tr("FTP"));
-    ftpAction->setStatusTip(tr("Dosya Transfer"));
-    connect(ftpAction, SIGNAL(triggered()), this, SLOT(ftpConnectButtonSlot()));
 
     QAction *wolAction = new QAction(QIcon(":/icons/wol.svg"), tr("&Uzak Pc Başlatma"), this);
     wolAction->setShortcut(tr("WOL"));
@@ -64,18 +56,15 @@ void MainWindow::selectPc()
     QAction *profilAction = new QAction(QIcon(":/icons/session.svg"), tr("&Ağ Profilleri"), this);
     profilAction->setShortcut(tr("AP"));
     profilAction->setStatusTip(tr("Ağ Profilleri"));
-    connect(profilAction, SIGNAL(triggered()), this, SLOT( acountButtonSlot()));
+    connect(profilAction, SIGNAL(triggered()), this, SLOT( networkProfil()));
 
     QToolBar *toolBar=new QToolBar(this);
-    toolBar->addAction(listeleAction);
     toolBar->addAction(selectAction);
     toolBar->addAction(vncAction);
     toolBar->addAction(xrdpAction);
     toolBar->addAction(terminalAction);
-    toolBar->addAction(ftpAction);
     toolBar->addAction(wolAction);
     toolBar->addAction(profilAction);
-
     toolBar->setIconSize(QSize(boy*4, boy*4));
     selectWidget=new QWidget();
     selectWidget->setFixedSize(this->width(),b*5);
