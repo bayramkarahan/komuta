@@ -27,8 +27,8 @@ SOURCES += \
 
 
 HEADERS += \
+    Database.h \
     client.h \
-    filecrud.h \
     scdimgserver.h \
     scdimgserverthread.h \
     singleinstance.h
@@ -55,6 +55,7 @@ runfile.path = /usr/bin/
 
 webdisablefile.files = webdisable.sh
 webdisablefile.path = /usr/share/e-ag/
+
 
 INSTALLS += target service x11servicedesktop x11servicelogin x11passwd webdisablefile
 

@@ -151,7 +151,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		e-ag-client-tray.pro ekran.h \
 		ekranresmi.h \
-		filecrud.h \
 		mainwindow.h \
 		singleinstance.h main.cpp \
 		mainwindow.cpp \
@@ -356,7 +355,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ekran.h ekranresmi.h filecrud.h mainwindow.h singleinstance.h $(DISTDIR)/
+	$(COPY_FILE) --parents ekran.h ekranresmi.h mainwindow.h singleinstance.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp mainwindow.cpp singleinstance.cpp $(DISTDIR)/
 
 
@@ -436,7 +435,6 @@ main.o: main.cpp mainwindow.h \
 
 mainwindow.o: mainwindow.cpp mainwindow.h \
 		ekran.h \
-		filecrud.h \
 		ekranresmi.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 

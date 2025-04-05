@@ -26,7 +26,6 @@
 #include<QFile>
 #include<QFileDialog>
 #include<QRegularExpression>
-#include<filecrud.h>
 #include<QTimeEdit>
 #include<QDate>
 #include<QTimer>
@@ -126,25 +125,9 @@ MainWindow::MainWindow(QWidget *parent) :
              system(kmt20.toStdString().c_str());
         }
 
- /**************************************************************************/
-      /*  QTimer *mydispTimer = new QTimer();
-        QObject::connect(mydispTimer, &QTimer::timeout, [&](){
-
-            x11mydispresult=x11user+"|"+
-                    x11display+"|"+
-                    QString::number(kilitstate)+"|"+
-                    QString::number(transparankilitstate)+"|"+
-                    QString::number(ekranimagestate);
-               QByteArray datagram = x11mydispresult.toUtf8();// +QHostAddress::LocalHost;
-            udpSocketSendMyDisp->writeDatagram(datagram,QHostAddress::LocalHost, 5555);
-            ////qDebug()<<"server'a mesaj gönderildi:"<< serverlist[0]<<_data;
-        });
-        mydispTimer->start(2000);
-
-        /**************************************************************************/
+/**************************************************************************/
         QTimer *udpSocketSendConsoleTimer = new QTimer();
         QObject::connect(udpSocketSendConsoleTimer, &QTimer::timeout, [&](){
-            if(ekranimagestate)  kaydetTimerSlot(serverIp);
             x11mydispresult=x11user+"|"+
                               x11display+"|"+
                               QString::number(kilitstate)+"|"+
@@ -155,10 +138,6 @@ MainWindow::MainWindow(QWidget *parent) :
             qDebug()<<"client console  gönderildi:"<<x11mydispresult;
         });
         udpSocketSendConsoleTimer->start(2000);
-
-
-        /***************************************************************************/
-
 
        }
 
@@ -179,64 +158,13 @@ void MainWindow::udpConsoleGetSlot()
 
     }
 }
-void MainWindow::webBlockAktifPasif()
-{
-    QStringList ayarlst=fileToList("/usr/share/e-ag/","e-ag-x11client.conf");
 
-
-    /**********************************************************/
-        if(listGetLine(ayarlst,"rootusername")!="")
-        {
-            QString strrootusername=listGetLine(ayarlst,"rootusername").split("|")[1];
-            //qDebug()<<strwebblockstate;
-            rootusername=strrootusername;
-        }
-        /**********************************************************/
-            if(listGetLine(ayarlst,"rootpassword")!="")
-            {
-                QString strrootpassword=listGetLine(ayarlst,"rootpassword").split("|")[1];
-                //qDebug()<<strwebblockstate;
-                rootpassword=strrootpassword;
-            }
-
-/**********************************************************/
-    if(listGetLine(ayarlst,"webblockstate")!="")
-    {
-        QString strwebblockstate=listGetLine(ayarlst,"webblockstate").split("|")[1];
-        //qDebug()<<strwebblockstate;
-        webblockstate=strwebblockstate.toInt();
-        webblockcb->setChecked(webblockstate);
-    }
-    /******************************************************************/
-    if(webblockstate==true)
-    {
-     komutSudoExpect("/usr/share/e-ag/webdisable.sh",rootusername,rootpassword);
-    }
-    if(webblockstate==false)
-    {
-    komutSudoExpect("iptables -F",rootusername,rootpassword);
-    }
-       /*********************************************************/
-
-}
 void MainWindow::tcpMessageControlSlot(QString _data)
 {
 
     QDesktopWidget widget;
     QRect desktopScreenSize = widget.availableGeometry(widget.primaryScreen());
-    FileCrud *fcc=new FileCrud();
-    fcc->dosya=localDir+"tcpMessage";
-    ///qDebug()<<"dosya bilgi:"<<fcc->dosya;
-    /**************************************************************************/
-    if (ekranimagestate)
-    {
-       kaydetTimerSlot(serverIp);
-    }
-  
 
-  //  if(fcc->fileExists()&&fileToList(localDir,"tcpMessage").count()!=0)
-   // {
-   //     QStringList str=fileToList(localDir,"tcpMessage");
     QStringList str;
     str.append(_data);
         if(str[0].count()==0){
@@ -290,29 +218,6 @@ void MainWindow::tcpMessageControlSlot(QString _data)
                  process.start("/bin/bash",arguments);
                  process.waitForFinished(-1); // will wait forever until finished*/
              }
-
-        }
-        if(lst[0]=="webblock")
-        {
-           
-
-            webblockstate=lst[1].toInt();
-            webblockcb->setChecked(webblockstate);
-
-            //twl->setRowCount(0);
-            QStringList list=fileToList("/usr/share/e-ag/","webblocklist");
-            for(int i=0;i<list.count();i++)
-            {
-                QString line=list[i];
-                QStringList lst=line.split("|");
-               // twl->setRowCount(twl->rowCount()+1);
-               // twl->setItem(i, 0, new QTableWidgetItem(lst[0]));//ip
-
-            }
-
-            /*************************************************/
-            webBlockAktifPasif();
-            /**************************************************/
 
         }
         if(lst[0]=="ekranmesaj")
@@ -556,96 +461,6 @@ ipmaclist.clear();
 
 }
 
-QStringList MainWindow::listRemove(QStringList list,QString data)
- {
-       QRegularExpression re(data);
-     for(int i=0;i<list.count();i++)if(list[i].contains(re)) list.removeAt(i);
-    // qDebug()<<list;
-     return list;
- }
-QString MainWindow::listGetLine(QStringList list,QString data)
-{
-    QRegularExpression re(data);
-   for(int i=0;i<list.count();i++) if(list[i].contains(re)) return list[i];
-   //qDebug()<<list;
-   return "";
-}
-QStringList MainWindow::fileToList(QString path, QString filename)
-{
-  FileCrud *fcc=new FileCrud();
-  fcc->dosya=path+filename;
- // qDebug()<<fcc->dosya;
-  QStringList list;
-  for(int i=1;i<=fcc->fileCount();i++)
-  {
-       QString line=fcc->fileGetLine(i);
-      // qDebug()<<line;
-       if(line!="")
-       {
-           line.chop(1);
-           QStringList lst=line.split("|");
-           QString ln="";
-           if(lst.count()>0)ln.append(lst[0]);
-           if(lst.count()>1)ln.append("|").append(lst[1]);
-           if(lst.count()>2)ln.append("|").append(lst[2]);
-           if(lst.count()>3)ln.append("|").append(lst[3]);
-           if(lst.count()>4)ln.append("|").append(lst[4]);
-           if(lst.count()>5)ln.append("|").append(lst[5]);
-           if(lst.count()>6)ln.append("|").append(lst[6]);
-           if(lst.count()>7)ln.append("|").append(lst[7]);
-           if(lst.count()>8)ln.append("|").append(lst[8]);
-           if(lst.count()>9)ln.append("|").append(lst[9]);
-           if(lst.count()>10)ln.append("|").append(lst[10]);
-           if(lst.count()>11)ln.append("|").append(lst[11]);
-           if(lst.count()>12)ln.append("|").append(lst[12]);
-           if(lst.count()>13)ln.append("|").append(lst[13]);
-
-             list <<ln;
-           //qDebug()<<ln;
-           // list <<lst[0]+"|"+lst[1]+"|"+lst[2]+"|"+lst[3]+"|"+lst[4]+"|"+lst[5];
-
-       }
-  }
-     return list;
-}
-void MainWindow::listToFile(QString path,QStringList list, QString filename)
-{
-  FileCrud *fcc=new FileCrud();
-  fcc->dosya=path+filename;
-  fcc->fileRemove();
-  for(int i=0;i<list.count();i++)
-  {
-       QString line=list[i];
-       if(line!="")
-       {
-           //line.chop(1);
-           QStringList lst=line.split("|");
-           //qDebug()<<line;
-           QString ln="";
-           if(lst.count()>0)ln.append(lst[0]);
-           if(lst.count()>1)ln.append("|").append(lst[1]);
-           if(lst.count()>2)ln.append("|").append(lst[2]);
-           if(lst.count()>3)ln.append("|").append(lst[3]);
-           if(lst.count()>4)ln.append("|").append(lst[4]);
-           if(lst.count()>5)ln.append("|").append(lst[5]);
-           if(lst.count()>6)ln.append("|").append(lst[6]);
-           if(lst.count()>7)ln.append("|").append(lst[7]);
-           if(lst.count()>8)ln.append("|").append(lst[8]);
-           if(lst.count()>9)ln.append("|").append(lst[9]);
-           if(lst.count()>10)ln.append("|").append(lst[10]);
-           if(lst.count()>11)ln.append("|").append(lst[11]);
-           if(lst.count()>12)ln.append("|").append(lst[12]);
-           if(lst.count()>13)ln.append("|").append(lst[13]);
-
-           //qDebug()<<ln;
-           fcc->fileWrite(ln);
-
-       }
-
-  }
-}
-
-
 void  MainWindow::gizle()
 {
        QWidget::hide();
@@ -699,39 +514,5 @@ void MainWindow::closeEvent(QCloseEvent *event)
      emit WidgetClosed();
      //QWidget::hide();
      event->ignore();
-
-}
-
-void MainWindow::komutSudoExpect(QString komut,QString username,QString password)
-{
-     QStringList liste;
-     liste<<"#!/usr/bin/expect";
-     liste<<"spawn su - "+username;
-     liste<<"expect \"Parola:\"";
-     liste<<"send \""+password+"\\n\"";
-     liste<<"send \""+password+"\\n\"";
-     liste<<"send \"echo "+password+"|sudo -S "+komut+"\\n\"";
-     liste<<"send \"exit\\n\"";
-     liste<<"interact";
-     listToFile("/home/"+QDir::homePath().split("/")[2]+"/",liste,"run.sh");
-
-
-     QString kmt22="chmod 777 /home/"+QDir::homePath().split("/")[2]+"/run.sh";
-     system(kmt22.toStdString().c_str());
-
-
-     QString result="";
-     QStringList arguments;
-     arguments << "-c" << QString("/home/"+QDir::homePath().split("/")[2]+"/run.sh");
-     QProcess process;
-     process.start("/bin/bash",arguments);
-     if(process.waitForFinished())
-     {
-         // version = process.readAll();
-         //   result.chop(3);
-     }
-
-     QString kmt24="rm -rf /home/"+QDir::homePath().split("/")[2]+"/run.sh";
-     system(kmt24.toStdString().c_str());
 
 }

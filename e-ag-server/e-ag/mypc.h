@@ -103,7 +103,7 @@ void setHostname(QString _hostname);
 void setKilitControlState(bool state);
 void setKilitTransparanControlState(bool state);
 void setIconControlState(bool state);
-
+void timertcpConnectControlSlot();
 void setConnectState(bool state);
 void setPcState(bool state);
 void setSshState(bool state);
@@ -124,7 +124,7 @@ private:
 
 bool refreshContinueState=false;
     QTimer *timerPortControl;
-    QTimer *timerPortControlOnline;
+    QTimer *timertcpConnectControl;
     QString localDir;
 
 

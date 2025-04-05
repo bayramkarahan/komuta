@@ -61,7 +61,7 @@ void MainWindow::udpSocketServerRead()
         udpSocketGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString rmesaj=datagram.constData();
-        //qDebug()<<"Client Gelen Udp Mesaj:"<<rmesaj;
+        qDebug()<<rmesaj;
 
         mesaj=rmesaj.split("|");
         // qDebug()<<"Client Gelen Udp Mesaj:"<<mesaj[0]<<mesaj[1]<<mesaj[2]<<mesaj[3];
@@ -81,55 +81,54 @@ void MainWindow::udpSocketServerRead()
                 system(kmt3.toStdString().c_str());
            }
 
-            if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[3]=="portStatus"){
-                ///btnlist[i]->tcpConnectCounter=0;
+            if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[0]=="eagclientconf"){
+                onlinePcList[i]->tcpConnectCounter=0;
                 //qDebug()<<"gelen mesaj:"<<rmesaj<<mesaj.count();
                 // btnlist[i]->tcpConnectCounter=0;
                 onlinePcList[i]->setPcState(true);
                 onlinePcList[i]->setConnectState(true);
                 onlinePcList[i]->ip=mesaj[1];
 
-                if(mesaj.count()==19)
+                if(mesaj.count()==18)
                 {
-                    onlinePcList[i]->setUser(mesaj[5]);
-                    ///onlinePcList[i]->setDisplay(mesaj[6]);
+                    onlinePcList[i]->setUser(mesaj[4]);
+                    ///onlinePcList[i]->setDisplay(mesaj[5]);
                     //if(onlinePcList[i]->caption==""){
-                        onlinePcList[i]->setHostname(mesaj[14]);
+                        onlinePcList[i]->setHostname(mesaj[13]);
                    // }
-                    //onlinePcList[i]->setCaption(mesaj[14]);
-
-                    /*if(mesaj[7]=="1")
+                    //onlinePcList[i]->setCaption(mesaj[13]);
+/*
+                    if(mesaj[6]=="1")
                         onlinePcList[i]->setKilitControlState(true);
                     else
                         onlinePcList[i]->setKilitControlState(false);
 
 
-                    if(mesaj[8]=="1")
+                    if(mesaj[7]=="1")
                         onlinePcList[i]->setKilitTransparanControlState(true);
                     else
                         onlinePcList[i]->setKilitTransparanControlState(false);
 
-                    if(mesaj[9]=="1")
+                    if(mesaj[8]=="1")
                         onlinePcList[i]->setIconControlState(true);
                     else
                         onlinePcList[i]->setIconControlState(false);
-*/
-
-                    if(mesaj[16]=="1")
+                    */
+                    if(mesaj[15]=="1")
                         onlinePcList[i]->setSshState(true);
                     else
                         onlinePcList[i]->setSshState(false);
 
-                    if(mesaj[17]!="0"){
+                    if(mesaj[16]!="0"){
                         onlinePcList[i]->setVncState(true);
-                        onlinePcList[i]->vncport=mesaj[17];
+                        onlinePcList[i]->vncport=mesaj[16];
                     }
                     else {
                         onlinePcList[i]->setVncState(false);
-                        onlinePcList[i]->vncport=mesaj[17];
+                        onlinePcList[i]->vncport=mesaj[16];
                     }
 
-                    if(mesaj[18]=="1")onlinePcList[i]->setFtpState(true);
+                    if(mesaj[17]=="1")onlinePcList[i]->setFtpState(true);
                     else onlinePcList[i]->setFtpState(false);
 
                 }
@@ -153,13 +152,31 @@ void MainWindow::sendBroadcastDatagram()
         this->networkTcpPort=veri["networkTcpPort"].toString();
         this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
         this->serverAddress=veri["serverAddress"].toString();
-       ///qDebug()<<"Broadcast Yapılan Ağ:" <<networkBroadCastAddress<<networkTcpPort;
+        this->ftpPort=veri["ftpPort"].toString();
+        this->rootPath=veri["rootPath"].toString();
+        this->language=veri["language"].toString();
+        this->lockScreenState=veri["lockScreenState"].toBool();
+        this->webblockState=veri["webblockState"].toBool();
+        QString lockScreenStatestr= "false";
+        QString webblockStatestr="false";
+        if(this->lockScreenState)lockScreenStatestr="true";
+        if(this->webblockState)webblockStatestr="true";
+
+        ///qDebug()<<"Broadcast Yapılan Ağ:" <<networkBroadCastAddress<<networkTcpPort;
         QString uport=networkTcpPort;
         std::reverse(uport.begin(), uport.end());
         QString msg;
-        msg="hostport|"+serverAddress+"||"+networkTcpPort+"|0";
-        QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
+        msg="eagconf|"+serverAddress+"|"+
+              networkBroadCastAddress+"|"+
+              networkTcpPort+"|"+
+              ftpPort+"|"+
+              rootPath+"|"+
+              language+"|"+
+              lockScreenStatestr+"|"+
+              webblockStatestr;
 
+        QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
+        ///qDebug()<<datagram;
         for(int i=1;i<255;i++)
         {
             QString broadadres;
@@ -300,7 +317,7 @@ void MainWindow::pcDetect()
     QStringList arpList=readArp();
     arpList.append("192.168.1.211|11:1d:65:ea:11:22");
     arpList.append("192.168.1.212|12:1d:65:ea:11:22");
-    arpList.append("192.168.1.213|13:1d:65:ea:11:22");
+    /*arpList.append("192.168.1.213|13:1d:65:ea:11:22");
     arpList.append("192.168.1.214|14:1d:65:ea:11:22");
     arpList.append("192.168.1.215|15:1d:65:ea:11:22");
     arpList.append("192.168.1.216|16:1d:65:ea:11:22");
@@ -315,7 +332,7 @@ void MainWindow::pcDetect()
     arpList.append("192.168.1.226|26:1d:65:ea:11:22");
     arpList.append("192.168.1.227|27:1d:65:ea:11:22");
     arpList.append("192.168.1.228|28:1d:65:ea:11:22");
-    arpList.append("192.168.1.229|29:1d:65:ea:11:22");
+    arpList.append("192.168.1.229|29:1d:65:ea:11:22");*/
 
     /*************************************************************/
     bool openrefreshState=false;

@@ -39,28 +39,19 @@ int main(int argc, char *argv[])
     QString systemlanguage = locale.name();
     //qDebug()<<"Sistem dili:"<<systemlanguage;
 
-    QString appPath ="/usr/share/e-ag";// a.applicationDirPath();
-    QSettings cfg(appPath + "/config.cfg",QSettings::IniFormat);
-    int port = cfg.value("port",12345).toInt();
-    cfg.setValue("port",port);
-    QString rootPath = cfg.value("rootpath","/tmp/").toString();
-    cfg.setValue("rootpath",rootPath);
-    QString language = cfg.value("language",systemlanguage).toString();
-    cfg.setValue("language",language);
-    //qDebug()<<"config dili: "<<language;
-    cfg.sync();
+
 /*
     QTranslator *translator = new QTranslator();
     translator->load("translations/"+language+".qm");
     qApp->installTranslator(translator);
 */
+MainWindow w;
 
-
-    SCDImgServer srv(0,port,rootPath);
+    SCDImgServer srv(0,w.ftpPort.toInt(),w.rootPath);
 
     if (srv.start())
     {
-        MainWindow w;
+
         w.show();
         return a.exec();
     }

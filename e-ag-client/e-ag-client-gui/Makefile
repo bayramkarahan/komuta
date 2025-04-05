@@ -147,10 +147,11 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		e-ag-client-gui.pro mainwindow.h \
-		filecrud.h \
 		ayar.h \
 		giris.h \
-		hakkinda.h main.cpp \
+		hakkinda.h \
+		networkWidget.h \
+		webblockWidget.h main.cpp \
 		mainwindow.cpp
 QMAKE_TARGET  = e-ag-client-gui
 DESTDIR       = 
@@ -358,7 +359,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents mainwindow.h filecrud.h ayar.h giris.h hakkinda.h $(DISTDIR)/
+	$(COPY_FILE) --parents mainwindow.h ayar.h giris.h hakkinda.h networkWidget.h webblockWidget.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp mainwindow.cpp $(DISTDIR)/
 
 
@@ -388,10 +389,14 @@ compiler_rcc_clean:
 qrc_resources.cpp: resources.qrc \
 		/usr/lib/qt5/bin/rcc \
 		icons/pardus.svg \
-		icons/e-ag-client.svg \
+		icons/e-ag.svg \
 		icons/save.svg \
 		icons/transparanlock.png \
-		icons/lock.png
+		icons/add.svg \
+		icons/lock.png \
+		icons/session.svg \
+		icons/webblock.svg \
+		icons/remove.svg
 	/usr/lib/qt5/bin/rcc -name resources resources.qrc -o qrc_resources.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
@@ -404,6 +409,7 @@ compiler_moc_header_make_all: moc_mainwindow.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_mainwindow.cpp
 moc_mainwindow.cpp: mainwindow.h \
+		Database.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-gui/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-gui -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtDBus -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
@@ -424,14 +430,17 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 
 ####### Compile
 
-main.o: main.cpp mainwindow.h
+main.o: main.cpp mainwindow.h \
+		Database.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 mainwindow.o: mainwindow.cpp mainwindow.h \
-		filecrud.h \
+		Database.h \
 		ayar.h \
 		giris.h \
-		hakkinda.h
+		hakkinda.h \
+		webblockWidget.h \
+		networkWidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
 qrc_resources.o: qrc_resources.cpp 
@@ -461,18 +470,9 @@ uninstall_desktop_file: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/applications/ 
 
 
-install_icon: first FORCE
-	@test -d $(INSTALL_ROOT)/usr/share/icons || mkdir -p $(INSTALL_ROOT)/usr/share/icons
-	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-gui/icons/e-ag-client.svg $(INSTALL_ROOT)/usr/share/icons/e-ag-client.svg
+install: install_target install_desktop_file  FORCE
 
-uninstall_icon: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/icons/e-ag-client.svg
-	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/icons/ 
-
-
-install: install_target install_desktop_file install_icon  FORCE
-
-uninstall: uninstall_target uninstall_desktop_file uninstall_icon  FORCE
+uninstall: uninstall_target uninstall_desktop_file  FORCE
 
 FORCE:
 

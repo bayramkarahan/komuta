@@ -19,10 +19,8 @@
  *****************************************************************************/
 #include "mypc.h"
 #include<QRegularExpression>
-
 #include<QTextStream>
 #include<QDebug>
-#include<filecrud.h>
 #include<QLabel>
 #include<QToolButton>
 #include<QProcess>
@@ -43,9 +41,9 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     //timerPortControl= new QTimer(this);
     //connect(timerPortControl, SIGNAL(timeout()), this, SLOT(timerPortControlSlot()));
    // timerPortControl->start(5000);
-    //timerPortControlOnline= new QTimer(this);
-    //connect(timerPortControlOnline, SIGNAL(timeout()), this, SLOT(timerPortControlOnlineSlot()));
-    //timerPortControlOnline->start(3000);
+    timertcpConnectControl= new QTimer(this);
+    connect(timertcpConnectControl, SIGNAL(timeout()), this, SLOT(timertcpConnectControlSlot()));
+    timertcpConnectControl->start(3000);
 
     localDir="/usr/share/e-ag/";
     hostnameLabel=new QLabel(this);
@@ -151,7 +149,22 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
         db->Ekle(veri);
     }
 }
+void MyPc::timertcpConnectControlSlot()
+{
+    tcpConnectCounter++;
 
+     //iconstateLabel->setText(QString::number(tcpConnectCounter));
+    if(tcpConnectCounter>5)
+    {
+        setConnectState(false);
+        setSshState(false);
+        setVncState(false);
+        setFtpState(false);
+        setUser("noLogin");
+        tcpConnectCounter=0;
+    }
+
+}
 void MyPc::setConnectState(bool state){
     connectState=state;
     if(state)

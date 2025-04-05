@@ -30,7 +30,7 @@
 #include <QNetworkInterface>
 #include<QObject>
 #include<QUdpSocket>
-
+#include<Database.h>
 class IpMac
 {
 public:
@@ -51,22 +51,28 @@ class MainWindow : public QMainWindow
 public:
 
 public slots:
-
-    void webBlockAktifPasif();
-
-    void listToFile(QString path, QStringList list, QString filename);
-    QStringList fileToList(QString path,QString filename);
-    QString listGetLine(QStringList list, QString data);
-    QStringList listRemove(QStringList list, QString data);
-
     QString myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon);
-    void cellDoubleClicked(int iRow, int iColumn);
     void hostAddressMacButtonSlot();
-
+    void webBlockWidget();
+    void networkProfilLoad();
+    void networkProfil();
 public:
     explicit MainWindow(QWidget *parent = nullptr);
 
     ~MainWindow();
+    QString font="12";
+    /**********************Network Profil*****************************/
+    bool selectedNetworkProfil;
+    QString networkIndex;
+    QString networkName;
+    QString networkTcpPort;
+    QString networkBroadCastAddress;
+    QString serverAddress;
+    QString ftpPort;
+    QString rootPath;
+    bool webblockState;
+    bool lockScreenState;
+    QString language;
 
 
 private:

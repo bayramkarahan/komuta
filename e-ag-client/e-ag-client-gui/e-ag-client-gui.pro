@@ -30,10 +30,11 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    filecrud.h \
     ayar.h \
     giris.h \
-    hakkinda.h
+    hakkinda.h \
+    networkWidget.h \
+    webblockWidget.h
 
 FORMS +=
 

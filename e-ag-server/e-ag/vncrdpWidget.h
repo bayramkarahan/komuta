@@ -79,7 +79,7 @@ QWidget* MainWindow::rdpWidget()
     QToolButton *serverEkranYansitSeciliPcButton= new QToolButton();
     serverEkranYansitSeciliPcButton->setFixedSize(e*18,yukseklik*2);
     //serverEkranYansitSeciliPcButton->setIconSize(QSize(150,30));
-    serverEkranYansitSeciliPcButton->setText("Ekranı \nSeçili Pc'lere\n Yansıt");
+    serverEkranYansitSeciliPcButton->setText("Ekranı Pc'lere\n Yansıt");
     serverEkranYansitSeciliPcButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     serverEkranYansitSeciliPcButton->setAutoRaise(true);
     serverEkranYansitSeciliPcButton->setIconSize(QSize(b*8,yukseklik));
@@ -96,27 +96,6 @@ QWidget* MainWindow::rdpWidget()
         slotVncFlip(ekranScale1->currentText(),viewState);
 
     });
-    QToolButton *serverEkranYansitButton= new QToolButton();
-    serverEkranYansitButton->setFixedSize(e*18,yukseklik*2);
-    // serverEkranYansitButton->setIconSize(QSize(150,30));
-    serverEkranYansitButton->setText("Ekranı \nTüm Pc'lere\n Yansıt");
-    serverEkranYansitButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    serverEkranYansitButton->setAutoRaise(true);
-    serverEkranYansitButton->setIconSize(QSize(b*8,yukseklik));
-    // serverEkranYansitButton->setAutoFillBackground(true);
-
-    serverEkranYansitButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    serverEkranYansitButton->setIcon(QIcon(":icons/networkvncall.svg"));
-    //serverEkranYansitButton->move(0,sor->height()-50);
-    connect(serverEkranYansitButton, &QPushButton::clicked, [=]() {
-        bool cbstate=cb->checkState();
-        QString viewState="";
-        if (!cbstate) viewState="-viewonly";
-
-        slotVncFlipAll(ekranScale1->currentText(),viewState);
-
-
-    });
 
 
     QToolButton* ekranYansitDurdur = new QToolButton();
@@ -127,24 +106,12 @@ QWidget* MainWindow::rdpWidget()
     ekranYansitDurdur->setAutoRaise(true);
     ekranYansitDurdur->setIconSize(QSize(b*8,yukseklik));
     // ekranYansitDurdur->setAutoFillBackground(true);
-    ekranYansitDurdur->setText("Seçilenlerde\nYansıtmayı \nDurdur");
+    ekranYansitDurdur->setText("Yansıtmayı \nDurdur");
     connect(ekranYansitDurdur, &QToolButton::clicked, [=]() {
         //slotEkranIzleDurdur();
         slotVncFlipStop();
     });
-    QToolButton* ekranYansitDurdurAll = new QToolButton();
-    ekranYansitDurdurAll->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    ekranYansitDurdurAll->setIcon(QIcon(":/icons/networkvncallstop.svg"));
-    ekranYansitDurdurAll->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    ekranYansitDurdurAll->setFixedSize(e*18,yukseklik*2);
-    ekranYansitDurdurAll->setAutoRaise(true);
-    ekranYansitDurdurAll->setIconSize(QSize(b*8,yukseklik));
-    //  ekranYansitDurdurAll->setAutoFillBackground(true);
-    ekranYansitDurdurAll->setText("Tümünde \nYansıtmayı\n Durdur");
-    connect(ekranYansitDurdurAll, &QToolButton::clicked, [=]() {
-        //slotEkranIzleDurdur();
-        slotVncFlipStop();
-    });
+
     QToolButton *helpButton= new QToolButton;
     helpButton->setFixedSize(e*12,yukseklik*2);
     helpButton->setAutoRaise(true);
@@ -219,10 +186,10 @@ QWidget* MainWindow::rdpWidget()
     layout->addWidget(cbLabel, 2,3,1,1,Qt::AlignCenter);
 
     layout->addWidget(serverEkranYansitSeciliPcButton, 1,4,2,1,Qt::AlignCenter);
-    layout->addWidget(serverEkranYansitButton, 1,5,2,1,Qt::AlignCenter);
+//    layout->addWidget(serverEkranYansitButton, 1,5,2,1,Qt::AlignCenter);
 
     layout->addWidget(ekranYansitDurdur, 1,6,2,1,Qt::AlignCenter);
-    layout->addWidget(ekranYansitDurdurAll, 1,7,2,1,Qt::AlignCenter);
+  //  layout->addWidget(ekranYansitDurdurAll, 1,7,2,1,Qt::AlignCenter);
     layout->addWidget(helpButton, 1,8,2,1,Qt::AlignCenter);
 
     return sor;
@@ -242,7 +209,7 @@ void MainWindow::slotVnc(QString _dsp){
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select))
         {
-            display=onlinePcList[i]->vncport;
+            display=onlinePcList[i]->vncport.split("-")[0];
             // qDebug()<<"vnc:"<<onlinePcList[i]->vncport;
             // udpSendData("x11komut",kmt,onlinePcList[i]->ip);
         }
@@ -348,17 +315,30 @@ void MainWindow::slotVncFlipAllStop(){
 }
 void MainWindow::slotRdp(){
     hostAddressMacButtonSlot();
-    QString  komut;
-    QMessageBox msgBox;
-    msgBox.setText(" Uzak masaüstüne açık olan kullanıcı hesabından erişemezsiniz."
-                   "\n Eğer uzak masaüstüne erişemiyorsanız;"
-                   "\n Açık masaüstü için Vnc seçeneklerini kullanın.");
-    msgBox.exec();
+    bool ok;
+    QString _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
+                                                " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
+                                                "", &ok);
+    QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
+                                                  remoteUserName+"İstemcideki Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
+                                                  "", &ok);
+    //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
+    if(_remoteuser!=""&&_remotepasswd!="")
+    {
+        QString  komut;
+        QMessageBox msgBox;
+        msgBox.setText(" Uzak masaüstüne açık olan kullanıcı hesabından erişemezsiniz."
+                       "\n Eğer uzak masaüstüne erişemiyorsanız;"
+                       "\n Açık masaüstü için Vnc seçeneklerini kullanın.");
+        msgBox.exec();
 
-    komut.append("nohup  rdesktop ").append(" -u ").append(remoteUserName).append(" -p ").append(remotePassword+" ").append(pcIp->text()).append(" -g 75% &");
-    system(komut.toStdString().c_str());
-    //qDebug()<<"rdp:"<<komut;
-    mesajSlot("Seçili Hostda Rdp Başlatıldı.");
+        komut.append("nohup  rdesktop ").append(" -u ").append(_remoteuser).append(" -p ").append(_remotepasswd+" ").append(pcIp->text()).append(" -g 75% &");
+        system(komut.toStdString().c_str());
+        qDebug()<<"rdp:"<<komut;
+
+    }
+
+      mesajSlot("Seçili Hostda Rdp Başlatıldı.");
 
 }
 

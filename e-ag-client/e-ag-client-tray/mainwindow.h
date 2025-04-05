@@ -56,19 +56,13 @@ virtual void closeEvent ( QCloseEvent * event );
 
 public slots:
     void udpConsoleGetSlot();
-    void webBlockAktifPasif();
     void tcpMessageControlSlot(QString _data);
     void  WidgetClosed();
-    void listToFile(QString path, QStringList list, QString filename);
-    QStringList fileToList(QString path,QString filename);
-    QString listGetLine(QStringList list, QString data);
-    QStringList listRemove(QStringList list, QString data);
-    void iconActivated(QSystemTrayIcon::ActivationReason);
+     void iconActivated(QSystemTrayIcon::ActivationReason);
     void gizle();
     QString myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon);
     void kaydetTimerSlot(QString _serverIp);
     void hostAddressMacButtonSlot();
-    void komutSudoExpect(QString komut,QString username,QString password);
     void  widgetShow();
 public:
     explicit MainWindow(QWidget *parent = nullptr);

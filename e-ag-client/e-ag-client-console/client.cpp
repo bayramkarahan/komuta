@@ -4,23 +4,21 @@
 #include <QtCore/QTimer>
 #include <stdio.h>
 #include <QtCore/QCoreApplication>
-#include <QtDBus/QtDBus>
+#include<Database.h>
 
 Client::Client()
 {
 
     localDir="/usr/share/e-ag/";
     localDir1="/tmp/";
-    QString kmt25="rm -rf "+localDir+"kilitclose";
-    system(kmt25.toStdString().c_str());
-    QString kmt26="rm -rf "+localDir+"kilitopen";
-    system(kmt26.toStdString().c_str());
 /************************************************/
     QTimer *tcpMesajSendTimer = new QTimer();
     QObject::connect(tcpMesajSendTimer, &QTimer::timeout, [&](){
         tcpMesajSendTimerSlot();
     });
-    tcpMesajSendTimer->start(3000);
+    tcpMesajSendTimer->start(7000);
+    networkProfilLoad();
+    if(stringToBool(webblockState)) webBlockAktifPasif(true);
 }
 
 void Client::tcpMesajSendTimerSlot()
@@ -51,24 +49,22 @@ void Client::tcpMesajSendTimerSlot()
     /*qDebug()<<"buildCpuArchitecture: " <<sysinfo.buildCpuArchitecture();
     qDebug()<<"currentCpuArchitecture: " <<sysinfo.currentCpuArchitecture();
     qDebug()<<"kernel type and version:" <<sysinfo.kernelType()<<sysinfo.kernelVersion().left(1);
-qDebug()<<"product name and version:  " <<sysinfo.prettyProductName();
-*/
-//qDebug()<<"product name and version:  " <<sysinfo.machineHostName();
+    qDebug()<<"product name and version:  " <<sysinfo.prettyProductName();
+    */
+    //qDebug()<<"product name and version:  " <<sysinfo.machineHostName();
 
    // QString projeversion=sysinfo.prettyProductName()+sysinfo.kernelVersion().left(1);
 QString hostname=sysinfo.machineHostName();
 
 //qDebug()<<sessionUser<<sessionDisplay<<sessionUserId<<projeversion<<sessionDesktopManager<<sessionDisplayType;
- clientConsoleEnv="clientConsoleEnv|"+sessionUser+"|"+sessionDisplay+"|"+sessionUserId+"|"+hostname+"|"+sessionDesktopManager;
+ clientConsoleEnv="consolenv|"+sessionUser+"|"+sessionDisplay+"|"+sessionUserId+"|"+hostname+"|"+sessionDesktopManager;
  //qDebug()<<"clientConsoleEnv"<<clientConsoleEnv;
  /******************************************************/
       if(clientTrayEnv=="")
- {
+        {
           clientTrayEnv="noLogin|0|0|0|0";
        }
-     // else
-      //    x11env=x11env;
-     // QString result1=arg;
+
       bool sshState;
       int vncState;
       bool ftpState;
@@ -80,25 +76,13 @@ QString hostname=sysinfo.machineHostName();
       QString vncports=findX11vncPort("netstat -tulnp");
       //qDebug()<<"vnc portları: "<<vncports;
       //findX11vncPort("lsof -i -P -n | grep x11vnc|grep IPv4");
-      /*************************************/
-      /*if (getIpPortStatus("systemctl status e-ag-x11vncdesktop.service|grep '5900'|wc -l",1)=="open")
-          vncState=5900;
-       else if (getIpPortStatus("systemctl status e-ag-x11vnclogin.service|grep '5901'|wc -l",1)=="open")
-            vncState=5901;
-      else if (getIpPortStatus("systemctl status e-ag-x11vnclogin.service|grep '5902'|wc -l",1)=="open")
-          vncState=5902;
-      else if (getIpPortStatus("systemctl status novnc-x11vnc.service|grep '5905'|wc -l",1)=="open")
-          vncState=5905;
-      else vncState=5902;*/
-      /*************************************/
+       /*************************************/
       if (getIpPortStatus("systemctl status vsftpd.service|grep 'running'|wc -l",0)=="open")
           ftpState=true;
       else ftpState=false;
       /*************************************/
-      ///qDebug()<<"durum:"<<x11env<<myenv;
-      QString data="portStatus|clientTrayEnv|"+clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(ftpState);
-      //qDebug()<<"gidecek data:"<<data;
-      if(tempdata!=data)
+      QString data="trayenv|"+clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(ftpState);
+      /*if(tempdata!=data)
       {
 
           udpServerSendSlot(data);
@@ -113,17 +97,14 @@ QString hostname=sysinfo.machineHostName();
           tempdata=data;
           dataSayac=0;
 
-      }
-
+      }*/
+      udpServerSendSlot(data);
+      tempdata=data;
       data="";
       //pgrep 15 karakterden fazla olmamalı bundan dolayı tray yerine tra bırakılmıştır
       if (!uygulamaCalisiyorMu("pgrep e-ag-client-tra")) {
           clientTrayEnv="noLogin|0|0|0|0";
       }
-
-      //clientTrayEnv="";
-      //clientConsoleEnv="";
-//   system("nohup /usr/bin/e-ag-run.sh&");
 
 }
 
@@ -224,46 +205,21 @@ QString Client::getSessionInfo(QString id, QString parametre)
 }
 Client::~Client()
 {
-
     QString data="portStatus|mydisp|noLogin|0|0|0|0|myenv|noLogin|0|0|0|0|0|0|0|close";
     udpServerSendSlot(data);
-
     udpServerSend->close();
     udpServerSend->deleteLater();
-
-
 }
 
 void Client::socketBaglama()
 {
-    qDebug()<<"socket bağlantıları kuruluyor....";
+    qDebug()<<"socket bağlantıları kuruluyor...."<<networkTcpPort;
     /***********************************/
-    FileCrud *fcc=new FileCrud();
-    fcc->dosya=localDir+"hostport";
-    QStringList lst;
-    if(!fcc->fileExists())
-    {
-        qDebug()<<"server dosyası oluşturuluyor";
-        lst.append("|7879|Server");
-        listToFile(localDir,lst,"hostport");
-          system("chmod 777 /usr/share/e-ag/hostport");
-    }
-    QStringList hostfile=fileToList(localDir,"hostport");
-    /**********************************************************/
 
-     if(fcc->fileExists())
-    {
-
-        if (listGetLine(hostfile,"Server")!="")
-        {
-            QString hostportLine=listGetLine(hostfile,"Server");
-            tcpPort=hostportLine.split("|")[1];
-            /***************************************************/
-       QString uport=tcpPort;
-            std::reverse(uport.begin(), uport.end());
           //  QHostAddress *host  = new QHostAddress("192.168.63.254");
-         //  QHostAddress *server = new QHostAddress("192.168.23.253");
-
+         //  QHostAddress *server = new QHostAddress("192.168.23.253");*/
+            QString uport=networkTcpPort;
+            std::reverse(uport.begin(), uport.end());
 
            udpServerSend = new QUdpSocket();
            udpTraySend= new QUdpSocket();
@@ -283,50 +239,26 @@ void Client::socketBaglama()
             qDebug()<<tcpPort<<uport<<"udp bağlandı";
             tcpMesajSendTimerSlot();
 
-        }
-        else
-        {
-            qDebug()<<"server dosyası oluşturuluyor";
-            lst.append("|7879|Server");
-            listToFile(localDir,lst,"hostport");
-            system("chmod 777 /usr/share/e-ag/hostport");
-        }
 
-
-    }
 }
 
 void Client::udpServerSendSlot(QString _data)
 {
     hostAddressMacButtonSlot();
-    QStringList hostlist=fileToList("/usr/share/e-ag/","hostport");
-
     if(udpServerSend == nullptr){
         qDebug()<<"bağlı değil";
         socketBaglama();//bağlı değilse bağlan
     }
-
-    //qDebug()<<"mesaj gidecek: "<<_data;
-    //return;
-
-    for(int i=0;i<hostlist.count();i++)
+    for(int k=0;k<ipmaclist.count();k++)
     {
-        if(hostlist[i]!="")
+        if(networkBroadCastAddress!=""&&
+            serverAddress.section(".",0,2)==networkBroadCastAddress.section(".",0,2)&&
+            serverAddress.section(".",0,2)==ipmaclist[k].ip.section(".",0,2))
         {
-            QStringList serverlist=hostlist[i].split("|");
-            if(serverlist[0]!="")
-            {
-                for(int k=0;k<ipmaclist.count();k++)
-                {
-                    if(serverlist[0].section(".", 0, 2)==ipmaclist[k].ip.section(".", 0,2))
-                    {
-                        QString msg="Client Mesaj|"+ipmaclist[k].ip+"|"+ipmaclist[k].mac+"|"+_data;
-                        QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
-                        udpServerSend->writeDatagram(datagram,QHostAddress(serverlist[0]), tcpPort.toInt());
-                        //qDebug()<<"server'a mesaj gönderildi:"<< tcpPort<<serverlist[0]<<_data;
-                    }
-                }
-            }
+            QString msg="eagclientconf|"+ipmaclist[k].ip+"|"+ipmaclist[k].mac+"|"+_data;
+            QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
+            udpServerSend->writeDatagram(datagram,QHostAddress(serverAddress), networkTcpPort.toInt());
+            ///qDebug()<<msg<<networkTcpPort;
         }
     }
 }
@@ -365,8 +297,86 @@ void Client::udpGuiGetSlot()
         udpGuiGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString rmesaj=datagram.constData();
-        //qDebug()<<"udpClientGuiRead:"<<rmesaj
+        qDebug()<<"udpClientGuiRead:"<<rmesaj;
         clientGuiEnv=rmesaj;
+        if(rmesaj=="webblocktrue")
+            webBlockAktifPasif(true);
+
+        if(rmesaj=="webblockfalse")
+            webBlockAktifPasif(false);
+    }
+}
+void Client::networkProfilLoad()
+{
+
+    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+    //QJsonArray dizi=db->Oku();
+    QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
+    if(dizi.count()>0)
+    {
+        //qDebug()<<"Kayıtlı Host.";
+        QJsonObject veri=dizi.first().toObject();
+        //qDebug()<<"Yüklenen Ağ Profili:" <<veri;
+        this->networkIndex=veri["networkIndex"].toString();
+        this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
+        this->networkName=veri["networkName"].toString();
+        this->networkTcpPort=veri["networkTcpPort"].toString();
+        this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
+        this->serverAddress=veri["serverAddress"].toString();
+        this->ftpPort=veri["ftpPort"].toString();
+        this->rootPath=veri["rootPath"].toString();
+        this->language=veri["language"].toString();
+        this->lockScreenState=veri["lockScreenState"].toBool();
+        this->webblockState=veri["webblockState"].toBool();
+        /*
+        hostAddressMacButtonSlot();
+        for(int i=0;i<ipmaclist.count();i++)
+        {
+            if(ipmaclist[i].broadcast==networkBroadCastAddress)
+            {
+                if(ipmaclist[i].ip!=serverAddress)
+                {
+                    qDebug()<<"Server Ip Numarası Güncelleniyor..";
+                    QJsonObject veri;
+                    veri["networkIndex"] =this->networkIndex;
+                    veri["selectedNetworkProfil"] =this->selectedNetworkProfil;
+                    veri["networkName"] = this->networkName;
+                    veri["networkTcpPort"] = this->networkTcpPort;
+                    veri["serverAddress"]=ipmaclist[i].ip;
+                    veri["networkBroadCastAddress"]=this->networkBroadCastAddress;
+                    veri["ftpPort"]=this->ftpPort;
+                    veri["rootPath"]=this->rootPath;
+                    veri["language"]=this->language;
+                    veri["lockScreenState"]=this->lockScreenState;
+                    veri["webblockState"]=this->webblockState;
+                    db->Sil("networkIndex",this->networkIndex);
+                    db->Ekle(veri);
+                }
+
+            }
+        }*/
+    }else
+    {
+        qDebug()<<"Yeni Network Ekleniyor.";
+
+        hostAddressMacButtonSlot();
+
+            //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
+            QJsonObject veri;
+            veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
+            veri["selectedNetworkProfil"] =true;
+            veri["networkName"] = "network";
+            veri["networkTcpPort"] = "7879";
+            veri["serverAddress"]="";
+            veri["networkBroadCastAddress"]="";
+            veri["ftpPort"]="12345";
+            veri["rootPath"]="/tmp/";
+            veri["language"]="tr_TR";
+            veri["lockScreenState"]=false;
+            veri["webblockState"]=false;
+            db->Ekle(veri);
+
+        networkProfilLoad();
     }
 }
 
@@ -387,25 +397,65 @@ void Client::udpServerGetSlot()
         qDebug()<<"Gelen Udp Mesaj:"<<mesaj;
         QString x11mesaj="";
         bool sendStatus=false;
-        if(mesaj[0]=="hostport")
+        if(mesaj[0]=="eagconf")
         {
-            qDebug()<<"Gelen Udp Mesajı hosport.........:"<<mesaj[4];
-            QString _ip=mesaj[1];
-            QString _port=mesaj[3];
-            QString _mac=mesaj[2];
-            QString record=_ip+"|"+_port+"|"+_mac+"|Server";
-            /*********************************************************************/
-            QStringList hostlist=fileToList("/usr/share/e-ag/","hostport");
-            if(hostlist.count()>2)hostlist.clear();
 
-            if(listGetLine(hostlist,_mac)==""||mesaj[4]=="0")
+            //qDebug()<<"Gelen Udp Mesajı eagconf.........:"<<mesaj;
+            QString serverAddress1=mesaj[1];
+            QString networkBroadCastAddress1=mesaj[2];
+            QString networkTcpPort1=mesaj[3];
+            QString ftpPort1=mesaj[4];
+            QString rootPath1=mesaj[5];
+            QString language1=mesaj[6];
+            bool lockScreenState1= stringToBool(mesaj[7]);
+            bool webblockState1= stringToBool(mesaj[8]);
+            bool updateState=false;
+            if(serverAddress!=serverAddress1) updateState=true;
+            if(networkBroadCastAddress!=networkBroadCastAddress1) updateState=true;
+            if(networkTcpPort!=networkTcpPort1) updateState=true;
+            if(ftpPort!=ftpPort1) updateState=true;
+            if(rootPath!=rootPath1) updateState=true;
+            if(language!=language1) updateState=true;
+            if(lockScreenState!=lockScreenState1) updateState=true;
+            if(webblockState!=webblockState1) updateState=true;
+            if(updateState)
             {
-                hostlist=listRemove(hostlist,_mac);///mac ad. göre server kayıt
-                hostlist.append(record);
-                listToFile(localDir,hostlist,"hostport");
-                system("chmod 777 /usr/share/e-ag/hostport");
-                tcpMesajSendTimerSlot();
+                qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
+                DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+                QJsonObject veri;
+                veri["networkIndex"]= this->networkIndex;
+                veri["selectedNetworkProfil"] =true;
+                veri["networkName"] = "network";
+                veri["networkTcpPort"] = networkTcpPort1;
+                veri["serverAddress"]=serverAddress1;
+                veri["networkBroadCastAddress"]=networkBroadCastAddress1;
+                veri["ftpPort"]=ftpPort1;
+                veri["rootPath"]=rootPath1;
+                veri["language"]=language1;
+                veri["lockScreenState"]=lockScreenState1;
+                veri["webblockState"]=webblockState1;
+                db->Sil("networkIndex",this->networkIndex);
+                db->Ekle(veri);
+                networkProfilLoad();
             }
+            /*else
+            {
+                qDebug()<<"eagconf bilgileri aynı.";
+                if(stringToBool(webblockState)) webBlockAktifPasif(true);
+            }*/
+
+        }
+        if(mesaj[0]=="webblockserversendfile")
+        {
+            qDebug()<<"*********************************************************";
+            qDebug()<<"gelen dosya"<<mesaj[1];
+            QString dosya=mesaj[1];
+            qDebug()<<"*********************************************************";
+            QString kmt1="cp /tmp/"+dosya+" /usr/share/e-ag/";
+            QString kmt2="chmod 777 /usr/share/e-ag/"+dosya;
+            system(kmt1.toStdString().c_str());system("sleep 0.1");
+            system(kmt2.toStdString().c_str());system("sleep 0.1");
+            if(stringToBool(webblockState)) webBlockAktifPasif(true);
         }
 
         if(mesaj[0]=="debeagscript")
@@ -575,47 +625,20 @@ void Client::udpServerGetSlot()
             x11mesaj=rmesaj; sendStatus=true;
             //udpSocketSendTServer("ekranimagestatetestopen");
         }
-        if(mesaj[0]=="webblock")
+        if(mesaj[0]=="webblocktrue")
         {
-            qDebug()<<"Client-Gelen Mesaj:"<<rmesaj;
-            QStringList ayarlist=fileToList("/usr/share/e-ag/","e-ag-x11client.conf");
-            //  ayarlist.append("kilitstate|"+QString::number(kilitstate));
-            ayarlist=listRemove(ayarlist,"rootusername");
-            ayarlist.append("rootusername|"+mesaj[6]);
-
-            ayarlist=listRemove(ayarlist,"rootpassword");
-            ayarlist.append("rootpassword|"+mesaj[7]);
-
-            ayarlist=listRemove(ayarlist,"webblockstate");
-            ayarlist.append("webblockstate|"+mesaj[1]);
-            webblockstate=mesaj[1].toInt();
-
-            QString kmt27="rm -rf /usr/share/e-ag/e-ag-x11client.conf";
-            system(kmt27.toStdString().c_str());
-
-            listToFile("/usr/share/e-ag",ayarlist,"e-ag-x11client.conf");
-            QString kmt26="chmod 777 /usr/share/e-ag/e-ag-x11client.conf";
-            system(kmt26.toStdString().c_str());
-            /***********************************************/
-            x11mesaj=rmesaj; sendStatus=true;
-            /************************************************************************/
-            webBlockAktifPasif();
-
+            if(stringToBool(webblockState)) webBlockAktifPasif(true);
+            x11mesaj=rmesaj; sendStatus=false;
         }
+        if(mesaj[0]=="webblockfalse")
+        {
+           if(stringToBool(webblockState)) webBlockAktifPasif(false);
+            x11mesaj=rmesaj; sendStatus=false;
+        }
+
         if(mesaj[0]=="kilitstate")
         {
             qDebug()<<"Client-Gelen Mesaj:"<<rmesaj;
-            QStringList ayarlist=fileToList("/usr/share/e-ag/","e-ag-x11client.conf");
-
-            ayarlist=listRemove(ayarlist,"kilitstate");
-            ayarlist.append("kilitstate|"+mesaj[1]);
-
-            QString kmt27="rm -rf /usr/share/e-ag/e-ag-x11client.conf";
-            system(kmt27.toStdString().c_str());
-
-            listToFile("/usr/share/e-ag",ayarlist,"e-ag-x11client.conf");
-            QString kmt26="chmod 777 /usr/share/e-ag/e-ag-x11client.conf";
-            system(kmt26.toStdString().c_str());
             /***********************************************/
             x11mesaj=rmesaj; sendStatus=true;
         }
@@ -677,47 +700,32 @@ void Client::udpServerGetSlot()
 
 }
 
-void Client::webBlockAktifPasif()
+void Client::webBlockAktifPasif(bool _state)
 {
-    QStringList ayarlst=fileToList("/usr/share/e-ag/","e-ag-x11client.conf");
-    /**********************************************************/
-        if(listGetLine(ayarlst,"rootusername")!="")
-        {
-            QString strrootusername=listGetLine(ayarlst,"rootusername").split("|")[1];
-            //qDebug()<<strwebblockstate;
-            rootusername=strrootusername;
+    webblockStateRun=true;
+    if(_state)
+    {
+        QString kmt28="iptables -F &";
+        system(kmt28.toStdString().c_str());
+
+        int sr=0;
+        DatabaseHelper *db=new DatabaseHelper(localDir+"webblockserver.json");
+        //QJsonArray dizi=db->Oku();
+        QJsonArray dizi=db->Ara("selectedWord",true);
+        for (const QJsonValue &item : dizi) {
+            QJsonObject veri=item.toObject();
+            ///qDebug()<<veri["word"].toString();
+            QString kmt28="iptables -A OUTPUT -p tcp -m string --string '"+veri["word"].toString()+"' --algo kmp -j REJECT &";
+            //qDebug()<<"iptables komutu: "<<kmt28;
+            system(kmt28.toStdString().c_str());
         }
-        /**********************************************************/
-            if(listGetLine(ayarlst,"rootpassword")!="")
-            {
-                QString strrootpassword=listGetLine(ayarlst,"rootpassword").split("|")[1];
-                //qDebug()<<strwebblockstate;
-                rootpassword=strrootpassword;
-            }
-/**********************************************************/
-    if(listGetLine(ayarlst,"webblockstate")!="")
-    {
-        QString strwebblockstate=listGetLine(ayarlst,"webblockstate").split("|")[1];
-        //qDebug()<<strwebblockstate;
-        webblockstate=strwebblockstate.toInt();
     }
-    /******************************************************************/
-       if(webblockstate==true)
-    {
-
-
-         QString kmt28="/usr/share/e-ag/webdisable.sh";
-         system(kmt28.toStdString().c_str());
-
-    }
-    if(webblockstate==false)
+    if(!_state)
     {
         QString kmt28="iptables -F";
         system(kmt28.toStdString().c_str());
 
     }
-    /*********************************************************/
-
 }
 
 QString Client::getIpPortStatus(QString service,int number)
@@ -770,93 +778,6 @@ bool Client::uygulamaCalisiyorMu(const QString& uygulamaAdi) {
     else {return "close";}
 }*/
 
-QStringList Client::listRemove(QStringList list,QString data)
- {
-       QRegularExpression re(data);
-     for(int i=0;i<list.count();i++)if(list[i].contains(re)) list.removeAt(i);
-    // qDebug()<<list;
-     return list;
- }
-QString Client::listGetLine(QStringList list,QString data)
- {
-     //QStringList list;
-      QRegularExpression re(data);
-     for(int i=0;i<list.count();i++) if(list[i].contains(re)) return list[i];
-     //qDebug()<<list;
-     return "";
- }
-QStringList Client::fileToList(QString path,QString filename)
- {
-    FileCrud *fcc=new FileCrud();
-    fcc->dosya=path+filename;
-    QStringList list;
-    for(int i=1;i<=fcc->fileCount();i++)
-    {
-         QString line=fcc->fileGetLine(i);
-         if(line!="")
-         {
-             line.chop(1);
-             QStringList lst=line.split("|");
-             QString ln="";
-             if(lst.count()>0)ln.append(lst[0]);
-             if(lst.count()>1)ln.append("|").append(lst[1]);
-             if(lst.count()>2)ln.append("|").append(lst[2]);
-             if(lst.count()>3)ln.append("|").append(lst[3]);
-             if(lst.count()>4)ln.append("|").append(lst[4]);
-             if(lst.count()>5)ln.append("|").append(lst[5]);
-             if(lst.count()>6)ln.append("|").append(lst[6]);
-             if(lst.count()>7)ln.append("|").append(lst[7]);
-             if(lst.count()>8)ln.append("|").append(lst[8]);
-             if(lst.count()>9)ln.append("|").append(lst[9]);
-             if(lst.count()>10)ln.append("|").append(lst[10]);
-             if(lst.count()>11)ln.append("|").append(lst[11]);
-             if(lst.count()>12)ln.append("|").append(lst[12]);
-             if(lst.count()>13)ln.append("|").append(lst[13]);
-
-             list <<ln;
-            // qDebug()<<ln;
-             // list <<lst[0]+"|"+lst[1]+"|"+lst[2]+"|"+lst[3]+"|"+lst[4]+"|"+lst[5];
-
-         }
-    }
-       return list;
- }
-void Client::listToFile(QString path,QStringList list, QString filename)
- {
-    FileCrud *fcc=new FileCrud();
-    fcc->dosya=path+filename;
-    fcc->fileRemove();
-    for(int i=0;i<list.count();i++)
-    {
-         QString line=list[i];
-         if(line!="")
-         {
-             //line.chop(1);
-             QStringList lst=line.split("|");
-             //qDebug()<<line;
-             QString ln="";
-
-             if(lst.count()>0)ln.append(lst[0]);
-             if(lst.count()>1)ln.append("|").append(lst[1]);
-             if(lst.count()>2)ln.append("|").append(lst[2]);
-             if(lst.count()>3)ln.append("|").append(lst[3]);
-             if(lst.count()>4)ln.append("|").append(lst[4]);
-             if(lst.count()>5)ln.append("|").append(lst[5]);
-             if(lst.count()>6)ln.append("|").append(lst[6]);
-             if(lst.count()>7)ln.append("|").append(lst[7]);
-             if(lst.count()>8)ln.append("|").append(lst[8]);
-             if(lst.count()>9)ln.append("|").append(lst[9]);
-             if(lst.count()>10)ln.append("|").append(lst[10]);
-             if(lst.count()>11)ln.append("|").append(lst[11]);
-             if(lst.count()>12)ln.append("|").append(lst[12]);
-             if(lst.count()>13)ln.append("|").append(lst[13]);
-             //qDebug()<<ln;
-             fcc->fileWrite(ln);
-
-         }
-
-    }
- }
 void Client::hostAddressMacButtonSlot()
 {
     QHostAddress localhost = QHostAddress(QHostAddress::LocalHost);

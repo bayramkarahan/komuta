@@ -45,13 +45,13 @@ void MainWindow::selectPc()
     QAction *terminalAction = new QAction(QIcon(":/icons/ssh.svg"), tr("&Terminal"), this);
     terminalAction->setShortcut(tr("Terminal"));
     terminalAction->setStatusTip(tr("Terminal Bağlantısı Yapıldı"));
-    connect(terminalAction, SIGNAL(triggered()), this, SLOT(terminalSlot()));
+    connect(terminalAction, SIGNAL(triggered()), this, SLOT(slotTerminal()));
 
 
     QAction *wolAction = new QAction(QIcon(":/icons/wol.svg"), tr("&Uzak Pc Başlatma"), this);
     wolAction->setShortcut(tr("WOL"));
     wolAction->setStatusTip(tr("Uzaktan Pc Başlatma İşlemi Yapıldı"));
-    connect(wolAction, SIGNAL(triggered()), this, SLOT(wolSlot()));
+    connect(wolAction, SIGNAL(triggered()), this, SLOT(wolWidget()));
 
     QAction *profilAction = new QAction(QIcon(":/icons/session.svg"), tr("&Ağ Profilleri"), this);
     profilAction->setShortcut(tr("AP"));

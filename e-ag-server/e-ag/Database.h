@@ -57,6 +57,17 @@ public:
         return jsonDoc.array();
     }
 
+    int getIndex(const QString &anahtar)
+    {
+        int indexnumber=0;
+        for (const QJsonValue &veri :Oku()) {
+            if (veri.toObject().value(anahtar).toString().toInt()>indexnumber) {
+                indexnumber=veri.toObject().value(anahtar).toString().toInt();
+            }
+        }
+        indexnumber++;
+        return indexnumber;
+    }
     void Ekle(const QJsonObject &yeniVeri) {
         QJsonArray veriler = Oku();
         veriler.append(yeniVeri);

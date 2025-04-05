@@ -158,8 +158,8 @@ DIST          = e-ag-client.service \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		e-ag-client-console.pro client.h \
-		filecrud.h \
+		e-ag-client-console.pro Database.h \
+		client.h \
 		scdimgserver.h \
 		scdimgserverthread.h \
 		singleinstance.h main.cpp \
@@ -364,7 +364,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents client.h filecrud.h scdimgserver.h scdimgserverthread.h singleinstance.h $(DISTDIR)/
+	$(COPY_FILE) --parents Database.h client.h scdimgserver.h scdimgserverthread.h singleinstance.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp client.cpp scdimgserver.cpp scdimgserverthread.cpp singleinstance.cpp $(DISTDIR)/
 
 
@@ -400,7 +400,6 @@ compiler_moc_header_make_all: moc_client.cpp moc_scdimgserver.cpp moc_scdimgserv
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_client.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp moc_singleinstance.cpp
 moc_client.cpp: client.h \
-		filecrud.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include client.h -o moc_client.cpp
@@ -438,13 +437,12 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 ####### Compile
 
 main.o: main.cpp client.h \
-		filecrud.h \
 		singleinstance.h \
 		scdimgserver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 client.o: client.cpp client.h \
-		filecrud.h
+		Database.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client.o client.cpp
 
 scdimgserver.o: scdimgserver.cpp scdimgserver.h \

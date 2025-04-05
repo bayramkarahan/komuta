@@ -37,13 +37,14 @@ SOURCES += \
 HEADERS += \
     Database.h \
     SettingsWidget.h \
+    baseWidget.h \
     filecopyWidget.h \
+    languageWidget.h \
     lockWidget.h \
     loginLogoutWidget.h \
         mainwindow.h \
-    filecrud.h \
     menu.h \
-    butonclick.h \
+    messageWidget.h \
     mypc.h \
     pcdata.h \
     powerrebootWidget.h \
@@ -53,14 +54,18 @@ HEADERS += \
     scdimgserver.h \
     scdimgserverthread.h \
     screenViewWidget.h \
+    sliderWidget.h \
     tcpudp.h \
     selectpc.h \
     funtion.h \
+    videoWidget.h \
     vncrdpWidget.h \
-    volumeWidget.h
+    volumeWidget.h \
+    wolWidget.h
 
 FORMS +=
-
+LIBS += -lqtermwidget5
+INCLUDEPATH += /usr/include/qtermwidget5
 #LIBS += -lgstreamer-1.0 -lgstapp-1.0 -lgstvideo-1.0 -lgstaudio-1.0
 #INCLUDEPATH += /usr/include/gstreamer-1.0
 PKGCONFIG += gstreamer-1.0 gstreamer-base-1.0 gstreamer-video-1.0 gstreamer-rtp-1.0

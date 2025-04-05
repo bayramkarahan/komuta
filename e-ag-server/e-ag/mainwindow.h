@@ -64,7 +64,7 @@
 #include <gst/gst.h>
 #include <iostream>
 #include<Database.h>
-
+#include<qtermwidget5/qtermwidget.h>
 namespace Ui {
 class MainWindow;
 }
@@ -105,7 +105,18 @@ public:
       QPoint origin;
      // QRubberBand *rubberBand;
       QRubberBand *rubberBand;
-
+      /**********************Network Profil*****************************/
+      bool selectedNetworkProfil;
+      QString networkIndex;
+      QString networkName;
+      QString networkTcpPort;
+      QString networkBroadCastAddress;
+      QString serverAddress;
+      QString ftpPort;
+      QString rootPath;
+      bool webblockState;
+      bool lockScreenState;
+      QString language;
  signals:
 
 protected:
@@ -132,7 +143,7 @@ private slots:
 
      QWidget *fileWidget();
      QWidget *videoWidget();
-     QWidget *duyuruWidget();
+     QWidget *messageWidget();
      QWidget *settingsWidget();
      QWidget* volumeWidget();
 
@@ -144,18 +155,18 @@ private slots:
     QWidget *logoutWidget();
 
 
-    QWidget *temelIslemler();
+    QWidget *baseWidget();
     QWidget *languageWidget();
     QWidget *HostListWidget();
-    void webBlockSlot();
-    void wolSlot();
+    void webBlockWidget();
+    void wolWidget();
     void hideShowPcSlot();
     void networkProfil();
     void updateSlider(int val);
     QString getIpPortStatus(QString ip_,QString port);
 
     void selectSlot();
-    void terminalSlot();
+
     void vncDisplaySlot();
 
     void networkProfilLoad();
@@ -189,7 +200,7 @@ QString getMacForIP(QString ipAddress);
     void slotVncFlipAll(QString scale,QString viewState);
     void slotVncFlipAllStop();
     void slotRdp();
-    void slotFtp();
+    void slotTerminal();
     void slotKilit();
     void slotTransparanKilit();
     void slotKilitAc();
@@ -332,13 +343,6 @@ private:
     QString broadCastAddress21;
     QString broadCastAddress22;
     /**********************Network Profil*****************************/
-    bool selectedNetworkProfil;
-    QString networkIndex;
-    QString networkName;
-    QString networkTcpPort;
-    QString networkBroadCastAddress;
-    QString serverAddress;
-
     bool selectedNetworkProfil1;
     QString networkProfil1;
     QString networkTcpPort1;

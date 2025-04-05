@@ -41,7 +41,6 @@ SOURCES += \
 HEADERS += \
     ekran.h \
     ekranresmi.h \
-    filecrud.h \
         mainwindow.h \
     singleinstance.h
 

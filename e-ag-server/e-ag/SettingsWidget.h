@@ -8,7 +8,7 @@ QWidget* MainWindow::settingsWidget()
     QFont ff( "Arial", 20, 0);
     int yukseklik=b*14;
     QWidget * d = new QWidget();
-    d->setFixedSize(this->width(),boy*16);
+    //d->setFixedSize(this->width(),boy*16);
 
     d->setWindowTitle("Duyuru Mesaj Penceresi");
 
@@ -56,7 +56,7 @@ QWidget* MainWindow::settingsWidget()
 
 
     connect(webblockButton, &QToolButton::clicked, [=]() {
-        webBlockSlot();
+        webBlockWidget();
 
     });
 
@@ -445,104 +445,163 @@ QWidget* MainWindow::HostListWidget()
     return wd;
 }
 
-void MainWindow::webBlockSlot()
-{/*
+void MainWindow::webBlockWidget()
+{
     // qDebug()<<"ayar click";
     QDialog * d = new QDialog();
+    d->setWindowTitle("Web Filtresi");
+    d->setFixedSize(QSize(boy*95,boy*50));
     d->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     auto appIcon = QIcon(":/icons/e-ag.svg");
     d->setWindowIcon(appIcon);
-    d->setWindowTitle("Web Engelleme Listesi");
-    d->setFixedSize(en*55,en*65);
+    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+    int x = (screenGeometry.width() - d->width())/2;
+    int y = (screenGeometry.height() - d->height()) / 2;
+    d->move(x, y);
     /***********************************************************************/
-   /* QTableWidget *twl=new QTableWidget;
-    twl->setFixedSize(QSize(en*50,en*25));
-    twl->setColumnCount(1);
-    //twl->setRowCount(0);
-    twl->setColumnWidth(0, en*50);
+    QTableWidget *twlh=new QTableWidget;
 
-    twl->setHorizontalHeaderItem(0, new QTableWidgetItem("Web Adresi"));
-    twl->setSelectionBehavior(QAbstractItemView::SelectRows);
-    twl->setSelectionMode(QAbstractItemView::SingleSelection);
+    twlh->setFixedSize(QSize(boy*90,boy*35));
+    twlh->setColumnCount(5);
+    //twlh->setRowCount(0);
+    twlh->setHorizontalHeaderItem(0, new QTableWidgetItem("Seç"));
+    twlh->setHorizontalHeaderItem(1, new QTableWidgetItem("Index"));
+    twlh->setHorizontalHeaderItem(2, new QTableWidgetItem("Engelenen Kelime"));
+    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem(""));
+    twlh->setHorizontalHeaderItem(4, new QTableWidgetItem(""));
+
+    twlh->setSelectionBehavior(QAbstractItemView::SelectRows);
+    twlh->setSelectionMode(QAbstractItemView::SingleSelection);
     //connect(tw, &QTableWidget::cellClicked, this, cellClicked());
-    twl->setRowCount(0);
-    QStringList list=fileToList("webblocklist",localDir);
-    for(int i=0;i<list.count();i++)
-    {
-        QString line=list[i];
-        QStringList lst=line.split("|");
-        twl->setRowCount(twl->rowCount()+1);
-        twl->setItem(i, 0, new QTableWidgetItem(lst[0]));//ip
+    twlh->setRowCount(0);
+    twlh->setColumnWidth(0, boy*10);
+    twlh->setColumnWidth(1, boy*7);
+    twlh->setColumnWidth(2,boy*35);
+    twlh->setColumnWidth(3,boy*17);
+    twlh->setColumnWidth(4,boy*12);
 
+    DatabaseHelper *db=new DatabaseHelper(localDir+"webblockserver.json");
+    QJsonArray dizi=db->Oku();
+    int sr=0;
+
+    for (const QJsonValue &item : dizi) {
+        QJsonObject veri=item.toObject();
+
+        twlh->setRowCount(twlh->rowCount()+1);
+        QCheckBox *mCheck = new QCheckBox();
+        mCheck->setFixedWidth(boy*15);
+        mCheck->setChecked(false);
+        QLineEdit * index = new QLineEdit();
+        QLineEdit * word = new QLineEdit();
+        QToolButton *saveButton= new QToolButton;
+        saveButton->setText("Kelimeyi Kaydet");
+        saveButton->setFixedWidth(boy*17);
+        connect(saveButton, &QPushButton::clicked, [=]() {
+            //qDebug()<<"Değişiklikler Kaydedildi.."<<insertButton->toolTip();
+            int numRows = twlh->rowCount();
+            for ( int i = 0 ; i < numRows ; i++)
+            {
+                QCheckBox* mBox = static_cast<QCheckBox*> (twlh->cellWidget(i,0));
+                QLineEdit * index = static_cast<QLineEdit*> (twlh->cellWidget(i,1));
+                QLineEdit * word = static_cast<QLineEdit*> (twlh->cellWidget(i,2));
+                if (index->text()==saveButton->toolTip())
+                {
+                    QJsonArray dizi=db->Ara("index",saveButton->toolTip());
+                    if(dizi.count()>0)
+                    {
+                        qDebug()<<"Kelime Değiştirilecek."<<saveButton->toolTip();
+                        QJsonObject veri;
+                        if (mBox->isChecked()) veri["selectedWord"] =true;
+                        else veri["selectedWord"] =false;
+                        veri["index"] = index->text();
+                        veri["word"] = word->text();
+                        //qDebug()<<"kelime kayıt"<<veri;
+                        db->Sil("index",index->text());
+                        db->Ekle(veri);
+                    }
+                }
+            }
+            d->close();
+            webBlockWidget();
+        });
+        QToolButton *removeButton= new QToolButton;
+        removeButton->setText("Profili Sil");
+        removeButton->setFixedWidth(boy*12);
+        connect(removeButton, &QPushButton::clicked, [=]() {
+            //qDebug()<<"Profil Silindi.."<<networkRemoveButton->toolTip();
+            QJsonArray dizi=db->Ara("networkIndex",removeButton->toolTip());
+            qDebug()<<"Web Kelime Silinecek."<<removeButton->toolTip();
+            db->Sil("index",index->text());
+            d->close();
+            webBlockWidget();
+        });
+
+
+
+        index->setText(veri.value("index").toString());
+        index->setReadOnly(true);
+        word->setText(veri.value("word").toString());
+        saveButton->setToolTip(index->text());
+        twlh->setCellWidget(sr,0,mCheck);
+        twlh->setCellWidget(sr,1,index);
+        twlh->setCellWidget(sr,2,word);
+        twlh->setCellWidget(sr,3,saveButton);
+        twlh->setCellWidget(sr,4,removeButton);
+
+        //qDebug()<<"Kayıtlı Host.";
+        if(veri.value("selectedWord").toBool())
+            mCheck->setChecked(true);
+        else
+            mCheck->setChecked(false);
+        sr++;
     }
 
-    /***************************************************************************/
-   /* QCheckBox *webblockcb= new QCheckBox("Her Açılışta Web Sitelerini Engelle.");
-    QFont f1( "Arial", 8, QFont::Normal);
-    webblockcb->setFont(f1);
-    webblockcb->setChecked(webblockstate);
-    /// qDebug()<<"copystate1"<<copyState;
-    connect(webblockcb, &QCheckBox::clicked, [=]() {
-        QMessageBox msgBox;
-        msgBox.setText("Bu Değişiklik Kalıcı olarak Kaydedildi!");
-        msgBox.exec();
-        webblockstate=webblockcb->checkState();
-
-    });
-
-    QLineEdit * webadres = new QLineEdit();
-    webadres->setFixedSize(en*50,en*6);
-
-    QLabel *webadresLabel=new QLabel("Web Site Adresleri");
-    QToolButton *webadresEkleButton= new QToolButton;
-    webadresEkleButton->setFixedSize(QSize(en*50,en*6));
-    webadresEkleButton->setIconSize(QSize(en*50,en*3));
-    webadresEkleButton->setStyleSheet("Text-align:center");
-    //  webadresEkleButton->setIcon(QIcon(":/icons/save.svg"));
-    webadresEkleButton->setAutoRaise(true);
-    webadresEkleButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    //webadresEkleButton->setFont(f2);
-    webadresEkleButton->setText("Web Listesine Kaydet");
-
-    connect(webadresEkleButton, &QPushButton::clicked, [=]() {
-        QStringList webblocklist=fileToList("webblocklist",localDir);
-
-        webblocklist<<webadres->text();
-
-        listToFile(webblocklist,"webblocklist");
-        for(int i=0;i<webblocklist.count();i++)
-        {
-            QString line=webblocklist[i];
-            QStringList lst=line.split("|");
-            // twl->setRowCount(i+1);
-            //twl->setItem(i, 0, new QTableWidgetItem(lst[0]));//ip
-
-        }
-
-    });
-
-    /*********************************************************************/
     /********************************************************************/
-   /* QToolButton *webAyarGuncelleButton= new QToolButton;
-    webAyarGuncelleButton->setFixedSize(QSize(en*50,en*8));
-    webAyarGuncelleButton->setIconSize(QSize(en*50,en*3));
+    QToolButton *insertWordButton= new QToolButton;
+    insertWordButton->setFixedSize(QSize(boy*40,boy*10));
+    insertWordButton->setIconSize(QSize(boy*40,boy*5));
+    insertWordButton->setStyleSheet("Text-align:center");
+    insertWordButton->setIcon(QIcon(":/icons/boot.svg"));
+    insertWordButton->setAutoRaise(true);
+    insertWordButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    // newNetworkButton->setFont(f2);
+    insertWordButton->setText("Yeni Profil Ekle");
+
+    connect(insertWordButton, &QPushButton::clicked, [=]() {
+        DatabaseHelper *db=new DatabaseHelper(localDir+"webblockserver.json");
+        QJsonObject veri;
+        veri["index"] =QString::number(db->getIndex("index"));
+        if(db->Oku().size()==0) veri["selectedWord"] =true;
+        else veri["selectedWord"] =false;
+        veri["word"] = "sample";
+        db->Ekle(veri);
+        d->close();
+        webBlockWidget();
+    });
+
+    QToolButton *webAyarGuncelleButton= new QToolButton;
+    webAyarGuncelleButton->setFixedSize(QSize(en*40,en*10));
+    webAyarGuncelleButton->setIconSize(QSize(en*40,en*5));
     webAyarGuncelleButton->setStyleSheet("Text-align:center");
     webAyarGuncelleButton->setIcon(QIcon(":/icons/clientrefresh.svg"));
     webAyarGuncelleButton->setAutoRaise(true);
     webAyarGuncelleButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     // webAyarGuncelleButton->setFont(f2);
-    webAyarGuncelleButton->setText("Seçili Pc'lerin Web Ayarlarını Güncelle");
+    webAyarGuncelleButton->setText("Açık Pc'lerin Web Filtre Listesini Güncelle");
 
     connect(webAyarGuncelleButton, &QPushButton::clicked, [=]() {
 
-        sshSelectPcCommandSlot("rm -rf /usr/share/e-ag/webblocklist");
-        system("sleep 0.2");
-        sshSelectFileCopySlot("/usr/share/e-ag/webblocklist","/usr/share/e-ag/webblocklist");
-        system("sleep 0.2");
-        sshSelectPcCommandSlot("/usr/share/e-ag/webdisable.sh");
-        system("sleep 0.2");
-
-
+        for(int i=0;i<onlinePcList.count();i++)
+        {
+            if((onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
+                onlinePcList[i]->user!="noLogin")
+            {
+                //qDebug()<<"giden pc"<<onlinePcList[i]->ip;
+                selectFileCopySlot("webblockserversendfile",onlinePcList[i]->ip, "/usr/share/e-ag/webblockserver.json","webblockserver.json");
+                system("sleep 0.1");
+             }
+        }
+        return;
         hostAddressMacButtonSlot();
         for(int k=0;k<ipmaclist.count();k++)
         {
@@ -561,67 +620,19 @@ void MainWindow::webBlockSlot()
 
     });
     /*********************************************************************/
-    // messageBox.setIcon(QMessageBox::Question);
-
-   /* QDialogButtonBox * buttonBox = new QDialogButtonBox();
-
-    buttonBox->addButton("Kaydet", QDialogButtonBox::AcceptRole);
-    buttonBox->addButton("Vazgeç", QDialogButtonBox::RejectRole);
-
-    QObject::connect(buttonBox, SIGNAL(accepted()), d, SLOT(accept()));
-    QObject::connect(buttonBox, SIGNAL(rejected()), d, SLOT(reject()));
 
     QVBoxLayout * vbox = new QVBoxLayout();
-    QHBoxLayout * hbox1= new QHBoxLayout();
-    QHBoxLayout * hbox2= new QHBoxLayout();
-    QHBoxLayout * hbox3= new QHBoxLayout();
-    QHBoxLayout * hbox4= new QHBoxLayout();
-    QHBoxLayout * hbox5= new QHBoxLayout();
-    QHBoxLayout * hbox6= new QHBoxLayout();
+    vbox->addWidget(twlh);
+    QHBoxLayout * hbox = new QHBoxLayout();
+    hbox->addWidget(insertWordButton);
+    hbox->addWidget(webAyarGuncelleButton);
 
-    hbox1->addWidget(webadresLabel);
-
-    hbox2->addWidget(webadres);
-
-    hbox3->addWidget(webadresEkleButton);
-
-    hbox4->addWidget(twl);
-
-    hbox5->addWidget(webblockcb);
-    hbox6->addWidget(webAyarGuncelleButton);
-
-
-    //vbox->addWidget(pcnameLabel);
-    vbox->addLayout(hbox1);
-    vbox->addLayout(hbox2);
-    vbox->addLayout(hbox3);
-    vbox->addLayout(hbox4);
-    vbox->addLayout(hbox5);
-    vbox->addLayout(hbox6);
-    //vbox->addWidget(buttonBox);
+    vbox->addLayout(hbox);
 
     d->setLayout(vbox);
+    d->exec();
 
-    int result = d->exec();
-    if(result == QDialog::Accepted)
-    {
-        // qDebug()<<"tamam";
-        /* remoteUserName= remoteUserNameLE->text();
-       remotePassword= remotePasswordLE->text();
-       localUserName= localUserNameLE->text();
-       localPassword= localPasswordLE->text();
-       localNetwork= localNetworkLE->text();
-       tcpPort= tcpPortLE->text();
-        ayarKaydetButtonSlot();
-        */
-  /*  }
 
-    if(result == QDialog::Rejected)
-    {
-        qDebug()<<"iptal";
-
-    }
-*/
 }
 
 void MainWindow::networkProfil()
@@ -629,7 +640,7 @@ void MainWindow::networkProfil()
     // qDebug()<<"ayar click";
     QDialog * d = new QDialog();
     d->setWindowTitle("Ağ Profil Listesi");
-    d->setFixedSize(QSize(boy*110,boy*50));
+    d->setFixedSize(QSize(boy*170,boy*50));
     d->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     auto appIcon = QIcon(":/icons/e-ag.svg");
     d->setWindowIcon(appIcon);
@@ -640,16 +651,22 @@ void MainWindow::networkProfil()
     /***********************************************************************/
     QTableWidget *twlh=new QTableWidget;
 
-    twlh->setFixedSize(QSize(boy*105,boy*35));
-    twlh->setColumnCount(7);
+    twlh->setFixedSize(QSize(boy*165,boy*35));
+    twlh->setColumnCount(12);
     //twlh->setRowCount(0);
     twlh->setHorizontalHeaderItem(0, new QTableWidgetItem("Seçili Ağ"));
     twlh->setHorizontalHeaderItem(1, new QTableWidgetItem("Ağ No"));
     twlh->setHorizontalHeaderItem(2, new QTableWidgetItem("Ağ Adı"));
     twlh->setHorizontalHeaderItem(3, new QTableWidgetItem("Yayın Adresi"));
     twlh->setHorizontalHeaderItem(4, new QTableWidgetItem("Port"));
-    twlh->setHorizontalHeaderItem(5, new QTableWidgetItem(""));
-    twlh->setHorizontalHeaderItem(6, new QTableWidgetItem(""));
+    twlh->setHorizontalHeaderItem(5, new QTableWidgetItem("ftpPort"));
+    twlh->setHorizontalHeaderItem(6, new QTableWidgetItem("rootpath"));
+    twlh->setHorizontalHeaderItem(7, new QTableWidgetItem("language"));
+    twlh->setHorizontalHeaderItem(8, new QTableWidgetItem("Client Ekran Kilidi"));
+    twlh->setHorizontalHeaderItem(9, new QTableWidgetItem("Client Web Filtresi"));
+    twlh->setHorizontalHeaderItem(10, new QTableWidgetItem(""));
+    twlh->setHorizontalHeaderItem(11, new QTableWidgetItem(""));
+
 
     twlh->setSelectionBehavior(QAbstractItemView::SelectRows);
     twlh->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -659,9 +676,15 @@ void MainWindow::networkProfil()
     twlh->setColumnWidth(1, boy*10);
     twlh->setColumnWidth(2,boy*20);
     twlh->setColumnWidth(3,boy*15);
-    twlh->setColumnWidth(4,boy*15);
-    twlh->setColumnWidth(5,boy*15);
+    twlh->setColumnWidth(4,boy*10);
+    twlh->setColumnWidth(5,boy*10);
     twlh->setColumnWidth(6,boy*10);
+    twlh->setColumnWidth(7,boy*10);
+    twlh->setColumnWidth(8,boy*20);
+    twlh->setColumnWidth(9,boy*20);
+    twlh->setColumnWidth(10,boy*10);
+    twlh->setColumnWidth(11,boy*10);
+
 
     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     QJsonArray dizi=db->Oku();
@@ -670,86 +693,121 @@ void MainWindow::networkProfil()
     for (const QJsonValue &item : dizi) {
         QJsonObject veri=item.toObject();
 
-            twlh->setRowCount(twlh->rowCount()+1);
-            QCheckBox *mCheck = new QCheckBox();
-            mCheck->setFixedWidth(boy*15);
-            mCheck->setChecked(false);
-            QLineEdit * networkIndex = new QLineEdit();
-            QLineEdit * networkName = new QLineEdit();
-            QLineEdit * networkBroadCastAddress = new QLineEdit();
-            QLineEdit * networkTcpPort = new QLineEdit();
-            QToolButton *networkInsertButton= new QToolButton;
-            networkInsertButton->setText("Profili Kaydet");
-            networkInsertButton->setFixedWidth(boy*15);
-            connect(networkInsertButton, &QPushButton::clicked, [=]() {
-                //qDebug()<<"Değişiklikler Kaydedildi.."<<networkInsertButton->toolTip();
-                int numRows = twlh->rowCount();
-                for ( int i = 0 ; i < numRows ; i++)
-                {
-                    QCheckBox* mBox = static_cast<QCheckBox*> (twlh->cellWidget(i,0));
-                    QLineEdit * networkIndex = static_cast<QLineEdit*> (twlh->cellWidget(i,1));
-                    QLineEdit * networkName = static_cast<QLineEdit*> (twlh->cellWidget(i,2));
-                    QLineEdit * networkBroadCastAddress =static_cast<QLineEdit*> (twlh->cellWidget(i,3));
-                    QLineEdit * networkTcpPort = static_cast<QLineEdit*> (twlh->cellWidget(i,4));
+        twlh->setRowCount(twlh->rowCount()+1);
+        QCheckBox *mCheck = new QCheckBox();
+        mCheck->setFixedWidth(boy*15);
+        mCheck->setChecked(false);
+        QLineEdit * networkIndex = new QLineEdit();
+        QLineEdit * networkName = new QLineEdit();
+        QLineEdit * networkBroadCastAddress = new QLineEdit();
+        QLineEdit * networkTcpPort = new QLineEdit();
+        QLineEdit * ftpPort = new QLineEdit();
+        QLineEdit * rootPath= new QLineEdit();
+        QLineEdit * language = new QLineEdit();
+        QCheckBox * lockScreenState = new QCheckBox();
+        QCheckBox * webblockState = new QCheckBox();
 
-                    if (networkIndex->text()==networkInsertButton->toolTip())
+
+        QToolButton *savetButton= new QToolButton;
+        savetButton->setText("Kaydet");
+        savetButton->setFixedWidth(boy*10);
+        connect(savetButton, &QPushButton::clicked, [=]() {
+            //qDebug()<<"Değişiklikler Kaydedildi.."<<networkInsertButton->toolTip();
+            int numRows = twlh->rowCount();
+            for ( int i = 0 ; i < numRows ; i++)
+            {
+
+                if (networkIndex->text()==savetButton->toolTip())
+                {
+                    QJsonArray dizi=db->Ara("networkIndex",savetButton->toolTip());
+                    if(dizi.count()>0)
                     {
-                    QJsonArray dizi=db->Ara("networkIndex",networkInsertButton->toolTip());
-                        if(dizi.count()>0)
-                        {
-                            qDebug()<<"Ağ Profili Değiştirilecek."<<networkInsertButton->toolTip();
-                            QJsonObject veri;
-                            if (mBox->isChecked()) veri["selectedNetworkProfil"] =true;
-                            else veri["selectedNetworkProfil"] =false;
-                            veri["networkIndex"] = networkIndex->text();
-                            veri["networkName"] = networkName->text();
-                            veri["networkTcpPort"] = networkTcpPort->text();
-                            veri["networkBroadCastAddress"]=networkBroadCastAddress->text();
-                            //qDebug()<<"network kayıt"<<veri;
-                            db->Sil("networkIndex",networkIndex->text());
-                            db->Ekle(veri);
-                        }
+                        QCheckBox* mBox1 = static_cast<QCheckBox*> (twlh->cellWidget(i,0));
+                        QLineEdit * networkIndex1 = static_cast<QLineEdit*> (twlh->cellWidget(i,1));
+                        QLineEdit * networkName1 = static_cast<QLineEdit*> (twlh->cellWidget(i,2));
+                        QLineEdit * networkBroadCastAddress1 =static_cast<QLineEdit*> (twlh->cellWidget(i,3));
+                        QLineEdit * networkTcpPort1 = static_cast<QLineEdit*> (twlh->cellWidget(i,4));
+                        QLineEdit * ftpPort1 = static_cast<QLineEdit*> (twlh->cellWidget(i,5));
+                        QLineEdit * rootPath1 = static_cast<QLineEdit*> (twlh->cellWidget(i,6));
+                        QLineEdit * language1 = static_cast<QLineEdit*> (twlh->cellWidget(i,7));
+                        QCheckBox * lockScreenState1 = static_cast<QCheckBox*> (twlh->cellWidget(i,8));
+                        QCheckBox * webblockState1 = static_cast<QCheckBox*> (twlh->cellWidget(i,9));
+
+                        qDebug()<<"Ağ Profili Değiştirilecek."<<savetButton->toolTip();
+                        QJsonObject veri;
+                        if (mBox1->isChecked()) veri["selectedNetworkProfil"] =true;
+                        else veri["selectedNetworkProfil"] =false;
+                        veri["networkIndex"] = networkIndex1->text();
+                        veri["networkName"] = networkName1->text();
+                        veri["networkTcpPort"] = networkTcpPort1->text();
+                        veri["serverAddress"]=networkName1->toolTip();//dikkat
+                        veri["networkBroadCastAddress"]=networkBroadCastAddress1->text();
+                        veri["ftpPort"]=ftpPort1->text();
+                        veri["rootPath"]=rootPath1->text();
+                        veri["language"]=language1->text();
+                        //veri["lockScreenState"]=lockScreenState->text();
+                        //veri["webblockState"]=webblockState->text();
+                        if (lockScreenState1->isChecked()) veri["lockScreenState"] =true;
+                        else veri["lockScreenState"] =false;
+                        if (webblockState1->isChecked()) veri["webblockState"] =true;
+                        else veri["webblockState"] =false;
+                        //qDebug()<<"network kayıt"<<veri;
+                        db->Sil("networkIndex",networkIndex1->text());
+                        db->Ekle(veri);
                     }
                 }
-                d->close();
-                networkProfil();
-                networkProfilLoad();
-            });
-            QToolButton *networkRemoveButton= new QToolButton;
-            networkRemoveButton->setText("Profili Sil");
-            networkRemoveButton->setFixedWidth(boy*10);
-            connect(networkRemoveButton, &QPushButton::clicked, [=]() {
-                //qDebug()<<"Profil Silindi.."<<networkRemoveButton->toolTip();
-                QJsonArray dizi=db->Ara("networkIndex",networkInsertButton->toolTip());
-                qDebug()<<"Ağ Profili Silinecek."<<networkInsertButton->toolTip();
-                db->Sil("networkIndex",networkIndex->text());
-                d->close();
-                networkProfil();
-                //networkProfilLoad();
-            });
+            }
+            d->close();
+            networkProfil();
+            networkProfilLoad();
+        });
+        QToolButton *networkRemoveButton= new QToolButton;
+        networkRemoveButton->setText("Sil");
+        networkRemoveButton->setFixedWidth(boy*10);
+        connect(networkRemoveButton, &QPushButton::clicked, [=]() {
+            //qDebug()<<"Profil Silindi.."<<networkRemoveButton->toolTip();
+            QJsonArray dizi=db->Ara("networkIndex",networkRemoveButton->toolTip());
+            qDebug()<<"Ağ Profili Silinecek."<<networkRemoveButton->toolTip();
+            db->Sil("networkIndex",networkIndex->text());
+            d->close();
+            networkProfil();
+            //networkProfilLoad();
+        });
 
+        networkIndex->setText(veri.value("networkIndex").toString());
+        networkIndex->setReadOnly(true);
+        networkName->setText(veri.value("networkName").toString());
+        networkName->setToolTip(veri.value("serverAddress").toString());
+        networkBroadCastAddress->setText(veri.value("networkBroadCastAddress").toString());
+        networkTcpPort->setText(veri.value("networkTcpPort").toString());
+        ftpPort->setText(veri.value("ftpPort").toString());
+        rootPath->setText(veri.value("rootPath").toString());
+        language->setText(veri.value("language").toString());
 
+        savetButton->setToolTip(networkIndex->text());
+        twlh->setCellWidget(sr,0,mCheck);
+        twlh->setCellWidget(sr,1,networkIndex);
+        twlh->setCellWidget(sr,2,networkName);
+        twlh->setCellWidget(sr,3,networkBroadCastAddress);
+        twlh->setCellWidget(sr,4,networkTcpPort);
+        twlh->setCellWidget(sr,5,ftpPort);
+        twlh->setCellWidget(sr,6,rootPath);
+        twlh->setCellWidget(sr,7,language);
+        twlh->setCellWidget(sr,8,lockScreenState);
+        twlh->setCellWidget(sr,9,webblockState);
 
-            networkIndex->setText(veri.value("networkIndex").toString());
-            networkIndex->setReadOnly(true);
-            networkName->setText(veri.value("networkName").toString());
-            networkBroadCastAddress->setText(veri.value("networkBroadCastAddress").toString());
-            networkTcpPort->setText(veri.value("networkTcpPort").toString());
-            networkInsertButton->setToolTip(networkIndex->text());
-            twlh->setCellWidget(sr,0,mCheck);
-            twlh->setCellWidget(sr,1,networkIndex);
-            twlh->setCellWidget(sr,2,networkName);
-            twlh->setCellWidget(sr,3,networkBroadCastAddress);
-            twlh->setCellWidget(sr,4,networkTcpPort);
-            twlh->setCellWidget(sr,5,networkInsertButton);
-            twlh->setCellWidget(sr,6,networkRemoveButton);
+        twlh->setCellWidget(sr,10,savetButton);
+        twlh->setCellWidget(sr,11,networkRemoveButton);
+        if(veri.value("selectedNetworkProfil").toBool()) mCheck->setChecked(true);
+        else mCheck->setChecked(false);
+        if(veri.value("lockScreenState").toBool()) lockScreenState->setChecked(true);
+        else lockScreenState->setChecked(false);
+        if(veri.value("webblockState").toBool()) webblockState->setChecked(true);
+        else webblockState->setChecked(false);
+        //lockScreenState->setText(veri.value("lockScreenState").toString());
+        //webblockState->setText(veri.value("webblockState").toString());
 
-            //qDebug()<<"Kayıtlı Host.";
-            if(veri.value("selectedNetworkProfil").toBool())
-                mCheck->setChecked(true);
-            else
-                mCheck->setChecked(false);
-            sr++;
+        sr++;
     }
 
     /********************************************************************/
@@ -765,15 +823,21 @@ void MainWindow::networkProfil()
 
     connect(newNetworkButton, &QPushButton::clicked, [=]() {
         DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
-
+        //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
         QJsonObject veri;
-        veri["networkIndex"] =QString::number(db->Oku().size()+1);
+        veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
         if(db->Oku().size()==0) veri["selectedNetworkProfil"] =true;
         else veri["selectedNetworkProfil"] =false;
         veri["networkName"] = "network";
         veri["networkTcpPort"] = "7879";
         hostAddressMacButtonSlot();
+        veri["serverAddress"]=ipmaclist[0].ip;
         veri["networkBroadCastAddress"]=ipmaclist[0].broadcast;
+        veri["ftpPort"]="12345";
+        veri["rootPath"]="/tmp/";
+        veri["language"]="tr_TR";
+        veri["lockScreenState"]=false;
+        veri["webblockState"]=false;
         db->Ekle(veri);
         d->close();
         networkProfil();
@@ -814,6 +878,12 @@ void MainWindow::networkProfilLoad()
         this->networkTcpPort=veri["networkTcpPort"].toString();
         this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
         this->serverAddress=veri["serverAddress"].toString();
+        this->ftpPort=veri["ftpPort"].toString();
+        this->rootPath=veri["rootPath"].toString();
+        this->language=veri["language"].toString();
+        this->lockScreenState=veri["lockScreenState"].toBool();
+        this->webblockState=veri["webblockState"].toBool();
+
         hostAddressMacButtonSlot();
         for(int i=0;i<ipmaclist.count();i++)
         {
@@ -829,6 +899,11 @@ void MainWindow::networkProfilLoad()
                     veri["networkTcpPort"] = this->networkTcpPort;
                     veri["serverAddress"]=ipmaclist[i].ip;
                     veri["networkBroadCastAddress"]=this->networkBroadCastAddress;
+                    veri["ftpPort"]=this->ftpPort;
+                    veri["rootPath"]=this->rootPath;
+                    veri["language"]=this->language;
+                    veri["lockScreenState"]=this->lockScreenState;
+                    veri["webblockState"]=this->webblockState;
                     db->Sil("networkIndex",this->networkIndex);
                     db->Ekle(veri);
                 }
@@ -844,12 +919,17 @@ void MainWindow::networkProfilLoad()
         {
             //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
                 QJsonObject veri;
-                veri["networkIndex"] =QString::number(db->Oku().size()+1);
+                veri["networkIndex"] =QString::number(db->getIndex(networkIndex));
                 veri["selectedNetworkProfil"] =true;
                 veri["networkName"] = "network";
                 veri["networkTcpPort"] = "7879";
                 veri["serverAddress"]=ipmaclist[i].ip;
                 veri["networkBroadCastAddress"]=ipmaclist[i].broadcast;
+                veri["ftpPort"]="12345";
+                veri["rootPath"]="/tmp/";
+                veri["language"]="tr_TR";
+                veri["lockScreenState"]=false;
+                veri["webblockState"]=false;
                 db->Ekle(veri);
         }
         networkProfilLoad();

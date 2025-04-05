@@ -112,10 +112,10 @@ void MainWindow::slotLogoutAll(){
 void MainWindow::slotLogin(){
     bool ok;
     QString _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
-                                                " İstemcideki Kullanıcısının Adını Giriniz :", QLineEdit::Normal,
+                                                " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
                                                 "", &ok);
     QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
-                                                  remoteUserName+"İstemcideki Kullanıcısının Parolasını Giriniz :", QLineEdit::Normal,
+                                                  remoteUserName+"İstemcideki Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
                                                   "", &ok);
     //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
     if(_remoteuser!=""&&_remotepasswd!="")

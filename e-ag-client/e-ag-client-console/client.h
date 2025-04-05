@@ -2,7 +2,6 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 #include <QTcpSocket>
-#include<filecrud.h>
 #include <QDataStream>
 #include<QTimer>
 #include<QUdpSocket>
@@ -10,6 +9,7 @@
 #include<QProcess>
 #include<QObject>
 #include<QSysInfo>
+#include<QDir>
 class IpMac
 {
 public:
@@ -26,15 +26,27 @@ class Client: public QObject
 public:
     Client();
     ~Client();
+    QString networkIndex;
+    QString selectedNetworkProfil;
+    QString networkName;
+    QString serverAddress;
+    QString networkBroadCastAddress;
+    QString networkTcpPort;
+    QString ftpPort;
+    QString rootPath;
+    QString language;
+    QString lockScreenState;
+    QString webblockState;
+    bool webblockStateRun=false;
 signals:
   public slots:
-    QStringList listRemove(QStringList list,QString data);
-    QStringList fileToList(QString path,QString filename);
-    void listToFile(QString path,QStringList list, QString filename);
-    QString listGetLine(QStringList list,QString data);
     QString  getIpPortStatus(QString service, int number);
     void tcpMesajSendTimerSlot();
     void socketBaglama();
+    void networkProfilLoad();
+    bool stringToBool(const QString& str) {
+        return str.toLower() == "true"; // Büyük/küçük harf duyarsız karşılaştırma
+    }
 private slots:
     void commandExecuteSlot(QString command);
     void udpServerGetSlot();
@@ -45,15 +57,12 @@ private slots:
     void udpServerSendSlot(QString _data);
    // void timerControlSlot();
     void hostAddressMacButtonSlot();
-    void webBlockAktifPasif();
+    void webBlockAktifPasif(bool _state);
     QString findX11vncPort(QString _servis);
     QString getSeatId();
     QString getSessionInfo(QString id, QString parametre);
     //QString getIpPort///Status(QString ip_,QString prt);
 private:
-    bool webblockstate;
-    QString rootusername;
-    QString rootpassword;
     QProcess process;
     QTimer *timer;
     QTimer *timerControl;
@@ -80,6 +89,7 @@ private:
     QString sessionDisplayType;
     QString sessionDesktopManager;
     int hostportCounter;
+
 
 
 };

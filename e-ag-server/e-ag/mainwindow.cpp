@@ -24,11 +24,9 @@
 #include <QtNetwork/QHostAddress>
 #include<QtNetwork/QTcpSocket>
 #include<QDir>
-#include<filecrud.h>
 #include<QString>
 #include<QDataStream>
 #include<menu.h>
-#include<butonclick.h>
 #include <QScrollArea>
 #include<QApplication>
 #include<QDesktopWidget>
@@ -45,10 +43,18 @@
 #include<vncrdpWidget.h>
 #include<runcommandWidget.h>
 #include<filecopyWidget.h>
+#include<messageWidget.h>
+#include<languageWidget.h>
+#include<videoWidget.h>
+#include<wolWidget.h>
+#include<sliderWidget.h>
+#include<baseWidget.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
+    //QTermWidget *qterm=new QTermWidget();
+    //qterm->sendData();
       /*****************************************************/
     QSize screenSize = qApp->screens()[0]->size();
     boy=screenSize.height()/153.6;
@@ -127,10 +133,10 @@ MainWindow::MainWindow(QWidget *parent) :
    /***********************************************************************/
     tabwid=new QTabWidget();
     tabwid->setFixedSize(this->width(),boy*24);
-    tabwid->addTab(temelIslemler(),QIcon(":/icons/toolbox.svg"),"Temel İşlemler");
+    tabwid->addTab(baseWidget(),QIcon(":/icons/toolbox.svg"),"Temel İşlemler");
     tabwid->addTab(rdpWidget(),QIcon(":/icons/vnc.svg"),"Ekran Paylaşımı");
     tabwid->addTab(commandWidget(),QIcon(":/icons/bash.svg"),"Komut Çalıştır");
-    tabwid->addTab(duyuruWidget(),QIcon(":/icons/message.svg"),"Mesaj Yaz");
+    tabwid->addTab(messageWidget(),QIcon(":/icons/message.svg"),"Mesaj Yaz");
     tabwid->addTab(fileWidget(),QIcon(":/icons/filecopy.svg"),"Dosya Kopyala");
     tabwid->addTab(videoWidget(),QIcon(":/icons/camera.svg"),"Video/Kamera");
     tabwid->addTab(settingsWidget(),QIcon(":/icons/settings.svg"),"Ayarlar");
@@ -292,8 +298,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
 }
 
-
-
 void MainWindow::resizeEvent(QResizeEvent *event)
  {
  qDebug()<<"main boyut değişti";
@@ -326,6 +330,7 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
     std::copy_if(onlinePcList.begin(), onlinePcList.end(), std::back_inserter(onlinePcList1), [](const MyPc *mypc) {
         return mypc->visibleState==true; // visibleState==true filtreleniyor
     });
+    hostsCountLabel->setText("Açık Hosts : "+QString::number(onlinePcList.size()));
 
     /*******************************************************************/
 
