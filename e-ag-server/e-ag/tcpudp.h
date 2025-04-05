@@ -315,9 +315,9 @@ QString MainWindow::getIpPortStatus(QString service)
 void MainWindow::pcDetect()
 {
     QStringList arpList=readArp();
-    arpList.append("192.168.1.211|11:1d:65:ea:11:22");
+    /*arpList.append("192.168.1.211|11:1d:65:ea:11:22");
     arpList.append("192.168.1.212|12:1d:65:ea:11:22");
-    /*arpList.append("192.168.1.213|13:1d:65:ea:11:22");
+    arpList.append("192.168.1.213|13:1d:65:ea:11:22");
     arpList.append("192.168.1.214|14:1d:65:ea:11:22");
     arpList.append("192.168.1.215|15:1d:65:ea:11:22");
     arpList.append("192.168.1.216|16:1d:65:ea:11:22");
