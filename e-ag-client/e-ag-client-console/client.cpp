@@ -18,7 +18,7 @@ Client::Client()
     });
     tcpMesajSendTimer->start(7000);
     networkProfilLoad();
-    if(stringToBool(webblockState)) webBlockAktifPasif(true);
+    if(webblockState) webBlockAktifPasif(true);
 }
 
 void Client::tcpMesajSendTimerSlot()
@@ -438,11 +438,12 @@ void Client::udpServerGetSlot()
                 db->Ekle(veri);
                 networkProfilLoad();
             }
-            /*else
-            {
-                qDebug()<<"eagconf bilgileri aynı.";
-                if(stringToBool(webblockState)) webBlockAktifPasif(true);
-            }*/
+            //else {
+                //qDebug()<<"eagconf bilgileri aynı.";
+                //if(stringToBool(webblockState)) webBlockAktifPasif(true);
+            //}
+
+
 
         }
         if(mesaj[0]=="webblockserversendfile")
@@ -455,7 +456,16 @@ void Client::udpServerGetSlot()
             QString kmt2="chmod 777 /usr/share/e-ag/"+dosya;
             system(kmt1.toStdString().c_str());system("sleep 0.1");
             system(kmt2.toStdString().c_str());system("sleep 0.1");
-            if(stringToBool(webblockState)) webBlockAktifPasif(true);
+            if(webblockState)
+            {
+                qDebug()<<"Client webblockState Ayarları:"<<webblockState;
+                webBlockAktifPasif(true);
+            }
+            if(!webblockState)
+            {
+                qDebug()<<"Client webblockState Ayarları:"<<webblockState;
+                webBlockAktifPasif(false);
+            }
         }
 
         if(mesaj[0]=="debeagscript")
@@ -627,12 +637,12 @@ void Client::udpServerGetSlot()
         }
         if(mesaj[0]=="webblocktrue")
         {
-            if(stringToBool(webblockState)) webBlockAktifPasif(true);
+            if(webblockState) webBlockAktifPasif(true);
             x11mesaj=rmesaj; sendStatus=false;
         }
         if(mesaj[0]=="webblockfalse")
         {
-           if(stringToBool(webblockState)) webBlockAktifPasif(false);
+           if(webblockState) webBlockAktifPasif(false);
             x11mesaj=rmesaj; sendStatus=false;
         }
 

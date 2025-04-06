@@ -27,7 +27,7 @@ public:
     Client();
     ~Client();
     QString networkIndex;
-    QString selectedNetworkProfil;
+    bool selectedNetworkProfil;
     QString networkName;
     QString serverAddress;
     QString networkBroadCastAddress;
@@ -35,8 +35,8 @@ public:
     QString ftpPort;
     QString rootPath;
     QString language;
-    QString lockScreenState;
-    QString webblockState;
+    bool lockScreenState;
+    bool webblockState;
     bool webblockStateRun=false;
 signals:
   public slots:
