@@ -132,6 +132,7 @@ protected:
      static  bool karsilastirMyPc(const MyPc *mypc1, const MyPc *mypc2);
 
 private slots:
+     QString getActiveUserName();
      void pcMenu(bool singlepc);
      QStringList readArp();
      void udpSocketServerRead();

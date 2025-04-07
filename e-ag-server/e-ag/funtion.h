@@ -2,6 +2,10 @@
 #define FUNTION_H
 #include <stdio.h>
 #include <stdlib.h>
+#include <QProcessEnvironment>
+#include <QString>
+#include <iostream>
+
 void MainWindow::selectSlot()
 {
     for(int i=0;i<onlinePcList.count();i++)
@@ -13,14 +17,23 @@ void MainWindow::selectSlot()
     mesajSlot("Host Seçimi Yapıldı.");
 }
 
+QString MainWindow::getActiveUserName() {
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QString username = env.value("USER"); // For Unix-like systems
+    if (username.isEmpty()) {
+        username = env.value("USERNAME"); // For Windows
+    }
+    return username;
+}
 void MainWindow::slotTerminal()
 {
+    QString _remoteuser=getActiveUserName();
     bool ok;
-    QString _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
+     _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
                                                 " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
-                                                "", &ok);
+                                                _remoteuser, &ok);
     QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
-                                                  remoteUserName+"İstemcideki Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
+                                                  _remoteuser+" Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
                                                   "", &ok);
     //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
     if(_remoteuser!=""&&_remotepasswd!="")

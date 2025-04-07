@@ -919,7 +919,7 @@ void MainWindow::networkProfilLoad()
         {
             //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
                 QJsonObject veri;
-                veri["networkIndex"] =QString::number(db->getIndex(networkIndex));
+                veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
                 veri["selectedNetworkProfil"] =true;
                 veri["networkName"] = "network";
                 veri["networkTcpPort"] = "7879";

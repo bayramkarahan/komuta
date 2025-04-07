@@ -330,7 +330,7 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
     std::copy_if(onlinePcList.begin(), onlinePcList.end(), std::back_inserter(onlinePcList1), [](const MyPc *mypc) {
         return mypc->visibleState==true; // visibleState==true filtreleniyor
     });
-    hostsCountLabel->setText("Açık Hosts : "+QString::number(onlinePcList.size()));
+    hostsCountLabel->setText("Açık Hosts : "+QString::number(onlinePcList1.size()));
 
     /*******************************************************************/
 

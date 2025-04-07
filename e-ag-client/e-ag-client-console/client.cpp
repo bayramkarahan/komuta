@@ -726,6 +726,7 @@ void Client::webBlockAktifPasif(bool _state)
             QJsonObject veri=item.toObject();
             ///qDebug()<<veri["word"].toString();
             QString kmt28="iptables -A OUTPUT -p tcp -m string --string '"+veri["word"].toString()+"' --algo kmp -j REJECT &";
+            //iptables -A OUTPUT -p tcp -m string --string 'youtube' --algo kmp -j REJECT
             //qDebug()<<"iptables komutu: "<<kmt28;
             system(kmt28.toStdString().c_str());
         }
