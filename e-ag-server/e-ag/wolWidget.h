@@ -62,22 +62,18 @@ void MainWindow::wolWidget()
 
     connect(powerOnButton, &QPushButton::clicked, [=]() {
         int numRows = twl->rowCount();
-
         for ( int i = 0 ; i < numRows ; i++)
         {
-
             QCheckBox* mBox = static_cast<QCheckBox*> (twl->cellWidget(i,0));
             if (mBox->isChecked())
             {
-                QString _ip = twl->model()->data(twl->model()->index(i, 1)).toString().simplified();
-                QString _mac = twl->model()->data(twl->model()->index(i, 2)).toString().simplified();
+                QString  _mac= twl->model()->data(twl->model()->index(i, 1)).toString().simplified();
+                QString  _ip= twl->model()->data(twl->model()->index(i, 2)).toString().simplified();
                 QString ad = twl->model()->data(twl->model()->index(i, 3)).toString().simplified();
                 // qDebug()<<i<<mBox->isChecked()<<_ip<<_mac<<ad;
-
                 slotWakeOnLan(_ip,_mac);
             }
         }
-
     });
     /*********************************************************************/
     /********************************************************************/
@@ -88,17 +84,17 @@ void MainWindow::wolWidget()
     powerOnButtonAll->setIcon(QIcon(":/icons/boot.svg"));
     powerOnButtonAll->setAutoRaise(true);
     powerOnButtonAll->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    // powerOnButtonAll->setFont(f2);
+    //powerOnButtonAll->setFont(f2);
     powerOnButtonAll->setText("Tüm Pc'leri Aç");
 
     connect(powerOnButtonAll, &QPushButton::clicked, [=]() {
         int numRows = twl->rowCount();
         for ( int i = 0 ; i < numRows ; i++)
         {
-            QString _ip = twl->model()->data(twl->model()->index(i, 1)).toString().simplified();
-            QString _mac = twl->model()->data(twl->model()->index(i, 2)).toString().simplified();
-            // QString ad = twl->model()->data(twl->model()->index(i, 3)).toString().simplified();
-            // qDebug()<<i<<mBox->isChecked()<<ip<<mac<<ad;
+            QString  _mac= twl->model()->data(twl->model()->index(i, 1)).toString().simplified();
+            QString  _ip= twl->model()->data(twl->model()->index(i, 2)).toString().simplified();
+            //QString ad = twl->model()->data(twl->model()->index(i, 3)).toString().simplified();
+            //qDebug()<<_ip<<_mac;
             slotWakeOnLan(_ip,_mac);
         }
     });
@@ -123,7 +119,7 @@ void MainWindow::slotWakeOnLan(QString _ip,QString _mac)
     _mac=_mac.toUpper();
     QHostAddress FakeAddress;
     QUdpSocket udpSocket1;
-    //qDebug()<<"mac adresi:"<<_mac;
+    qDebug()<<"mac adresi:"<<_mac<<_ip;
     hostAddressMacButtonSlot();
     for(int k=0;k<ipmaclist.count();k++)
     {
@@ -137,7 +133,6 @@ void MainWindow::slotWakeOnLan(QString _ip,QString _mac)
 
             // Set to hexadecimal before the magicpacket array 6 characters ff
             memset (MagicPacket, 0xff, 6);
-
             int packetsize = 6; // the beginning of the initial value is 6, do not wrong. I is because the effect of the initial value of the written as 0, it is too effortless.
             // Build MagicPacket.
             for (int z = 0; z <16; z++)
@@ -150,14 +145,10 @@ void MainWindow::slotWakeOnLan(QString _ip,QString _mac)
             // qDebug()<<"broad cast adress:"<<ipmaclist[k].broadcast;
             // udpSocket1.writeDatagram(MagicPacket, 102, QHostAddress(ipmaclist[k].broadcast), 9);
             //system("sleep 0.5");
-
             QString kmt29="wakeonlan "+_mac;
             system(kmt29.toStdString().c_str());
-
-
+            qDebug()<<kmt29;
         }
-
-
     }
     mesajSlot("Seçili Hostlar Uzaktan  Başlatıl.");
 

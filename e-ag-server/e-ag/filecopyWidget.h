@@ -132,7 +132,7 @@ QWidget*  MainWindow::fileWidget()
                 onlinePcList[i]->user!="noLogin")
             {
                 selectFileCopySlot("realdebsendfile",onlinePcList[i]->ip,pth.fromPercentEncoding(name1.toUtf8()),name);
-                system("sleep 0.1");
+                //system("sleep 0.1");
                 selectFileCopySlot("debscriptsendfile",onlinePcList[i]->ip, "/tmp/debeagscript","debeagscript");
             }
         }
@@ -187,7 +187,7 @@ QWidget*  MainWindow::fileWidget()
                 onlinePcList[i]->user!="noLogin")
             {
                 selectFileCopySlot("realscriptsendfile",onlinePcList[i]->ip,pth.fromPercentEncoding(name1.toUtf8()),name);
-                system("sleep 0.1");
+                //system("sleep 0.1");
                 selectFileCopySlot("scriptsendfile",onlinePcList[i]->ip, "/tmp/eagscript","eagscript");
             }
         }

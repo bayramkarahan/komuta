@@ -301,7 +301,7 @@ void MyPc::setKilitControlState(bool state){
     // qDebug()<<"kilitstate"<<cs;
     if(state==true&&transparanKilitControlState==false&&iconControlState==false)
     {
-        qDebug()<<"kilitli";
+        ///qDebug()<<"kilitli";
         iconstateLabel->setPixmap(QPixmap(":icons/lock.svg"));
         kilitControlState=true;
     }

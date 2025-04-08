@@ -32,7 +32,7 @@ void  MainWindow::udpSendData(QString _mesajTur,QString _mesaj,QString _ip)
         this->networkTcpPort=veri["networkTcpPort"].toString();
         this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
         this->serverAddress=veri["serverAddress"].toString();
-        qDebug()<<"Mesajın Gideceği Ağ:" <<networkBroadCastAddress;
+        ///qDebug()<<"Mesajın Gideceği Ağ:" <<networkBroadCastAddress;
         QString uport=networkTcpPort;
         std::reverse(uport.begin(), uport.end());
         if(networkBroadCastAddress!=""&&
@@ -40,11 +40,11 @@ void  MainWindow::udpSendData(QString _mesajTur,QString _mesaj,QString _ip)
             serverAddress.section(".",0,2)==_ip.section(".",0,2))
         {
         QString msg=_mesajTur+"|"+_mesaj+"|"+serverAddress+"|"+uport;
-            qDebug()<<"Mesaj Gönderildi:"<<msg;
+            ///qDebug()<<"Mesaj Gönderildi:"<<msg;
         QByteArray datagram = msg.toUtf8();
         udpSocketSend->writeDatagram(datagram,QHostAddress(_ip), uport.toInt());
         }
-        system("sleep 0.1");
+        ///system("sleep 0.1");
     }
 }
 void MainWindow::udpSocketServerRead()
@@ -61,7 +61,7 @@ void MainWindow::udpSocketServerRead()
         udpSocketGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString rmesaj=datagram.constData();
-        qDebug()<<rmesaj;
+        ///qDebug()<<rmesaj;
 
         mesaj=rmesaj.split("|");
         // qDebug()<<"Client Gelen Udp Mesaj:"<<mesaj[0]<<mesaj[1]<<mesaj[2]<<mesaj[3];
@@ -76,8 +76,8 @@ void MainWindow::udpSocketServerRead()
                 QString kmt1="cp /tmp/"+dosya+" /home/"+guiusername+"/Masaüstü/";
                 QString kmt2="chmod 777 /home/"+guiusername+"/Masaüstü/"+dosya;
                 QString kmt3="chown "+guiusername+":"+guiusername+" /home/"+guiusername+"/Masaüstü/"+dosya;
-                system(kmt1.toStdString().c_str());system("sleep 0.1");
-                system(kmt2.toStdString().c_str());system("sleep 0.1");
+                system(kmt1.toStdString().c_str());///system("sleep 0.1");
+                system(kmt2.toStdString().c_str());///system("sleep 0.1");
                 system(kmt3.toStdString().c_str());
            }
 

@@ -231,7 +231,165 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
         kmt20="nohup /usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
 
     system(kmt20.toStdString().c_str());
-    QString kmt11="sleep 1";
+    QString kmt11="sleep "
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    ""
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    ""
+                    "1";
     system(kmt11.toStdString().c_str());
 
     hostAddressMacButtonSlot();

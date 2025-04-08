@@ -164,7 +164,7 @@ QWidget* MainWindow::kilitWidget()
 }
 
 void MainWindow::slotKilit(){
-    system("sleep 1");
+    //system("sleep 1");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
@@ -178,7 +178,7 @@ void MainWindow::slotKilit(){
 }
 void MainWindow::slotTransparanKilit()
 {
-    system("sleep 1");
+    //system("sleep 1");
 
     for(int i=0;i<onlinePcList.count();i++)
     {
@@ -192,7 +192,7 @@ void MainWindow::slotTransparanKilit()
 
 }
 void MainWindow::slotKilitAc(){
-    system("sleep 1");
+    //system("sleep 1");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
@@ -205,7 +205,7 @@ void MainWindow::slotKilitAc(){
 
 }
 void MainWindow::slotTransparanKilitAc(){
-    system("sleep 1");
+    //system("sleep 1");
 
     for(int i=0;i<onlinePcList.count();i++)
     {
