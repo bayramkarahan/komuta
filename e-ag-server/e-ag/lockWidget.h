@@ -110,7 +110,23 @@ QWidget* MainWindow::kilitWidget()
     // lockPc->setPopupMode(QToolButton::MenuButtonPopup);
 
     connect(lockPc, &QToolButton::clicked, [=]() {
-        slotKilit();
+        auto start = std::chrono::high_resolution_clock::now();
+
+       /***********************************/
+        udpSendData("x11command","kilitstatetrue","");
+        for(int i=0;i<onlinePcList.count();i++)
+        {
+            if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+            {
+                onlinePcList[i]->setKilitControlState(true);
+            }
+        }
+
+        /***************************************/
+        auto end = std::chrono::high_resolution_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+        std::cout << "Bir başka uzun süren işlem " << duration.count() << " milisaniye sürdü." << std::endl;
+        mesajSlot("Seçili Hostlarda Ekran Kilitlendi.");
     });
     /**************************************************/
     QToolButton *unlockPc=new QToolButton();
@@ -165,12 +181,13 @@ QWidget* MainWindow::kilitWidget()
 
 void MainWindow::slotKilit(){
     //system("sleep 1");
+
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
+            udpSendData("x11command","kilitstatetrue",onlinePcList[i]->ip);
             onlinePcList[i]->setKilitControlState(true);
-            udpSendData("kilitstatetrue","",onlinePcList[i]->ip);
         }
     }
     mesajSlot("Seçili Hostlarda Ekran Kilitlendi.");
@@ -185,7 +202,7 @@ void MainWindow::slotTransparanKilit()
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             onlinePcList[i]->setKilitTransparanControlState(true);
-            udpSendData("transparankilitstatetrue","",onlinePcList[i]->ip);
+            udpSendData("x11command","transparankilitstatetrue",onlinePcList[i]->ip);
         }
     }
     mesajSlot("Seçili Hostlar Şeffaf Kilitlendi.");
@@ -198,7 +215,7 @@ void MainWindow::slotKilitAc(){
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             onlinePcList[i]->setKilitControlState(false);
-            udpSendData("kilitstatefalse","",onlinePcList[i]->ip);
+            udpSendData("x11command","kilitstatefalse",onlinePcList[i]->ip);
         }
     }
     mesajSlot("Seçili Hostlarda Kilit Açıldı.");
@@ -212,7 +229,7 @@ void MainWindow::slotTransparanKilitAc(){
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             onlinePcList[i]->setKilitTransparanControlState(false);
-            udpSendData("transparankilitstatefalse","",onlinePcList[i]->ip);
+            udpSendData("x11command","transparankilitstatefalse",onlinePcList[i]->ip);
         }
     }
     mesajSlot("Seçili Hostlarda Şeffaf Kilit Açıldı.");

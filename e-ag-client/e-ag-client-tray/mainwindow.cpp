@@ -161,20 +161,11 @@ void MainWindow::udpConsoleGetSlot()
 
 void MainWindow::tcpMessageControlSlot(QString _data)
 {
-
-    QDesktopWidget widget;
-    QRect desktopScreenSize = widget.availableGeometry(widget.primaryScreen());
-
-    QStringList str;
-    str.append(_data);
-        if(str[0].count()==0){
-          ////  qDebug()<<"gelen bilgi YOK!!";
-            return;}
-        qDebug()<<"gelen bilgi:"<<str;
-        QStringList lst=str[0].split("|");
+       qDebug()<<"Gelen Mesaj:"<<_data;
+        QStringList lst=_data.split("|");
         gelenKomut->setText(lst[1]+"  "+lst[2]);
 
-        if(lst[0]=="dosyatopla")
+        if(lst[1]=="dosyatopla")
         {
 
             //lst[2]
@@ -220,7 +211,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
              }
 
         }
-        if(lst[0]=="ekranmesaj")
+        else if(lst[1]=="ekranmesaj")
         {
             qDebug()<<"ekranmesaj:"<<lst[0]<<lst[1];
             ekran->setWindowFlags(Qt::Tool);
@@ -228,7 +219,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             ekran->show();
 
         }
-        if(lst[0]=="kilitstatetrue")
+        else if(lst[1]=="kilitstatetrue")
         {
             qDebug()<<"ekrankilittrue:"<<lst[0];
             //ekran->close();
@@ -243,13 +234,13 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             }
 
         }
-        if(lst[0]=="kilitstatefalse")
+        else if(lst[1]=="kilitstatefalse")
         {
             qDebug()<<"ekrankilitac:"<<lst[0];
             ekran->close();
             kilitstate=false;
         }
-        if(lst[0]=="transparankilitstatetrue")
+        else if(lst[1]=="transparankilitstatetrue")
         {
             qDebug()<<"kilittransparanstatetrue";
             if (!transparankilitstate)
@@ -263,13 +254,13 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             }
 
         }
-        if(lst[0]=="transparankilitstatefalse")
+        else if(lst[1]=="transparankilitstatefalse")
         {
             qDebug()<<"ekrantransparankilitac:"<<lst[0];
             ekran->close();
             transparankilitstate=false;
         }
-        if(lst[0]=="ekranimagestatetrue")
+        else if(lst[1]=="ekranimagestatetrue")
         {
             qDebug()<<"GClient:"<<lst[0];
             qDebug()<<"Gelen Mesaj....:"<<lst;
@@ -286,14 +277,14 @@ void MainWindow::tcpMessageControlSlot(QString _data)
 
             }
         }
-        if(lst[0]=="ekranimagestatefalse")
+        else if(lst[1]=="ekranimagestatefalse")
         {
             qDebug()<<"GClient:"<<lst[0];
            ekranimagestate=false;
             kaydetTimerSlot(serverIp);
 
         }
-        if(lst[0]=="x11komut")
+        else if(lst[1]=="x11command")
         {
            // qDebug()<<"komut:"<<lst[1]<<lst[2]<<lst[3]<<lst[4]<<lst[5]<<lst[6]<<lst[7];
            QString komut="nohup "+lst[1]+" &";
@@ -304,8 +295,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             ekran->ekranKomutMesaj("Çalışan Komut:",lst[1]);
             ekran->show();
         }
-
-        if(lst[0]=="consolecommand")
+        else if(lst[1]=="consolecommand")
         {
             //qDebug()<<"console komutu geldi....";
             // qDebug()<<"komut:"<<lst[1]<<lst[2]<<lst[3]<<lst[4]<<lst[5]<<lst[6]<<lst[7];
@@ -317,8 +307,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             ekran->ekranKomutMesaj("Çalışan Komut:",lst[1]);
             ekran->show();
         }
-
-        if(lst[0]=="volumeoff")
+        else if(lst[1]=="volumeoff")
         {
             // qDebug()<<"komut:"<<lst[1]<<lst[2]<<lst[3]<<lst[4]<<lst[5]<<lst[6]<<lst[7];
             if(QFile::exists("/usr/bin/wpctl"))
@@ -332,8 +321,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             system(komut1.toStdString().c_str());
             }
         }
-
-        if(lst[0]=="volumeon")
+        else if(lst[1]=="volumeon")
         {
             // qDebug()<<"komut:"<<lst[1]<<lst[2]<<lst[3]<<lst[4]<<lst[5]<<lst[6]<<lst[7];
             if(QFile::exists("/usr/bin/wpctl"))
@@ -349,7 +337,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
 
             //  komutSudoExpect(lst[1],lst[6],lst[7]);
         }
-        if(lst[0]=="videoyayinbaslat")
+        else if(lst[1]=="videoyayinbaslat")
         {
             qDebug()<<"komut:"<<lst[0]<<lst[1];
 
@@ -393,7 +381,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
 */
 
         }
-        if(lst[0]=="videoyayindurdur")
+        else if(lst[1]=="videoyayindurdur")
         {
             // Pipeline'ları durdur ve temizle
             gst_element_set_state(pipeline, GST_STATE_NULL);

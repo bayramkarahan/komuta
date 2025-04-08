@@ -50,6 +50,7 @@ signals:
 private slots:
     void commandExecuteSlot(QString command);
     void udpServerGetSlot();
+    void udpServerBroadCastGetSlot();
      bool uygulamaCalisiyorMu(const QString& uygulamaAdi);
       void udpTrayGetSlot();
       void udpGuiGetSlot();
@@ -73,6 +74,7 @@ private:
     QString tcpPort;
     QUdpSocket *udpServerSend = nullptr;
     QUdpSocket *udpServerGet = nullptr;
+    QUdpSocket *udpServerBroadCastGet = nullptr;
     QUdpSocket *udpTraySend = nullptr;
     QUdpSocket *udpTrayGet = nullptr;
     QUdpSocket *udpGuiGet = nullptr;

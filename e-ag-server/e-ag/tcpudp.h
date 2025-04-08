@@ -22,29 +22,47 @@
 void  MainWindow::udpSendData(QString _mesajTur,QString _mesaj,QString _ip)
 {
     //qDebug()<<"Mesaj Gönderilecek:"<<_mesajTur<<_mesaj<<_ip;
-    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+    QString uport=networkTcpPort;
+    std::reverse(uport.begin(), uport.end());
+   /* DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
     for (const QJsonValue &item : dizi) {
-        QJsonObject veri=item.toObject();
-        this->networkIndex=veri["networkIndex"].toString();
-        this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
-        this->networkName=veri["networkName"].toString();
-        this->networkTcpPort=veri["networkTcpPort"].toString();
-        this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
-        this->serverAddress=veri["serverAddress"].toString();
+        QJsonObject veri=item.toObject();*/
+        //this->networkIndex=veri["networkIndex"].toString();
+        //this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
+        //this->networkName=veri["networkName"].toString();
+        //this->networkTcpPort=veri["networkTcpPort"].toString();
+        //this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
+        //this->serverAddress=veri["serverAddress"].toString();
         ///qDebug()<<"Mesajın Gideceği Ağ:" <<networkBroadCastAddress;
-        QString uport=networkTcpPort;
-        std::reverse(uport.begin(), uport.end());
-        if(networkBroadCastAddress!=""&&
+
+
+        /******************************************/
+       /*if(networkBroadCastAddress!=""&&
             serverAddress.section(".",0,2)==networkBroadCastAddress.section(".",0,2)&&
             serverAddress.section(".",0,2)==_ip.section(".",0,2))
-        {
+        {*/
+        //if (veri["serverAddress"].toString().section(".",0,2)==_ip.section(".",0,2))
+       // {
+    /*
         QString msg=_mesajTur+"|"+_mesaj+"|"+serverAddress+"|"+uport;
             ///qDebug()<<"Mesaj Gönderildi:"<<msg;
         QByteArray datagram = msg.toUtf8();
         udpSocketSend->writeDatagram(datagram,QHostAddress(_ip), uport.toInt());
-        }
+*/
+       // }
         ///system("sleep 0.1");
+
+    //}
+    for(int i=0;i<onlinePcList.count();i++)
+    {
+        if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+        {
+            QString msg=_mesajTur+"|"+_mesaj+"|"+serverAddress+"|"+uport;
+                ///qDebug()<<"Mesaj Gönderildi:"<<msg;
+            QByteArray datagram = msg.toUtf8();
+            udpSocketSend->writeDatagram(datagram,QHostAddress(onlinePcList[i]->ip), uport.toInt());
+        }
     }
 }
 void MainWindow::udpSocketServerRead()
@@ -183,7 +201,7 @@ void MainWindow::sendBroadcastDatagram()
             broadadres=networkBroadCastAddress.section(".",0,2)+"."+QString::number(i);
             //qDebug()<<broadadres;
             //udpSocketSend->writeDatagram(datagram,QHostAddress("255.255.255.255"), uport.toInt());
-            udpSocketSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt());
+            udpSocketSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt()+uport.toInt());
         }
         pcDetect();
     }
