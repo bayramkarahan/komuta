@@ -11,6 +11,7 @@ Client::Client()
 
     localDir="/usr/share/e-ag/";
     localDir1="/tmp/";
+    hostAddressMacButtonSlot();
 /************************************************/
     QTimer *tcpMesajSendTimer = new QTimer();
     QObject::connect(tcpMesajSendTimer, &QTimer::timeout, [&](){
@@ -23,7 +24,7 @@ Client::Client()
 
 void Client::tcpMesajSendTimerSlot()
 {
-
+/*
     sessionUser=getSessionInfo(getSeatId(),"USER=");
     QStringRef _sessionUser=sessionUser.rightRef(sessionUser.length()-5);
     sessionUser=_sessionUser.toString();
@@ -43,7 +44,7 @@ void Client::tcpMesajSendTimerSlot()
     sessionDisplayType=getSessionInfo(getSeatId(),"ORIGINAL_TYPE=");
     QStringRef _sessionDisplayType=sessionDisplayType.rightRef(sessionDisplayType.length()-14);
     sessionDisplayType=_sessionDisplayType.toString();
-
+*/
     QSysInfo sysinfo;
     //= new QSysInfo();
     /*qDebug()<<"buildCpuArchitecture: " <<sysinfo.buildCpuArchitecture();
@@ -57,8 +58,10 @@ void Client::tcpMesajSendTimerSlot()
 QString hostname=sysinfo.machineHostName();
 
 //qDebug()<<sessionUser<<sessionDisplay<<sessionUserId<<projeversion<<sessionDesktopManager<<sessionDisplayType;
- clientConsoleEnv="consolenv|"+sessionUser+"|"+sessionDisplay+"|"+sessionUserId+"|"+hostname+"|"+sessionDesktopManager;
- //qDebug()<<"clientConsoleEnv"<<clientConsoleEnv;
+ //clientConsoleEnv="consolenv|"+sessionUser+"|"+sessionDisplay+"|"+sessionUserId+"|"+hostname+"|"+sessionDesktopManager;
+clientConsoleEnv="consolenv||||"+hostname+"|";
+
+//qDebug()<<"clientConsoleEnv"<<clientConsoleEnv;
  /******************************************************/
       if(clientTrayEnv=="")
         {
@@ -226,16 +229,13 @@ void Client::socketBaglama()
            udpServerGet = new QUdpSocket();
            udpTrayGet=new QUdpSocket();
            udpGuiGet=new QUdpSocket();
-           udpServerBroadCastGet=new QUdpSocket();
-           udpServerBroadCastGet=new QUdpSocket();
+
            udpServerGet->bind(uport.toInt(), QUdpSocket::ShareAddress);
-           udpServerBroadCastGet->bind((uport.toInt()+uport.toInt()), QUdpSocket::ShareAddress);
            udpTrayGet->bind(51511, QUdpSocket::ShareAddress);
            udpGuiGet->bind(51521, QUdpSocket::ShareAddress);
 
            //udpSocketGet->bind(*host, uport.toInt());
             QObject::connect(udpServerGet,&QUdpSocket::readyRead,[&](){udpServerGetSlot();});
-           QObject::connect(udpServerBroadCastGet,&QUdpSocket::readyRead,[&](){udpServerBroadCastGetSlot();});
             QObject::connect(udpTrayGet,&QUdpSocket::readyRead,[&](){udpTrayGetSlot();});
             QObject::connect(udpGuiGet,&QUdpSocket::readyRead,[&](){udpGuiGetSlot();});
 
@@ -247,7 +247,8 @@ void Client::socketBaglama()
 
 void Client::udpServerSendSlot(QString _data)
 {
-    hostAddressMacButtonSlot();
+    if(udpServerGetStatus) return;
+    //hostAddressMacButtonSlot();
     if(udpServerSend == nullptr){
         qDebug()<<"bağlı değil";
         socketBaglama();//bağlı değilse bağlan
@@ -362,7 +363,7 @@ void Client::networkProfilLoad()
     {
         qDebug()<<"Yeni Network Ekleniyor.";
 
-        hostAddressMacButtonSlot();
+        //hostAddressMacButtonSlot();
 
             //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
             QJsonObject veri;
@@ -382,23 +383,23 @@ void Client::networkProfilLoad()
         networkProfilLoad();
     }
 }
-void Client::udpServerBroadCastGetSlot()
+
+void Client::udpServerGetSlot()
 {
+    udpServerGetStatus=true;
     QByteArray datagram;
     QStringList mesaj;
-    while (udpServerBroadCastGet->hasPendingDatagrams()) {
-        datagram.resize(int(udpServerBroadCastGet->pendingDatagramSize()));
+
+    while (udpServerGet->hasPendingDatagrams()) {
+        datagram.resize(int(udpServerGet->pendingDatagramSize()));
         QHostAddress sender;
         quint16 senderPort;
-        udpServerBroadCastGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
+        udpServerGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
         QString rmesaj=datagram.constData();
         mesaj=rmesaj.split("|");
-        ///qDebug()<<"Gelen Broadcast :"<<mesaj;
-        QString x11mesaj="";
-        bool sendStatus=false;
+        qDebug()<<"Server Mesaj:"<<mesaj;
         if(mesaj[0]=="eagconf")
         {
-
             //qDebug()<<"Gelen Udp Mesajı eagconf.........:"<<mesaj;
             QString serverAddress1=mesaj[1];
             QString networkBroadCastAddress1=mesaj[2];
@@ -442,27 +443,7 @@ void Client::udpServerBroadCastGetSlot()
             //if(stringToBool(webblockState)) webBlockAktifPasif(true);
             //}
         }
-    }
-}
-
-void Client::udpServerGetSlot()
-{
-    QByteArray datagram;
-    QStringList mesaj;
-
-    while (udpServerGet->hasPendingDatagrams()) {
-        datagram.resize(int(udpServerGet->pendingDatagramSize()));
-        QHostAddress sender;
-        quint16 senderPort;
-
-        udpServerGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
-        QString rmesaj=datagram.constData();
-        mesaj=rmesaj.split("|");
-        qDebug()<<"Gelen Server Mesaj:"<<mesaj;
-        QString x11mesaj="";
-        bool sendStatus=false;
-        if(mesaj[0]=="webblockserversendfile")
+        else if(mesaj[0]=="webblockserversendfile")
         {
             qDebug()<<"*********************************************************";
             qDebug()<<"gelen dosya"<<mesaj[1];
@@ -557,7 +538,7 @@ void Client::udpServerGetSlot()
         }
         else if(mesaj[0]=="x11command")
         {
-            qDebug()<<"ClientTray'a gonderildi: "<<rmesaj;
+            ///qDebug()<<"ClientTray'a gonderildi: "<<rmesaj;
             QByteArray datagram = rmesaj.toUtf8();// +QHostAddress::LocalHost;
             udpTraySend->writeDatagram(datagram,QHostAddress::LocalHost, 51512);
         }
@@ -565,8 +546,55 @@ void Client::udpServerGetSlot()
         {
             commandExecuteSlot(mesaj[1]);
         }
-    }
+        else if(mesaj[0]=="dosyatopla")
+        {
+            //qDebug()<<"dosyatopla1";
+            QString severip=mesaj[3];
+            QString guiusername=clientTrayEnv.split("|")[0];
+            hostAddressMacButtonSlot();//local ip adresi tespit ediliyor.
 
+            QDir directory("/home/"+guiusername+"/Masaüstü");
+            QStringList filelist = directory.entryList(QStringList() << "e-ag-server.*",QDir::Files);
+            QString ad="";
+            QString gercekad="";
+            foreach(QString filename, filelist) {
+                QFileInfo fi(filename);
+                QString uzanti = fi.completeSuffix();
+                gercekad="/home/"+guiusername+"/Masaüstü\/"+filename;
+                ad="-e-ag-server."+uzanti;
+            }
+ //qDebug()<<"dosyatopla2";
+            for(int i=0;i<ipmaclist.count();i++)
+            {
+                 //qDebug()<<"dosyatopla3";
+                QString komut="/usr/bin/scd-client "+severip+" 12345 PUT "+gercekad+" /"+ipmaclist[i].ip+ad;
+                // system(komut.toStdString().c_str());
+                qDebug()<<"komut: "<<komut;
+                qDebug()<<"kopayalanacak dosya: "<<gercekad;
+                qDebug()<<"yeni dosya adı: "<<ipmaclist[i].ip+ad;
+                qDebug()<<"guiusername: "<<guiusername;
+                QStringList arguments;
+                arguments << "-c" << komut;
+                QProcess process;
+                process.start("/bin/bash",arguments);
+                process.waitForFinished(-1); // will wait forever until finished
+                 //qDebug()<<"dosyatopla4";
+               /// udpServerSendSlot("sendfileclient|"+ipmaclist[i].ip+ad);
+                 if(networkBroadCastAddress!=""&&
+                     serverAddress.section(".",0,2)==networkBroadCastAddress.section(".",0,2)&&
+                     serverAddress.section(".",0,2)==ipmaclist[i].ip.section(".",0,2))
+                 {
+                     QString msg="eagclientconf|"+ipmaclist[i].ip+"|"+ipmaclist[i].mac+"|"+"sendfileclient|"+ipmaclist[i].ip+ad;
+                     QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
+                     udpServerSend->writeDatagram(datagram,QHostAddress(serverAddress), networkTcpPort.toInt());
+                     ///qDebug()<<msg<<networkTcpPort;
+                 }
+                  //qDebug()<<"dosyatopla5";
+            }
+        }
+    }
+    //qDebug()<<"dosyatopla6";
+    udpServerGetStatus=false;
 
 }
 
@@ -653,11 +681,45 @@ ipmaclist.clear();
                   // qDebug()<<"broadcast  address:"<<entry.broadcast().toString();
                   // qDebug()<<"broadcast  address:"<<entry.broadcast().toString();
                ///  qDebug()<<"type:"<<networkInterface.name()<<networkInterface.type();
+                QString program="ethtool -s "+networkInterface.name()+" wol g &";
+                system(program.toStdString().c_str());
+                  /*
                  if(networkInterface.type()==QNetworkInterface::Ethernet)
                  {
-                   QString kmt27="ethtool -s "+networkInterface.name()+" wol g";
-                  system(kmt27.toStdString().c_str());
-                 }
+
+                     //QString program = "notepad.exe"; // Çalıştırılacak uygulamanın yolu (Windows için)
+                     QStringList arguments;
+                     arguments << "&"; // Uygulamaya geçirilecek argümanlar (isteğe bağlı)
+
+                     QProcess *process = new QProcess();
+
+                     // Uygulamanın başlamasıyla ilgili bir sinyali bağlayabiliriz (isteğe bağlı)
+                     QObject::connect(process, &QProcess::started, [=](){
+                         qDebug() << "Uygulama başlatıldı:" << program;
+                     });
+
+                     // Uygulamanın bitmesiyle ilgili bir sinyali bağlayabiliriz (isteğe bağlı)
+                     QObject::connect(process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+                                      [=](int exitCode, QProcess::ExitStatus exitStatus){
+                                          qDebug() << "Uygulama bitti. Çıkış kodu:" << exitCode
+                                                   << ", Durum:" << (exitStatus == QProcess::NormalExit ? "Normal" : "Çökme");
+                                          process->deleteLater(); // İşlem nesnesini sil
+                                      });
+
+                     // Uygulamayı asenkron olarak başlat
+                     process->start(program, arguments);
+
+                     if (!process->waitForStarted(1000)) { // Uygulamanın başlayıp başlamadığını kısa bir süre kontrol et (isteğe bağlı)
+                         qDebug() << "Uygulama başlatılamadı:" << process->errorString();
+                         process->deleteLater();
+                     } else {
+                         qDebug() << "Uygulama başlatılıyor ve ana akış devam ediyor...";
+                         // Burada ana uygulamanızın diğer işlemleri devam edebilir.
+                     }
+
+                  //system(kmt27.toStdString().c_str());
+
+                 }*/
                }
            }
        }

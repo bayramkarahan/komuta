@@ -151,7 +151,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		/home/etapadmin/Masaüstü/e-ag-client-tray/e-ag-client-tray.pro ../../../e-ag-client-tray/ekran.h \
-		../../../e-ag-client-tray/ekranresmi.h \
 		../../../e-ag-client-tray/mainwindow.h \
 		../../../e-ag-client-tray/singleinstance.h ../../../e-ag-client-tray/main.cpp \
 		../../../e-ag-client-tray/mainwindow.cpp \
@@ -358,7 +357,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../e-ag-client-tray/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../e-ag-client-tray/ekran.h ../../../e-ag-client-tray/ekranresmi.h ../../../e-ag-client-tray/mainwindow.h ../../../e-ag-client-tray/singleinstance.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../e-ag-client-tray/ekran.h ../../../e-ag-client-tray/mainwindow.h ../../../e-ag-client-tray/singleinstance.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../e-ag-client-tray/main.cpp ../../../e-ag-client-tray/mainwindow.cpp ../../../e-ag-client-tray/singleinstance.cpp $(DISTDIR)/
 
 
@@ -437,8 +436,7 @@ main.o: ../../../e-ag-client-tray/main.cpp ../../../e-ag-client-tray/mainwindow.
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../../e-ag-client-tray/main.cpp
 
 mainwindow.o: ../../../e-ag-client-tray/mainwindow.cpp ../../../e-ag-client-tray/mainwindow.h \
-		../../../e-ag-client-tray/ekran.h \
-		../../../e-ag-client-tray/ekranresmi.h
+		../../../e-ag-client-tray/ekran.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../../e-ag-client-tray/mainwindow.cpp
 
 singleinstance.o: ../../../e-ag-client-tray/singleinstance.cpp ../../../e-ag-client-tray/singleinstance.h

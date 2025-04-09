@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[21];
-    char stringdata0[253];
+    QByteArrayData data[19];
+    char stringdata0[227];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -49,10 +49,8 @@ QT_MOC_LITERAL(13, 156, 5), // "hayir"
 QT_MOC_LITERAL(14, 162, 5), // "tamam"
 QT_MOC_LITERAL(15, 168, 17), // "QMessageBox::Icon"
 QT_MOC_LITERAL(16, 186, 4), // "icon"
-QT_MOC_LITERAL(17, 191, 15), // "kaydetTimerSlot"
-QT_MOC_LITERAL(18, 207, 9), // "_serverIp"
-QT_MOC_LITERAL(19, 217, 24), // "hostAddressMacButtonSlot"
-QT_MOC_LITERAL(20, 242, 10) // "widgetShow"
+QT_MOC_LITERAL(17, 191, 24), // "hostAddressMacButtonSlot"
+QT_MOC_LITERAL(18, 216, 10) // "widgetShow"
 
     },
     "MainWindow\0udpConsoleGetSlot\0\0"
@@ -60,7 +58,6 @@ QT_MOC_LITERAL(20, 242, 10) // "widgetShow"
     "iconActivated\0QSystemTrayIcon::ActivationReason\0"
     "gizle\0myMessageBox\0baslik\0mesaj\0evet\0"
     "hayir\0tamam\0QMessageBox::Icon\0icon\0"
-    "kaydetTimerSlot\0_serverIp\0"
     "hostAddressMacButtonSlot\0widgetShow"
 };
 #undef QT_MOC_LITERAL
@@ -71,7 +68,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -79,15 +76,14 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   59,    2, 0x0a /* Public */,
-       3,    1,   60,    2, 0x0a /* Public */,
-       5,    0,   63,    2, 0x0a /* Public */,
-       6,    1,   64,    2, 0x0a /* Public */,
-       8,    0,   67,    2, 0x0a /* Public */,
-       9,    6,   68,    2, 0x0a /* Public */,
-      17,    1,   81,    2, 0x0a /* Public */,
-      19,    0,   84,    2, 0x0a /* Public */,
-      20,    0,   85,    2, 0x0a /* Public */,
+       1,    0,   54,    2, 0x0a /* Public */,
+       3,    1,   55,    2, 0x0a /* Public */,
+       5,    0,   58,    2, 0x0a /* Public */,
+       6,    1,   59,    2, 0x0a /* Public */,
+       8,    0,   62,    2, 0x0a /* Public */,
+       9,    6,   63,    2, 0x0a /* Public */,
+      17,    0,   76,    2, 0x0a /* Public */,
+      18,    0,   77,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -96,7 +92,6 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void, 0x80000000 | 7,    2,
     QMetaType::Void,
     QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString, 0x80000000 | 15,   10,   11,   12,   13,   14,   16,
-    QMetaType::Void, QMetaType::QString,   18,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -116,9 +111,8 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 4: _t->gizle(); break;
         case 5: { QString _r = _t->myMessageBox((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4])),(*reinterpret_cast< QString(*)>(_a[5])),(*reinterpret_cast< QMessageBox::Icon(*)>(_a[6])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 6: _t->kaydetTimerSlot((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 7: _t->hostAddressMacButtonSlot(); break;
-        case 8: _t->widgetShow(); break;
+        case 6: _t->hostAddressMacButtonSlot(); break;
+        case 7: _t->widgetShow(); break;
         default: ;
         }
     }
@@ -153,13 +147,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 8;
     }
     return _id;
 }
