@@ -51,6 +51,8 @@ QWidget* MainWindow::messageWidget()
     duyuruAllButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     connect(duyuruAllButton, &QToolButton::clicked, [=]() {
+         udpSendData("x11command","ekranmesaj",commandFileLE->text());
+        /*
         for(int i=0;i<onlinePcList.count();i++)
         {
             if(onlinePcList[i]->pcState)
@@ -58,7 +60,7 @@ QWidget* MainWindow::messageWidget()
                 udpSendData("ekranmesaj",commandFileLE->text(),onlinePcList[i]->ip);
 
             }
-        }
+        }*/
         mesajSlot("Ağ'a Mesaj Gönderildi.");
     });
 
@@ -133,13 +135,15 @@ QWidget* MainWindow::messageWidget()
 
 
 void MainWindow::slotSelectPcMesaj(QString _msg){
-    for(int i=0;i<onlinePcList.count();i++)
+    udpSendData("x11command","ekranmesaj",_msg);
+    //udpSendData("ekranmesaj",_msg,onlinePcList[i]->ip);
+    /*for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             udpSendData("ekranmesaj",_msg,onlinePcList[i]->ip);
         }
-    }
+    }*/
     mesajSlot("Seçili Hostlara Mesaj Gönderildi.");
 
 }

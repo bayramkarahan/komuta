@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Sun, 27 Dec 2020 14:31:08 +0300
+Source: e-ag-client
+Binary: e-ag-client e-ag-client-dbgsym
+Architecture: source amd64
+Version: 2.4.5
+Distribution: unstable
+Urgency: medium
+Maintainer: Bayram KARAHAN <bayramk@gmail.com>
+Changed-By: Bayram KARAHAN <bayramk@gmail.com>
+Description:
+ e-ag-client - E-Ag İsteci Konsol Uygulaması
+Changes:
+ e-ag-client (2.4.5) unstable; urgency=medium
+ .
+   * Initial Release
+Checksums-Sha1:
+ d24d9642cf7b928dc6680d53d07c7cb816e8900f 581 e-ag-client_2.4.5.dsc
+ 4da006a4b4306fccc67ace87026526f56330b36d 9818345 e-ag-client_2.4.5.tar.gz
+ 1732203e6adcec8a00c9901eb588d4bc1b73f7ba 20768 e-ag-client-dbgsym_2.4.5_amd64.deb
+ 6dc0108140939e5437f8ed1e6b466ccb6805caab 10107 e-ag-client_2.4.5_amd64.buildinfo
+ 6ccb6e10ead4a0cdc3d98245fd3fa0a17454d7f3 155060 e-ag-client_2.4.5_amd64.deb
+Checksums-Sha256:
+ cd40245ad107400a619a54d70161e5b18c9a6b4c1d80d92ace29edb0f1c3c35c 581 e-ag-client_2.4.5.dsc
+ 3b26cf3d33f638560325c5d507962e667a9675caad01b24e51d4f5066a445778 9818345 e-ag-client_2.4.5.tar.gz
+ 6bc59299aec61135e1d510e7df316458860e86e475293798e23985ff0d3d8cc0 20768 e-ag-client-dbgsym_2.4.5_amd64.deb
+ ba63ac7bcd21efefd52808899aca263d9d1ca5bb08555be3f2f1cf938a0c1d6f 10107 e-ag-client_2.4.5_amd64.buildinfo
+ db246b3cb789ff4e00f3c4f87936f7ec0a969c8ae6ab190459ff876375493a5a 155060 e-ag-client_2.4.5_amd64.deb
+Files:
+ 7e088a5509580e22f9f39c883fa3d4d5 581 utils optional e-ag-client_2.4.5.dsc
+ 833c5c67bf65b175453a4b910fdb1c7a 9818345 utils optional e-ag-client_2.4.5.tar.gz
+ 7ebc4e74847c43b349cab29225729719 20768 debug optional e-ag-client-dbgsym_2.4.5_amd64.deb
+ 2cef37fc71cfd463355cc4de9b17e1f9 10107 utils optional e-ag-client_2.4.5_amd64.buildinfo
+ 92b4bb37b10e85cd9789febc288f75be 155060 utils optional e-ag-client_2.4.5_amd64.deb

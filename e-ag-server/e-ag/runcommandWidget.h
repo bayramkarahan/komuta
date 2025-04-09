@@ -50,7 +50,7 @@ QWidget* MainWindow::commandWidget()
     commandExecuteButton->setText("Terminalde\nÇalıştır");
     connect(commandExecuteButton, &QToolButton::clicked, [=]() {
         if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
-        slotSelectCommand("consolecommand",commandFileL->text());
+        udpSendData("consolecommand",commandFileL->text(),"");
     });
 
 
@@ -69,7 +69,7 @@ QWidget* MainWindow::commandWidget()
 
     connect(x11CommandButton, &QToolButton::clicked, [=]() {
         if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
-        slotSelectCommand("x11komut",commandFileL->text());
+        udpSendData("x11command",commandFileL->text(),"");
     });
 
 
@@ -160,48 +160,43 @@ QWidget* MainWindow::commandWidget()
 
 void MainWindow::slotCommand(QString _kmt)
 {
-    for(int i=0;i<onlinePcList.count();i++)
+    udpSendData("x11command",_kmt,"");
+    /*for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             udpSendData("x11komut",_kmt,onlinePcList[i]->ip);
         }
-    }
+    }*/
     mesajSlot("Komut Seçili Hostlarda Çalıştırıldı.");
 
 }
-void MainWindow::slotSelectCommand(QString _runSession,QString _kmt){
-    for(int i=0;i<onlinePcList.count();i++)
-    {
-        if(onlinePcList[i]->select||onlinePcList[i]->multiSelect)
-        {
-            udpSendData(_runSession,_kmt,onlinePcList[i]->ip);
 
-        }
-    }
-    mesajSlot("Komut Seçili Hostlarda Çalıştırıldı.");
-
-}
 void MainWindow::slotPcCommandSelect(QString _kmt){
-    for(int i=0;i<onlinePcList.count();i++)
+    udpSendData("x11command",_kmt,"");
+    /*for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->select||onlinePcList[i]->multiSelect)
         {
             udpSendData("x11komut",_kmt,onlinePcList[i]->ip);
 
         }
-    }
+    }*/
     mesajSlot("Komut Seçili Hostlarda Çalıştırıldı.");
 
 }
 void MainWindow::slotPcCommandAll(QString _kmt){
-    for(int i=0;i<onlinePcList.count();i++)
+
+    udpSendData("x11command",_kmt,"");
+
+
+    /*for(int i=0;i<onlinePcList.count();i++)
     {
 
         udpSendData("x11komut",_kmt,onlinePcList[i]->ip);
 
 
-    }
+    }*/
     mesajSlot("Komut Tüm Hostlarda Çalıştırıldı.");
 
 }

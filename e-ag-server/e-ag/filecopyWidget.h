@@ -309,15 +309,16 @@ QWidget*  MainWindow::fileWidget()
     fileCopyDesktopGetButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     connect(fileCopyDesktopGetButton, &QToolButton::clicked, [=]() {
-        for(int i=0;i<onlinePcList.count();i++)
+        /*for(int i=0;i<onlinePcList.count();i++)
         {
             if(onlinePcList[i]->sshState)
             {
-                udpSendData("dosyatopla","",onlinePcList[i]->ip);
+                udpSendData("x11command","dosyatopla",onlinePcList[i]->ip);
 
 
             }
-        }
+        }*/
+        udpSendData("x11command","dosyatopla","");
 
 
         mesajSlot("Dosya Masaüstlerinden Alındı.");
@@ -442,7 +443,7 @@ void MainWindow::selectFileCopySlot(QString _mesajtype,QString _ip,QString _sour
     QProcess process;
     process.start("/bin/bash",arguments);
     process.waitForFinished(-1); // will wait forever until finished
-    udpSendData(_mesajtype,_targetPath,_ip);
+    udpSendData(_mesajtype,_targetPath,"");
     // }
     //}
     mesajSlot("Dosya Seçili Pc'lere Kopyalandı");

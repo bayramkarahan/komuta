@@ -67,7 +67,6 @@ void  MainWindow::udpSendData(QString _mesajTur,QString _mesaj,QString _ip)
 }
 void MainWindow::udpSocketServerRead()
 {
-    // qDebug()<<"Client Gelen Udp Mesaj:";
     QByteArray datagram;
     QStringList mesaj;
 
@@ -79,7 +78,7 @@ void MainWindow::udpSocketServerRead()
         udpSocketGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString rmesaj=datagram.constData();
-        ///qDebug()<<rmesaj;
+        qDebug()<<rmesaj;
 
         mesaj=rmesaj.split("|");
         // qDebug()<<"Client Gelen Udp Mesaj:"<<mesaj[0]<<mesaj[1]<<mesaj[2]<<mesaj[3];
@@ -98,7 +97,6 @@ void MainWindow::udpSocketServerRead()
                 system(kmt2.toStdString().c_str());///system("sleep 0.1");
                 system(kmt3.toStdString().c_str());
            }
-
             if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[0]=="eagclientconf"){
                 onlinePcList[i]->tcpConnectCounter=0;
                 //qDebug()<<"gelen mesaj:"<<rmesaj<<mesaj.count();

@@ -27,7 +27,7 @@ QWidget* MainWindow::volumeWidget()
     offVolumePc->setText("Ses Kapat");
     connect(offVolumePc, &QToolButton::clicked, [=]() {
         if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
-        slotSelectCommand("volumeoff","");
+        udpSendData("x11command","volumeoff","");
     });
     /**************************************************/
     QToolButton *onVolumePc=new QToolButton();
@@ -40,7 +40,7 @@ QWidget* MainWindow::volumeWidget()
 
     connect(onVolumePc, &QToolButton::clicked, [=]() {
         if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
-        slotSelectCommand("volumeon","");
+        udpSendData("x11command","volumeon","");
     });
 
     auto widget = new QWidget;

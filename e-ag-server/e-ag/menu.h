@@ -306,10 +306,11 @@ QMenu *MainWindow::komutMenu()
   // kilitButton->setIcon(QIcon(":icons/saveprofile.png"));
 
    connect(kilitAllButton, &QPushButton::clicked, [=]() {
-         for(int i=0;i<onlinePcList.count();i++)
+        /* for(int i=0;i<onlinePcList.count();i++)
        {
         udpSendData("x11komut",lineEdit_message->text(),onlinePcList[i]->ip);
-       }
+       }*/
+        udpSendData("x11command",lineEdit_message->text(),"");
         menu->close();
 });
 
@@ -627,13 +628,13 @@ void MainWindow::pcMenu(bool singlepc)
     pvolumeonAction->setIcon(QIcon(":/icons/volumeon.svg"));
     pvolumeonAction->setIconVisibleInMenu(true);
     QObject::connect(pvolumeonAction, &QAction::triggered, [&]() {
-         slotSelectCommand("volumeon","");
+         udpSendData("x11command","volumeon","");
     });
     QAction *pvolumeoffAction = new QAction("Ses Kapat",this);
     pvolumeoffAction->setIcon(QIcon(":/icons/volumeoff.svg"));
     pvolumeoffAction->setIconVisibleInMenu(true);
     QObject::connect(pvolumeoffAction, &QAction::triggered, [&]() {
-        slotSelectCommand("volumeoff","");
+        udpSendData("x11command","volumeoff","");
     });
     QAction *pshowhostAction = new QAction("Listeden Gizle",this);
     pshowhostAction->setIcon(QIcon(":/icons/showhost.svg"));

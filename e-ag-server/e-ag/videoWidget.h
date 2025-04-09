@@ -88,8 +88,8 @@ QWidget* MainWindow::videoWidget()
         {
             QString kmt10="/usr/bin/servervideo "+commandFileLE->text()+" &";
             system(kmt10.toStdString().c_str());
-             slotSelectCommand("x11komut","pkill clientcamera");
-            slotSelectCommand("x11komut","/usr/bin/clientcamera");
+             udpSendData("x11command","pkill clientcamera","");
+            udpSendData("x11command","/usr/bin/clientcamera","");
         }
       });
 
@@ -127,8 +127,8 @@ QWidget* MainWindow::videoWidget()
     liveStreamButton->setText("Kamerayı\nYayınla");
     connect(liveStreamButton, &QToolButton::clicked, [=]() {
         system("/usr/bin/servercamera&");
-        slotSelectCommand("x11komut","pkill clientcamera");
-        slotSelectCommand("x11komut","/usr/bin/clientcamera");
+        udpSendData("x11command","pkill clientcamera","");
+        udpSendData("x11command","/usr/bin/clientcamera","");
         mesajSlot("Seçili Pc'ye Komut Gönderildi.");
     });
 
@@ -144,7 +144,7 @@ QWidget* MainWindow::videoWidget()
         if(streamState)
         {
             system("pkill servervideo");
-            slotSelectCommand("x11komut","pkill clientcamera");
+            udpSendData("x11command","pkill clientcamera","");
             mesajSlot("Video durduruldu.");
         }
 
@@ -163,7 +163,7 @@ QWidget* MainWindow::videoWidget()
         if(streamState)
         {
             system("pkill servercamera");
-            slotSelectCommand("x11komut","pkill clientcamera");
+            udpSendData("x11command","pkill clientcamera","");
         }
 
     });

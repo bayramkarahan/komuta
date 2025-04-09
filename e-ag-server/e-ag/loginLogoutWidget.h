@@ -87,25 +87,27 @@ QWidget* MainWindow::logoutWidget()
 
 void MainWindow::slotLogout(){
     QString komut="loginctl terminate-seat seat0";
-    for(int i=0;i<onlinePcList.count();i++)
+    udpSendData("consolecommand",komut,"");
+    /*for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
-            udpSendData("pckapat",komut,onlinePcList[i]->ip);
+            udpSendData("consolecommand",komut,onlinePcList[i]->ip);
         }
-    }
+    }*/
     mesajSlot("Seçili Hostlarda Oturum Kapatıldı.");
 
 }
 void MainWindow::slotLogoutAll(){
     QString komut="loginctl terminate-seat seat0";
-    for(int i=0;i<onlinePcList.count();i++)
+    udpSendData("consolecommand",komut,"");
+    /*for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState)
         {
-            udpSendData("pckapat",komut,onlinePcList[i]->ip);
+            udpSendData("consolecommand",komut,onlinePcList[i]->ip);
         }
-    }
+    }*/
     mesajSlot("Tüm Hostlarda Oturum Kapatıldı.");
 
 }
@@ -122,27 +124,29 @@ void MainWindow::slotLogin(){
     if(_remoteuser!=""&&_remotepasswd!="")
     {
         QString komut="sshlogin "+_remoteuser+" "+_remotepasswd;
+         udpSendData("consolecommand",komut,"");
         // qDebug()<<"komut:"<<komut;
-        for(int i=0;i<onlinePcList.count();i++)
+       /* for(int i=0;i<onlinePcList.count();i++)
         {
             if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
             {
-                udpSendData("pckapat",komut,onlinePcList[i]->ip);
+                udpSendData("consolecommand",komut,onlinePcList[i]->ip);
             }
-        }
+        }*/
     }
     mesajSlot("Seçili Hostlarda Oturum Açıldı.");
 
 }
 void MainWindow::slotLoginAll(){
     QString komut="sshlogin "+remoteUserName+" "+remotePassword;
-    for(int i=0;i<onlinePcList.count();i++)
+     udpSendData("consolecommand",komut,"");
+   /* for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState)
         {
-            udpSendData("pckapat",komut,onlinePcList[i]->ip);
+            udpSendData("consolecommand",komut,onlinePcList[i]->ip);
         }
-    }
+    }*/
     mesajSlot("Tüm Hostlarda Oturum Açıldı.");
 
 }

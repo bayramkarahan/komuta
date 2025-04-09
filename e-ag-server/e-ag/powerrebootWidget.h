@@ -80,11 +80,12 @@ QWidget* MainWindow::poweroffrebootWidget()
 }
 
 void MainWindow::slotReboot(){
+     udpSendData("consolecommand","/sbin/reboot","");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
-            udpSendData("pcbaslat","/sbin/reboot",onlinePcList[i]->ip);
+           // udpSendData("pcbaslat","/sbin/reboot",onlinePcList[i]->ip);
             onlinePcList[i]->setConnectState(false);
             onlinePcList[i]->setSshState(false);
             onlinePcList[i]->setVncState(false);
@@ -97,11 +98,12 @@ void MainWindow::slotReboot(){
 
 }
 void MainWindow::slotRebootAll(){
+    udpSendData("consolecommand","/sbin/reboot","");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState)
         {
-            udpSendData("pcbaslat","/sbin/reboot",onlinePcList[i]->ip);
+            ///udpSendData("pcbaslat","/sbin/reboot",onlinePcList[i]->ip);
             onlinePcList[i]->setConnectState(false);
             onlinePcList[i]->setSshState(false);
             onlinePcList[i]->setVncState(false);
@@ -114,11 +116,12 @@ void MainWindow::slotRebootAll(){
 
 }
 void MainWindow::slotPowerOff(){
+    udpSendData("consolecommand","/sbin/poweroff","");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
-            udpSendData("pckapat","/sbin/poweroff",onlinePcList[i]->ip);
+            //udpSendData("pckapat","/sbin/poweroff",onlinePcList[i]->ip);
             onlinePcList[i]->setConnectState(false);
             onlinePcList[i]->setSshState(false);
             onlinePcList[i]->setVncState(false);
@@ -131,11 +134,12 @@ void MainWindow::slotPowerOff(){
 
 }
 void MainWindow::slotPowerOffAll(){
+    udpSendData("consolecommand","/sbin/poweroff","");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState)
         {
-            udpSendData("pckapat","/sbin/poweroff",onlinePcList[i]->ip);
+            //udpSendData("pckapat","/sbin/poweroff",onlinePcList[i]->ip);
             onlinePcList[i]->setConnectState(false);
             onlinePcList[i]->setSshState(false);
             onlinePcList[i]->setVncState(false);

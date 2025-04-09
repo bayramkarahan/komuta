@@ -219,7 +219,7 @@ QString getMacForIP(QString ipAddress);
     void slotSelectPcMesaj(QString _msg);
     void slotCommand(QString _kmt);
     void slotPcCommandSelect(QString _kmt);
-    void slotSelectCommand(QString _runSession,QString _kmt);
+
     void slotPcCommandAll(QString _kmt);
     void slotEkranIzle();
     void slotEkranIzleDurdur();

@@ -667,12 +667,9 @@ ipmaclist.clear();
 void Client::commandExecuteSlot(QString command)
 {
 //echo '12' |sudo -S -u root -i apt-get update'
-QString komut=command;
-//mesajSlot(komut);
-qDebug()<<komut;
-
+qDebug()<<command;
 QStringList arguments;
-arguments << "-c" << komut;
+arguments << "-c" << command+" &";
 process.start("/bin/bash",arguments);
 process.waitForFinished(-1); // will wait forever until finished
 QString stdout = process.readAllStandardOutput();

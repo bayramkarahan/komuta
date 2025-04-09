@@ -181,12 +181,12 @@ QWidget* MainWindow::kilitWidget()
 
 void MainWindow::slotKilit(){
     //system("sleep 1");
-
+    udpSendData("x11command","kilitstatetrue","");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
-            udpSendData("x11command","kilitstatetrue",onlinePcList[i]->ip);
+           // udpSendData("x11command","kilitstatetrue",onlinePcList[i]->ip);
             onlinePcList[i]->setKilitControlState(true);
         }
     }
@@ -196,13 +196,13 @@ void MainWindow::slotKilit(){
 void MainWindow::slotTransparanKilit()
 {
     //system("sleep 1");
-
+ udpSendData("x11command","transparankilitstatetrue","");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             onlinePcList[i]->setKilitTransparanControlState(true);
-            udpSendData("x11command","transparankilitstatetrue",onlinePcList[i]->ip);
+           // udpSendData("x11command","transparankilitstatetrue",onlinePcList[i]->ip);
         }
     }
     mesajSlot("Seçili Hostlar Şeffaf Kilitlendi.");
@@ -210,12 +210,13 @@ void MainWindow::slotTransparanKilit()
 }
 void MainWindow::slotKilitAc(){
     //system("sleep 1");
+     udpSendData("x11command","kilitstatefalse","");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             onlinePcList[i]->setKilitControlState(false);
-            udpSendData("x11command","kilitstatefalse",onlinePcList[i]->ip);
+            //udpSendData("x11command","kilitstatefalse",onlinePcList[i]->ip);
         }
     }
     mesajSlot("Seçili Hostlarda Kilit Açıldı.");
@@ -223,13 +224,13 @@ void MainWindow::slotKilitAc(){
 }
 void MainWindow::slotTransparanKilitAc(){
     //system("sleep 1");
-
+    udpSendData("x11command","transparankilitstatefalse","");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             onlinePcList[i]->setKilitTransparanControlState(false);
-            udpSendData("x11command","transparankilitstatefalse",onlinePcList[i]->ip);
+            //udpSendData("x11command","transparankilitstatefalse",onlinePcList[i]->ip);
         }
     }
     mesajSlot("Seçili Hostlarda Şeffaf Kilit Açıldı.");
