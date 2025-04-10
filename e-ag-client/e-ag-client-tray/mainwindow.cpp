@@ -46,7 +46,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
  {
-
+   localDir="/usr/share/e-ag/";
     networkProfilLoad();
 
     QString uport=networkTcpPort;
@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ekran=new Ekran();
     gelenKomut=new QLabel("-------------------");
-    localDir="/usr/share/e-ag/";
+
     trayIcon=new QSystemTrayIcon(this);
     this->resize(340,300);
     setFixedWidth(400);
@@ -145,7 +145,7 @@ MainWindow::MainWindow(QWidget *parent) :
             udpConsoleSend->writeDatagram(datagram,QHostAddress::LocalHost, 51511);
             qDebug()<<"client console  gönderildi:"<<x11mydispresult;
         });
-        udpSocketSendConsoleTimer->start(2000);
+        udpSocketSendConsoleTimer->start(4000);
 
        }
  void MainWindow::udpServerGetSlot()
@@ -185,21 +185,21 @@ MainWindow::MainWindow(QWidget *parent) :
              if(updateState)
              {
                  qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
-                 DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
-                 QJsonObject veri;
-                 veri["networkIndex"]= this->networkIndex;
-                 veri["selectedNetworkProfil"] =true;
-                 veri["networkName"] = "network";
-                 veri["networkTcpPort"] = networkTcpPort1;
-                 veri["serverAddress"]=serverAddress1;
-                 veri["networkBroadCastAddress"]=networkBroadCastAddress1;
-                 veri["ftpPort"]=ftpPort1;
-                 veri["rootPath"]=rootPath1;
-                 veri["language"]=language1;
-                 veri["lockScreenState"]=lockScreenState1;
-                 veri["webblockState"]=webblockState1;
-                 db->Sil("networkIndex",this->networkIndex);
-                 db->Ekle(veri);
+                 //QString kmt="pkexec \"e-ag-client-profilsave "+rmesaj+"|"+this->networkIndex+"\"";
+                    QProcess process;
+                 QStringList arguments;
+                 arguments << "-c" << "pkexec"<<"e-ag-client-profilsave "<<rmesaj+"|"+this->networkIndex;
+                 process.start("/bin/bash",arguments);
+                 qDebug()<<"komut:"<<arguments;
+                 process.waitForFinished(-1); // will wait forever until finished
+                 QString stdout = process.readAllStandardOutput();
+                 QString stderr = process.readAllStandardError();
+                 stdout.chop(1);
+                 stderr.chop(1);
+                 qDebug()<<"out:"<<stdout<<stdout.count();
+                 qDebug()<<"err:"<<stderr<<stderr.count();
+                 //system(kmt.toStdString().c_str());
+
                  networkProfilLoad();
              }
              //else {
@@ -283,7 +283,6 @@ MainWindow::MainWindow(QWidget *parent) :
      }
  }
 
-
 void MainWindow::udpConsoleGetSlot()
 {
     QByteArray datagram;
@@ -304,49 +303,10 @@ void MainWindow::udpConsoleGetSlot()
 
 void MainWindow::tcpMessageControlSlot(QString _data)
 {
-       qDebug()<<"Gelen Mesaj:"<<_data;
+        qDebug()<<"Gelen Mesaj:"<<_data;
         QStringList lst=_data.split("|");
         gelenKomut->setText(lst[1]+"  "+lst[2]);
-        /*if(lst[1]=="dosyatopla")
-        {
-            //lst[2]
-            QString severip=lst[3];
-            hostAddressMacButtonSlot();//local ip adresi tespit ediliyor.
-
-            QDir directory(QDir::homePath()+"\/Masaüstü");
-             QStringList filelist = directory.entryList(QStringList() << "e-ag-server.*",QDir::Files);
-             QString ad="";
-             QString gercekad="";
-             foreach(QString filename, filelist) {
-                 QFileInfo fi(filename);
-                 QString uzanti = fi.completeSuffix();
-                 gercekad=QDir::homePath()+"\/Masaüstü\/"+filename;
-                 ad="-e-ag-server."+uzanti;
-             }
-             for(int i=0;i<ipmaclist.count();i++)
-             {
-                // QString komut="sshpass -p "+password+" scp -o StrictHostKeyChecking=no "+gercekad+" "+
-                 //        username+"@"+severip+":\/home\/"+username+"\/Masaüstü\/"+ipmaclist[i].ip+ad;
-
-                 //qDebug()<<komut;
-                QString komut="/usr/bin/scd-client "+severip+" 12345 PUT "+gercekad+" /"+ipmaclist[i].ip+ad;
-                // system(komut.toStdString().c_str());
-                QStringList arguments;
-                arguments << "-c" << komut;
-                QProcess process;
-                process.start("/bin/bash",arguments);
-                process.waitForFinished(-1); // will wait forever until finished
-                //udpSendData(_mesajtype,_targetPath,_ip);
-
-              /*   QStringList arguments;
-                 arguments << "-c" << komut;
-                 QProcess process;
-                 process.start("/bin/bash",arguments);
-                 process.waitForFinished(-1); // will wait forever until finished*/
-            /* }
-
-        }*/
-       if(lst[1]=="ekranmesaj")
+        if(lst[1]=="ekranmesaj")
         {
             qDebug()<<"ekranmesaj:"<<lst[1]<<lst[2];
             ekran->setWindowFlags(Qt::Tool);
@@ -411,8 +371,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         }
         else if(lst[1]=="volumeoff")
         {
-            // qDebug()<<"komut:"<<lst[1]<<lst[2]<<lst[3]<<lst[4]<<lst[5]<<lst[6]<<lst[7];
-            if(QFile::exists("/usr/bin/wpctl"))
+             if(QFile::exists("/usr/bin/wpctl"))
             {
             QString komut="nohup wpctl set-mute @DEFAULT_AUDIO_SINK@ 1 &";
             system(komut.toStdString().c_str());
@@ -425,8 +384,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         }
         else if(lst[1]=="volumeon")
         {
-            // qDebug()<<"komut:"<<lst[1]<<lst[2]<<lst[3]<<lst[4]<<lst[5]<<lst[6]<<lst[7];
-            if(QFile::exists("/usr/bin/wpctl"))
+             if(QFile::exists("/usr/bin/wpctl"))
             {
             QString komut="nohup wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 &";
             system(komut.toStdString().c_str());
@@ -436,8 +394,6 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             QString komut1="nohup pactl set-sink-mute @DEFAULT_SINK@ 0 &";
             system(komut1.toStdString().c_str());
             }
-
-            //  komutSudoExpect(lst[1],lst[6],lst[7]);
         }
         else if(lst[1]=="videoyayinbaslat")
         {

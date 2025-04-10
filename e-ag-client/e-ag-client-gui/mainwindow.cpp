@@ -81,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
        }
 
-
 QString MainWindow::myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon)
 {
     Qt::WindowFlags flags = 0;

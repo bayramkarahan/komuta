@@ -62,7 +62,7 @@ polkit_policy.path = /usr/share/polkit-1/actions/
 polkit_rules.files = e-ag-client-tray.rules
 polkit_rules.path = /usr/share/polkit-1/rules.d/
 
-INSTALLS += target icon auto_start polkit_policy polkit_rules
+INSTALLS += target icon auto_start
 #service
 
 #DISTFILES += \

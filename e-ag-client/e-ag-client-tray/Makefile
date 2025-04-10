@@ -484,27 +484,9 @@ uninstall_auto_start: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/etc/xdg/autostart/ 
 
 
-install_polkit_policy: first FORCE
-	@test -d $(INSTALL_ROOT)/usr/share/polkit-1/actions/ || mkdir -p $(INSTALL_ROOT)/usr/share/polkit-1/actions/
-	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-tray/e-ag-client-tray.policy $(INSTALL_ROOT)/usr/share/polkit-1/actions/e-ag-client-tray.policy
+install: install_target install_icon install_auto_start  FORCE
 
-uninstall_polkit_policy: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/polkit-1/actions/e-ag-client-tray.policy
-	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/polkit-1/actions/ 
-
-
-install_polkit_rules: first FORCE
-	@test -d $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/ || mkdir -p $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/
-	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-tray/e-ag-client-tray.rules $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/e-ag-client-tray.rules
-
-uninstall_polkit_rules: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/e-ag-client-tray.rules
-	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/ 
-
-
-install: install_target install_icon install_auto_start install_polkit_policy install_polkit_rules  FORCE
-
-uninstall: uninstall_target uninstall_icon uninstall_auto_start uninstall_polkit_policy uninstall_polkit_rules  FORCE
+uninstall: uninstall_target uninstall_icon uninstall_auto_start  FORCE
 
 FORCE:
 

@@ -24,7 +24,7 @@ Client::Client()
 
 void Client::tcpMesajSendTimerSlot()
 {
-/*
+
     sessionUser=getSessionInfo(getSeatId(),"USER=");
     QStringRef _sessionUser=sessionUser.rightRef(sessionUser.length()-5);
     sessionUser=_sessionUser.toString();
@@ -44,7 +44,7 @@ void Client::tcpMesajSendTimerSlot()
     sessionDisplayType=getSessionInfo(getSeatId(),"ORIGINAL_TYPE=");
     QStringRef _sessionDisplayType=sessionDisplayType.rightRef(sessionDisplayType.length()-14);
     sessionDisplayType=_sessionDisplayType.toString();
-*/
+
     QSysInfo sysinfo;
     //= new QSysInfo();
     /*qDebug()<<"buildCpuArchitecture: " <<sysinfo.buildCpuArchitecture();
@@ -58,8 +58,8 @@ void Client::tcpMesajSendTimerSlot()
 QString hostname=sysinfo.machineHostName();
 
 //qDebug()<<sessionUser<<sessionDisplay<<sessionUserId<<projeversion<<sessionDesktopManager<<sessionDisplayType;
- //clientConsoleEnv="consolenv|"+sessionUser+"|"+sessionDisplay+"|"+sessionUserId+"|"+hostname+"|"+sessionDesktopManager;
-clientConsoleEnv="consolenv||||"+hostname+"|";
+clientConsoleEnv="consolenv|"+sessionUser+"|"+sessionDisplay+"|"+sessionUserId+"|"+hostname+"|"+sessionDesktopManager;
+//clientConsoleEnv="consolenv||||"+hostname+"|";
 
 //qDebug()<<"clientConsoleEnv"<<clientConsoleEnv;
  /******************************************************/
@@ -247,12 +247,12 @@ void Client::socketBaglama()
 
 void Client::udpServerSendSlot(QString _data)
 {
-    if(udpServerGetStatus) return;
     //hostAddressMacButtonSlot();
     if(udpServerSend == nullptr){
         qDebug()<<"bağlı değil";
         socketBaglama();//bağlı değilse bağlan
     }
+
     for(int k=0;k<ipmaclist.count();k++)
     {
         if(networkBroadCastAddress!=""&&
@@ -262,9 +262,10 @@ void Client::udpServerSendSlot(QString _data)
             QString msg="eagclientconf|"+ipmaclist[k].ip+"|"+ipmaclist[k].mac+"|"+_data;
             QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
             udpServerSend->writeDatagram(datagram,QHostAddress(serverAddress), networkTcpPort.toInt());
-            qDebug()<<msg<<networkTcpPort;
+            ///qDebug()<<msg<<networkTcpPort;
         }
     }
+
 }
 
 void Client::udpTrayGetSlot()
@@ -398,52 +399,7 @@ void Client::udpServerGetSlot()
         QString rmesaj=datagram.constData();
         mesaj=rmesaj.split("|");
         qDebug()<<"Server Mesaj:"<<mesaj;
-        if(mesaj[0]=="eagconf")
-        {
-            //qDebug()<<"Gelen Udp Mesajı eagconf.........:"<<mesaj;
-            QString serverAddress1=mesaj[1];
-            QString networkBroadCastAddress1=mesaj[2];
-            QString networkTcpPort1=mesaj[3];
-            QString ftpPort1=mesaj[4];
-            QString rootPath1=mesaj[5];
-            QString language1=mesaj[6];
-            bool lockScreenState1= stringToBool(mesaj[7]);
-            bool webblockState1= stringToBool(mesaj[8]);
-            bool updateState=false;
-            if(serverAddress!=serverAddress1) updateState=true;
-            if(networkBroadCastAddress!=networkBroadCastAddress1) updateState=true;
-            if(networkTcpPort!=networkTcpPort1) updateState=true;
-            if(ftpPort!=ftpPort1) updateState=true;
-            if(rootPath!=rootPath1) updateState=true;
-            if(language!=language1) updateState=true;
-            if(lockScreenState!=lockScreenState1) updateState=true;
-            if(webblockState!=webblockState1) updateState=true;
-            if(updateState)
-            {
-                qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
-                DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
-                QJsonObject veri;
-                veri["networkIndex"]= this->networkIndex;
-                veri["selectedNetworkProfil"] =true;
-                veri["networkName"] = "network";
-                veri["networkTcpPort"] = networkTcpPort1;
-                veri["serverAddress"]=serverAddress1;
-                veri["networkBroadCastAddress"]=networkBroadCastAddress1;
-                veri["ftpPort"]=ftpPort1;
-                veri["rootPath"]=rootPath1;
-                veri["language"]=language1;
-                veri["lockScreenState"]=lockScreenState1;
-                veri["webblockState"]=webblockState1;
-                db->Sil("networkIndex",this->networkIndex);
-                db->Ekle(veri);
-                networkProfilLoad();
-            }
-            //else {
-            //qDebug()<<"eagconf bilgileri aynı.";
-            //if(stringToBool(webblockState)) webBlockAktifPasif(true);
-            //}
-        }
-        else if(mesaj[0]=="webblockserversendfile")
+        if(mesaj[0]=="webblockserversendfile")
         {
             qDebug()<<"*********************************************************";
             qDebug()<<"gelen dosya"<<mesaj[1];
@@ -492,10 +448,10 @@ void Client::udpServerGetSlot()
         {
             qDebug()<<"*********************************************************";
             qDebug()<<"gelen dosya"<<mesaj[1];
-            qDebug()<<"clientTrayEnv: "<<clientTrayEnv;
-            qDebug()<<"masaüstü kullanıcısı: "<<clientTrayEnv.split("|")[0];
+            qDebug()<<"clientTrayEnv: "<<clientConsoleEnv;
+            qDebug()<<"masaüstü kullanıcısı: "<<clientConsoleEnv.split("|")[1];
             QString dosya=mesaj[1];
-            QString guiusername=clientTrayEnv.split("|")[0];
+            QString guiusername=clientConsoleEnv.split("|")[1];
             qDebug()<<"*********************************************************";
             QString kmt1="cp /tmp/"+dosya+" /home/"+guiusername+"/";
             QString kmt2="chmod 777 /home/"+guiusername+"/"+dosya;
@@ -508,9 +464,9 @@ void Client::udpServerGetSlot()
         {
             qDebug()<<"*********************************************************";
             qDebug()<<"gelen dosya"<<mesaj[1];
-            qDebug()<<"masaüstü kullanıcısı: "<<clientTrayEnv.split("|")[0];
+            qDebug()<<"masaüstü kullanıcısı: "<<clientConsoleEnv.split("|")[1];
             QString dosya=mesaj[1];
-            QString guiusername=clientTrayEnv.split("|")[0];
+            QString guiusername=clientConsoleEnv.split("|")[1];
             qDebug()<<"*********************************************************";
             QString kmt1="cp /tmp/"+dosya+" /home/"+guiusername+"/Masaüstü/";
             QString kmt2="chmod 777 /home/"+guiusername+"/Masaüstü/"+dosya;
@@ -523,9 +479,9 @@ void Client::udpServerGetSlot()
         {
             qDebug()<<"*********************************************************";
             qDebug()<<"gelen dosya"<<mesaj[1];
-            qDebug()<<"masaüstü kullanıcısı: "<<clientTrayEnv.split("|")[0];
+            qDebug()<<"masaüstü kullanıcısı: "<<clientConsoleEnv.split("|")[1];
             QString dosya=mesaj[1];
-            QString guiusername=clientTrayEnv.split("|")[0];
+            QString guiusername=clientConsoleEnv.split("|")[1];
             qDebug()<<"*********************************************************";
             QString kmt0="mv /home/"+guiusername+"/Masaüstü/"+dosya+" /home/"+guiusername+"/Masaüstü/e-ag-server.old";
             QString kmt1="cp /tmp/"+dosya+" /home/"+guiusername+"/Masaüstü/";
@@ -548,9 +504,9 @@ void Client::udpServerGetSlot()
         }
         else if(mesaj[0]=="dosyatopla")
         {
-            //qDebug()<<"dosyatopla1";
+
             QString severip=mesaj[3];
-            QString guiusername=clientTrayEnv.split("|")[0];
+            QString guiusername=clientConsoleEnv.split("|")[1];
             hostAddressMacButtonSlot();//local ip adresi tespit ediliyor.
 
             QDir directory("/home/"+guiusername+"/Masaüstü");
@@ -563,10 +519,10 @@ void Client::udpServerGetSlot()
                 gercekad="/home/"+guiusername+"/Masaüstü\/"+filename;
                 ad="-e-ag-server."+uzanti;
             }
- //qDebug()<<"dosyatopla2";
+
             for(int i=0;i<ipmaclist.count();i++)
             {
-                 //qDebug()<<"dosyatopla3";
+
                 QString komut="/usr/bin/scd-client "+severip+" 12345 PUT "+gercekad+" /"+ipmaclist[i].ip+ad;
                 // system(komut.toStdString().c_str());
                 qDebug()<<"komut: "<<komut;
@@ -578,7 +534,7 @@ void Client::udpServerGetSlot()
                 QProcess process;
                 process.start("/bin/bash",arguments);
                 process.waitForFinished(-1); // will wait forever until finished
-                 //qDebug()<<"dosyatopla4";
+
                /// udpServerSendSlot("sendfileclient|"+ipmaclist[i].ip+ad);
                  if(networkBroadCastAddress!=""&&
                      serverAddress.section(".",0,2)==networkBroadCastAddress.section(".",0,2)&&
@@ -589,7 +545,7 @@ void Client::udpServerGetSlot()
                      udpServerSend->writeDatagram(datagram,QHostAddress(serverAddress), networkTcpPort.toInt());
                      ///qDebug()<<msg<<networkTcpPort;
                  }
-                  //qDebug()<<"dosyatopla5";
+
             }
         }
     }

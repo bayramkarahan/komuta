@@ -189,19 +189,18 @@ void  MainWindow::widgetShow()
     system("sh -c \"pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY e-ag-gui\"");
  }
 
-
 QMenu* MainWindow::createMenu()
 {
 
     auto minimizeAction = new QAction(tr("Gi&zle"), this);
     connect(minimizeAction, &QAction::triggered, this, &QWidget::hide);
     auto restoreAction = new QAction(tr("&Ayarlar"), this);
-    connect( restoreAction, SIGNAL(triggered()), this, SLOT(widgetShow()));
+    ///connect( restoreAction, SIGNAL(triggered()), this, SLOT(widgetShow()));
     auto menu = new QMenu(this);
-    menu->addAction(minimizeAction);
+    ///menu->addAction(minimizeAction);
     //menu->addAction(maximizeAction);
-    menu->addAction(restoreAction);
-    menu->addSeparator();
+    ///menu->addAction(restoreAction);
+    ///menu->addSeparator();
 
     return menu;
 }
@@ -210,8 +209,8 @@ void MainWindow::iconActivated(QSystemTrayIcon::ActivationReason reason_)
 {
   switch (reason_) {
   case QSystemTrayIcon::Trigger:
-   // this->trayIcon->showMessage("e-ag", "İstemci Uygulaması!");
-        widgetShow();
+    this->trayIcon->showMessage("e-ag", "İstemci Uygulaması!");
+        ///widgetShow();
     break;
   default:
     ;

@@ -1,5 +1,6 @@
 #ifndef NETWORKWIDGET_H
 #define NETWORKWIDGET_H
+
 void MainWindow::networkProfil()
 {
     // qDebug()<<"ayar click";
@@ -22,7 +23,7 @@ void MainWindow::networkProfil()
     twlh->setHorizontalHeaderItem(0, new QTableWidgetItem("Seçili Ağ"));
     twlh->setHorizontalHeaderItem(1, new QTableWidgetItem("Ağ No"));
     twlh->setHorizontalHeaderItem(2, new QTableWidgetItem("Ağ Adı"));
-    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem("Yayın Adresi"));
+    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem("Yayın Ip'si"));
     twlh->setHorizontalHeaderItem(4, new QTableWidgetItem("Port"));
     twlh->setHorizontalHeaderItem(5, new QTableWidgetItem("ftpPort"));
     twlh->setHorizontalHeaderItem(6, new QTableWidgetItem("rootpath"));
@@ -64,7 +65,7 @@ void MainWindow::networkProfil()
         mCheck->setChecked(false);
         QLineEdit * networkIndex = new QLineEdit();
         QLineEdit * networkName = new QLineEdit();
-        QLineEdit * networkBroadCastAddress = new QLineEdit();
+        QLineEdit * serverAddress = new QLineEdit();
         QLineEdit * networkTcpPort = new QLineEdit();
         QLineEdit * ftpPort = new QLineEdit();
         QLineEdit * rootPath= new QLineEdit();
@@ -90,7 +91,7 @@ void MainWindow::networkProfil()
                         QCheckBox* mBox1 = static_cast<QCheckBox*> (twlh->cellWidget(i,0));
                         QLineEdit * networkIndex1 = static_cast<QLineEdit*> (twlh->cellWidget(i,1));
                         QLineEdit * networkName1 = static_cast<QLineEdit*> (twlh->cellWidget(i,2));
-                        QLineEdit * networkBroadCastAddress1 =static_cast<QLineEdit*> (twlh->cellWidget(i,3));
+                        QLineEdit * serverAddress1 =static_cast<QLineEdit*> (twlh->cellWidget(i,3));
                         QLineEdit * networkTcpPort1 = static_cast<QLineEdit*> (twlh->cellWidget(i,4));
                         QLineEdit * ftpPort1 = static_cast<QLineEdit*> (twlh->cellWidget(i,5));
                         QLineEdit * rootPath1 = static_cast<QLineEdit*> (twlh->cellWidget(i,6));
@@ -105,8 +106,8 @@ void MainWindow::networkProfil()
                         veri["networkIndex"] = networkIndex1->text();
                         veri["networkName"] = networkName1->text();
                         veri["networkTcpPort"] = networkTcpPort1->text();
-                        veri["serverAddress"]=networkName1->toolTip();//dikkat
-                        veri["networkBroadCastAddress"]=networkBroadCastAddress1->text();
+                        veri["networkBroadCastAddress"]=networkName1->toolTip();//dikkat
+                        veri["serverAddress"]=serverAddress1->text();
                         veri["ftpPort"]=ftpPort1->text();
                         veri["rootPath"]=rootPath1->text();
                         veri["language"]=language1->text();
@@ -142,8 +143,8 @@ void MainWindow::networkProfil()
         networkIndex->setText(veri.value("networkIndex").toString());
         networkIndex->setReadOnly(true);
         networkName->setText(veri.value("networkName").toString());
-        networkName->setToolTip(veri.value("serverAddress").toString());
-        networkBroadCastAddress->setText(veri.value("networkBroadCastAddress").toString());
+        networkName->setToolTip(veri.value("networkBroadCastAddress").toString());
+        serverAddress->setText(veri.value("serverAddress").toString());
         networkTcpPort->setText(veri.value("networkTcpPort").toString());
         ftpPort->setText(veri.value("ftpPort").toString());
         rootPath->setText(veri.value("rootPath").toString());
@@ -153,7 +154,7 @@ void MainWindow::networkProfil()
         twlh->setCellWidget(sr,0,mCheck);
         twlh->setCellWidget(sr,1,networkIndex);
         twlh->setCellWidget(sr,2,networkName);
-        twlh->setCellWidget(sr,3,networkBroadCastAddress);
+        twlh->setCellWidget(sr,3,serverAddress);
         twlh->setCellWidget(sr,4,networkTcpPort);
         twlh->setCellWidget(sr,5,ftpPort);
         twlh->setCellWidget(sr,6,rootPath);
@@ -180,7 +181,7 @@ void MainWindow::networkProfil()
     newNetworkButton->setFixedSize(QSize(boy*40,boy*10));
     newNetworkButton->setIconSize(QSize(boy*40,boy*5));
     newNetworkButton->setStyleSheet("Text-align:center");
-    newNetworkButton->setIcon(QIcon(":/icons/add.svg"));
+    newNetworkButton->setIcon(QIcon(":/icons/boot.svg"));
     newNetworkButton->setAutoRaise(true);
     newNetworkButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     // newNetworkButton->setFont(f2);
@@ -284,7 +285,7 @@ void MainWindow::networkProfilLoad()
         {
             //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
             QJsonObject veri;
-            veri["networkIndex"] =QString::number(db->getIndex(networkIndex));
+            veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
             veri["selectedNetworkProfil"] =true;
             veri["networkName"] = "network";
             veri["networkTcpPort"] = "7879";
