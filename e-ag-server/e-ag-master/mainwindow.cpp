@@ -154,14 +154,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ekranScale->addItem("1366x768");
     ekranScale->setCurrentIndex(3);
     /*********************************************************************/
-    timerUdpSocketSend = new QTimer(this);
-    //newPcDetectTimer= new QTimer(this);
-    //connect(newPcDetectTimer, SIGNAL(timeout()), this, SLOT(newPcDetect()));
-    //newPcDetectTimer->start(5000);
 
-    connect(timerUdpSocketSend, SIGNAL(timeout()), this, SLOT(sendBroadcastDatagram()));
-    timerUdpSocketSend->start(4000);
-
+    newPcDetectTimer= new QTimer(this);
+    connect(newPcDetectTimer, SIGNAL(timeout()), this, SLOT(pcDetect()));
+    newPcDetectTimer->start(5000);
     /********************* Broadcast Message yollanıyor *****************************************/
     udpSocketSend = new QUdpSocket(this);
     udpSocketGet = new QUdpSocket();
@@ -199,8 +195,6 @@ btnlist[btnlist.count()-1]->slotMouseClick();
 pcClickSlot(btnlist[btnlist.count()-1]->mac);
 }
 /*************************************************************************/
-
-sendBroadcastDatagram();
  }
 
 void MainWindow::mouseMoveEvent(QMouseEvent *event)

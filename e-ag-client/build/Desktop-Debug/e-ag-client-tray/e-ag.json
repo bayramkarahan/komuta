@@ -1,0 +1,15 @@
+[
+    {
+        "ftpPort": "12345",
+        "language": "tr_TR",
+        "lockScreenState": false,
+        "networkBroadCastAddress": "",
+        "networkIndex": "1",
+        "networkName": "network",
+        "networkTcpPort": "7879",
+        "rootPath": "/tmp/",
+        "selectedNetworkProfil": true,
+        "serverAddress": "",
+        "webblockState": false
+    }
+]

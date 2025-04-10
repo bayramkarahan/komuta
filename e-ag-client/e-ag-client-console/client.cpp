@@ -262,7 +262,7 @@ void Client::udpServerSendSlot(QString _data)
             QString msg="eagclientconf|"+ipmaclist[k].ip+"|"+ipmaclist[k].mac+"|"+_data;
             QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
             udpServerSend->writeDatagram(datagram,QHostAddress(serverAddress), networkTcpPort.toInt());
-            ///qDebug()<<msg<<networkTcpPort;
+            qDebug()<<msg<<networkTcpPort;
         }
     }
 }

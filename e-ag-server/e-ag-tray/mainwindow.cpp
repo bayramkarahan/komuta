@@ -43,22 +43,18 @@
 #include <gst/gst.h>
 #include <iostream>
 #include<gst/gsterror.h>
+#include<Database.h>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
  {
-    //udpSocketSendMyDisp = new QUdpSocket();
-    udpConsoleGet=new QUdpSocket();
-    udpConsoleSend = new QUdpSocket();
-
-    udpConsoleGet->bind(51512, QUdpSocket::ShareAddress);
-    QObject::connect(udpConsoleGet,&QUdpSocket::readyRead,[&](){udpConsoleGetSlot();});
+     udpBroadCastSend = new QUdpSocket();
 
     /*******************************************************************/
     webblockcb= new QCheckBox("Her Açılışta Web Sitelerini Engelle.");
 
     ekran=new Ekran();
     gelenKomut=new QLabel("-------------------");
-    localDir="/tmp/";
+    localDir="/usr/share/e-ag/";
     trayIcon=new QSystemTrayIcon(this);
     this->resize(340,300);
     setFixedWidth(400);
@@ -92,286 +88,61 @@ MainWindow::MainWindow(QWidget *parent) :
       connect(timergizle, SIGNAL(timeout()), this, SLOT(gizle()));
       timergizle->start(1);
 
-/***************************************************************/
-        //webBlockAktifPasif();
-/***************************************************************/
-    QStringList arguments;
-        arguments << "-c" << QString("printenv USER");
-        QProcess process;
-        process.start("/bin/bash",arguments);
-        if(process.waitForFinished())
-        {
-            x11user = process.readAll();
-           /// qDebug()<<"mydisp user bilgi:"<<user;
-               x11user.chop(1);
-        }
-        QStringList argumentss;
-        argumentss << "-c" << QString("printenv DISPLAY");
-
-
-        process.start("/bin/bash",argumentss);
-        if(process.waitForFinished())
-        {
-            x11display = process.readAll();
-            ///qDebug()<<"mydisp display bilgi:"<<display;
-               x11display.chop(1);
-        }
-
-
-        if(!x11display.contains("0", Qt::CaseInsensitive))//!=0
-        {
-             QString kmt20="nohup /usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
-             system(kmt20.toStdString().c_str());
-        }
-
 /**************************************************************************/
         QTimer *udpSocketSendConsoleTimer = new QTimer();
         QObject::connect(udpSocketSendConsoleTimer, &QTimer::timeout, [&](){
-            x11mydispresult=x11user+"|"+
-                              x11display+"|"+
-                              QString::number(kilitstate)+"|"+
-                              QString::number(transparankilitstate)+"|"+
-                              QString::number(ekranimagestate);
-            QByteArray datagram = x11mydispresult.toUtf8();// +QHostAddress::LocalHost;
-            udpConsoleSend->writeDatagram(datagram,QHostAddress::LocalHost, 51511);
-            qDebug()<<"client console  gönderildi:"<<x11mydispresult;
-        });
-        udpSocketSendConsoleTimer->start(2000);
+            sendBroadcastDatagram();
+           });
+        udpSocketSendConsoleTimer->start(5000);
 
        }
+ void MainWindow::sendBroadcastDatagram()
+ {
+     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+     QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
+     for (const QJsonValue &item : dizi) {
+         QJsonObject veri=item.toObject();
+         this->networkIndex=veri["networkIndex"].toString();
+         this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
+         this->networkName=veri["networkName"].toString();
+         this->networkTcpPort=veri["networkTcpPort"].toString();
+         this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
+         this->serverAddress=veri["serverAddress"].toString();
+         this->ftpPort=veri["ftpPort"].toString();
+         this->rootPath=veri["rootPath"].toString();
+         this->language=veri["language"].toString();
+         this->lockScreenState=veri["lockScreenState"].toBool();
+         this->webblockState=veri["webblockState"].toBool();
+         QString lockScreenStatestr= "false";
+         QString webblockStatestr="false";
+         if(this->lockScreenState)lockScreenStatestr="true";
+         if(this->webblockState)webblockStatestr="true";
 
-void MainWindow::udpConsoleGetSlot()
-{
-    QByteArray datagram;
+         ///qDebug()<<"Broadcast Yapılan Ağ:" <<networkBroadCastAddress<<networkTcpPort;
+         QString uport=networkTcpPort;
+         std::reverse(uport.begin(), uport.end());
+         QString msg;
+         msg="eagconf|"+serverAddress+"|"+
+               networkBroadCastAddress+"|"+
+               networkTcpPort+"|"+
+               ftpPort+"|"+
+               rootPath+"|"+
+               language+"|"+
+               lockScreenStatestr+"|"+
+               webblockStatestr;
+         QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
+         QString broadadres;
+         ///qDebug()<<datagram;
+         for(int i=1;i<255;i++)
+         {
+             broadadres=networkBroadCastAddress.section(".",0,2)+"."+QString::number(i);
+             //udpSocketSend->writeDatagram(datagram,QHostAddress("255.255.255.255"), uport.toInt());
+             udpBroadCastSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt()+uport.toInt());
+         }
+         qDebug()<<"broadCast"<<networkBroadCastAddress<<uport;
+     }
+ }
 
-    while (udpConsoleGet->hasPendingDatagrams()) {
-        datagram.resize(int(udpConsoleGet->pendingDatagramSize()));
-        QHostAddress sender;
-        quint16 senderPort;
-
-        udpConsoleGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
-        QString rmesaj=datagram.constData();
-     ///   qDebug()<<"x11'den Gelen Udp Mesaj:"<<rmesaj;
-   tcpMessageControlSlot(rmesaj);
-
-    }
-}
-
-void MainWindow::tcpMessageControlSlot(QString _data)
-{
-       qDebug()<<"Gelen Mesaj:"<<_data;
-        QStringList lst=_data.split("|");
-        gelenKomut->setText(lst[1]+"  "+lst[2]);
-        /*if(lst[1]=="dosyatopla")
-        {
-            //lst[2]
-            QString severip=lst[3];
-            hostAddressMacButtonSlot();//local ip adresi tespit ediliyor.
-
-            QDir directory(QDir::homePath()+"\/Masaüstü");
-             QStringList filelist = directory.entryList(QStringList() << "e-ag-server.*",QDir::Files);
-             QString ad="";
-             QString gercekad="";
-             foreach(QString filename, filelist) {
-                 QFileInfo fi(filename);
-                 QString uzanti = fi.completeSuffix();
-                 gercekad=QDir::homePath()+"\/Masaüstü\/"+filename;
-                 ad="-e-ag-server."+uzanti;
-             }
-             for(int i=0;i<ipmaclist.count();i++)
-             {
-                // QString komut="sshpass -p "+password+" scp -o StrictHostKeyChecking=no "+gercekad+" "+
-                 //        username+"@"+severip+":\/home\/"+username+"\/Masaüstü\/"+ipmaclist[i].ip+ad;
-
-                 //qDebug()<<komut;
-                QString komut="/usr/bin/scd-client "+severip+" 12345 PUT "+gercekad+" /"+ipmaclist[i].ip+ad;
-                // system(komut.toStdString().c_str());
-                QStringList arguments;
-                arguments << "-c" << komut;
-                QProcess process;
-                process.start("/bin/bash",arguments);
-                process.waitForFinished(-1); // will wait forever until finished
-                //udpSendData(_mesajtype,_targetPath,_ip);
-
-              /*   QStringList arguments;
-                 arguments << "-c" << komut;
-                 QProcess process;
-                 process.start("/bin/bash",arguments);
-                 process.waitForFinished(-1); // will wait forever until finished*/
-            /* }
-
-        }*/
-       if(lst[1]=="ekranmesaj")
-        {
-            qDebug()<<"ekranmesaj:"<<lst[1]<<lst[2];
-            ekran->setWindowFlags(Qt::Tool);
-            ekran->ekranMesaj("Yönetici Mesajı:",lst[2]);
-            ekran->show();
-
-        }
-        else if(lst[1]=="kilitstatetrue")
-        {
-            qDebug()<<"ekrankilittrue:"<<lst[1];
-            //ekran->close();
-            if (!kilitstate)
-            {
-                kilitstate=true;
-                transparankilitstate=false;
-                ekranimagestate=false;
-                ekran->setWindowFlags(Qt::Tool);
-                ekran->ekranKilit("Yönetici Mesajı:","Ekran Kilitlendi!");
-                ekran->show();
-            }
-
-        }
-        else if(lst[1]=="kilitstatefalse")
-        {
-            qDebug()<<"ekrankilitac:"<<lst[1];
-            ekran->close();
-            kilitstate=false;
-        }
-        else if(lst[1]=="transparankilitstatetrue")
-        {
-            qDebug()<<"kilittransparanstatetrue";
-            if (!transparankilitstate)
-            {
-                kilitstate=false;
-                transparankilitstate=true;
-                ekranimagestate=false;
-                ekran->setWindowFlags(Qt::Tool);
-                ekran->ekranTransparanKilit();
-                ekran->show();
-            }
-
-        }
-        else if(lst[1]=="transparankilitstatefalse")
-        {
-            qDebug()<<"ekrantransparankilitac:"<<lst[1];
-            ekran->close();
-            transparankilitstate=false;
-        }
-        else if(lst[1]=="x11command")
-        {
-            QString komut="nohup "+lst[2]+" &";
-            system(komut.toStdString().c_str());
-            ekran->setWindowFlags(Qt::Tool);
-            ekran->ekranKomutMesaj("Çalışan Komut:",lst[2]);
-            ekran->show();
-        }
-        else if(lst[1]=="consolecommand")
-        {
-            ekran->setWindowFlags(Qt::Tool);
-            ekran->ekranKomutMesaj("Çalışan Komut:",lst[2]);
-            ekran->show();
-        }
-        else if(lst[1]=="volumeoff")
-        {
-            // qDebug()<<"komut:"<<lst[1]<<lst[2]<<lst[3]<<lst[4]<<lst[5]<<lst[6]<<lst[7];
-            if(QFile::exists("/usr/bin/wpctl"))
-            {
-            QString komut="nohup wpctl set-mute @DEFAULT_AUDIO_SINK@ 1 &";
-            system(komut.toStdString().c_str());
-            }
-            if(QFile::exists("/usr/bin/pactl"))
-            {
-            QString komut1="nohup pactl set-sink-mute @DEFAULT_SINK@ 1 &";
-            system(komut1.toStdString().c_str());
-            }
-        }
-        else if(lst[1]=="volumeon")
-        {
-            // qDebug()<<"komut:"<<lst[1]<<lst[2]<<lst[3]<<lst[4]<<lst[5]<<lst[6]<<lst[7];
-            if(QFile::exists("/usr/bin/wpctl"))
-            {
-            QString komut="nohup wpctl set-mute @DEFAULT_AUDIO_SINK@ 0 &";
-            system(komut.toStdString().c_str());
-            }
-            if(QFile::exists("/usr/bin/pactl"))
-            {
-            QString komut1="nohup pactl set-sink-mute @DEFAULT_SINK@ 0 &";
-            system(komut1.toStdString().c_str());
-            }
-
-            //  komutSudoExpect(lst[1],lst[6],lst[7]);
-        }
-        else if(lst[1]=="videoyayinbaslat")
-        {
-            qDebug()<<"komut:"<<lst[1]<<lst[2];
-
-            gst_init(nullptr, nullptr);
-
-
-            GError *error = NULL;
-
-            // Video ve ses pipeline'ları
-            std::string videoPipeline = "udpsrc port=5000 address=239.0.0.1 ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert ! autovideosink";
-            std::string audioPipeline = "udpsrc port=5001 address=239.0.0.1 ! capsfilter caps=\"application/x-rtp, media=(string)audio, clock-rate=(int)48000, encoding-name=(string)OPUS, payload=(int)97\" ! rtpopusdepay ! opusdec ! autoaudiosink";
-
-            // Video pipeline'ı oluştur
-            pipeline = gst_parse_launch(videoPipeline.c_str(), &error);
-            if (error) {
-                std::cerr << "Video pipeline oluşturulamadı: " << error->message << std::endl;
-                g_clear_error(&error);
-                return;
-            }
-            gst_element_set_state(pipeline, GST_STATE_PLAYING);
-
-
-            // Ses pipeline'ı oluştur
-            pipeline = gst_parse_launch(audioPipeline.c_str(), &error);
-            if (error) {
-                std::cerr << "Ses pipeline oluşturulamadı: " << error->message << std::endl;
-                g_clear_error(&error);
-                return ;
-            }
-            gst_element_set_state(pipeline, GST_STATE_PLAYING);
-
-            /*std::cout << "Alıcı başladı (Ctrl+C ile durdurun)..." << std::endl;
-
-            // Alıcı devam ederken (Ctrl+C ile durdurulana kadar) bekleyin
-            GMainLoop *loop = g_main_loop_new(NULL, FALSE);
-            g_main_loop_run(loop);
-
-            // Pipeline'ları durdur ve temizle
-            gst_element_set_state(pipeline, GST_STATE_NULL);
-            gst_object_unref(pipeline);
-*/
-
-        }
-        else if(lst[1]=="videoyayindurdur")
-        {
-            // Pipeline'ları durdur ve temizle
-            gst_element_set_state(pipeline, GST_STATE_NULL);
-            gst_object_unref(pipeline);
-
-        }
-}
-QString MainWindow::myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon)
-{
-    Qt::WindowFlags flags = 0;
-    flags |= Qt::Dialog;
-    flags |= Qt::X11BypassWindowManagerHint;
-
-    QMessageBox messageBox(this);
-    messageBox.setWindowFlags(flags);
-    messageBox.setText(baslik+"\t\t\t");
-    messageBox.setInformativeText(mesaj);
-    QAbstractButton *evetButton;
-    QAbstractButton *hayirButton;
-    QAbstractButton *tamamButton;
-
-    if(evet=="evet") evetButton =messageBox.addButton(tr("Evet"), QMessageBox::ActionRole);
-    if(hayir=="hayir") hayirButton =messageBox.addButton(tr("Hayır"), QMessageBox::ActionRole);
-    if(tamam=="tamam") tamamButton =messageBox.addButton(tr("Tamam"), QMessageBox::ActionRole);
-
-    messageBox.setIcon(icon);
-    messageBox.exec();
-    if(messageBox.clickedButton()==evetButton) return "evet";
-    if(messageBox.clickedButton()==hayirButton) return "hayır";
-    if(messageBox.clickedButton()==tamamButton) return "tamam";
-    return "";
-}
 
 MainWindow::~MainWindow()
 {
@@ -415,7 +186,7 @@ void  MainWindow::widgetShow()
 {
 
     qDebug()<<"ekranı göster";
-    system("sh -c \"pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY e-ag-client-gui\"");
+    system("sh -c \"pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY e-ag-gui\"");
  }
 
 

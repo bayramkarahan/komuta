@@ -191,7 +191,7 @@ private slots:
 
 
 QString getMacForIP(QString ipAddress);
-    void sendBroadcastDatagram();
+
     void pcClickSlot(QString _mac);
     void slotWakeOnLan(QString _ip,QString _mac);
 

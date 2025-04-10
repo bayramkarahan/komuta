@@ -160,56 +160,6 @@ void MainWindow::udpSocketServerRead()
 
 
 }
-void MainWindow::sendBroadcastDatagram()
-{
-    //return;
-    if (udpSendDataStatus) return;
-    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
-    QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
-    for (const QJsonValue &item : dizi) {
-        QJsonObject veri=item.toObject();
-        this->networkIndex=veri["networkIndex"].toString();
-        this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
-        this->networkName=veri["networkName"].toString();
-        this->networkTcpPort=veri["networkTcpPort"].toString();
-        this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
-        this->serverAddress=veri["serverAddress"].toString();
-        this->ftpPort=veri["ftpPort"].toString();
-        this->rootPath=veri["rootPath"].toString();
-        this->language=veri["language"].toString();
-        this->lockScreenState=veri["lockScreenState"].toBool();
-        this->webblockState=veri["webblockState"].toBool();
-        QString lockScreenStatestr= "false";
-        QString webblockStatestr="false";
-        if(this->lockScreenState)lockScreenStatestr="true";
-        if(this->webblockState)webblockStatestr="true";
-
-        ///qDebug()<<"Broadcast Yapılan Ağ:" <<networkBroadCastAddress<<networkTcpPort;
-        QString uport=networkTcpPort;
-        std::reverse(uport.begin(), uport.end());
-        QString msg;
-        msg="eagconf|"+serverAddress+"|"+
-              networkBroadCastAddress+"|"+
-              networkTcpPort+"|"+
-              ftpPort+"|"+
-              rootPath+"|"+
-              language+"|"+
-              lockScreenStatestr+"|"+
-              webblockStatestr;
-
-        QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
-        ///qDebug()<<datagram;
-        for(int i=1;i<255;i++)
-        {
-            QString broadadres;
-            broadadres=networkBroadCastAddress.section(".",0,2)+"."+QString::number(i);
-            //qDebug()<<broadadres;
-            //udpSocketSend->writeDatagram(datagram,QHostAddress("255.255.255.255"), uport.toInt());
-            udpSocketSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt());
-        }
-        pcDetect();
-    }
-}
 void MainWindow::hostAddressMacButtonSlot()
 {
     QHostAddress localhost = QHostAddress(QHostAddress::LocalHost);

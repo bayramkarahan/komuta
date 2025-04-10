@@ -405,6 +405,7 @@ moc_ekran.cpp: ../../../e-ag-client-tray/ekran.h \
 
 moc_mainwindow.cpp: ../../../e-ag-client-tray/mainwindow.h \
 		../../../e-ag-client-tray/ekran.h \
+		../../../e-ag-client-tray/Database.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-client/build/Desktop-Debug/e-ag-client-tray/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-tray -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../../e-ag-client-tray/mainwindow.h -o moc_mainwindow.cpp
@@ -432,11 +433,13 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 
 main.o: ../../../e-ag-client-tray/main.cpp ../../../e-ag-client-tray/mainwindow.h \
 		../../../e-ag-client-tray/ekran.h \
+		../../../e-ag-client-tray/Database.h \
 		../../../e-ag-client-tray/singleinstance.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../../e-ag-client-tray/main.cpp
 
 mainwindow.o: ../../../e-ag-client-tray/mainwindow.cpp ../../../e-ag-client-tray/mainwindow.h \
-		../../../e-ag-client-tray/ekran.h
+		../../../e-ag-client-tray/ekran.h \
+		../../../e-ag-client-tray/Database.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../../e-ag-client-tray/mainwindow.cpp
 
 singleinstance.o: ../../../e-ag-client-tray/singleinstance.cpp ../../../e-ag-client-tray/singleinstance.h
@@ -483,9 +486,27 @@ uninstall_auto_start: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/etc/xdg/autostart/ 
 
 
-install: install_target install_icon install_auto_start  FORCE
+install_polkit_policy: first FORCE
+	@test -d $(INSTALL_ROOT)/usr/share/polkit-1/actions/ || mkdir -p $(INSTALL_ROOT)/usr/share/polkit-1/actions/
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-tray/e-ag-client-tray.policy $(INSTALL_ROOT)/usr/share/polkit-1/actions/e-ag-client-tray.policy
 
-uninstall: uninstall_target uninstall_icon uninstall_auto_start  FORCE
+uninstall_polkit_policy: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/polkit-1/actions/e-ag-client-tray.policy
+	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/polkit-1/actions/ 
+
+
+install_polkit_rules: first FORCE
+	@test -d $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/ || mkdir -p $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-tray/e-ag-client-tray.rules $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/e-ag-client-tray.rules
+
+uninstall_polkit_rules: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/e-ag-client-tray.rules
+	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/ 
+
+
+install: install_target install_icon install_auto_start install_polkit_policy install_polkit_rules  FORCE
+
+uninstall: uninstall_target uninstall_icon uninstall_auto_start uninstall_polkit_policy uninstall_polkit_rules  FORCE
 
 FORCE:
 

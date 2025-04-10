@@ -34,6 +34,7 @@
 #include <gst/gst.h>
 #include <iostream>
 #include<gst/gsterror.h>
+#include<Database.h>
 class IpMac
 {
 public:
@@ -53,9 +54,23 @@ class MainWindow : public QMainWindow
 
 public:
 virtual void closeEvent ( QCloseEvent * event );
+    /**********************Network Profil*****************************/
+    bool selectedNetworkProfil;
+    QString networkIndex;
+    QString networkName;
+    QString networkTcpPort;
+    QString networkBroadCastAddress;
+    QString serverAddress;
+    QString ftpPort;
+    QString rootPath;
+    bool webblockState;
+    bool lockScreenState;
+    QString language;
 
 public slots:
     void udpConsoleGetSlot();
+    void udpServerGetSlot();
+    void networkProfilLoad();
     void tcpMessageControlSlot(QString _data);
     void  WidgetClosed();
      void iconActivated(QSystemTrayIcon::ActivationReason);
@@ -63,6 +78,9 @@ public slots:
     QString myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon);
     void hostAddressMacButtonSlot();
     void  widgetShow();
+    bool stringToBool(const QString& str) {
+        return str.toLower() == "true"; // Büyük/küçük harf duyarsız karşılaştırma
+    }
 public:
     explicit MainWindow(QWidget *parent = nullptr);
 
@@ -120,8 +138,10 @@ private:
 
     QUdpSocket *udpConsoleGet = nullptr;
     QUdpSocket *udpConsoleSend= nullptr;
+    QUdpSocket *udpServerGet= nullptr;
+
     QString serverIp;
-GstElement *pipeline;
+    GstElement *pipeline;
 };
 
 #endif // MAINWINDOW_H

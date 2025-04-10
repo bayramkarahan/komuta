@@ -4,12 +4,14 @@
 a9547e126676dc2b67e83bb3b00a8155  usr/bin/clientcamera
 1ed95fadf82e1066da017f9678a1f099  usr/bin/e-ag-client-console
 6a10d9eea6d5de2e63f0f6e511f0de6d  usr/bin/e-ag-client-gui
-3bde943cc11ca1b62ffb1d9f1ef7c214  usr/bin/e-ag-client-tray
+6c103b9fcc86d56530ecfcfd461ebb85  usr/bin/e-ag-client-tray
 b4c7ec3fff5c3388081309db6fe3061a  usr/bin/scd-client
 432fb89411189652c8d054bd60aa8858  usr/bin/serverscreen
 d2d7ec3164d50f18eea4b7c8c3257225  usr/bin/x11vncpasswd
 e0febdb4460de3a590519c8f9bb85b65  usr/share/applications/e-ag-client-gui.desktop
-fefe97ca94e895670456cc37393bef52  usr/share/doc/e-ag-client/changelog.gz
+3164424640763132393eb8f9b5fcfb91  usr/share/doc/e-ag-client/changelog.gz
 8f0e24f763e519ea62b036235aca62e0  usr/share/doc/e-ag-client/copyright
 810d71067df9a3fcd8a13a6805dca150  usr/share/e-ag/webdisable.sh
 c641b45324a55458eeaebd1341396b33  usr/share/icons/e-ag-client.svg
+ff1fb7bdeb77266be503705a9ae97aee  usr/share/polkit-1/actions/e-ag-client-tray.policy
+26acacd6ba29d845b93dd434d559caf4  usr/share/polkit-1/rules.d/e-ag-client-tray.rules

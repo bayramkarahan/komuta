@@ -53,16 +53,25 @@ class MainWindow : public QMainWindow
 
 public:
 virtual void closeEvent ( QCloseEvent * event );
-
+    /**********************Network Profil*****************************/
+    bool selectedNetworkProfil;
+    QString networkIndex;
+    QString networkName;
+    QString networkTcpPort;
+    QString networkBroadCastAddress;
+    QString serverAddress;
+    QString ftpPort;
+    QString rootPath;
+    bool webblockState;
+    bool lockScreenState;
+    QString language;
 public slots:
-    void udpConsoleGetSlot();
-    void tcpMessageControlSlot(QString _data);
     void  WidgetClosed();
-     void iconActivated(QSystemTrayIcon::ActivationReason);
+    void iconActivated(QSystemTrayIcon::ActivationReason);
     void gizle();
-    QString myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon);
     void hostAddressMacButtonSlot();
     void  widgetShow();
+    void sendBroadcastDatagram();
 public:
     explicit MainWindow(QWidget *parent = nullptr);
 
@@ -70,10 +79,7 @@ public:
 
 
 private:
-     QString x11user="";
-     QString x11display="";
 
-     QString x11mydispresult="";
      QList<IpMac> ipmaclist;
      QCheckBox *webblockcb;
      QString rootusername;
@@ -118,10 +124,10 @@ private:
     QTimer *tcpMesajControlTimer;
     Ekran *ekran;
 
-    QUdpSocket *udpConsoleGet = nullptr;
-    QUdpSocket *udpConsoleSend= nullptr;
+
+    QUdpSocket *udpBroadCastSend = nullptr;
     QString serverIp;
-GstElement *pipeline;
+    GstElement *pipeline;
 };
 
 #endif // MAINWINDOW_H
