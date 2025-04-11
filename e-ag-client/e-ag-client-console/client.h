@@ -53,7 +53,7 @@ private slots:
      bool uygulamaCalisiyorMu(const QString& uygulamaAdi);
       void udpTrayGetSlot();
       void udpGuiGetSlot();
-
+      void networkProfilSave(QString data);
     void udpServerSendSlot(QString _data);
    // void timerControlSlot();
     void hostAddressMacButtonSlot();

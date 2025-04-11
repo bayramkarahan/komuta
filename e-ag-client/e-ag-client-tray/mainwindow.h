@@ -78,6 +78,8 @@ public slots:
     QString myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon);
     void hostAddressMacButtonSlot();
     void  widgetShow();
+    QString getSessionInfo(QString id, QString parametre);
+    QString getSeatId();
     bool stringToBool(const QString& str) {
         return str.toLower() == "true"; // Büyük/küçük harf duyarsız karşılaştırma
     }

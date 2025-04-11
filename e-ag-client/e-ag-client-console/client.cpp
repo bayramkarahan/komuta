@@ -281,10 +281,19 @@ void Client::udpTrayGetSlot()
         udpTrayGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
 
         QString rmesaj=datagram.constData();
+        QStringList mesaj=rmesaj.split("|");
         //qDebug()<<"**********************************************************";
         //qDebug()<<"udpClientTrayRead:"<<rmesaj;
         //qDebug()<<"**********************************************************";
-        clientTrayEnv=rmesaj;
+        if(mesaj[0]=="eagconf")
+        {
+            networkProfilSave(rmesaj);
+        }else{
+
+            clientTrayEnv=rmesaj;
+
+        }
+
 
     }
 }
@@ -551,6 +560,30 @@ void Client::udpServerGetSlot()
     }
     //qDebug()<<"dosyatopla6";
     udpServerGetStatus=false;
+
+}
+void Client::networkProfilSave(QString data)
+{
+    qDebug()<<"Gelen Tray eagconf Veri:"<<data;
+    QStringList mesaj;
+    mesaj=data.split("|");
+    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+    QJsonObject veri;
+    veri["networkIndex"]= mesaj[9].toInt();
+    veri["selectedNetworkProfil"] =true;
+    veri["networkName"] = "network";
+    veri["networkTcpPort"] = mesaj[3];
+    veri["serverAddress"]=mesaj[1];
+    veri["networkBroadCastAddress"]=mesaj[2];
+    veri["ftpPort"]=mesaj[4];
+    veri["rootPath"]=mesaj[5];
+    veri["language"]=mesaj[6];
+    veri["lockScreenState"]=stringToBool(mesaj[7]);
+    veri["webblockState"]=stringToBool(mesaj[8]);
+
+    db->Sil("networkIndex",mesaj[9].toInt());
+    db->Ekle(veri);
+    ///exit(true);
 
 }
 

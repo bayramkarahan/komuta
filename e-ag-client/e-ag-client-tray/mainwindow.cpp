@@ -104,7 +104,7 @@ MainWindow::MainWindow(QWidget *parent) :
 /***************************************************************/
         //webBlockAktifPasif();
 /***************************************************************/
-    QStringList arguments;
+   /* QStringList arguments;
         arguments << "-c" << QString("printenv USER");
         QProcess process;
         process.start("/bin/bash",arguments);
@@ -125,13 +125,37 @@ MainWindow::MainWindow(QWidget *parent) :
             ///qDebug()<<"mydisp display bilgi:"<<display;
                x11display.chop(1);
         }
+*/
+        /******************************************************/
+            QString seatId=getSeatId();
+        x11user=getSessionInfo(seatId,"USER=");
+        QStringRef _sessionUser=x11user.rightRef(x11user.length()-5);
+        x11user=_sessionUser.toString();
 
 
+        x11display=getSessionInfo(seatId,"DISPLAY=:");
+        QStringRef _sessionDisplay=x11display.rightRef(x11display.length()-9);
+        x11display=_sessionDisplay.toString();
+/*
+        sessionUserId=getSessionInfo(getSeatId(),"UID=");
+        QStringRef _sessionUserId=sessionUserId.rightRef(sessionUserId.length()-4);
+        sessionUserId=_sessionUserId.toString();
+
+        sessionDesktopManager=getSessionInfo(getSeatId(),"SERVICE=");
+        QStringRef _sessionDesktopManager=sessionDesktopManager.rightRef(sessionDesktopManager.length()-8);
+        sessionDesktopManager=_sessionDesktopManager.toString();
+
+        sessionDisplayType=getSessionInfo(getSeatId(),"ORIGINAL_TYPE=");
+        QStringRef _sessionDisplayType=sessionDisplayType.rightRef(sessionDisplayType.length()-14);
+        sessionDisplayType=_sessionDisplayType.toString();
+
+        /******************************************************/
         if(!x11display.contains("0", Qt::CaseInsensitive))//!=0
         {
              QString kmt20="nohup /usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
              system(kmt20.toStdString().c_str());
         }
+
 
 /**************************************************************************/
         QTimer *udpSocketSendConsoleTimer = new QTimer();
@@ -186,7 +210,7 @@ MainWindow::MainWindow(QWidget *parent) :
              {
                  qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
                  //QString kmt="pkexec \"e-ag-client-profilsave "+rmesaj+"|"+this->networkIndex+"\"";
-                    QProcess process;
+                 /*QProcess process;
                  QStringList arguments;
                  arguments << "-c" << "pkexec"<<"e-ag-client-profilsave "<<rmesaj+"|"+this->networkIndex;
                  process.start("/bin/bash",arguments);
@@ -199,7 +223,12 @@ MainWindow::MainWindow(QWidget *parent) :
                  qDebug()<<"out:"<<stdout<<stdout.count();
                  qDebug()<<"err:"<<stderr<<stderr.count();
                  //system(kmt.toStdString().c_str());
-
+                */
+                 QString gmesaj=rmesaj+"|"+this->networkIndex;
+                 QByteArray datagram = gmesaj.toUtf8();
+                 udpConsoleSend->writeDatagram(datagram,QHostAddress::LocalHost, 51511);
+                 qDebug()<<"client console  gönderildi:"<<gmesaj;
+                 system("sleep 2");
                  networkProfilLoad();
              }
              //else {
@@ -476,6 +505,72 @@ QString MainWindow::myMessageBox(QString baslik, QString mesaj, QString evet, QS
 MainWindow::~MainWindow()
 {
   //  delete ui;
+}
+QString MainWindow::getSessionInfo(QString id, QString parametre)
+{
+    QString tempsessionParametre;
+    QString filename="/run/systemd/sessions/"+id;
+
+    if(QFile::exists(filename))
+    {
+        const int size = 256;
+        FILE* fp = fopen(filename.toStdString().c_str(), "r");
+        if(fp == NULL)
+        {
+            perror("Error opening /run/systemd/sessions/");
+        }
+
+        char line[size];
+        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
+        while(fgets(line, size, fp))
+        {
+            QString satir=line;
+            satir.chop(1);
+            //   tempsessionlist<<satir;
+            //qDebug()<<"satir: "<<satir;
+            if(satir.contains(parametre)){
+                tempsessionParametre=satir;
+            }
+        }
+
+        fclose(fp);
+    }
+
+    return tempsessionParametre;
+}
+QString  MainWindow::getSeatId()
+{
+    QString tempseatId;
+    if(QFile::exists("/run/systemd/seats/seat0"))
+    {
+        QStringList list;
+        const int size = 256;
+        //seat=fileToList("/run/systemd/seats","seat0");
+        //qDebug()<<"seat:"<<seat;
+        FILE* fp = fopen("/run/systemd/seats/seat0", "r");
+        if(fp == NULL)
+        {
+            perror("Error opening /run/systemd/seats/seat0");
+        }
+
+        char line[size];
+        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
+        while(fgets(line, size, fp))
+        {
+            QString satir=line;
+            satir.chop(1);
+            if(satir.contains("ACTIVE=")){
+                QStringRef _seatid=satir.rightRef(satir.length()-7);
+                tempseatId=_seatid.toString();
+                //qDebug()<<seatId;
+            }
+
+        }
+
+        fclose(fp);
+    }
+
+    return tempseatId;
 }
 
 void MainWindow::hostAddressMacButtonSlot()
