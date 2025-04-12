@@ -77,15 +77,11 @@ void MainWindow::udpSocketServerRead()
         datagram.resize(int(udpSocketGet->pendingDatagramSize()));
         QHostAddress sender;
         quint16 senderPort;
-
         udpSocketGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
         QString rmesaj=datagram.constData();
         ///qDebug()<<rmesaj;
-
         mesaj=rmesaj.split("|");
-        //qDebug()<<"Client Gelen Udp Mesaj:"<<rmesaj;
-        QStringList lst;
+        //qDebug()<<"Client Mesaj:"<<rmesaj;
         QString _mac=mesaj[2];
         for(int i=0;i<onlinePcList.count();i++)
         {
@@ -102,58 +98,33 @@ void MainWindow::udpSocketServerRead()
                 break;
            }
             if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[0]=="eagclientconf"){
+                qDebug()<<"Client Mesaj:"<<rmesaj;
                 onlinePcList[i]->tcpConnectCounter=0;
-                //qDebug()<<"gelen mesaj:"<<rmesaj<<mesaj.count();
-                // btnlist[i]->tcpConnectCounter=0;
                 onlinePcList[i]->setPcState(true);
                 onlinePcList[i]->setConnectState(true);
                 onlinePcList[i]->ip=mesaj[1];
-
-                if(mesaj.count()==18)
+                if(mesaj.count()==15)
                 {
                     onlinePcList[i]->setUser(mesaj[4]);
-                    ///onlinePcList[i]->setDisplay(mesaj[5]);
-                    //if(onlinePcList[i]->caption==""){
-                        onlinePcList[i]->setHostname(mesaj[13]);
-                   // }
-                    //onlinePcList[i]->setCaption(mesaj[13]);
-/*
-                    if(mesaj[6]=="1")
-                        onlinePcList[i]->setKilitControlState(true);
-                    else
-                        onlinePcList[i]->setKilitControlState(false);
+                    onlinePcList[i]->setHostname(mesaj[10]);
 
-
-                    if(mesaj[7]=="1")
-                        onlinePcList[i]->setKilitTransparanControlState(true);
-                    else
-                        onlinePcList[i]->setKilitTransparanControlState(false);
-
-                    if(mesaj[8]=="1")
-                        onlinePcList[i]->setIconControlState(true);
-                    else
-                        onlinePcList[i]->setIconControlState(false);
-                    */
-                    if(mesaj[15]=="1")
+                    if(mesaj[12]=="1")
                         onlinePcList[i]->setSshState(true);
                     else
                         onlinePcList[i]->setSshState(false);
 
-                    if(mesaj[16]!="0"){
+                    if(mesaj[13]!="0"){
                         onlinePcList[i]->setVncState(true);
-                        onlinePcList[i]->vncport=mesaj[16];
+                        onlinePcList[i]->vncport=mesaj[13];
                     }
                     else {
                         onlinePcList[i]->setVncState(false);
-                        onlinePcList[i]->vncport=mesaj[16];
+                        onlinePcList[i]->vncport=mesaj[13];
                     }
-
-                    if(mesaj[17]=="1")onlinePcList[i]->setFtpState(true);
+                    if(mesaj[14]=="1")onlinePcList[i]->setFtpState(true);
                     else onlinePcList[i]->setFtpState(false);
-
                 }
             }
-
         }
 
     }

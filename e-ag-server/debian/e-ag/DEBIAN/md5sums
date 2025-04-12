@@ -1,10 +1,10 @@
 4d335495b2c270e5df654af6c46a08a7  lib/systemd/system/e-ag-x11vncdesktop.service
 3d68f15b88738d7edb0e0225c9c07306  lib/systemd/system/e-ag-x11vnclogin.service
-b84137e1c37364f63120b0e62c3d688c  usr/bin/e-ag
-840d6c42a75270bda910f8390d32efc0  usr/bin/e-ag-tray
+6daa4403cb8d74f79cd059ffbf2f9afe  usr/bin/e-ag
+2b0da7ad35ed355c548f707075ea8541  usr/bin/e-ag-tray
 b4c7ec3fff5c3388081309db6fe3061a  usr/bin/scd-client
-4fd48e9b58eebf4bafe9ed4a3ae8b527  usr/bin/servercamera
-552d925852d1850c4b802a0be155224d  usr/bin/servervideo
+d13bd4d6540c9939ac7c2e4759e13392  usr/bin/servercamera
+7ee21343a9f58fac0be7f1dffe1640f5  usr/bin/servervideo
 d2d7ec3164d50f18eea4b7c8c3257225  usr/bin/x11vncpasswd
 e10e08e629f406d9be28f8fd44587f38  usr/share/applications/e-ag.desktop
 c23de3d44c67e2b71f7e24725746c411  usr/share/doc/e-ag/changelog.gz

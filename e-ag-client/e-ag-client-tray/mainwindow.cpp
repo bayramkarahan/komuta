@@ -100,34 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
       timergizle = new QTimer(this);
       connect(timergizle, SIGNAL(timeout()), this, SLOT(gizle()));
       timergizle->start(1);
-
-/***************************************************************/
-        //webBlockAktifPasif();
-/***************************************************************/
-   /* QStringList arguments;
-        arguments << "-c" << QString("printenv USER");
-        QProcess process;
-        process.start("/bin/bash",arguments);
-        if(process.waitForFinished())
-        {
-            x11user = process.readAll();
-           /// qDebug()<<"mydisp user bilgi:"<<user;
-               x11user.chop(1);
-        }
-        QStringList argumentss;
-        argumentss << "-c" << QString("printenv DISPLAY");
-
-
-        process.start("/bin/bash",argumentss);
-        if(process.waitForFinished())
-        {
-            x11display = process.readAll();
-            ///qDebug()<<"mydisp display bilgi:"<<display;
-               x11display.chop(1);
-        }
-*/
-        /******************************************************/
-            QString seatId=getSeatId();
+      QString seatId=getSeatId();
         x11user=getSessionInfo(seatId,"USER=");
         QStringRef _sessionUser=x11user.rightRef(x11user.length()-5);
         x11user=_sessionUser.toString();
@@ -136,45 +109,27 @@ MainWindow::MainWindow(QWidget *parent) :
         x11display=getSessionInfo(seatId,"DISPLAY=:");
         QStringRef _sessionDisplay=x11display.rightRef(x11display.length()-9);
         x11display=_sessionDisplay.toString();
-/*
-        sessionUserId=getSessionInfo(getSeatId(),"UID=");
-        QStringRef _sessionUserId=sessionUserId.rightRef(sessionUserId.length()-4);
-        sessionUserId=_sessionUserId.toString();
-
-        sessionDesktopManager=getSessionInfo(getSeatId(),"SERVICE=");
-        QStringRef _sessionDesktopManager=sessionDesktopManager.rightRef(sessionDesktopManager.length()-8);
-        sessionDesktopManager=_sessionDesktopManager.toString();
-
-        sessionDisplayType=getSessionInfo(getSeatId(),"ORIGINAL_TYPE=");
-        QStringRef _sessionDisplayType=sessionDisplayType.rightRef(sessionDisplayType.length()-14);
-        sessionDisplayType=_sessionDisplayType.toString();
-
         /******************************************************/
         if(!x11display.contains("0", Qt::CaseInsensitive))//!=0
         {
              QString kmt20="nohup /usr/bin/x11vnc -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
              system(kmt20.toStdString().c_str());
         }
-
-
-/**************************************************************************/
+        //sendConsoleCount=0;
         QTimer *udpSocketSendConsoleTimer = new QTimer();
-        QObject::connect(udpSocketSendConsoleTimer, &QTimer::timeout, [&](){
-            x11mydispresult=x11user+"|"+
-                              x11display+"|"+
-                              QString::number(kilitstate)+"|"+
-                              QString::number(transparankilitstate)+"|"+
-                              QString::number(ekranimagestate);
+        QObject::connect(udpSocketSendConsoleTimer, &QTimer::timeout, [this,udpSocketSendConsoleTimer](){
+            x11mydispresult="clientTrayEnv|"+x11user+"|"+x11display;
             QByteArray datagram = x11mydispresult.toUtf8();// +QHostAddress::LocalHost;
             udpConsoleSend->writeDatagram(datagram,QHostAddress::LocalHost, 51511);
             qDebug()<<"client console  gönderildi:"<<x11mydispresult;
+            //sendConsoleCount++;
+            //if(sendConsoleCount>7) udpSocketSendConsoleTimer->stop();
         });
-        udpSocketSendConsoleTimer->start(4000);
+        udpSocketSendConsoleTimer->start(5000);
 
        }
  void MainWindow::udpServerGetSlot()
  {
-
      QByteArray datagram;
      QStringList mesaj;
 
@@ -209,21 +164,6 @@ MainWindow::MainWindow(QWidget *parent) :
              if(updateState)
              {
                  qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
-                 //QString kmt="pkexec \"e-ag-client-profilsave "+rmesaj+"|"+this->networkIndex+"\"";
-                 /*QProcess process;
-                 QStringList arguments;
-                 arguments << "-c" << "pkexec"<<"e-ag-client-profilsave "<<rmesaj+"|"+this->networkIndex;
-                 process.start("/bin/bash",arguments);
-                 qDebug()<<"komut:"<<arguments;
-                 process.waitForFinished(-1); // will wait forever until finished
-                 QString stdout = process.readAllStandardOutput();
-                 QString stderr = process.readAllStandardError();
-                 stdout.chop(1);
-                 stderr.chop(1);
-                 qDebug()<<"out:"<<stdout<<stdout.count();
-                 qDebug()<<"err:"<<stderr<<stderr.count();
-                 //system(kmt.toStdString().c_str());
-                */
                  QString gmesaj=rmesaj+"|"+this->networkIndex;
                  QByteArray datagram = gmesaj.toUtf8();
                  udpConsoleSend->writeDatagram(datagram,QHostAddress::LocalHost, 51511);
@@ -231,13 +171,10 @@ MainWindow::MainWindow(QWidget *parent) :
                  system("sleep 2");
                  networkProfilLoad();
              }
-             //else {
-             //qDebug()<<"eagconf bilgileri aynı.";
-             //if(stringToBool(webblockState)) webBlockAktifPasif(true);
-             //}
          }
         }
  }
+
  void MainWindow::networkProfilLoad()
  {
 
@@ -260,39 +197,13 @@ MainWindow::MainWindow(QWidget *parent) :
          this->language=veri["language"].toString();
          this->lockScreenState=veri["lockScreenState"].toBool();
          this->webblockState=veri["webblockState"].toBool();
-         /*
-        hostAddressMacButtonSlot();
-        for(int i=0;i<ipmaclist.count();i++)
-        {
-            if(ipmaclist[i].broadcast==networkBroadCastAddress)
-            {
-                if(ipmaclist[i].ip!=serverAddress)
-                {
-                    qDebug()<<"Server Ip Numarası Güncelleniyor..";
-                    QJsonObject veri;
-                    veri["networkIndex"] =this->networkIndex;
-                    veri["selectedNetworkProfil"] =this->selectedNetworkProfil;
-                    veri["networkName"] = this->networkName;
-                    veri["networkTcpPort"] = this->networkTcpPort;
-                    veri["serverAddress"]=ipmaclist[i].ip;
-                    veri["networkBroadCastAddress"]=this->networkBroadCastAddress;
-                    veri["ftpPort"]=this->ftpPort;
-                    veri["rootPath"]=this->rootPath;
-                    veri["language"]=this->language;
-                    veri["lockScreenState"]=this->lockScreenState;
-                    veri["webblockState"]=this->webblockState;
-                    db->Sil("networkIndex",this->networkIndex);
-                    db->Ekle(veri);
-                }
 
-            }
-        }*/
      }else
      {
          qDebug()<<"Yeni Network Ekleniyor.";
-
-         //hostAddressMacButtonSlot();
-
+         hostAddressMacButtonSlot();
+         for(int i=0;i<ipmaclist.count();i++)
+         {
          //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
          QJsonObject veri;
          veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
@@ -300,14 +211,14 @@ MainWindow::MainWindow(QWidget *parent) :
          veri["networkName"] = "network";
          veri["networkTcpPort"] = "7879";
          veri["serverAddress"]="";
-         veri["networkBroadCastAddress"]="";
+         veri["networkBroadCastAddress"]=ipmaclist[i].broadcast;
          veri["ftpPort"]="12345";
          veri["rootPath"]="/tmp/";
          veri["language"]="tr_TR";
          veri["lockScreenState"]=false;
          veri["webblockState"]=false;
          db->Ekle(veri);
-
+         }
          networkProfilLoad();
      }
  }
@@ -315,18 +226,13 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::udpConsoleGetSlot()
 {
     QByteArray datagram;
-
     while (udpConsoleGet->hasPendingDatagrams()) {
         datagram.resize(int(udpConsoleGet->pendingDatagramSize()));
         QHostAddress sender;
         quint16 senderPort;
-
         udpConsoleGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
         QString rmesaj=datagram.constData();
-     ///   qDebug()<<"x11'den Gelen Udp Mesaj:"<<rmesaj;
-   tcpMessageControlSlot(rmesaj);
-
+        tcpMessageControlSlot(rmesaj);
     }
 }
 

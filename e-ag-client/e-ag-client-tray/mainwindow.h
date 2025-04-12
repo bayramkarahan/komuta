@@ -144,6 +144,7 @@ private:
 
     QString serverIp;
     GstElement *pipeline;
+    int sendConsoleCount=0;
 };
 
 #endif // MAINWINDOW_H

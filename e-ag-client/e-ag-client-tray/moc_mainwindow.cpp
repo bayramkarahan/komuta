@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[23];
-    char stringdata0[279];
+    QByteArrayData data[27];
+    char stringdata0[317];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -53,8 +53,12 @@ QT_MOC_LITERAL(17, 203, 17), // "QMessageBox::Icon"
 QT_MOC_LITERAL(18, 221, 4), // "icon"
 QT_MOC_LITERAL(19, 226, 24), // "hostAddressMacButtonSlot"
 QT_MOC_LITERAL(20, 251, 10), // "widgetShow"
-QT_MOC_LITERAL(21, 262, 12), // "stringToBool"
-QT_MOC_LITERAL(22, 275, 3) // "str"
+QT_MOC_LITERAL(21, 262, 14), // "getSessionInfo"
+QT_MOC_LITERAL(22, 277, 2), // "id"
+QT_MOC_LITERAL(23, 280, 9), // "parametre"
+QT_MOC_LITERAL(24, 290, 9), // "getSeatId"
+QT_MOC_LITERAL(25, 300, 12), // "stringToBool"
+QT_MOC_LITERAL(26, 313, 3) // "str"
 
     },
     "MainWindow\0udpConsoleGetSlot\0\0"
@@ -64,6 +68,7 @@ QT_MOC_LITERAL(22, 275, 3) // "str"
     "gizle\0myMessageBox\0baslik\0mesaj\0evet\0"
     "hayir\0tamam\0QMessageBox::Icon\0icon\0"
     "hostAddressMacButtonSlot\0widgetShow\0"
+    "getSessionInfo\0id\0parametre\0getSeatId\0"
     "stringToBool\0str"
 };
 #undef QT_MOC_LITERAL
@@ -74,7 +79,7 @@ static const uint qt_meta_data_MainWindow[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -82,17 +87,19 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   69,    2, 0x0a /* Public */,
-       3,    0,   70,    2, 0x0a /* Public */,
-       4,    0,   71,    2, 0x0a /* Public */,
-       5,    1,   72,    2, 0x0a /* Public */,
-       7,    0,   75,    2, 0x0a /* Public */,
-       8,    1,   76,    2, 0x0a /* Public */,
-      10,    0,   79,    2, 0x0a /* Public */,
-      11,    6,   80,    2, 0x0a /* Public */,
-      19,    0,   93,    2, 0x0a /* Public */,
-      20,    0,   94,    2, 0x0a /* Public */,
-      21,    1,   95,    2, 0x0a /* Public */,
+       1,    0,   79,    2, 0x0a /* Public */,
+       3,    0,   80,    2, 0x0a /* Public */,
+       4,    0,   81,    2, 0x0a /* Public */,
+       5,    1,   82,    2, 0x0a /* Public */,
+       7,    0,   85,    2, 0x0a /* Public */,
+       8,    1,   86,    2, 0x0a /* Public */,
+      10,    0,   89,    2, 0x0a /* Public */,
+      11,    6,   90,    2, 0x0a /* Public */,
+      19,    0,  103,    2, 0x0a /* Public */,
+      20,    0,  104,    2, 0x0a /* Public */,
+      21,    2,  105,    2, 0x0a /* Public */,
+      24,    0,  110,    2, 0x0a /* Public */,
+      25,    1,  111,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
@@ -105,7 +112,9 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString, QMetaType::QString, 0x80000000 | 17,   12,   13,   14,   15,   16,   18,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Bool, QMetaType::QString,   22,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString,   22,   23,
+    QMetaType::QString,
+    QMetaType::Bool, QMetaType::QString,   26,
 
        0        // eod
 };
@@ -127,7 +136,11 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
         case 8: _t->hostAddressMacButtonSlot(); break;
         case 9: _t->widgetShow(); break;
-        case 10: { bool _r = _t->stringToBool((*reinterpret_cast< const QString(*)>(_a[1])));
+        case 10: { QString _r = _t->getSessionInfo((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])));
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
+        case 11: { QString _r = _t->getSeatId();
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
+        case 12: { bool _r = _t->stringToBool((*reinterpret_cast< const QString(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         default: ;
         }
@@ -163,13 +176,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 11;
+        _id -= 13;
     }
     return _id;
 }

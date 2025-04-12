@@ -4,9 +4,9 @@ Version: 2.4.5
 Auto-Built-Package: debug-symbols
 Architecture: amd64
 Maintainer: Bayram KARAHAN <bayramk@gmail.com>
-Installed-Size: 170
+Installed-Size: 172
 Depends: e-ag (= 2.4.5)
 Section: debug
 Priority: optional
 Description: debug symbols for e-ag
-Build-Ids: 14f56519cbb774b66b3878969fb63fe68a4e5841 74cf64a11aa84e8a9234e9bbe6efb248385ae1f2 7b61494c6a074b1e94623564293b94715ff50eff 9a663087efca5858a447212c68cb73a74452d6da a822ee9d0bf1a1964527c59b99a0a876b800b267
+Build-Ids: 6f69303cc4d8fedf12929365709b5f1c14a5235b 862f1e16b95987bb10dc238d8fb9614dea77ccdd 8ebad1278e90e3fac93a863804c122c8b52a2a03 a5fecafd94bf58f3efccbe5a66e798f75ebeea24 a822ee9d0bf1a1964527c59b99a0a876b800b267

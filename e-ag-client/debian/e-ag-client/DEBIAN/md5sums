@@ -1,11 +1,10 @@
 74301daa7d3b25ebe3d5ca5723f9b996  lib/systemd/system/e-ag-client.service
 4d335495b2c270e5df654af6c46a08a7  lib/systemd/system/e-ag-x11vncdesktop.service
 3d68f15b88738d7edb0e0225c9c07306  lib/systemd/system/e-ag-x11vnclogin.service
-a9547e126676dc2b67e83bb3b00a8155  usr/bin/clientcamera
-b33585bf05c477e0329c5bd0c6dfc2e5  usr/bin/e-ag-client-console
+f5415ed848576700046ef6b59cff6889  usr/bin/clientcamera
+f014eddf493246719824415e47582e42  usr/bin/e-ag-client-console
 c9667e423b8e07f978e865f8f079ae16  usr/bin/e-ag-client-gui
-9590171758a5e4149a05a8c2c4a985a3  usr/bin/e-ag-client-profilsave
-411c7cd6c704781f823ed53981d0f5cf  usr/bin/e-ag-client-tray
+1421144b99cf4841df698b69ccdfd0cd  usr/bin/e-ag-client-tray
 b4c7ec3fff5c3388081309db6fe3061a  usr/bin/scd-client
 432fb89411189652c8d054bd60aa8858  usr/bin/serverscreen
 d2d7ec3164d50f18eea4b7c8c3257225  usr/bin/x11vncpasswd
@@ -14,5 +13,3 @@ e0febdb4460de3a590519c8f9bb85b65  usr/share/applications/e-ag-client-gui.desktop
 8f0e24f763e519ea62b036235aca62e0  usr/share/doc/e-ag-client/copyright
 810d71067df9a3fcd8a13a6805dca150  usr/share/e-ag/webdisable.sh
 c641b45324a55458eeaebd1341396b33  usr/share/icons/e-ag-client.svg
-894198a00769eb54e7b0334a9c4e001f  usr/share/polkit-1/actions/e-ag-client-profilsave.policy
-42916739a8cfc8a8aab4f9f97d69c5f4  usr/share/polkit-1/rules.d/e-ag-client-profilsave.rules

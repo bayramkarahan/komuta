@@ -1,6 +1,6 @@
 #ifndef VIDEOWIDGET_H
 #define VIDEOWIDGET_H
-
+#include<QProcessEnvironment>
 QWidget* MainWindow::videoWidget()
 {
     int e=en;
@@ -63,33 +63,28 @@ QWidget* MainWindow::videoWidget()
     QLabel *pathLabel=new QLabel("Kamera ve Ses:");
     pathLabel->setFixedSize(e*15,yukseklik);
     pathLabel->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-
     // messageBox.setIcon(QMessageBox::Question);
-
-
-
     QToolButton *videoYayinButton=new QToolButton();
-    videoYayinButton->setFixedSize(e*20,yukseklik*2);
+    videoYayinButton->setFixedSize(e*14,yukseklik*2);
     videoYayinButton->setAutoRaise(true);
     // videoYayinButton->setAutoFillBackground(true);
-    videoYayinButton->setIcon(QIcon(":/icons/selectpcvideo.svg"));
+    videoYayinButton->setIcon(QIcon(":/icons/video.svg"));
     videoYayinButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
     videoYayinButton->setIconSize(QSize(b*8,yukseklik*0.9));
     videoYayinButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    videoYayinButton->setText("Videoyu\nYayınla");
+    videoYayinButton->setText("Videoyu\nÇalıştır");
     connect(videoYayinButton, &QToolButton::clicked, [=]() {
         // if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
         QString name = QUrl::fromLocalFile(commandFileLE->text()).path(QUrl::FullyEncoded);
         name.replace("%20","%5C%20");
         QUrl pth;
-
         if(commandFileLE->text()!="")
         {
-            QString kmt10="/usr/bin/servervideo "+commandFileLE->text()+" &";
+            streamState=true;
+            system("pkill servervideo");
+            QString kmt10="servervideo "+commandFileLE->text()+"&";
             system(kmt10.toStdString().c_str());
-             udpSendData("x11command","x11command","pkill clientcamera");
-            udpSendData("x11command","x11command","/usr/bin/clientcamera");
         }
       });
 
@@ -117,22 +112,25 @@ QWidget* MainWindow::videoWidget()
 
 
     QToolButton *liveStreamButton=new QToolButton();
-    liveStreamButton->setFixedSize(e*20,yukseklik*2);
+    liveStreamButton->setFixedSize(e*14,yukseklik*2);
     liveStreamButton->setAutoRaise(true);
-    liveStreamButton->setIcon(QIcon(":/icons/selectpccamera.svg"));
+    liveStreamButton->setIcon(QIcon(":/icons/camera.svg"));
     liveStreamButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
     liveStreamButton->setIconSize(QSize(b*8,yukseklik*0.9));
     liveStreamButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    liveStreamButton->setText("Kamerayı\nYayınla");
+    liveStreamButton->setText("Kamerayı\nÇalıştır");
     connect(liveStreamButton, &QToolButton::clicked, [=]() {
-        system("/usr/bin/servercamera &");
-        udpSendData("x11command","x11command","pkill clientcamera");
-        udpSendData("x11command","x11command","/usr/bin/clientcamera");
+        streamState=true;
+        qDebug()<<"camera yayın start";
+        system("pkill servercamera");
+        QString kmt10="servercamera "+kamera->currentText()+"&";
+        system(kmt10.toStdString().c_str());
+        //system("/usr/bin/servercamera &");
         mesajSlot("Seçili Pc'ye Komut Gönderildi.");
     });
 
-    videoStopButton->setFixedSize(e*20,yukseklik*2);
+    videoStopButton->setFixedSize(e*14,yukseklik*2);
     videoStopButton->setAutoRaise(true);
     videoStopButton->setIcon(QIcon(":/icons/videostop.svg"));
     videoStopButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
@@ -143,15 +141,17 @@ QWidget* MainWindow::videoWidget()
     connect(videoStopButton, &QToolButton::clicked, [=]() {
         if(streamState)
         {
+            qDebug()<<"video yayın stop"<<streamState;
             system("pkill servervideo");
-            udpSendData("x11command","x11command","pkill clientcamera");
+            ///udpSendData("x11command","x11command","pkill clientcamera");
             mesajSlot("Video durduruldu.");
+            streamState=false;
         }
 
     });
 
 
-    liveStreamStopButton->setFixedSize(e*20,yukseklik*2);
+    liveStreamStopButton->setFixedSize(e*14,yukseklik*2);
     liveStreamStopButton->setAutoRaise(true);
     liveStreamStopButton->setIcon(QIcon(":/icons/camerastop.svg"));
     liveStreamStopButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
@@ -162,14 +162,58 @@ QWidget* MainWindow::videoWidget()
     connect(liveStreamStopButton, &QToolButton::clicked, [=]() {
         if(streamState)
         {
-            system("pkill servercamera");
-            udpSendData("x11command","x11command","pkill clientcamera");
+            qDebug()<<"camera yayın stop"<<streamState;
+            system("pkill servercamera &");
+            //udpSendData("x11command","x11command","pkill clientcamera");
+            streamState=false;
         }
 
     });
 
+    QToolButton *liveStreamShareButton=new QToolButton();
+    liveStreamShareButton->setFixedSize(e*14,yukseklik*2);
+    liveStreamShareButton->setAutoRaise(true);
+    liveStreamShareButton->setIcon(QIcon(":/icons/streamstart.svg"));
+    liveStreamShareButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
+
+    liveStreamShareButton->setIconSize(QSize(b*8,yukseklik*0.9));
+    liveStreamShareButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    liveStreamShareButton->setText("Pc'ye\nYayınla");
+    connect(liveStreamShareButton, &QToolButton::clicked, [=]() {
+        //if(streamState)
+        //{
+            qDebug()<<"akışı paylaş"<<streamState;
+            udpSendData("x11command","x11command","pkill clientcamera");
+            system("sleep 2");
+            udpSendData("x11command","x11command","clientcamera");
+
+            //streamState=false;
+       //}
+
+    });
+
+    QToolButton *liveStreamShareStopButton=new QToolButton();
+    liveStreamShareStopButton->setFixedSize(e*14,yukseklik*2);
+    liveStreamShareStopButton->setAutoRaise(true);
+    liveStreamShareStopButton->setIcon(QIcon(":/icons/streamstop.svg"));
+    liveStreamShareStopButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
+
+    liveStreamShareStopButton->setIconSize(QSize(b*8,yukseklik*0.9));
+    liveStreamShareStopButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    liveStreamShareStopButton->setText("Pc Yayını\nDurdur");
+    connect(liveStreamShareStopButton, &QToolButton::clicked, [=]() {
+        //if(streamState)
+        //{
+            qDebug()<<"akışı  durdur"<<streamState;
+            //system("pkill servercamera &");
+            udpSendData("x11command","x11command","pkill clientcamera");
+            //streamState=false;
+        //}
+
+    });
+
     QToolButton *helpButton= new QToolButton;
-    helpButton->setFixedSize(e*20,yukseklik*2);
+    helpButton->setFixedSize(e*14,yukseklik*2);
     helpButton->setAutoRaise(true);
     // bilgiButton->setAutoFillBackground(true);
     helpButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
@@ -231,9 +275,14 @@ QWidget* MainWindow::videoWidget()
     vbox->addWidget(fileSelectButton,1,5,2,1,Qt::AlignLeft);
     vbox->addWidget(videoYayinButton,1,6,2,1,Qt::AlignLeft);
     vbox->addWidget(videoStopButton,1,8,2,1,Qt::AlignLeft);
+
     vbox->addWidget(liveStreamButton,1,9,2,1,Qt::AlignLeft);
     vbox->addWidget(liveStreamStopButton,1,11,2,1,Qt::AlignLeft);
-    vbox->addWidget(helpButton,1,12,2,1,Qt::AlignLeft);
+    vbox->addWidget(liveStreamShareButton,1,13,2,1,Qt::AlignLeft);
+    vbox->addWidget(liveStreamShareStopButton,1,14,2,1,Qt::AlignLeft);
+
+
+    vbox->addWidget(helpButton,1,16,2,1,Qt::AlignLeft);
 
     d->setLayout(vbox);
     return d;

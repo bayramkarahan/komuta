@@ -74,5 +74,8 @@
         <file>icons/volumeoff.svg</file>
         <file>icons/volumeon.svg</file>
         <file>icons/language.svg</file>
+        <file>icons/video.svg</file>
+        <file>icons/streamstart.svg</file>
+        <file>icons/streamstop.svg</file>
     </qresource>
 </RCC>

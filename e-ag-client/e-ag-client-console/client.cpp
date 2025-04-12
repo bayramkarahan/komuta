@@ -54,63 +54,47 @@ void Client::tcpMesajSendTimerSlot()
     */
     //qDebug()<<"product name and version:  " <<sysinfo.machineHostName();
 
-   // QString projeversion=sysinfo.prettyProductName()+sysinfo.kernelVersion().left(1);
-QString hostname=sysinfo.machineHostName();
+    // QString projeversion=sysinfo.prettyProductName()+sysinfo.kernelVersion().left(1);
+    QString hostname=sysinfo.machineHostName();
 
-//qDebug()<<sessionUser<<sessionDisplay<<sessionUserId<<projeversion<<sessionDesktopManager<<sessionDisplayType;
-clientConsoleEnv="consolenv|"+sessionUser+"|"+sessionDisplay+"|"+sessionUserId+"|"+hostname+"|"+sessionDesktopManager;
-//clientConsoleEnv="consolenv||||"+hostname+"|";
+    //qDebug()<<sessionUser<<sessionDisplay<<sessionUserId<<projeversion<<sessionDesktopManager<<sessionDisplayType;
+    clientConsoleEnv="consolenv|"+sessionUser+"|"+sessionDisplay+"|"+sessionUserId+"|"+hostname+"|"+sessionDesktopManager;
+    //clientConsoleEnv="consolenv||||"+hostname+"|";
 
-//qDebug()<<"clientConsoleEnv"<<clientConsoleEnv;
- /******************************************************/
-      if(clientTrayEnv=="")
-        {
-          clientTrayEnv="noLogin|0|0|0|0";
-       }
+    //qDebug()<<"clientConsoleEnv"<<clientConsoleEnv;
+    /******************************************************/
+    if(clientTrayEnv=="")
+    {
+        clientTrayEnv="clientTrayEnv|noLogin|0";
+    }
+    //pgrep 15 karakterden fazla olmamalı bundan dolayı tray yerine tra bırakılmıştır
+    if (!uygulamaCalisiyorMu("pgrep e-ag-client-tra")) {
+        clientTrayEnv="clientTrayEnv|noLogin|0";
+    }
 
-      bool sshState;
-      int vncState;
-      bool ftpState;
-      /*************************************/
-      if (getIpPortStatus("systemctl status ssh.service|grep 'running'|wc -l",0)=="open")
-          sshState=true;
-      else sshState=false;
 
-      QString vncports=findX11vncPort("netstat -tulnp");
-      //qDebug()<<"vnc portları: "<<vncports;
-      //findX11vncPort("lsof -i -P -n | grep x11vnc|grep IPv4");
-       /*************************************/
-      if (getIpPortStatus("systemctl status vsftpd.service|grep 'running'|wc -l",0)=="open")
-          ftpState=true;
-      else ftpState=false;
-      /*************************************/
-      QString data="trayenv|"+clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(ftpState);
-      /*if(tempdata!=data)
-      {
+    bool sshState;
+    bool ftpState;
+    /*************************************/
+    if (getIpPortStatus("systemctl status ssh.service|grep 'running'|wc -l",0)=="open")
+        sshState=true;
+    else sshState=false;
 
-          udpServerSendSlot(data);
-          tempdata=data;
-          dataSayac=1;
+    QString vncports=findX11vncPort("netstat -tulnp");
+    //qDebug()<<"vnc portları: "<<vncports;
+    //findX11vncPort("lsof -i -P -n | grep x11vnc|grep IPv4");
+    /*************************************/
+    if (getIpPortStatus("systemctl status vsftpd.service|grep 'running'|wc -l",0)=="open")
+        ftpState=true;
+    else ftpState=false;
+    /*************************************/
+    QString data=clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(ftpState);
 
-      }
-      else dataSayac++;
-      if(dataSayac>3)
-      {
-          udpServerSendSlot(data);
-          tempdata=data;
-          dataSayac=0;
-
-      }*/
-      udpServerSendSlot(data);
-      tempdata=data;
-      data="";
-      //pgrep 15 karakterden fazla olmamalı bundan dolayı tray yerine tra bırakılmıştır
-      if (!uygulamaCalisiyorMu("pgrep e-ag-client-tra")) {
-          clientTrayEnv="noLogin|0|0|0|0";
-      }
+    udpServerSendSlot(data);
+    tempdata=data;
+    data="";
 
 }
-
 QString Client::findX11vncPort(QString kmt) {
     //qDebug()<<"x11vnc portu test ediliyor....."<<kmt;
     QString ports="";
@@ -262,7 +246,7 @@ void Client::udpServerSendSlot(QString _data)
             QString msg="eagclientconf|"+ipmaclist[k].ip+"|"+ipmaclist[k].mac+"|"+_data;
             QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
             udpServerSend->writeDatagram(datagram,QHostAddress(serverAddress), networkTcpPort.toInt());
-            ///qDebug()<<msg<<networkTcpPort;
+            qDebug()<<msg<<networkTcpPort;
         }
     }
 
@@ -272,29 +256,16 @@ void Client::udpTrayGetSlot()
 {
     QByteArray datagram;
     QStringList mesaj;
-
     while (udpTrayGet->hasPendingDatagrams()) {
         datagram.resize(int(udpTrayGet->pendingDatagramSize()));
         QHostAddress sender;
         quint16 senderPort;
-
         udpTrayGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-
         QString rmesaj=datagram.constData();
         QStringList mesaj=rmesaj.split("|");
-        //qDebug()<<"**********************************************************";
         //qDebug()<<"udpClientTrayRead:"<<rmesaj;
-        //qDebug()<<"**********************************************************";
-        if(mesaj[0]=="eagconf")
-        {
-            networkProfilSave(rmesaj);
-        }else{
-
-            clientTrayEnv=rmesaj;
-
-        }
-
-
+        if(mesaj[0]=="eagconf") networkProfilSave(rmesaj);
+        if(mesaj[0]=="clientTrayEnv")  clientTrayEnv=rmesaj;
     }
 }
 
@@ -320,6 +291,7 @@ void Client::udpGuiGetSlot()
             webBlockAktifPasif(false);
     }
 }
+
 void Client::networkProfilLoad()
 {
 
@@ -342,39 +314,12 @@ void Client::networkProfilLoad()
         this->language=veri["language"].toString();
         this->lockScreenState=veri["lockScreenState"].toBool();
         this->webblockState=veri["webblockState"].toBool();
-        /*
+    }else{
+        qDebug()<<"Yeni Network Ekleniyor.";
+
         hostAddressMacButtonSlot();
         for(int i=0;i<ipmaclist.count();i++)
         {
-            if(ipmaclist[i].broadcast==networkBroadCastAddress)
-            {
-                if(ipmaclist[i].ip!=serverAddress)
-                {
-                    qDebug()<<"Server Ip Numarası Güncelleniyor..";
-                    QJsonObject veri;
-                    veri["networkIndex"] =this->networkIndex;
-                    veri["selectedNetworkProfil"] =this->selectedNetworkProfil;
-                    veri["networkName"] = this->networkName;
-                    veri["networkTcpPort"] = this->networkTcpPort;
-                    veri["serverAddress"]=ipmaclist[i].ip;
-                    veri["networkBroadCastAddress"]=this->networkBroadCastAddress;
-                    veri["ftpPort"]=this->ftpPort;
-                    veri["rootPath"]=this->rootPath;
-                    veri["language"]=this->language;
-                    veri["lockScreenState"]=this->lockScreenState;
-                    veri["webblockState"]=this->webblockState;
-                    db->Sil("networkIndex",this->networkIndex);
-                    db->Ekle(veri);
-                }
-
-            }
-        }*/
-    }else
-    {
-        qDebug()<<"Yeni Network Ekleniyor.";
-
-        //hostAddressMacButtonSlot();
-
             //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
             QJsonObject veri;
             veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
@@ -382,14 +327,14 @@ void Client::networkProfilLoad()
             veri["networkName"] = "network";
             veri["networkTcpPort"] = "7879";
             veri["serverAddress"]="";
-            veri["networkBroadCastAddress"]="";
+            veri["networkBroadCastAddress"]=ipmaclist[i].broadcast;
             veri["ftpPort"]="12345";
             veri["rootPath"]="/tmp/";
             veri["language"]="tr_TR";
             veri["lockScreenState"]=false;
             veri["webblockState"]=false;
             db->Ekle(veri);
-
+        }
         networkProfilLoad();
     }
 }
@@ -569,7 +514,7 @@ void Client::networkProfilSave(QString data)
     mesaj=data.split("|");
     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     QJsonObject veri;
-    veri["networkIndex"]= mesaj[9].toInt();
+    veri["networkIndex"]= QString::number(db->getIndex("networkIndex"));
     veri["selectedNetworkProfil"] =true;
     veri["networkName"] = "network";
     veri["networkTcpPort"] = mesaj[3];
@@ -580,11 +525,9 @@ void Client::networkProfilSave(QString data)
     veri["language"]=mesaj[6];
     veri["lockScreenState"]=stringToBool(mesaj[7]);
     veri["webblockState"]=stringToBool(mesaj[8]);
-
-    db->Sil("networkIndex",mesaj[9].toInt());
+    db->Sil("networkBroadCastAddress",mesaj[2]);
     db->Ekle(veri);
-    ///exit(true);
-
+    networkProfilLoad();
 }
 
 void Client::webBlockAktifPasif(bool _state)

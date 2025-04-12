@@ -910,8 +910,7 @@ void MainWindow::networkProfilLoad()
 
             }
         }
-    }else
-    {
+    }else{
         qDebug()<<"Yeni Network Ekleniyor.";
 
         hostAddressMacButtonSlot();
