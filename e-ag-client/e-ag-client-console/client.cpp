@@ -246,7 +246,7 @@ void Client::udpServerSendSlot(QString _data)
             QString msg="eagclientconf|"+ipmaclist[k].ip+"|"+ipmaclist[k].mac+"|"+_data;
             QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
             udpServerSend->writeDatagram(datagram,QHostAddress(serverAddress), networkTcpPort.toInt());
-            qDebug()<<msg<<networkTcpPort;
+            ///qDebug()<<msg<<networkTcpPort;
         }
     }
 
@@ -454,7 +454,9 @@ void Client::udpServerGetSlot()
         }
         else if(mesaj[0]=="consolecommand")
         {
-            commandExecuteSlot(mesaj[1]);
+            commandExecuteSlot(mesaj[2]);
+            QByteArray datagram = rmesaj.toUtf8();// +QHostAddress::LocalHost;
+            udpTraySend->writeDatagram(datagram,QHostAddress::LocalHost, 51512);
         }
         else if(mesaj[0]=="dosyatopla")
         {

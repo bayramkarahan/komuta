@@ -474,7 +474,13 @@ MainWindow::~MainWindow()
     qDebug()<<"Kapatıldı.";
     slotVncFlipStop();
 
-    videoProcess.terminate();
+    if(streamState)
+    {
+        system("pkill servervideo");
+        system("pkill clientvideo");
+        system("pkill servercamera");
+        system("pkill clientcamera");
+    }
     system("sleep 1");
 }
 

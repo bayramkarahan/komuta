@@ -15,8 +15,8 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg"><defs
-   id="defs101" /><sodipodi:namedview
-   id="namedview99"
+   id="defs1237" /><sodipodi:namedview
+   id="namedview1235"
    pagecolor="#ffffff"
    bordercolor="#000000"
    borderopacity="0.25"
@@ -25,196 +25,197 @@
    inkscape:pagecheckerboard="0"
    inkscape:deskcolor="#d1d1d1"
    showgrid="false"
-   inkscape:zoom="6.8391318"
-   inkscape:cx="29.974565"
-   inkscape:cy="29.974565"
+   inkscape:zoom="4.5537677"
+   inkscape:cx="30.304576"
+   inkscape:cy="41.284495"
    inkscape:window-width="1366"
    inkscape:window-height="667"
    inkscape:window-x="0"
    inkscape:window-y="0"
    inkscape:window-maximized="1"
-   inkscape:current-layer="g58" />
+   inkscape:current-layer="g1194" />
 <g
-   id="g66"
-   transform="translate(1.2720461,3.5652779)">
+   id="g1202">
 	<g
-   id="g58">
+   id="g1194"
+   transform="matrix(1.0340756,0,0,1.3055282,0.21959838,-4.3633244)">
 		<g
-   id="g6">
+   id="g1142">
 			<rect
    x="1"
    y="4.5"
    style="fill:#8697cb"
    width="56"
    height="44"
-   id="rect2" />
+   id="rect1138" />
 			<path
    style="fill:#535d73"
    d="M 58,49.5 H 0 V 3.5 H 58 Z M 2,47.5 H 56 V 5.5 H 2 Z"
-   id="path4" />
+   id="path1140" />
 		</g>
 		<polygon
    style="fill:#00ff00"
-   points="36,26.5 25,33.5 25,26.454 25,19.5 "
-   id="polygon8" />
+   points="25,19.5 36,26.5 25,33.5 25,26.454 "
+   id="polygon1144"
+   transform="matrix(2.9259942,0,0,1.6663788,-59.564849,-17.950319)" />
 		<g
-   id="g14">
+   id="g1150">
 			<rect
    x="1"
    y="4.5"
    style="fill:#687492"
    width="10"
    height="11"
-   id="rect10" />
+   id="rect1146" />
 			<path
    style="fill:#535d73"
    d="M 12,16.5 H 0 v -13 h 12 z m -10,-2 h 8 v -9 H 2 Z"
-   id="path12" />
+   id="path1148" />
 		</g>
 		<g
-   id="g20">
+   id="g1156">
 			<rect
    x="1"
    y="15.5"
    style="fill:#687492"
    width="10"
    height="11"
-   id="rect16" />
+   id="rect1152" />
 			<path
    style="fill:#535d73"
    d="M 12,27.5 H 0 v -13 h 12 z m -10,-2 h 8 v -9 H 2 Z"
-   id="path18" />
+   id="path1154" />
 		</g>
 		<g
-   id="g26">
+   id="g1162">
 			<rect
    x="1"
    y="26.5"
    style="fill:#687492"
    width="10"
    height="11"
-   id="rect22" />
+   id="rect1158" />
 			<path
    style="fill:#535d73"
    d="M 12,38.5 H 0 v -13 h 12 z m -10,-2 h 8 v -9 H 2 Z"
-   id="path24" />
+   id="path1160" />
 		</g>
 		<g
-   id="g32">
+   id="g1168">
 			<rect
    x="1"
    y="37.5"
    style="fill:#687492"
    width="10"
    height="11"
-   id="rect28" />
+   id="rect1164" />
 			<path
    style="fill:#535d73"
    d="M 12,49.5 H 0 v -13 h 12 z m -10,-2 h 8 v -9 H 2 Z"
-   id="path30" />
+   id="path1166" />
 		</g>
 		<g
-   id="g38">
+   id="g1174">
 			<rect
    x="47"
    y="4.5"
    style="fill:#687492"
    width="10"
    height="11"
-   id="rect34" />
+   id="rect1170" />
 			<path
    style="fill:#535d73"
    d="M 58,16.5 H 46 v -13 h 12 z m -10,-2 h 8 v -9 h -8 z"
-   id="path36" />
+   id="path1172" />
 		</g>
 		<g
-   id="g44">
+   id="g1180">
 			<rect
    x="47"
    y="15.5"
    style="fill:#687492"
    width="10"
    height="11"
-   id="rect40" />
+   id="rect1176" />
 			<path
    style="fill:#535d73"
    d="M 58,27.5 H 46 v -13 h 12 z m -10,-2 h 8 v -9 h -8 z"
-   id="path42" />
+   id="path1178" />
 		</g>
 		<g
-   id="g50">
+   id="g1186">
 			<rect
    x="47"
    y="26.5"
    style="fill:#687492"
    width="10"
    height="11"
-   id="rect46" />
+   id="rect1182" />
 			<path
    style="fill:#535d73"
    d="M 58,38.5 H 46 v -13 h 12 z m -10,-2 h 8 v -9 h -8 z"
-   id="path48" />
+   id="path1184" />
 		</g>
 		<g
-   id="g56">
+   id="g1192">
 			<rect
    x="47"
    y="37.5"
    style="fill:#687492"
    width="10"
    height="11"
-   id="rect52" />
+   id="rect1188" />
 			<path
    style="fill:#535d73"
    d="M 58,49.5 H 46 v -13 h 12 z m -10,-2 h 8 v -9 h -8 z"
-   id="path54" />
+   id="path1190" />
 		</g>
 	</g>
 	
 </g>
 <g
-   id="g68">
+   id="g1204">
 </g>
 <g
-   id="g70">
+   id="g1206">
 </g>
 <g
-   id="g72">
+   id="g1208">
 </g>
 <g
-   id="g74">
+   id="g1210">
 </g>
 <g
-   id="g76">
+   id="g1212">
 </g>
 <g
-   id="g78">
+   id="g1214">
 </g>
 <g
-   id="g80">
+   id="g1216">
 </g>
 <g
-   id="g82">
+   id="g1218">
 </g>
 <g
-   id="g84">
+   id="g1220">
 </g>
 <g
-   id="g86">
+   id="g1222">
 </g>
 <g
-   id="g88">
+   id="g1224">
 </g>
 <g
-   id="g90">
+   id="g1226">
 </g>
 <g
-   id="g92">
+   id="g1228">
 </g>
 <g
-   id="g94">
+   id="g1230">
 </g>
 <g
-   id="g96">
+   id="g1232">
 </g>
 </svg>

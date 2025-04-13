@@ -440,6 +440,7 @@ qrc_resources.cpp: resources.qrc \
 		icons/toolbox.svg \
 		icons/screenimage.svg \
 		icons/dosyakopyalama.png \
+		icons/streamstart.svg \
 		icons/ftp.svg \
 		icons/getdesktopquiz.svg \
 		icons/network.svg \
@@ -448,6 +449,7 @@ qrc_resources.cpp: resources.qrc \
 		icons/e-ag.svg \
 		icons/selectpcmessage.svg \
 		icons/monitorstop.svg \
+		icons/video.svg \
 		icons/temelislem.png \
 		icons/senddesktopquiz.svg \
 		icons/camera.svg \
@@ -504,6 +506,7 @@ qrc_resources.cpp: resources.qrc \
 		icons/networkall.svg \
 		icons/transparanunlock.svg \
 		icons/senddesktopfile.svg \
+		icons/streamstop.svg \
 		icons/webblock.svg \
 		icons/settings.svg \
 		icons/transparanlock.svg \

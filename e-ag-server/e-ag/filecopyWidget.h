@@ -116,11 +116,12 @@ QWidget*  MainWindow::fileWidget()
         //qDebug()<<"dosya adı:"<<name1;
         QString dosya=QString("cat >/tmp/debeagscript << EOF"
                                 "\n#!/bin/bash"
+                                "\nset -x"
                                 "\napt --fix-broken install -y"
                                 "\napt install -f -y"
                                 "\napt autoremove -y"
                                 "\napt update"
-                                "\ndpkg -i --force-all %1"
+                                "\ndpkg -i --force-all /tmp/%1"
                                 "\napt install -f -y"
                                 "\nEOF").arg(name);
 
@@ -171,11 +172,12 @@ QWidget*  MainWindow::fileWidget()
         //qDebug()<<name;
         QString dosya=QString("cat >/tmp/eagscript << EOF"
                                 "\n#!/bin/bash"
+                                "\nset -x"
                                 "\napt --fix-broken install -y"
                                 "\napt install -f -y"
                                 "\napt autoremove -y"
                                 "\napt update"
-                                "\nbash %1"
+                                "\nbash /tmp/%1"
                                 "\napt install -f -y"
                                 "\nEOF").arg(name);
 

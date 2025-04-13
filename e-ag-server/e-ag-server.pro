@@ -5,4 +5,5 @@ SUBDIRS += \
     e-ag-tray \
     scd-client\
     servercamera\
+    clientcamera\
     servervideo
