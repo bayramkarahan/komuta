@@ -26,22 +26,5 @@ systemctl start e-ag-x11vnclogin.service || true
 systemctl enable e-ag-x11vncdesktop.service || true
 systemctl start e-ag-x11vncdesktop.service || true
 
-
-nginx_conf_file="/etc/nginx/nginx.conf"
-
-if ! [[ -f $nginx_conf_file ]]; then
-	echo """rtmp {
-server {
-listen 1935;
-chunk_size 4096;
-
-application live {
-live on;
-record off;
-}
-}
-}
-	""" >> $nginx_conf_file
-fi
-systemctl restart nginx || true
+e-ag-tray&
 exit 0

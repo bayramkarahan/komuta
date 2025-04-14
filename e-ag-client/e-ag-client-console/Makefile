@@ -482,11 +482,11 @@ uninstall_target: FORCE
 
 install_service: first FORCE
 	@test -d $(INSTALL_ROOT)/lib/systemd/system/ || mkdir -p $(INSTALL_ROOT)/lib/systemd/system/
-	$(QINSTALL_PROGRAM) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/e-ag-client.service $(INSTALL_ROOT)/lib/systemd/system/e-ag-client.service
-	-: $(INSTALL_ROOT)/lib/systemd/system/e-ag-client.service
+	$(QINSTALL_PROGRAM) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/e-ag-client-console.service $(INSTALL_ROOT)/lib/systemd/system/e-ag-client-console.service
+	-: $(INSTALL_ROOT)/lib/systemd/system/e-ag-client-console.service
 
 uninstall_service: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/lib/systemd/system/e-ag-client.service
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/lib/systemd/system/e-ag-client-console.service
 	-$(DEL_DIR) $(INSTALL_ROOT)/lib/systemd/system/ 
 
 

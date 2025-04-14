@@ -54,14 +54,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     udpConsoleGet=new QUdpSocket();
     udpConsoleSend = new QUdpSocket();
-    udpServerGet = new QUdpSocket();
 
     udpConsoleGet->bind(51512, QUdpSocket::ShareAddress);
     QObject::connect(udpConsoleGet,&QUdpSocket::readyRead,[&](){udpConsoleGetSlot();});
-
-    udpServerGet->bind(uport.toInt()+uport.toInt(), QUdpSocket::ShareAddress);
-    QObject::connect(udpServerGet,&QUdpSocket::readyRead,[&](){udpServerGetSlot(); });
-
     /*******************************************************************/
     webblockcb= new QCheckBox("Her Açılışta Web Sitelerini Engelle.");
 
@@ -128,52 +123,6 @@ MainWindow::MainWindow(QWidget *parent) :
         udpSocketSendConsoleTimer->start(5000);
 
        }
- void MainWindow::udpServerGetSlot()
- {
-     QByteArray datagram;
-     QStringList mesaj;
-
-     while (udpServerGet->hasPendingDatagrams()) {
-         datagram.resize(int(udpServerGet->pendingDatagramSize()));
-         QHostAddress sender;
-         quint16 senderPort;
-         udpServerGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
-         QString rmesaj=datagram.constData();
-         mesaj=rmesaj.split("|");
-         qDebug()<<"Server Mesaj:"<<mesaj;
-         if(mesaj[0]=="eagconf")
-         {
-             //qDebug()<<"Gelen Udp Mesajı eagconf.........:"<<mesaj;
-             QString serverAddress1=mesaj[1];
-             QString networkBroadCastAddress1=mesaj[2];
-             QString networkTcpPort1=mesaj[3];
-             QString ftpPort1=mesaj[4];
-             QString rootPath1=mesaj[5];
-             QString language1=mesaj[6];
-             bool lockScreenState1= stringToBool(mesaj[7]);
-             bool webblockState1= stringToBool(mesaj[8]);
-             bool updateState=false;
-             if(serverAddress!=serverAddress1) updateState=true;
-             if(networkBroadCastAddress!=networkBroadCastAddress1) updateState=true;
-             if(networkTcpPort!=networkTcpPort1) updateState=true;
-             if(ftpPort!=ftpPort1) updateState=true;
-             if(rootPath!=rootPath1) updateState=true;
-             if(language!=language1) updateState=true;
-             if(lockScreenState!=lockScreenState1) updateState=true;
-             if(webblockState!=webblockState1) updateState=true;
-             if(updateState)
-             {
-                 qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
-                 QString gmesaj=rmesaj+"|"+this->networkIndex;
-                 QByteArray datagram = gmesaj.toUtf8();
-                 udpConsoleSend->writeDatagram(datagram,QHostAddress::LocalHost, 51511);
-                 qDebug()<<"client console  gönderildi:"<<gmesaj;
-                 system("sleep 2");
-                 networkProfilLoad();
-             }
-         }
-        }
- }
 
  void MainWindow::networkProfilLoad()
  {

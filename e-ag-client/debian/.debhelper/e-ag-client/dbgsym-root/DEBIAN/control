@@ -1,12 +1,12 @@
 Package: e-ag-client-dbgsym
 Source: e-ag-client
-Version: 2.4.8
+Version: 2.4.9
 Auto-Built-Package: debug-symbols
 Architecture: amd64
 Maintainer: Bayram KARAHAN <bayramk@gmail.com>
-Installed-Size: 148
-Depends: e-ag-client (= 2.4.8)
+Installed-Size: 168
+Depends: e-ag-client (= 2.4.9)
 Section: debug
 Priority: optional
 Description: debug symbols for e-ag-client
-Build-Ids: 586d9545f8e3ea5e2454195abdbb60bcbb4500c4 7e858d40b5bb414ac90a5c773c764fcf46e36b2e 95dc7bf4ab7c354cd5aafdf8089367da5db7d6bb a822ee9d0bf1a1964527c59b99a0a876b800b267 b4b6446aa49b4bf40ab86ba47ff7215111875324 dc7258783669b55ee1f9ffe1f606e422fad7adaa
+Build-Ids: 0c8b8b940be12f0189ca72d145a8121ecc97e449 30cdda9d4a39501fe390753fc090a012769272e6 586d9545f8e3ea5e2454195abdbb60bcbb4500c4 7e858d40b5bb414ac90a5c773c764fcf46e36b2e 93edf6f48a76fadac8779daeb4903faa81726d0a 95dc7bf4ab7c354cd5aafdf8089367da5db7d6bb a822ee9d0bf1a1964527c59b99a0a876b800b267

@@ -50,18 +50,15 @@ signals:
 private slots:
     void commandExecuteSlot(QString command);
     void udpServerGetSlot();
-     bool uygulamaCalisiyorMu(const QString& uygulamaAdi);
-      void udpTrayGetSlot();
-      void udpGuiGetSlot();
-      void networkProfilSave(QString data);
+    bool uygulamaCalisiyorMu(const QString& uygulamaAdi);
+    void udpTrayGetSlot();
+    void udpGuiGetSlot();
     void udpServerSendSlot(QString _data);
-   // void timerControlSlot();
     void hostAddressMacButtonSlot();
     void webBlockAktifPasif(bool _state);
     QString findX11vncPort(QString _servis);
     QString getSeatId();
     QString getSessionInfo(QString id, QString parametre);
-    //QString getIpPort///Status(QString ip_,QString prt);
 private:
     QProcess process;
     QTimer *timer;

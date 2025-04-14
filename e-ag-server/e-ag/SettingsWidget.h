@@ -640,7 +640,7 @@ void MainWindow::networkProfil()
     // qDebug()<<"ayar click";
     QDialog * d = new QDialog();
     d->setWindowTitle("Ağ Profil Listesi");
-    d->setFixedSize(QSize(boy*170,boy*50));
+    d->setFixedSize(QSize(boy*180,boy*50));
     d->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     auto appIcon = QIcon(":/icons/e-ag.svg");
     d->setWindowIcon(appIcon);
@@ -651,21 +651,22 @@ void MainWindow::networkProfil()
     /***********************************************************************/
     QTableWidget *twlh=new QTableWidget;
 
-    twlh->setFixedSize(QSize(boy*165,boy*35));
-    twlh->setColumnCount(12);
+    twlh->setFixedSize(QSize(boy*175,boy*35));
+    twlh->setColumnCount(13);
     //twlh->setRowCount(0);
     twlh->setHorizontalHeaderItem(0, new QTableWidgetItem("Seçili Ağ"));
     twlh->setHorizontalHeaderItem(1, new QTableWidgetItem("Ağ No"));
     twlh->setHorizontalHeaderItem(2, new QTableWidgetItem("Ağ Adı"));
-    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem("Yayın Ip'si"));
-    twlh->setHorizontalHeaderItem(4, new QTableWidgetItem("Port"));
-    twlh->setHorizontalHeaderItem(5, new QTableWidgetItem("ftpPort"));
-    twlh->setHorizontalHeaderItem(6, new QTableWidgetItem("rootpath"));
-    twlh->setHorizontalHeaderItem(7, new QTableWidgetItem("language"));
-    twlh->setHorizontalHeaderItem(8, new QTableWidgetItem("Client Ekran Kilidi"));
-    twlh->setHorizontalHeaderItem(9, new QTableWidgetItem("Client Web Filtresi"));
-    twlh->setHorizontalHeaderItem(10, new QTableWidgetItem(""));
+    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem("Ip'si"));
+    twlh->setHorizontalHeaderItem(4, new QTableWidgetItem("Yayın Adresi"));
+    twlh->setHorizontalHeaderItem(5, new QTableWidgetItem("Port"));
+    twlh->setHorizontalHeaderItem(6, new QTableWidgetItem("ftpPort"));
+    twlh->setHorizontalHeaderItem(7, new QTableWidgetItem("rootpath"));
+    twlh->setHorizontalHeaderItem(8, new QTableWidgetItem("language"));
+    twlh->setHorizontalHeaderItem(9, new QTableWidgetItem("Client Ekran Kilidi"));
+    twlh->setHorizontalHeaderItem(10, new QTableWidgetItem("Client Web Filtresi"));
     twlh->setHorizontalHeaderItem(11, new QTableWidgetItem(""));
+    twlh->setHorizontalHeaderItem(12, new QTableWidgetItem(""));
 
 
     twlh->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -676,14 +677,15 @@ void MainWindow::networkProfil()
     twlh->setColumnWidth(1, boy*10);
     twlh->setColumnWidth(2,boy*20);
     twlh->setColumnWidth(3,boy*15);
-    twlh->setColumnWidth(4,boy*10);
+    twlh->setColumnWidth(4,boy*15);
     twlh->setColumnWidth(5,boy*10);
     twlh->setColumnWidth(6,boy*10);
     twlh->setColumnWidth(7,boy*10);
-    twlh->setColumnWidth(8,boy*20);
+    twlh->setColumnWidth(8,boy*10);
     twlh->setColumnWidth(9,boy*20);
-    twlh->setColumnWidth(10,boy*10);
+    twlh->setColumnWidth(10,boy*20);
     twlh->setColumnWidth(11,boy*10);
+    twlh->setColumnWidth(12,boy*10);
 
 
     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
@@ -700,6 +702,7 @@ void MainWindow::networkProfil()
         QLineEdit * networkIndex = new QLineEdit();
         QLineEdit * networkName = new QLineEdit();
         QLineEdit * serverAddress = new QLineEdit();
+        QLineEdit * networkBroadCastAddress = new QLineEdit();
         QLineEdit * networkTcpPort = new QLineEdit();
         QLineEdit * ftpPort = new QLineEdit();
         QLineEdit * rootPath= new QLineEdit();
@@ -726,12 +729,13 @@ void MainWindow::networkProfil()
                         QLineEdit * networkIndex1 = static_cast<QLineEdit*> (twlh->cellWidget(i,1));
                         QLineEdit * networkName1 = static_cast<QLineEdit*> (twlh->cellWidget(i,2));
                         QLineEdit * serverAddress1 =static_cast<QLineEdit*> (twlh->cellWidget(i,3));
-                        QLineEdit * networkTcpPort1 = static_cast<QLineEdit*> (twlh->cellWidget(i,4));
-                        QLineEdit * ftpPort1 = static_cast<QLineEdit*> (twlh->cellWidget(i,5));
-                        QLineEdit * rootPath1 = static_cast<QLineEdit*> (twlh->cellWidget(i,6));
-                        QLineEdit * language1 = static_cast<QLineEdit*> (twlh->cellWidget(i,7));
-                        QCheckBox * lockScreenState1 = static_cast<QCheckBox*> (twlh->cellWidget(i,8));
-                        QCheckBox * webblockState1 = static_cast<QCheckBox*> (twlh->cellWidget(i,9));
+                        QLineEdit * networkBroadCastAddress1 =static_cast<QLineEdit*> (twlh->cellWidget(i,4));
+                        QLineEdit * networkTcpPort1 = static_cast<QLineEdit*> (twlh->cellWidget(i,5));
+                        QLineEdit * ftpPort1 = static_cast<QLineEdit*> (twlh->cellWidget(i,6));
+                        QLineEdit * rootPath1 = static_cast<QLineEdit*> (twlh->cellWidget(i,7));
+                        QLineEdit * language1 = static_cast<QLineEdit*> (twlh->cellWidget(i,8));
+                        QCheckBox * lockScreenState1 = static_cast<QCheckBox*> (twlh->cellWidget(i,9));
+                        QCheckBox * webblockState1 = static_cast<QCheckBox*> (twlh->cellWidget(i,10));
 
                         qDebug()<<"Ağ Profili Değiştirilecek."<<savetButton->toolTip();
                         QJsonObject veri;
@@ -740,7 +744,7 @@ void MainWindow::networkProfil()
                         veri["networkIndex"] = networkIndex1->text();
                         veri["networkName"] = networkName1->text();
                         veri["networkTcpPort"] = networkTcpPort1->text();
-                        veri["networkBroadCastAddress"]=networkName1->toolTip();//dikkat
+                        veri["networkBroadCastAddress"]=networkBroadCastAddress1->text();//dikkat
                         veri["serverAddress"]=serverAddress1->text();
                         veri["ftpPort"]=ftpPort1->text();
                         veri["rootPath"]=rootPath1->text();
@@ -777,7 +781,7 @@ void MainWindow::networkProfil()
         networkIndex->setText(veri.value("networkIndex").toString());
         networkIndex->setReadOnly(true);
         networkName->setText(veri.value("networkName").toString());
-        networkName->setToolTip(veri.value("networkBroadCastAddress").toString());
+        networkBroadCastAddress->setText(veri.value("networkBroadCastAddress").toString());
         serverAddress->setText(veri.value("serverAddress").toString());
         networkTcpPort->setText(veri.value("networkTcpPort").toString());
         ftpPort->setText(veri.value("ftpPort").toString());
@@ -789,15 +793,15 @@ void MainWindow::networkProfil()
         twlh->setCellWidget(sr,1,networkIndex);
         twlh->setCellWidget(sr,2,networkName);
         twlh->setCellWidget(sr,3,serverAddress);
-        twlh->setCellWidget(sr,4,networkTcpPort);
-        twlh->setCellWidget(sr,5,ftpPort);
-        twlh->setCellWidget(sr,6,rootPath);
-        twlh->setCellWidget(sr,7,language);
-        twlh->setCellWidget(sr,8,lockScreenState);
-        twlh->setCellWidget(sr,9,webblockState);
-
-        twlh->setCellWidget(sr,10,savetButton);
-        twlh->setCellWidget(sr,11,networkRemoveButton);
+        twlh->setCellWidget(sr,4,networkBroadCastAddress);
+        twlh->setCellWidget(sr,5,networkTcpPort);
+        twlh->setCellWidget(sr,6,ftpPort);
+        twlh->setCellWidget(sr,7,rootPath);
+        twlh->setCellWidget(sr,8,language);
+        twlh->setCellWidget(sr,9,lockScreenState);
+        twlh->setCellWidget(sr,10,webblockState);
+        twlh->setCellWidget(sr,11,savetButton);
+        twlh->setCellWidget(sr,12,networkRemoveButton);
         if(veri.value("selectedNetworkProfil").toBool()) mCheck->setChecked(true);
         else mCheck->setChecked(false);
         if(veri.value("lockScreenState").toBool()) lockScreenState->setChecked(true);

@@ -139,7 +139,7 @@ MainWindow::MainWindow(QWidget *parent) :
              //udpSocketSend->writeDatagram(datagram,QHostAddress("255.255.255.255"), uport.toInt());
              udpBroadCastSend->writeDatagram(datagram,QHostAddress(broadadres), uport.toInt()+uport.toInt());
          }
-         qDebug()<<"broadCast"<<msg<<uport;
+         qDebug()<<"broadCast"<<broadadres<<networkBroadCastAddress<<msg<<uport;
      }
  }
 

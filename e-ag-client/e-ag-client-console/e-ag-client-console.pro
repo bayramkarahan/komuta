@@ -37,7 +37,7 @@ HEADERS += \
 target.path = /usr/bin
 
 
-service.files = e-ag-client.service
+service.files = e-ag-client-console.service
 service.path = /lib/systemd/system/
 
 x11servicedesktop.files = e-ag-x11vncdesktop.service

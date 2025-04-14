@@ -1,7 +1,9 @@
 #!/bin/sh
-systemctl disable e-ag-client.service
-systemctl stop e-ag-client.service
+systemctl disable e-ag-client-console.service
+systemctl stop e-ag-client-console.service
 
+systemctl disable e-ag-client-networkprofil.service
+systemctl stop e-ag-client-networkprofil.service
 #systemctl disable ssh.service
 #systemctl stop ssh.service
 
@@ -15,7 +17,7 @@ systemctl disable e-ag-x11vnclogin.service
 systemctl stop e-ag-x11vnclogin.service
 
 systemctl daemon-reload
-
+pkill e-ag-client-tra
 #rm -rf  /usr/share/e-ag
 #chmod 777 /usr/share/e-ag
 

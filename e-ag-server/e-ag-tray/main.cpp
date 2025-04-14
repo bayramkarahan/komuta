@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <QtCore/QCoreApplication>
-#define SINGLE_INSTANCE ".e-ag-client-tray"
+#define SINGLE_INSTANCE ".e-ag-tray"
 
 int main(int argc, char *argv[])
 {
@@ -33,13 +33,13 @@ int main(int argc, char *argv[])
    SingleInstance cInstance;
    if(cInstance.hasPrevious(name, QCoreApplication::arguments()))
    {
-       qDebug() << "e-ag-client-tray Zaten Açık...";
+       qDebug() << "e-ag-tray Zaten Açık...";
        return 0;
    }
    if (cInstance.listen(name)) {
-       qDebug() << "e-ag-client-tray Çalışıyor..";
+       qDebug() << "e-ag-tray Çalışıyor..";
    } else {
-       qDebug() << "e-ag-client-tray Çalışması İptal Edildi...";
+       qDebug() << "e-ag-tray Çalışması İptal Edildi...";
        return 0;
    }
 MainWindow w;

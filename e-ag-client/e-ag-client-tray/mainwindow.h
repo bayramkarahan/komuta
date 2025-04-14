@@ -69,11 +69,10 @@ virtual void closeEvent ( QCloseEvent * event );
 
 public slots:
     void udpConsoleGetSlot();
-    void udpServerGetSlot();
     void networkProfilLoad();
     void tcpMessageControlSlot(QString _data);
     void  WidgetClosed();
-     void iconActivated(QSystemTrayIcon::ActivationReason);
+    void iconActivated(QSystemTrayIcon::ActivationReason);
     void gizle();
     QString myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon);
     void hostAddressMacButtonSlot();
@@ -140,8 +139,6 @@ private:
 
     QUdpSocket *udpConsoleGet = nullptr;
     QUdpSocket *udpConsoleSend= nullptr;
-    QUdpSocket *udpServerGet= nullptr;
-
     QString serverIp;
     GstElement *pipeline;
     int sendConsoleCount=0;

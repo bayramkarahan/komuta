@@ -36,19 +36,7 @@ int main(int argc, char *argv[])
 
         Client *cl=new Client();
         cl->networkProfilLoad();
-        /*
-    QString appPath ="/usr/share/e-ag";// a.applicationDirPath();
 
-    QSettings cfg(appPath + "/config.cfg",QSettings::IniFormat);
-
-    int port = cfg.value("port",123456).toInt();
-    QString rootPath = cfg.value("rootpath","/tmp/").toString();
-
-    cfg.setValue("port",port);
-    cfg.setValue("rootpath",rootPath);
-
-    cfg.sync();
-*/
     SCDImgServer srv(0,cl->ftpPort.toInt(),cl->rootPath);
 
     if (srv.start())
