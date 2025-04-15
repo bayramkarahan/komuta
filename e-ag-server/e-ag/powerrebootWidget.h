@@ -8,7 +8,7 @@ QWidget* MainWindow::poweroffrebootWidget()
     int yukseklik=e*12;
 
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Ekran Yansıtma Seçenekleri");
+    sor->setWindowTitle("Kapatma ve Yeniden Başlatma Seçenekleri");
     sor->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
@@ -80,7 +80,7 @@ QWidget* MainWindow::poweroffrebootWidget()
 }
 
 void MainWindow::slotReboot(){
-     udpSendData("consolecommand","/sbin/reboot","");
+     udpSendData("consolecommand","consolecommand","/sbin/reboot");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
@@ -98,7 +98,7 @@ void MainWindow::slotReboot(){
 
 }
 void MainWindow::slotRebootAll(){
-    udpSendData("consolecommand","/sbin/reboot","");
+    udpSendData("consolecommand","consolecommand","/sbin/reboot");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState)
@@ -116,7 +116,7 @@ void MainWindow::slotRebootAll(){
 
 }
 void MainWindow::slotPowerOff(){
-    udpSendData("consolecommand","/sbin/poweroff","");
+    udpSendData("consolecommand","consolecommand","/sbin/poweroff");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
@@ -134,7 +134,7 @@ void MainWindow::slotPowerOff(){
 
 }
 void MainWindow::slotPowerOffAll(){
-    udpSendData("consolecommand","/sbin/poweroff","");
+    udpSendData("consolecommand","consolecommand","/sbin/poweroff");
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState)
