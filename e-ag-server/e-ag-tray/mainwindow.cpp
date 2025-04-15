@@ -47,14 +47,15 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
  {
+    localDir="/usr/share/e-ag/";
+    networkProfilLoad();
      udpBroadCastSend = new QUdpSocket();
-
     /*******************************************************************/
     webblockcb= new QCheckBox("Her Açılışta Web Sitelerini Engelle.");
 
     ekran=new Ekran();
     gelenKomut=new QLabel("-------------------");
-    localDir="/usr/share/e-ag/";
+
     trayIcon=new QSystemTrayIcon(this);
     this->resize(340,300);
     setFixedWidth(400);
@@ -229,4 +230,77 @@ void MainWindow::closeEvent(QCloseEvent *event)
      //QWidget::hide();
      event->ignore();
 
+}
+void MainWindow::networkProfilLoad()
+{
+
+    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+    //QJsonArray dizi=db->Oku();
+    QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
+    if(dizi.count()>0)
+    {
+        qDebug()<<"Kayıtlı Host."<<localDir;
+        QJsonObject veri=dizi.first().toObject();
+        //qDebug()<<"Yüklenen Ağ Profili:" <<veri;
+        this->networkIndex=veri["networkIndex"].toString();
+        this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
+        this->networkName=veri["networkName"].toString();
+        this->networkTcpPort=veri["networkTcpPort"].toString();
+        this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
+        this->serverAddress=veri["serverAddress"].toString();
+        this->ftpPort=veri["ftpPort"].toString();
+        this->rootPath=veri["rootPath"].toString();
+        this->language=veri["language"].toString();
+        this->lockScreenState=veri["lockScreenState"].toBool();
+        this->webblockState=veri["webblockState"].toBool();
+
+        hostAddressMacButtonSlot();
+        for(int i=0;i<ipmaclist.count();i++)
+        {
+            if(ipmaclist[i].broadcast==networkBroadCastAddress)
+            {
+                if(ipmaclist[i].ip!=serverAddress)
+                {
+                    qDebug()<<"Server Ip Numarası Güncelleniyor..";
+                    QJsonObject veri;
+                    veri["networkIndex"] =this->networkIndex;
+                    veri["selectedNetworkProfil"] =this->selectedNetworkProfil;
+                    veri["networkName"] = this->networkName;
+                    veri["networkTcpPort"] = this->networkTcpPort;
+                    veri["serverAddress"]=ipmaclist[i].ip;
+                    veri["networkBroadCastAddress"]=this->networkBroadCastAddress;
+                    veri["ftpPort"]=this->ftpPort;
+                    veri["rootPath"]=this->rootPath;
+                    veri["language"]=this->language;
+                    veri["lockScreenState"]=this->lockScreenState;
+                    veri["webblockState"]=this->webblockState;
+                    db->Sil("networkIndex",this->networkIndex);
+                    db->Ekle(veri);
+                }
+
+            }
+        }
+    }else{
+        qDebug()<<"Yeni Network Ekleniyor."<<localDir;
+
+        hostAddressMacButtonSlot();
+        for(int i=0;i<ipmaclist.count();i++)
+        {
+            //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
+            QJsonObject veri;
+            veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
+            veri["selectedNetworkProfil"] =true;
+            veri["networkName"] = "network";
+            veri["networkTcpPort"] = "7879";
+            veri["serverAddress"]=ipmaclist[i].ip;
+            veri["networkBroadCastAddress"]=ipmaclist[i].broadcast;
+            veri["ftpPort"]="12345";
+            veri["rootPath"]="/tmp/";
+            veri["language"]="tr_TR";
+            veri["lockScreenState"]=false;
+            veri["webblockState"]=false;
+            db->Ekle(veri);
+        }
+        networkProfilLoad();
+    }
 }

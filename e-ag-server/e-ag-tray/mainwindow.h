@@ -72,6 +72,7 @@ public slots:
     void hostAddressMacButtonSlot();
     void  widgetShow();
     void sendBroadcastDatagram();
+    void networkProfilLoad();
 public:
     explicit MainWindow(QWidget *parent = nullptr);
 
