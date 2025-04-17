@@ -240,15 +240,6 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
         QString  kmt;
         kmt.append("vncviewer "+viewState+" -fullscreen ").append(ipmaclist[k].ip).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd");
         udpSendData("x11command","x11command",kmt);
-        /*for(int i=0;i<onlinePcList.count();i++)
-        {
-            if(onlinePcList[i]->connectState&&
-                (onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
-                ipmaclist[k].ip.section(".",0,2)==onlinePcList[i]->ip.section(".",0,2))
-            {
-                udpSendData("x11komut","x11komut",kmt);
-            }
-        }*/
         system("sleep 0.1");
     }
     mesajSlot("Seçili Hostlara Ekran Yansıltıldı.");
@@ -258,13 +249,6 @@ void MainWindow::slotVncFlipStop(){
     QString  kmt;
     kmt.append("pkill vncviewer");
     udpSendData("x11command","x11command",kmt);
-    /*for(int i=0;i<onlinePcList.count();i++)
-    {
-        if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
-        {
-            udpSendData("x11command",kmt,onlinePcList[i]->ip);
-        }
-    }*/
     QString kmt10="kill $(ps -aux|grep 5901|awk '{print $2 }')";
     system(kmt10.toStdString().c_str());
     mesajSlot("Seçili Hostlarda Ekran Yansıtma Durduruldu.");
@@ -288,14 +272,6 @@ void MainWindow::slotVncFlipAll(QString scale,QString viewState){
         QString  kmt;
         kmt.append("vncviewer "+viewState+" -fullscreen ").append(ipmaclist[k].ip).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd");
         udpSendData("x11command","x11command",kmt);
-        /* for(int i=0;i<onlinePcList.count();i++)
-        {
-            if(onlinePcList[i]->connectState&&
-                ipmaclist[k].ip.section(".",0,2)==onlinePcList[i]->ip.section(".",0,2))
-            {
-                udpSendData("x11komut",kmt,onlinePcList[i]->ip);
-            }
-        }*/
         system("sleep 0.1");
     }
     mesajSlot("Tüm Hostlara Ekran Yansıltıldı.");

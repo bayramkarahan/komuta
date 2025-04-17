@@ -11,22 +11,22 @@ QWidget*  MainWindow::fileWidget()
     QWidget * d = new QWidget();
     d->setWindowTitle("ssh Dosya Kopyalama Penceresi");
     QLineEdit *le = new QLineEdit();
-    le->setFixedSize(e*61,boy*7);
+    le->setFixedSize(e*75,boy*15);
     le->setStyleSheet("font-size:"+QString::number(font.toInt()+2)+"px;");
 
     // le->setFont(ff);
-    QLineEdit * ple = new QLineEdit();
+    /*QLineEdit * ple = new QLineEdit();
     ple->setFixedSize(e*61,boy*7);
     ple->setStyleSheet("font-size:"+QString::number(font.toInt()+2)+"px;");
-
+*/
     QLabel *commandFileLabel=new QLabel("Dosya");
-    commandFileLabel->setFixedSize(e*12,yukseklik);
+    commandFileLabel->setFixedSize(e*7,yukseklik);
     commandFileLabel->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-
+/*
     QLabel *pathLabel=new QLabel("Hedef Konum\n/home/user/\n/tmp/");
     pathLabel->setFixedSize(e*12,yukseklik);
     pathLabel->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-
+*/
 
 
     fileSelectButton=new QToolButton();
@@ -200,26 +200,6 @@ QWidget*  MainWindow::fileWidget()
     });
 
 
-
-    fileCopyAllButton=new QToolButton();
-    fileCopyAllButton->setFixedSize(e*13,yukseklik*2);
-    fileCopyAllButton->setAutoRaise(true);
-    fileCopyAllButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    fileCopyAllButton->setText("Pc'lere \nKopyala");
-    fileCopyAllButton->setIcon(QIcon(":/icons/allcopyfile.svg"));
-    fileCopyAllButton->setIconSize(QSize(b*8,yukseklik*0.9));
-    fileCopyAllButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-
-    connect(fileCopyAllButton, &QToolButton::clicked, [=]() {
-        QString name = QUrl::fromLocalFile(le->text()).path(QUrl::FullyEncoded);
-        name.replace("%20","%5C%20");
-        QUrl pth;
-        sshFileCopyAllSlot(pth.fromPercentEncoding(name.toUtf8()),ple->text());
-
-
-        mesajSlot("Dosya Ağ'a Kopyalandı.");
-    });
-
     QToolButton *fileCopyDesktopNotGetSendButton=new QToolButton();
     fileCopyDesktopNotGetSendButton->setFixedSize(e*13,yukseklik*2);
     fileCopyDesktopNotGetSendButton->setAutoRaise(true);
@@ -388,8 +368,8 @@ QWidget*  MainWindow::fileWidget()
     QGridLayout * vbox = new QGridLayout();
     vbox->setContentsMargins(0, 0, 0,0);
     vbox->setVerticalSpacing(0);
-    vbox->addWidget(pathLabel,2,1,1,1);
-    vbox->addWidget(ple,2,2,1,1);
+    //vbox->addWidget(pathLabel,2,1,1,1);
+    //vbox->addWidget(ple,2,2,1,1);
     vbox->addWidget(commandFileLabel,1,1,1,1);
     vbox->addWidget(le,1,2,1,1);
     vbox->addWidget(fileSelectButton,1,3,2,1);
