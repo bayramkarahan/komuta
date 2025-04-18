@@ -149,7 +149,7 @@ QWidget* MainWindow::baseWidget()
         QTextDocument *doc=new QTextDocument();
 
         doc->setHtml("<center><h2>Temel İşlemler</h2></center>"
-                     "<center><img src=\":/icons/temelislem.png\" /></center> "
+                     "<center><img width=1024 src=\":/icons/temelislem.png\" /></center> "
                      "1-Ağ üzerinde açık istemcileri listelemek için Yenile seçeneği kullanılmalıdır."
                      "<br/><br/>2-Birden fazla istemciyi seçmek için çift tıklama/sol tuşa basarak alan seçimi yapılabilir."
                      "Seçili olmayan istemcileri seçmek için Pc Seç seçeneği kullanılır."

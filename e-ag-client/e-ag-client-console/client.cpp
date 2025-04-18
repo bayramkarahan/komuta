@@ -52,6 +52,7 @@ void Client::udpServerSendSlot(QString _data)
         QString webblockStatestr="false";
         if(this->lockScreenState)lockScreenStatestr="true";
         if(this->webblockState)webblockStatestr="true";
+        if (serverAddress=="") continue;
         for(int k=0;k<ipmaclist.count();k++)
         {
             if(networkBroadCastAddress!=""&&

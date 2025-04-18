@@ -1,7 +1,7 @@
 4d335495b2c270e5df654af6c46a08a7  lib/systemd/system/e-ag-x11vncdesktop.service
 3d68f15b88738d7edb0e0225c9c07306  lib/systemd/system/e-ag-x11vnclogin.service
 fd1c3878c57857c112829afa77e405ee  usr/bin/clientcamera
-c174aae25bb31488acba3db8d992b726  usr/bin/e-ag
+240c88853693fcea859138017b998062  usr/bin/e-ag
 5287f35ba6d62897303e2f245aae2a1f  usr/bin/e-ag-tray
 b4c7ec3fff5c3388081309db6fe3061a  usr/bin/scd-client
 b57f330e3f00bc8ecda93640d44902d9  usr/bin/servercamera
