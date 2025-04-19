@@ -118,12 +118,11 @@ void MainWindow::slotWakeOnLan(QString _ip,QString _mac)
 
     _mac=_mac.toUpper();
     QHostAddress FakeAddress;
-    QUdpSocket udpSocket1;
     qDebug()<<"mac adresi:"<<_mac<<_ip;
     hostAddressMacButtonSlot();
-    for(int k=0;k<ipmaclist.count();k++)
+    for(int k=0;k<interfaceList.count();k++)
     {
-        if(ipmaclist[k].ip.section(".",0,2)==_ip.section(".",0,2))
+        if(interfaceList[k].ip.section(".",0,2)==_ip.section(".",0,2))
         {
             char MACAddr [6];
             char MagicPacket [102]; // Magic package for remote boot
@@ -141,10 +140,7 @@ void MainWindow::slotWakeOnLan(QString _ip,QString _mac)
                 packetsize += 6;
             }
 
-            FakeAddress.setAddress (ipmaclist[k].broadcast);
-            // qDebug()<<"broad cast adress:"<<ipmaclist[k].broadcast;
-            // udpSocket1.writeDatagram(MagicPacket, 102, QHostAddress(ipmaclist[k].broadcast), 9);
-            //system("sleep 0.5");
+            FakeAddress.setAddress (interfaceList[k].broadcast);
             QString kmt29="wakeonlan "+_mac;
             system(kmt29.toStdString().c_str());
             qDebug()<<kmt29;

@@ -358,7 +358,7 @@ QMenu *MainWindow::sessionMenu()
     loginAllButton->setText("Oturumları Aç");
    loginAllButton->setFlat(true);
   connect(loginAllButton, &QPushButton::clicked, [=]() {
-      slotLoginAll();
+      //slotLoginAll();
         menu->close();
 });
 

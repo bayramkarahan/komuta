@@ -36,8 +36,16 @@ int main(int argc, char *argv[])
 
         Client *cl=new Client();
         cl->networkProfilLoad();
+        int ftpPort=0;
+        QString rootPath="";
+        for (const NetProfil &item : cl->NetProfilList) {
+            if (item.serverAddress=="") continue;
+            if (item.selectedNetworkProfil==false) continue;
+            ftpPort=item.ftpPort.toInt();
+            rootPath=item.rootPath;
+        }
 
-    SCDImgServer srv(0,cl->ftpPort.toInt(),cl->rootPath);
+    SCDImgServer srv(0,ftpPort,rootPath);
 
     if (srv.start())
     {

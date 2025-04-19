@@ -40,6 +40,21 @@ public:
      QString subnet;
 
 };
+class NetProfil
+{
+public:
+    QString networkIndex;
+    bool selectedNetworkProfil;
+    QString networkName;
+    QString serverAddress;
+    QString networkBroadCastAddress;
+    QString networkTcpPort;
+    QString ftpPort;
+    QString rootPath;
+    QString language;
+    bool lockScreenState;
+    bool webblockState;
+};
 namespace Ui {
 class MainWindow;
 }
@@ -49,6 +64,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
+    QList<NetProfil> NetProfilList;
 
 public slots:
     QString myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam, QMessageBox::Icon icon);
@@ -80,7 +96,7 @@ private:
      QString x11display="";
 
      QString x11mydispresult="";
-     QList<IpMac> ipmaclist;
+     QList<IpMac> interfaceList;
      QCheckBox *webblockcb;
      QString rootusername;
      QString rootpassword;

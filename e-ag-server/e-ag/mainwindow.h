@@ -92,6 +92,22 @@ public:
     QString broadcast;
 
 };
+
+class NetProfil
+{
+public:
+    QString networkIndex;
+    bool selectedNetworkProfil;
+    QString networkName;
+    QString serverAddress;
+    QString networkBroadCastAddress;
+    QString networkTcpPort;
+    QString ftpPort;
+    QString rootPath;
+    QString language;
+    bool lockScreenState;
+    bool webblockState;
+};
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -101,22 +117,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
       QString _display="2";
-          //RubberBand *rubberBand=nullptr;
       QPoint origin;
-     // QRubberBand *rubberBand;
       QRubberBand *rubberBand;
-      /**********************Network Profil*****************************/
-      bool selectedNetworkProfil;
-      QString networkIndex;
-      QString networkName;
-      QString networkTcpPort;
-      QString networkBroadCastAddress;
-      QString serverAddress;
-      QString ftpPort;
-      QString rootPath;
-      bool webblockState;
-      bool lockScreenState;
-      QString language;
+      QList<IpMac> interfaceList;
+      QList<NetProfil> NetProfilList;
+
  signals:
 
 protected:
@@ -130,7 +135,7 @@ protected:
      void slotVnc1();
      void slotVnc2();
      static  bool karsilastirMyPc(const MyPc *mypc1, const MyPc *mypc2);
-
+     void networkProfilLoad();
 private slots:
      QString getActiveUserName();
      void pcMenu(bool singlepc);
@@ -170,16 +175,10 @@ private slots:
 
     void vncDisplaySlot();
 
-    void networkProfilLoad();
+
     void selectPc();
     void hostAddressMacButtonSlot();
-    void sshCommandAllSlot(QString kmt);
-    void sshFileCopyAllSlot(QString _sourcePath, QString _targetPath);
-    void sshSelectFileCopySlot(QString _sourcePath, QString _targetPath);
-    void selectFileCopySlot(QString _mesajtype,QString _ip,QString _sourcePath, QString _targetPath);
-
-    void sshSelectPcCommandSlot(QString kmt);
-    void sshCommandSlot(QString kmt,QString _ip);
+     void selectFileCopySlot(QString _mesajtype,QString _ip,QString _sourcePath, QString _targetPath);
 
     void pcListeGuncelleSlotnew(QString mission);
     void pcHideSignalSlot(QString _mac);
@@ -210,8 +209,6 @@ QString getMacForIP(QString ipAddress);
     void slotLogout();
     void slotLogoutAll();
 
-    void slotLoginAll();
-
     void slotReboot();
     void slotRebootAll();
     void slotPowerOff();
@@ -237,7 +234,7 @@ private:
     QWidget *selectWidget;
     QWidget *ustMenuWidget;
     QSlider *slider;
-    QList<IpMac> ipmaclist;
+
     bool tamReset=false;
     QWidget *maclistwidget;
     //QTableWidget *tablewidget;
@@ -312,48 +309,6 @@ private:
 
     QLabel *socketNumberLabel;
     QLabel *destlabel;
-    /****************************Ag Profil********************************/
-    QString selectAgProfil;
-    QString agProfil;
-    QString remotePassword;
-    QString remoteUserName;
-    QString localUserName;
-    QString localPassword;
-    QString tcpPort;
-    QString broadCastAddress1;
-    QString broadCastAddress2;
-
-    bool selectAgProfil1;
-    QString agProfil1;
-    QString remotePassword1;
-    QString remoteUserName1;
-    QString localUserName1;
-    QString localPassword1;
-    QString tcpPort1;
-    QString broadCastAddress11;
-    QString broadCastAddress12;
-
-    bool selectAgProfil2;
-    QString agProfil2;
-    QString remotePassword2;
-    QString remoteUserName2;
-    QString localUserName2;
-    QString localPassword2;
-    QString tcpPort2;
-    QString broadCastAddress21;
-    QString broadCastAddress22;
-    /**********************Network Profil*****************************/
-    bool selectedNetworkProfil1;
-    QString networkProfil1;
-    QString networkTcpPort1;
-    QString networkBroadCastAddress11;
-    QString networkBroadCastAddress12;
-
-    bool selectedNetworkProfil2;
-    QString networkProfil2;
-    QString networkTcpPort2;
-    QString networkBroadCastAddress21;
-    QString networkBroadCastAddress22;
 
     /*****************************************************************/
     bool webblockstate;

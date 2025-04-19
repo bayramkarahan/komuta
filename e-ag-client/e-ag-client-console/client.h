@@ -19,13 +19,9 @@ public:
      QString subnet;
 
 };
-
-class Client: public QObject
+class NetProfil
 {
-  Q_OBJECT
 public:
-    Client();
-    ~Client();
     QString networkIndex;
     bool selectedNetworkProfil;
     QString networkName;
@@ -37,7 +33,16 @@ public:
     QString language;
     bool lockScreenState;
     bool webblockState;
+};
+
+class Client: public QObject
+{
+  Q_OBJECT
+public:
+    Client();
+    ~Client();
     bool webblockStateRun=false;
+    QList<NetProfil> NetProfilList;
 signals:
   public slots:
     QString  getIpPortStatus(QString service, int number);
@@ -63,7 +68,8 @@ private:
     QProcess process;
     QTimer *timer;
     QTimer *timerControl;
-    QList<IpMac> ipmaclist;
+    QList<IpMac> interfaceList;
+
     QString localDir;
     QString localDir1;
     QString ip;

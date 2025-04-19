@@ -12,7 +12,7 @@ NewtworkProfil::NewtworkProfil()
     localDir1="/tmp/";
     hostAddressMacButtonSlot();
     networkProfilLoad();
-    QString uport=networkTcpPort;
+    QString uport=NetProfilList.first().networkTcpPort;
     std::reverse(uport.begin(), uport.end());
     udpServerGet = new QUdpSocket();
     udpServerGet->bind(uport.toInt()+uport.toInt(), QUdpSocket::ShareAddress);
@@ -22,7 +22,6 @@ NewtworkProfil::NewtworkProfil()
 NewtworkProfil::~NewtworkProfil()
 {
     //QString data="portStatus|mydisp|noLogin|0|0|0|0|myenv|noLogin|0|0|0|0|0|0|0|close";
-    //udpServerSendSlot(data);
     udpServerGet->close();
     udpServerGet->deleteLater();
     udpServerSend->close();
@@ -30,12 +29,12 @@ NewtworkProfil::~NewtworkProfil()
 }
 void NewtworkProfil::socketBaglama()
 {
-    qDebug()<<"socket bağlantıları kuruluyor...."<<networkTcpPort;
+    qDebug()<<"socket bağlantıları kuruluyor...."<<NetProfilList.first().networkTcpPort;
     /***********************************/
 
           //  QHostAddress *host  = new QHostAddress("192.168.63.254");
          //  QHostAddress *server = new QHostAddress("192.168.23.253");*/
-            QString uport=networkTcpPort;
+            QString uport=NetProfilList.first().networkTcpPort;
             std::reverse(uport.begin(), uport.end());
 
            udpServerSend = new QUdpSocket();
@@ -46,28 +45,6 @@ void NewtworkProfil::socketBaglama()
            //udpSocketGet->bind(*host, uport.toInt());
             QObject::connect(udpServerGet,&QUdpSocket::readyRead,[&](){udpServerGetSlot();});
             qDebug()<<tcpPort<<uport<<"udp bağlandı";
-
-}
-void NewtworkProfil::udpServerSendSlot(QString _data)
-{
-    hostAddressMacButtonSlot();
-    if(udpServerSend == nullptr){
-        qDebug()<<"bağlı değil";
-        socketBaglama();//bağlı değilse bağlan
-    }
-
-    for(int k=0;k<ipmaclist.count();k++)
-    {
-        if(networkBroadCastAddress!=""&&
-            serverAddress.section(".",0,2)==networkBroadCastAddress.section(".",0,2)&&
-            serverAddress.section(".",0,2)==ipmaclist[k].ip.section(".",0,2))
-        {
-            QString msg="eagclientconf|"+ipmaclist[k].ip+"|"+ipmaclist[k].mac+"|"+_data;
-            QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
-            udpServerSend->writeDatagram(datagram,QHostAddress(serverAddress), networkTcpPort.toInt());
-            ///qDebug()<<msg<<networkTcpPort;
-        }
-    }
 
 }
 void NewtworkProfil::udpServerGetSlot()
@@ -81,56 +58,78 @@ void NewtworkProfil::udpServerGetSlot()
         udpServerGet->readDatagram(datagram.data(), datagram.size(), &sender, &senderPort);
         QString rmesaj=datagram.constData();
         mesaj=rmesaj.split("|");
-        qDebug()<<"Server Mesaj:"<<mesaj;
+        //qDebug()<<"Server Mesaj:"<<mesaj;
         if(mesaj[0]=="eagconf")
         {
-            //qDebug()<<"Gelen Udp Mesajı eagconf.........:"<<mesaj;
-            QString serverAddress1=mesaj[1];
-            QString networkBroadCastAddress1=mesaj[2];
-            QString networkTcpPort1=mesaj[3];
-            QString ftpPort1=mesaj[4];
-            QString rootPath1=mesaj[5];
-            QString language1=mesaj[6];
-            bool lockScreenState1= stringToBool(mesaj[7]);
-            bool webblockState1= stringToBool(mesaj[8]);
-            bool updateState=false;
-            if(serverAddress!=serverAddress1) updateState=true;
-            if(networkBroadCastAddress!=networkBroadCastAddress1) updateState=true;
-            if(networkTcpPort!=networkTcpPort1) updateState=true;
-            if(ftpPort!=ftpPort1) updateState=true;
-            if(rootPath!=rootPath1) updateState=true;
-            if(language!=language1) updateState=true;
-            if(lockScreenState!=lockScreenState1) updateState=true;
-            if(webblockState!=webblockState1) updateState=true;
-            if(updateState)
+            qDebug()<<"Server Get Messaje"<<mesaj;
+            NetProfil np;
+            np.networkIndex="";
+            np.selectedNetworkProfil=true;
+            np.networkName="network";
+            np.serverAddress=mesaj[1];
+            np.networkBroadCastAddress=mesaj[2];
+            np.networkTcpPort=mesaj[3];
+            np.ftpPort=mesaj[4];
+            np.rootPath=mesaj[5];
+            np.language=mesaj[6];
+            np.lockScreenState=stringToBool(mesaj[7]);
+            np.webblockState=stringToBool(mesaj[8]);
+            bool findStatus=false;
+            for(int i=0;i<NetProfilList.count();i++)
             {
-                qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
-                networkProfilSave(rmesaj);
+                qDebug()<<"NetProfilList:"<<i<<NetProfilList[i].networkBroadCastAddress;
+                if(np.networkBroadCastAddress==NetProfilList[i].networkBroadCastAddress)
+                {
+                    findStatus=true;
+                    bool updateState=false;
+                    if(NetProfilList[i].serverAddress!=np.serverAddress)updateState=true;
+                    if(NetProfilList[i].networkBroadCastAddress!=np.networkBroadCastAddress) updateState=true;
+                    if(NetProfilList[i].networkTcpPort!=np.networkTcpPort) updateState=true;
+                    if(NetProfilList[i].ftpPort!=np.ftpPort) updateState=true;
+                    if(NetProfilList[i].rootPath!=np.rootPath) updateState=true;
+                    if(NetProfilList[i].language!=np.language) updateState=true;
+                    if(NetProfilList[i].lockScreenState!=np.lockScreenState) updateState=true;
+                    if(NetProfilList[i].webblockState!=np.webblockState) updateState=true;
+                    if(updateState)
+                    {
+                        qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
+                        networkProfilSave(np);
+                        system("systemctl restart e-ag-client-console.service");
+                    }
+                    /*else
+                    {
+                        qDebug()<<"eagconf bilgileri aynı...";
+                    }*/
+                }
+            }
+            if(!findStatus)
+            {
+                qDebug()<<"eagconf bilgileri yok ekleniyor...";
+                networkProfilSave(np);
                 system("systemctl restart e-ag-client-console.service");
             }
+
         }
     }
 }
 
-void NewtworkProfil::networkProfilSave(QString data)
+void NewtworkProfil::networkProfilSave(NetProfil np)
 {
-   // qDebug()<<"Gelen Tray eagconf Veri:"<<data;
-    QStringList mesaj;
-    mesaj=data.split("|");
+   // qDebug()<<"server get data:"<<data;
     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     QJsonObject veri;
     veri["networkIndex"]= QString::number(db->getIndex("networkIndex"));
-    veri["selectedNetworkProfil"] =true;
-    veri["networkName"] = "network";
-    veri["networkTcpPort"] = mesaj[3];
-    veri["serverAddress"]=mesaj[1];
-    veri["networkBroadCastAddress"]=mesaj[2];
-    veri["ftpPort"]=mesaj[4];
-    veri["rootPath"]=mesaj[5];
-    veri["language"]=mesaj[6];
-    veri["lockScreenState"]=stringToBool(mesaj[7]);
-    veri["webblockState"]=stringToBool(mesaj[8]);
-    db->Sil("networkBroadCastAddress",mesaj[2]);
+    veri["selectedNetworkProfil"] =np.selectedNetworkProfil;
+    veri["networkName"] =np.networkName;
+    veri["networkTcpPort"] = np.networkTcpPort;
+    veri["serverAddress"]=np.serverAddress;
+    veri["networkBroadCastAddress"]=np.networkBroadCastAddress;
+    veri["ftpPort"]=np.ftpPort;
+    veri["rootPath"]=np.rootPath;
+    veri["language"]=np.language;
+    veri["lockScreenState"]=np.lockScreenState;
+    veri["webblockState"]=np.webblockState;
+    db->Sil("networkBroadCastAddress",np.networkBroadCastAddress);
     db->Ekle(veri);
     networkProfilLoad();
 }
@@ -140,27 +139,32 @@ void NewtworkProfil::networkProfilLoad()
     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     //QJsonArray dizi=db->Oku();
     QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
+
     if(dizi.count()>0)
     {
-        //qDebug()<<"Kayıtlı Host.";
-        QJsonObject veri=dizi.first().toObject();
-        //qDebug()<<"Yüklenen Ağ Profili:" <<veri;
-        this->networkIndex=veri["networkIndex"].toString();
-        this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
-        this->networkName=veri["networkName"].toString();
-        this->networkTcpPort=veri["networkTcpPort"].toString();
-        this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
-        this->serverAddress=veri["serverAddress"].toString();
-        this->ftpPort=veri["ftpPort"].toString();
-        this->rootPath=veri["rootPath"].toString();
-        this->language=veri["language"].toString();
-        this->lockScreenState=veri["lockScreenState"].toBool();
-        this->webblockState=veri["webblockState"].toBool();
+        NetProfilList.clear();
+        for (const QJsonValue &item : dizi) {
+            QJsonObject veri=item.toObject();
+            //qDebug()<<"Yüklenen Ağ Profili:" <<veri;
+            NetProfil np;
+            np.networkIndex=veri["networkIndex"].toString();
+            np.selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
+            np.networkName=veri["networkName"].toString();
+            np.networkTcpPort=veri["networkTcpPort"].toString();
+            np.networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
+            np.serverAddress=veri["serverAddress"].toString();
+            np.ftpPort=veri["ftpPort"].toString();
+            np.rootPath=veri["rootPath"].toString();
+            np.language=veri["language"].toString();
+            np.lockScreenState=veri["lockScreenState"].toBool();
+            np.webblockState=veri["webblockState"].toBool();
+            NetProfilList.append(np);
+        }
     }else{
         qDebug()<<"Yeni Network Ekleniyor.";
 
         hostAddressMacButtonSlot();
-        for(int i=0;i<ipmaclist.count();i++)
+        for(int i=0;i<interfaceList.count();i++)
         {
             //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
             QJsonObject veri;
@@ -169,21 +173,24 @@ void NewtworkProfil::networkProfilLoad()
             veri["networkName"] = "network";
             veri["networkTcpPort"] = "7879";
             veri["serverAddress"]="";
-            veri["networkBroadCastAddress"]=ipmaclist[i].broadcast;
+            veri["networkBroadCastAddress"]=interfaceList[i].broadcast;
             veri["ftpPort"]="12345";
             veri["rootPath"]="/tmp/";
             veri["language"]="tr_TR";
             veri["lockScreenState"]=false;
             veri["webblockState"]=false;
+            db->Sil("networkBroadCastAddress",interfaceList[i].broadcast);
             db->Ekle(veri);
         }
         networkProfilLoad();
+        qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
+        system("systemctl restart e-ag-client-console.service");
     }
 }
 void NewtworkProfil::hostAddressMacButtonSlot()
 {
     QHostAddress localhost = QHostAddress(QHostAddress::LocalHost);
-ipmaclist.clear();
+interfaceList.clear();
     foreach (const QNetworkInterface& networkInterface, QNetworkInterface::allInterfaces()) {
            foreach (const QNetworkAddressEntry& entry, networkInterface.addressEntries()) {
                QHostAddress *hostadres=new QHostAddress(entry.ip().toString());
@@ -195,7 +202,7 @@ ipmaclist.clear();
                   im.mac=networkInterface.hardwareAddress();
                   im.broadcast=entry.broadcast().toString();
                   im.subnet=entry.netmask().toString();
-                  ipmaclist.append(im);
+                  interfaceList.append(im);
                  // qDebug()<<"mac:"<<networkInterface.hardwareAddress();
                   //qDebug()<<"ip  address:"<<entry.ip().toString();
                   // qDebug()<<"broadcast  address:"<<entry.broadcast().toString();

@@ -45,14 +45,24 @@ int main(int argc, char *argv[])
     translator->load("translations/"+language+".qm");
     qApp->installTranslator(translator);
 */
-MainWindow w;
 
-    SCDImgServer srv(0,w.ftpPort.toInt(),w.rootPath);
+    MainWindow *w=new MainWindow();
+    w->networkProfilLoad();
+    int ftpPort=0;
+    QString rootPath="";
+    for (const NetProfil &item : w->NetProfilList) {
+        if (item.serverAddress=="") continue;
+        if (item.selectedNetworkProfil==false) continue;
+        ftpPort=item.ftpPort.toInt();
+        rootPath=item.rootPath;
+    }
+
+    SCDImgServer srv(0,ftpPort,rootPath);
 
     if (srv.start())
     {
 
-        w.show();
+        w->show();
         return a.exec();
     }
 

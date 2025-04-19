@@ -235,10 +235,10 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
     system(kmt11.toStdString().c_str());
 
     hostAddressMacButtonSlot();
-    for(int k=0;k<ipmaclist.count();k++)
+    for(int k=0;k<interfaceList.count();k++)
     {
         QString  kmt;
-        kmt.append("vncviewer "+viewState+" -fullscreen ").append(ipmaclist[k].ip).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd");
+        kmt.append("vncviewer "+viewState+" -fullscreen ").append(interfaceList[k].ip).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd");
         udpSendData("x11command","x11command",kmt);
         system("sleep 0.1");
     }
@@ -267,10 +267,10 @@ void MainWindow::slotVncFlipAll(QString scale,QString viewState){
     QString kmt11="sleep 1";
     system(kmt11.toStdString().c_str());
     hostAddressMacButtonSlot();
-    for(int k=0;k<ipmaclist.count();k++)
+    for(int k=0;k<interfaceList.count();k++)
     {
         QString  kmt;
-        kmt.append("vncviewer "+viewState+" -fullscreen ").append(ipmaclist[k].ip).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd");
+        kmt.append("vncviewer "+viewState+" -fullscreen ").append(interfaceList[k].ip).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd");
         udpSendData("x11command","x11command",kmt);
         system("sleep 0.1");
     }
@@ -300,7 +300,7 @@ void MainWindow::slotRdp(){
                                                 " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
                                                 "", &ok);
     QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
-                                                  remoteUserName+"İstemcideki Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
+                                                  _remoteuser+"İstemcideki Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
                                                   "", &ok);
     //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
     if(_remoteuser!=""&&_remotepasswd!="")

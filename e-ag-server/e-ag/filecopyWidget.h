@@ -430,43 +430,5 @@ void MainWindow::selectFileCopySlot(QString _mesajtype,QString _ip,QString _sour
     //}
     mesajSlot("Dosya Seçili Pc'lere Kopyalandı");
 }
-void MainWindow::sshFileCopyAllSlot(QString _sourcePath,QString _targetPath)
-{
-    for(int i=0;i<onlinePcList.count();i++)
-    {
-        {
-            QString komut="nohup sshpass -p "+remotePassword+" scp -o StrictHostKeyChecking=no "+_sourcePath+" "+
-                            remoteUserName+"@"+onlinePcList[i]->ip+":"+_targetPath+" &";
-            mesajSlot(komut);
-            QStringList arguments;
-            arguments << "-c" << komut;
-            QProcess process;
-            process.start("/bin/bash",arguments);
-            process.waitForFinished(-1); // will wait forever until finished
-        }
-    }
-    mesajSlot("Komut Ağ'da Çalıştırıldı");
-    mesajSlot("Dosya Ağ'da Bütün Pc'lere Kopyalandı");
-}
-void MainWindow::sshSelectFileCopySlot(QString _sourcePath,QString _targetPath)
-{
-    for(int i=0;i<onlinePcList.count();i++)
-    {
-        if((onlinePcList[i]->select||onlinePcList[i]->multiSelect))
-        {
-            {
-                QString komut="nohup sshpass -p "+remotePassword+" scp -o StrictHostKeyChecking=no "+_sourcePath+" "+
-                                remoteUserName+"@"+onlinePcList[i]->ip+":"+_targetPath+" &";
-                mesajSlot(komut);
-                QStringList arguments;
-                arguments << "-c" << komut;
-                QProcess process;
-                process.start("/bin/bash",arguments);
-                process.waitForFinished(-1); // will wait forever until finished
-            }
-        }
-    }
-    mesajSlot("Dosya Seçili Pc'lere Kopyalandı");
-}
 
 #endif // FILECOPYWIDGET_H

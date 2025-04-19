@@ -137,19 +137,7 @@ void MainWindow::slotLogin(){
     mesajSlot("Seçili Hostlarda Oturum Açıldı.");
 
 }
-void MainWindow::slotLoginAll(){
-    QString komut="sshlogin "+remoteUserName+" "+remotePassword;
-     udpSendData("consolecommand","consolecommand",komut);
-   /* for(int i=0;i<onlinePcList.count();i++)
-    {
-        if(onlinePcList[i]->connectState)
-        {
-            udpSendData("consolecommand",komut,onlinePcList[i]->ip);
-        }
-    }*/
-    mesajSlot("Tüm Hostlarda Oturum Açıldı.");
 
-}
 
 
 #endif // LOGINLOGOUTWIDGET_H

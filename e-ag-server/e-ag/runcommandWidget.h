@@ -200,51 +200,5 @@ void MainWindow::slotPcCommandAll(QString _kmt){
     mesajSlot("Komut Tüm Hostlarda Çalıştırıldı.");
 
 }
-void MainWindow::sshCommandAllSlot(QString kmt)
-{
-    for(int i=0;i<onlinePcList.count();i++)
-    {
-        {
-            QString komut="nohup sshpass -p "+remotePassword+" ssh -o CheckHostIP=no -o StrictHostKeyChecking=no -n "+
-                            remoteUserName+"@"+onlinePcList[i]->ip+" 'echo "+remotePassword+" | sudo -S' "+kmt+ "&";
-            system(komut.toStdString().c_str());
-            mesajSlot(komut);
-        }
-    }
-    mesajSlot("Komut Tüm Ağ'da Çalıştırıldı.");
-}
-void MainWindow::sshSelectPcCommandSlot(QString kmt)
-{
-    for(int i=0;i<onlinePcList.count();i++)
-    {
-        if((onlinePcList[i]->select||onlinePcList[i]->multiSelect))
-        {
-            QString komut="nohup sshpass -p "+remotePassword+" ssh -o CheckHostIP=no -o StrictHostKeyChecking=no -n "+
-                            remoteUserName+"@"+onlinePcList[i]->ip+" 'echo "+remotePassword+" | sudo -S' "+kmt+ "&";
-            mesajSlot(komut);
-            //qDebug()<<komut;
-            system(komut.toStdString().c_str());
-        }
-    }
-    mesajSlot("Komut Seçili Hostlarda Çalıştırıldı.");
-}
-void MainWindow::sshCommandSlot(QString kmt,QString _ip)
-{
-    QString komut="nohup sshpass -p "+remotePassword+" ssh -o CheckHostIP=no -o StrictHostKeyChecking=no -n "+
-                    remoteUserName+"@"+_ip+" 'echo "+remotePassword+" | sudo -S' "+kmt+ "&";
-    // system(komut.toStdString().c_str());
-    mesajSlot(komut);
-    QStringList arguments;
-    arguments << "-c" << komut;
-    QString result;
-    QProcess process;
-    process.start("/bin/bash",arguments);
-    if(process.waitForFinished())
-    {
-        result = process.readAll();
-    }
-    mesajSlot("Komut Seçili Hostlarda Çalıştırıldı.");
-
-}
 
 #endif // RUNCOMMANDWIDGET_H

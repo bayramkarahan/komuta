@@ -23,49 +23,35 @@ void  MainWindow::udpSendData(QString _mesajTur,QString _gorev,QString _ekmesaj)
 {
     udpSendDataStatus=true;
     //qDebug()<<"Mesaj Gönderilecek:"<<_mesajTur<<_mesaj<<_ip;
-    QString uport=networkTcpPort;
-    std::reverse(uport.begin(), uport.end());
-   /* DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
-    QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
-    for (const QJsonValue &item : dizi) {
-        QJsonObject veri=item.toObject();*/
-        //this->networkIndex=veri["networkIndex"].toString();
-        //this->selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
-        //this->networkName=veri["networkName"].toString();
-        //this->networkTcpPort=veri["networkTcpPort"].toString();
-        //this->networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
-        //this->serverAddress=veri["serverAddress"].toString();
-        ///qDebug()<<"Mesajın Gideceği Ağ:" <<networkBroadCastAddress;
-
-
-        /******************************************/
-       /*if(networkBroadCastAddress!=""&&
-            serverAddress.section(".",0,2)==networkBroadCastAddress.section(".",0,2)&&
-            serverAddress.section(".",0,2)==_ip.section(".",0,2))
-        {*/
-        //if (veri["serverAddress"].toString().section(".",0,2)==_ip.section(".",0,2))
-       // {
-    /*
-        QString msg=_mesajTur+"|"+_mesaj+"|"+serverAddress+"|"+uport;
-            ///qDebug()<<"Mesaj Gönderildi:"<<msg;
-        QByteArray datagram = msg.toUtf8();
-        udpSocketSend->writeDatagram(datagram,QHostAddress(_ip), uport.toInt());
-*/
-       // }
-        ///system("sleep 0.1");
-
-    //}
-    for(int i=0;i<onlinePcList.count();i++)
-    {
-        if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+    for (const NetProfil &item : NetProfilList) {
+        if (item.serverAddress=="") continue;
+        if (item.selectedNetworkProfil==false) continue;
+        QString uport=item.networkTcpPort;
+        std::reverse(uport.begin(), uport.end());
+        for(int k=0;k<interfaceList.count();k++)
         {
-            QString msg=_mesajTur+"|"+_gorev+"|"+_ekmesaj+"|"+serverAddress+"|"+uport;
-                ///qDebug()<<"Mesaj Gönderildi:"<<msg;
-            QByteArray datagram = msg.toUtf8();
-            udpSocketSend->writeDatagram(datagram,QHostAddress(onlinePcList[i]->ip), uport.toInt());
+            if(item.networkBroadCastAddress==interfaceList[k].broadcast)
+            {
+                /***********************************************************************/
+                /***********************************************************************/
+                for(int i=0;i<onlinePcList.count();i++)
+                {
+                    if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+                    {
+                        QString msg=_mesajTur+"|"+_gorev+"|"+_ekmesaj+"|"+item.serverAddress+"|"+uport;
+                        QByteArray datagram = msg.toUtf8();
+                        udpSocketSend->writeDatagram(datagram,QHostAddress(onlinePcList[i]->ip), uport.toInt());
+                        ///qDebug()<<"Mesaj Gönderildi:"<<msg;
+                    }
+                }
+                /***********************************************************************/
+                /***********************************************************************/
+            }
         }
     }
     udpSendDataStatus=false;
+
+
 }
 void MainWindow::udpSocketServerRead()
 {
@@ -134,7 +120,7 @@ void MainWindow::udpSocketServerRead()
 void MainWindow::hostAddressMacButtonSlot()
 {
     QHostAddress localhost = QHostAddress(QHostAddress::LocalHost);
-ipmaclist.clear();
+interfaceList.clear();
     foreach (const QNetworkInterface& networkInterface, QNetworkInterface::allInterfaces()) {
            foreach (const QNetworkAddressEntry& entry, networkInterface.addressEntries()) {
                QHostAddress *hostadres=new QHostAddress(entry.ip().toString());
@@ -145,7 +131,7 @@ ipmaclist.clear();
                   im.ip=entry.ip().toString();
                   im.mac=networkInterface.hardwareAddress();
                   im.broadcast=entry.broadcast().toString();
-                  ipmaclist.append(im);
+                  interfaceList.append(im);
 
                  // qDebug()<<"mac:"<<networkInterface.hardwareAddress();
                   //qDebug()<<"ip  address:"<<entry.ip().toString();

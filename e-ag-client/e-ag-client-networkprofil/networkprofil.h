@@ -19,13 +19,9 @@ public:
     QString subnet;
 
 };
-
-class NewtworkProfil: public QObject
+class NetProfil
 {
-  Q_OBJECT
 public:
-    NewtworkProfil();
-    ~NewtworkProfil();
     QString networkIndex;
     bool selectedNetworkProfil;
     QString networkName;
@@ -37,7 +33,15 @@ public:
     QString language;
     bool lockScreenState;
     bool webblockState;
-    bool webblockStateRun=false;
+};
+
+class NewtworkProfil: public QObject
+{
+  Q_OBJECT
+public:
+    NewtworkProfil();
+    ~NewtworkProfil();
+
 signals:
   public slots:
     void socketBaglama();
@@ -47,12 +51,12 @@ signals:
     }
 private slots:
     void udpServerGetSlot();
-    void networkProfilSave(QString data);
-    void udpServerSendSlot(QString _data);
+    void networkProfilSave(NetProfil np);
     void hostAddressMacButtonSlot();
  private:
     QProcess process;
-    QList<IpMac> ipmaclist;
+    QList<IpMac> interfaceList;
+    QList<NetProfil> NetProfilList;
     QString localDir;
     QString localDir1;
     QString ip;

@@ -115,7 +115,7 @@ MainWindow::~MainWindow()
 void MainWindow::hostAddressMacButtonSlot()
 {
     QHostAddress localhost = QHostAddress(QHostAddress::LocalHost);
-ipmaclist.clear();
+interfaceList.clear();
     foreach (const QNetworkInterface& networkInterface, QNetworkInterface::allInterfaces()) {
            foreach (const QNetworkAddressEntry& entry, networkInterface.addressEntries()) {
                QHostAddress *hostadres=new QHostAddress(entry.ip().toString());
@@ -127,7 +127,7 @@ ipmaclist.clear();
                   im.mac=networkInterface.hardwareAddress();
                   im.broadcast=entry.broadcast().toString();
                   im.subnet=entry.netmask().toString();
-                  ipmaclist.append(im);
+                  interfaceList.append(im);
                  // qDebug()<<"mac:"<<networkInterface.hardwareAddress();
                   //qDebug()<<"ip  address:"<<entry.ip().toString();
                  // qDebug()<<"broadcast  address:"<<entry.broadcast().toString();

@@ -161,7 +161,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /********************* Broadcast Message yollanıyor *****************************************/
     udpSocketSend = new QUdpSocket(this);
     udpSocketGet = new QUdpSocket();
-    udpSocketGet->bind(networkTcpPort.toInt(), QUdpSocket::ShareAddress);
+    udpSocketGet->bind(NetProfilList.first().networkTcpPort.toInt(), QUdpSocket::ShareAddress);
     QObject::connect(udpSocketGet,&QUdpSocket::readyRead,[&](){udpSocketServerRead();});
     /*********************************************************/
 
