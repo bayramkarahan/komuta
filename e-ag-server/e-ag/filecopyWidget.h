@@ -321,23 +321,17 @@ QWidget*  MainWindow::fileWidget()
 
         doc->setHtml("<center><h2>Dosya Kopyalama</h2></center>"
                      "<center><img src=\":/icons/dosyakopyalama.png\" /></center> "
-                     "1-Kopyalama işlemi ssh servisi ile yapmaktadır."
                      "<center><img src=\":/icons/istemci.png\" /></center>"
-                     "2-İstemci simgelerinin altındaki S işareti ssh servisini ifade eder."
-                     "<br/><br/>3-S işareti yeşilse ssh çalışıyor. Kırmızı ise ssh çalışmıyordur."
-                     "<br/><br/>4-Sorunsuz kopyalama yapmak için istemcilerde ssh servisinin çalışıyor olması gerekmektedir."
-                     "<br/><br/>5-ssh servisinin çalışıp çalışmadığını manuel test etmek için Temel İşlemler bölümünden \"Servis Sorgula\" seçeneğini kullanabilirsiniz."
-                     "<br/><br/>6-Klasör içeriğinin tamamını kopyalamak için dosya ismi yerine * konulması gerekir;"
+                     "<br/><br/>1-Klasör içeriğinin tamamını kopyalamak için dosya ismi yerine * konulması gerekir;"
                      "<br/> Örneğin: /home/user/* şeklinde klasör içeriğini kopyalar."
-                     "<br/><br/>7-İstemcide açık kullanıcı masaüstüne dosya kopyalama için Masaüstlerine Dağıt seçeneğini kullanabilirsiniz."
-                     "<br/><br/>8-İstemcide açık kullanıcı masaüstüne çalışma dosyası göndermek için Çalışmaları Dağıt seçeneğini kullanabilirsiniz."
-                     "<br/><br/>9-İstemcide açık kullanıcı masaüstündeki çalışma dosyasını Sunucuya toplamak için Çalışmaları Topla seçeneğini kullanabilirsiniz."
-                     "<br/><br/>10-Dosyalar Uzak Kullanıcı ev dizinine kopyalanacaktır."
-                     "<br/><br/>10-Dosyalar Uzak Kullanıcı ev dizini dışında başka yere kopyalacaksa \"Hedef Konum\" bölünüde belirtilmelidir."
-                     "<br/>Örneğin: /tmp/"
-                     "<br/>11-Birden fazla istemciye kopyalama için istemci simgelerine çift tıklayıp seçilerek kopyalanabilir."
-                     "<br/>12-Seçili Pc'lere Paket kur seçeneği ile deb uzantılı paketi istemciye kururulumu yapılır."
-                     );
+                     "<br/><br/>2-İstemcide açık kullanıcı masaüstüne dosya kopyalama için Masaüstlerine Dağıt seçeneğini kullanabilirsiniz."
+                     "<br/><br/>3-İstemcide açık kullanıcı masaüstüne çalışma dosyası göndermek için Çalışmaları Dağıt seçeneğini kullanabilirsiniz."
+                     "<br/><br/>4-İstemcide açık kullanıcı masaüstündeki çalışma dosyasını Sunucuya toplamak için Çalışmaları Topla seçeneğini kullanabilirsiniz."
+                     "<br/><br/>5-<b>Pc'lere Kopyala</b> seçeneği Client'de açık kullanıcının ev dizinine kopyalanacaktır."
+                     "<br/><br/>6-Birden fazla istemciye kopyalama için istemcileri seçerek kopyalanabilir."
+                     "<br/><br/>7-<b>Paketi Kur</b> seçeneği ile deb uzantılı paketi istemciye kururulumu yapılır."
+                     "<br/><br/>8-<b>Scripti Çalıştır</b> seçeneği ile scripti istemci üzerinde çalıştırır."
+                       );
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/dosyakopyalama.pdf");
         pdf.setOutputFormat(QPrinter::PdfFormat);
@@ -356,7 +350,7 @@ QWidget*  MainWindow::fileWidget()
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
         d1->setWindowTitle("Dosya Kopyalama Yardım Penceresi");
-        d1->setFixedSize(QSize(boy*150,boy*120));
+        d1->setFixedSize(QSize(boy*215,boy*110));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
 

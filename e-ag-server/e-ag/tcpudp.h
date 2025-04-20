@@ -107,8 +107,8 @@ void MainWindow::udpSocketServerRead()
                         onlinePcList[i]->setVncState(false);
                         onlinePcList[i]->vncport=mesaj[13];
                     }
-                    if(mesaj[14]=="1")onlinePcList[i]->setFtpState(true);
-                    else onlinePcList[i]->setFtpState(false);
+                    if(mesaj[14]=="1")onlinePcList[i]->setXrdpState(true);
+                    else onlinePcList[i]->setXrdpState(false);
                 }
             }
         }

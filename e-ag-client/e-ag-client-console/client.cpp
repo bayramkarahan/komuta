@@ -404,7 +404,7 @@ void Client::tcpMesajSendTimerSlot()
 
 
     bool sshState;
-    bool ftpState;
+    bool xrdpState;
     /*************************************/
     if (getIpPortStatus("systemctl status ssh.service|grep 'running'|wc -l",0)=="open")
         sshState=true;
@@ -414,11 +414,11 @@ void Client::tcpMesajSendTimerSlot()
     //qDebug()<<"vnc portları: "<<vncports;
     //findX11vncPort("lsof -i -P -n | grep x11vnc|grep IPv4");
     /*************************************/
-    if (getIpPortStatus("systemctl status vsftpd.service|grep 'running'|wc -l",0)=="open")
-        ftpState=true;
-    else ftpState=false;
+    if (getIpPortStatus("systemctl status xrdp.service|grep 'running'|wc -l",0)=="open")
+        xrdpState=true;
+    else xrdpState=false;
     /*************************************/
-    QString data=clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(ftpState);
+    QString data=clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(xrdpState);
 
     udpServerSendSlot(data);
     tempdata=data;

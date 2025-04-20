@@ -19,6 +19,6 @@ systemctl stop e-ag-x11vncdesktop.service || true
 systemctl disable e-ag-x11vnclogin.service || true
 systemctl stop e-ag-x11vnclogin.service || true
 
-systemctl daemon-reload
-pkill e-ag-tray
+systemctl daemon-reload || true
+
 exit 0

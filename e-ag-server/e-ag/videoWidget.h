@@ -239,7 +239,7 @@ QWidget* MainWindow::videoWidget()
                      "<br/><br/>2-Video Dosyası/Kamera sadece X işareti yeşil olan istemcilere paylaşılabilir."
                      "<br/><br/>3-İstemci simgelerinin altındaki X işareti login olmuş kullanıcıyı ifade eder."
                      "<br/><br/>4-X işareti yeşilse kullanıcı login olduğunu ifade eder. Kırmızı ise login olmadığını ifade eder."
-                     "<br/><br/>5-Birden fazla istemciye Video Dosyası/Kamera paylaşmak için istemci simgelerine çift tıklayıp seçilerek paylaşılabilir."
+                     "<br/><br/>5-Birden fazla istemciye Video Dosyası/Kamera paylaşmak için istemci seçilerek paylaşılabilir."
                      );
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/video.pdf");
@@ -259,7 +259,7 @@ QWidget* MainWindow::videoWidget()
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
         d1->setWindowTitle("Video/Kamera Yayın Yardım Penceresi");
-        d1->setFixedSize(QSize(boy*150,boy*120));
+        d1->setFixedSize(QSize(boy*215,boy*90));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
 

@@ -104,20 +104,12 @@ QWidget* MainWindow::settingsWidget()
 
         doc->setHtml("<center><h2>Ayarlar</h2></center>"
                      "<center><img src=\":/icons/ayar.png\"></center> "
-
-                     "Uygulamanın sorunsuz çalışması için;"
-
-                     "<center><img src=\":/icons/userayar.png\"/></center>"
-                     "1-Kontrol edilecek istemcilerin(Uzak Bilgisayar) kullanıcı adı ve parolası aynı olmalıdır."
-                     "<br/><br/>2-Uygulamanın kurulu olduğu makine yönetici hesabıyla açılmış olmalı.."
-                     "<br/><br/>3-Uygulamadaki Yerel Ağ: bulunduğumuz ağ örn:192.168.1.255 şeklinde girilmeli."
-                     "<br/><br/>4-Uygulamadaki Tcp Port: yazılımın kullandığı port boş bırakılırsa 7879 olarak ayarlar."
-                     "<br/><br/>5-Bu bilgiler kaydedildikten sonra mutlaka yazılım yeniden başlatılmalı."
-                     "<br/><br/>6-Yapılan parola, ip ve port değişikliklerini İstemcilerin algılaması için;"
-                     " Ayarlar menüsünden İstemci Ayarlarını Güncelle seçilmelidir.."
-                     "<br/><br/>7-İstemcilerin listesini İstemci Listele seçeneği ile yapabilir ve listeyi yazdırabiliriz."
-                     "<br/><br/>8-Gizlenmiş istemcileri tekrar listede görünmesi için Gizli İstemcileri Göster seçeneğini kullanabilirsiniz."
-                     "<br/><br/>9-İstemcilerde web sitesini kelime bazlı kısıtlamaları için;"
+                     "<br/><center><img src=\":/icons/userayar.png\"/></center>"
+                     "<br/>1-Uygulamadaki Yerel Ağ: bulunduğumuz ağ örn:192.168.1.255 şeklinde girilmeli."
+                     "<br/><br/>2-Uygulamadaki Tcp Port: yazılımın kullandığı port boş bırakılırsa 7879 olarak ayarlar."
+                     "<br/><br/>3-İstemcilerin listesini İstemci Listele seçeneği ile yapabilir ve listeyi yazdırabiliriz."
+                     "<br/><br/>4-Gizlenmiş istemcileri tekrar listede görünmesi için Gizli Bilgisayarlar Göster seçeneğini kullanabilirsiniz."
+                     "<br/><br/>5-İstemcilerde web sitesini kelime bazlı kısıtlamaları için;"
                      " Web Engeleme seçeneğini kullanabilirsiniz."
                      );
         QPrinter pdf;
@@ -138,7 +130,7 @@ QWidget* MainWindow::settingsWidget()
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
         d1->setWindowTitle("Ayarlar Yardım Penceresi");
-        d1->setFixedSize(QSize(boy*190,boy*127));
+        d1->setFixedSize(QSize(boy*215,boy*127));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
 
@@ -897,28 +889,25 @@ void MainWindow::bilgiAlButtonSlot()
 
     QTextDocument *doc=new QTextDocument();
     QString yil=QString::number( QDateTime::currentDateTime().date().year());
-    doc->setHtml("<center><h2>Program Hakkında</h2></center>"
-                 "<center><img src=\":/icons/e-ag.svg\" width=100 height=100 /></center> "
+    doc->setHtml("<center><h2>e-ag Hakkında</h2></center>"
+                 "<center><img src=\":/icons/e-ag.svg\" width=75 height=75 /></center> "
                  "Bu uygulama yerel ağda bilgisayarlara erişim ve yönetmek için yazılmıştır."
-                 "<br/> Yapılabilecek Eylemler:"
+                 "<br/> <b>Yapılabilecek Eylemler:</b>"
                  "<br/> Açık olan bilgisayarlara linux komutlarını aynı anda çalıştırabilirsiniz."
                  "<br/> Birden fazla bilgisayara aynı anda dosya kopyalayabilirsiniz.  "
                  "<br/> Bütün bilgisayarlara  ya da tek bilgisayarın ekranına mesaj gönderebilirsiniz."
                  "<br/> Bütün bilgisayarları ya da tek bilgisayarın ekranını kilitleyebilirsiniz."
                  "<br/> Bütün bilgisayarları ya da tek bilgisayarı kapatabilirsiniz."
                  "<br/> Bütün bilgisayarları ya da tek bilgisayarı güncellemeler yapabilirsiniz."
-                 "<br/> Açık bilgisayara ftp erişimi yapılabilir."
                  "<br/> Açık bilgisayarın ekranına erişim ve kullanma. "
                  "<br/> Video yayını yapabilirsiniz."
                  "<br/> Canlı kamera yayını yapabilirsiniz."
                  "<br/> Açık olan kullanıcı masaüstüne dosya kopyalama ve geri toplayabilirsiniz."
                  "<br/> İstediğiniz bilgisayarları seçip sadece seçili olanlara işlem yapabilirsiniz."
-                 "<br/> Uzak bilgisayarın yönetici hesabına script kopyalayıp server üzerinden çalıştırabilirsiniz."
+                 "<br/> Uzak bilgisayarda script çalıştırabilirsiniz."
                  "<br/> Server bilgisayarın ekranını yansıtma"
-                 "<br/> İki farklı ağ profili ile iki farklı ağ üzerinde çalışılabilmektedir."
-
-
-                 "<br/><br/>Bu uygulamayı kullanmaktan doğabilecek her türlü hukuki sorumluluğu kullanıcı kabul etmiş sayılır."
+                 "<br/><br/>Bu uygulama Açık Kaynak QT ve C++ ile geliştirilmiştir."
+                 "<br/><br/>e-ag uygulamasını kullanmaktan doğabilecek her türlü hukuki sorumluluğu kullanıcı kabul etmiş sayılır."
                  "<br/><br/> Copyright (C) "+yil+" by Bayram KARAHAN"
                          "<br/>  bayramk@gmail.com"
                          "<br/>  www.bayramkarahan.com.tr"
@@ -954,7 +943,7 @@ void MainWindow::bilgiAlButtonSlot()
     vbox->addLayout(hbox1);
     QDialog * d1 = new QDialog();
     d1->setWindowTitle("Program Hakkında");
-    d1->setFixedSize(QSize(boy*120,boy*120));
+    d1->setFixedSize(QSize(boy*200,boy*120));
     auto appIcon = QIcon(":/icons/e-ag.svg");
     d1->setWindowIcon(appIcon);
 

@@ -59,7 +59,7 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     userstateLabel=new QLabel(this);
     selectLabel=new QLabel(this);
     selectLabel->setObjectName("selectLabel");
-    ftpstateLabel=new QLabel(this);
+    xrdpstateLabel=new QLabel(this);
     btnayar=new QToolButton(this);
     iconstateLabel=new QLabel(this);
     iconstateLabel->setObjectName("iconLabel");
@@ -68,14 +68,14 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     pcstateLabel->setText("P");
     sshstateLabel->setText("S");
     vncstateLabel->setText("V");
-    ftpstateLabel->setText("F");
+    xrdpstateLabel->setText("R");
     userstateLabel->setText("X");
 
     selectLabel->setStyleSheet("QLabel{border: 1px solid gray;border-radius: 5px;}");
     pcstateLabel->setAlignment(Qt::AlignCenter);
     sshstateLabel->setAlignment(Qt::AlignCenter);
     vncstateLabel->setAlignment(Qt::AlignCenter);
-    ftpstateLabel->setAlignment(Qt::AlignCenter);
+    xrdpstateLabel->setAlignment(Qt::AlignCenter);
     userstateLabel->setAlignment(Qt::AlignCenter);
     hostnameLabel->setAlignment(Qt::AlignTop|Qt::AlignCenter);
     hostnameLabel->raise();
@@ -101,7 +101,7 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     layout->addWidget(pcstateLabel, 4,1,1,1,Qt::AlignHCenter);
     layout->addWidget(sshstateLabel, 4, 2,1,1,Qt::AlignHCenter);
     layout->addWidget(vncstateLabel, 4, 3,1,1,Qt::AlignHCenter);
-    layout->addWidget(ftpstateLabel, 4, 4,1,1,Qt::AlignHCenter);
+    layout->addWidget(xrdpstateLabel, 4, 4,1,1,Qt::AlignHCenter);
     layout->addWidget(userstateLabel, 4, 5,1,1,Qt::AlignHCenter);
     layout->addWidget(btnayar, 4, 6,1,1,Qt::AlignHCenter);
     this->setLayout(layout);
@@ -159,7 +159,7 @@ void MyPc::timertcpConnectControlSlot()
         setConnectState(false);
         setSshState(false);
         setVncState(false);
-        setFtpState(false);
+        setXrdpState(false);
         setUser("noLogin");
         tcpConnectCounter=0;
     }
@@ -207,7 +207,7 @@ void MyPc::setPcState(bool state){
     }
         setSshState(false);
         setVncState(false);
-        setFtpState(false);
+        setXrdpState(false);
         setUser("noLogin");
 /*
         QStringList list=PcData::onlinePcListe;
@@ -270,12 +270,12 @@ void MyPc::setVncState(bool state){
     PcData::onlinePcListe=list;
 */
 }
-void MyPc::setFtpState(bool state){
-      ftpState=state;
+void MyPc::setXrdpState(bool state){
+      xrdpState=state;
      if(state)
     {
-         //ftpConnectCounter=0;
-       ftpstateLabel->setStyleSheet("border: 1px solid gray; "
+         //xrdpConnectCounter=0;
+       xrdpstateLabel->setStyleSheet("border: 1px solid gray; "
                                     "border-radius: 6px;"
                                      "font-size:8px;"
                                      " text-align: center;"
@@ -285,17 +285,14 @@ void MyPc::setFtpState(bool state){
      }
     else
     {
-        ftpstateLabel->setStyleSheet("border: 1px solid gray; "
+        xrdpstateLabel->setStyleSheet("border: 1px solid gray; "
                                     "border-radius: 6px;"
                                      "font-size:8px;"
                                      " text-align: center;"
 
                                     "background-color: #ff0000;");
     }
-    /*
-     QStringList list=PcData::onlinePcListe;
-    list=listReplace(list, "ftpclose", fs, 5,mac);//ftpstate
-    PcData::onlinePcListe=list;*/
+
 }
 void MyPc::setKilitControlState(bool state){
     // qDebug()<<"kilitstate"<<cs;
@@ -419,7 +416,7 @@ void MyPc::setSize(int _w, int _h, QString _font)
     pcstateLabel->setFixedSize(w*1,h*1);
     sshstateLabel->setFixedSize(w*1,h*1);
     vncstateLabel->setFixedSize(w*1,h*1);
-    ftpstateLabel->setFixedSize(w*1,h*1);
+    xrdpstateLabel->setFixedSize(w*1,h*1);
     userstateLabel->setFixedSize(w*1,h*1);
 
     selectLabel->setFixedSize(w*7, h*7);
@@ -486,7 +483,7 @@ void MyPc::slotPcAyar()
     QLabel *pcstate=new QLabel();
     QLabel *sshstate=new QLabel();
     QLabel *vncstate=new QLabel();
-    QLabel *ftpstate=new QLabel();
+    QLabel *xrdpstate=new QLabel();
     QLabel *connectstate=new QLabel();
     QLabel *displaystate=new QLabel();
     QLabel *userstate=new QLabel();
@@ -526,7 +523,7 @@ void MyPc::slotPcAyar()
     vbox->addWidget(pcstate);
     vbox->addWidget(sshstate);
     vbox->addWidget(vncstate);
-    vbox->addWidget(ftpstate);
+    vbox->addWidget(xrdpstate);
     vbox->addWidget(connectstate);
     vbox->addWidget(userstate);
     vbox->addWidget(displaystate);
@@ -541,7 +538,7 @@ void MyPc::slotPcAyar()
     if(pcState)pcstate->setText("Pc: Açık");else pcstate->setText("Pc: Kapalı");
     if(sshState)sshstate->setText("Ssh: Açık");else sshstate->setText("Ssh: Kapalı");
     if(vncState) vncstate->setText("Vnc: Açık ("+vncport+")");else vncstate->setText("Vnc: Kapalı ("+vncport+")");
-    if(ftpState)ftpstate->setText("Ftp: Açık");else ftpstate->setText("Ftp: Kapalı");
+    if(xrdpState)xrdpstate->setText("Xrdp: Açık");else xrdpstate->setText("Xrdp: Kapalı");
     if(connectstate)connectstate->setText("Tcp: Açık");else connectstate->setText("Tcp: Kapalı");
     //displaystate->setText("Ekran:"+display);
     userstate->setText("Kullanıcı:"+user);

@@ -172,7 +172,9 @@ DIST          = e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		e-ag.pro Database.h \
+		e-ag.pro CustomInputDialog.h \
+		Database.h \
+		MyDialog.h \
 		SettingsWidget.h \
 		baseWidget.h \
 		filecopyWidget.h \
@@ -408,7 +410,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents Database.h SettingsWidget.h baseWidget.h filecopyWidget.h languageWidget.h lockWidget.h loginLogoutWidget.h mainwindow.h menu.h messageWidget.h mypc.h pcdata.h powerrebootWidget.h rubberband.h runcommandWidget.h scdimgclient.h scdimgserver.h scdimgserverthread.h screenViewWidget.h sliderWidget.h tcpudp.h selectpc.h funtion.h videoWidget.h vncrdpWidget.h volumeWidget.h wolWidget.h $(DISTDIR)/
+	$(COPY_FILE) --parents CustomInputDialog.h Database.h MyDialog.h SettingsWidget.h baseWidget.h filecopyWidget.h languageWidget.h lockWidget.h loginLogoutWidget.h mainwindow.h menu.h messageWidget.h mypc.h pcdata.h powerrebootWidget.h rubberband.h runcommandWidget.h scdimgclient.h scdimgserver.h scdimgserverthread.h screenViewWidget.h sliderWidget.h tcpudp.h selectpc.h funtion.h videoWidget.h vncrdpWidget.h volumeWidget.h wolWidget.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp mainwindow.cpp mypc.cpp pcdata.cpp rubberband.cpp scdimgclient.cpp scdimgserver.cpp scdimgserverthread.cpp $(DISTDIR)/
 
 
@@ -466,7 +468,6 @@ qrc_resources.cpp: resources.qrc \
 		icons/lock.svg \
 		icons/rdp.svg \
 		icons/networkvncallstop.svg \
-		icons/sshcommand.png \
 		icons/filecopy.svg \
 		icons/mesaj.png \
 		icons/novnc.svg \
@@ -510,6 +511,7 @@ qrc_resources.cpp: resources.qrc \
 		icons/transparanunlock.svg \
 		icons/senddesktopfile.svg \
 		icons/streamstop.svg \
+		icons/runcommand.png \
 		icons/webblock.svg \
 		icons/settings.svg \
 		icons/transparanlock.svg \
@@ -603,6 +605,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		loginLogoutWidget.h \
 		screenViewWidget.h \
 		vncrdpWidget.h \
+		CustomInputDialog.h \
 		runcommandWidget.h \
 		filecopyWidget.h \
 		messageWidget.h \

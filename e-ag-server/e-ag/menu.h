@@ -597,7 +597,7 @@ void MainWindow::pcMenu(bool singlepc)
     QAction *pLoginAction = new QAction("Oturum Aç",this);
     pLoginAction->setIcon(QIcon(":/icons/login.svg"));
     pLoginAction->setIconVisibleInMenu(true);
-    connect(pLoginAction ,SIGNAL(triggered()),this,SLOT(slotLoginAll()));
+    connect(pLoginAction ,SIGNAL(triggered()),this,SLOT(slotLogin()));
 
     QAction *pLogoutAction = new QAction("Oturum Kapat",this);
     pLogoutAction->setIcon(QIcon(":/icons/session.svg"));

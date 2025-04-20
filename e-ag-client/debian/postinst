@@ -10,23 +10,24 @@ sed -i 's/#AutomaticLogin=ogrenci/#AutomaticLogin=ogrenci/' /etc/gdm3/daemon.con
 
 #mkdir /usr/share/e-ag
 #chmod 777 /usr/share/e-ag
-systemctl daemon-reload
+systemctl daemon-reload || true
 
-systemctl enable e-ag-client-console.service
-systemctl start e-ag-client-console.service
+systemctl enable e-ag-client-console.service || true
+systemctl start e-ag-client-console.service || true
 
-systemctl enable e-ag-client-networkprofil.service
-systemctl start e-ag-client-networkprofil.service
+systemctl enable e-ag-client-networkprofil.service || true
+systemctl start e-ag-client-networkprofil.service || true
 #systemctl enable ssh.service
 #systemctl start ssh.service
 
 #systemctl enable vsftpd.service
 #systemctl start vsftpd.service
 
-systemctl enable e-ag-x11vnclogin.service
-systemctl start e-ag-x11vnclogin.service
+systemctl enable e-ag-x11vnclogin.service || true
+systemctl start e-ag-x11vnclogin.service || true
 
-systemctl enable e-ag-x11vncdesktop.service
-systemctl start e-ag-x11vncdesktop.service
+systemctl enable e-ag-x11vncdesktop.service || true
+systemctl start e-ag-x11vncdesktop.service || true
+
 e-ag-client-tray&
 exit 0

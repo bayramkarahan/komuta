@@ -90,19 +90,15 @@ QWidget* MainWindow::commandWidget()
         QTextDocument *doc=new QTextDocument();
 
         doc->setHtml("<center><h2>Komut Çalıştırma</h2></center>"
-                     "<center><img src=\":/icons/sshcommand.png\" /></center> "
-                     "<br/>1-Komutlar ssh servisi ile çalıştırılmaktadır."
+                     "<center><img src=\":/icons/runcommand.png\" /></center> "
                      "<center><img src=\":/icons/istemci.png\" /></center>"
-                     "<br/>2-İstemci simgelerinin altındaki S işareti ssh servisini ifade eder."
-                     "<br/><br/>3-S işareti yeşilse ssh çalışıyor. Kırmızı ise ssh çalışmıyordur."
-                     "<br/><br/>4-Sorunsuz komut çalıştırmak için istemcilerde ssh servisinin çalışıyor olması gerekmektedir."
-                     "<br/><br/>5-ssh servisinin çalışıp çalışmadığını manuel test etmek için Temel İşlemler bölümünden \"Servis Sorgula\" seçeneğini kullanabilirsiniz."
-                     "<br/><br/>6-Komutlar Uzak Kullanıcı hesabı üzerinden çalıştırılmaktadır."
-                     "<br/><br/>7-Uzak Kullanıcı Ayarlar bölümünden Uzak/Yerel Hesaplar seçeneğinden ayarlanmaktadır."
-                     "<br/><br/>8-İstemcide Uzak Kullanıcı hesabında işlemler olduğu için dikkatli olmak gerekmektedir."
-                     "<br/>Örneğin, \"rm cp mv mkdir rmdir vb.\" komutlar Uzak Kullanıcı ev dizini üzerinde yapılır."
-                     "<br/><br/>9-Birden fazla istemcide komut çalıştırmak için istemci simgelerine çift tıklayıp seçilerek çalıştırılabilir."
-                     "<br/><br/>10-İstemcilerde script dosyası çalıştırmak için;"
+                     "<br/><br/>1-Terminalde çalıştır işlemi arka planda terminalde root kullanıcısı olarak işlemleri yapar."
+                     "<br/><br/>2-Masaüstünde çalıştırma işlemi Client üzerinde açık kullanılan aktif masaüstünde çalışacak ve kullanıcı görecektir."
+                     "<br/>Örneğin kullanıcının ekranında hesap makinesi çalıştırmak için; <b>xcalc</b> komutunu yazıp çalıştırabilirsiniz."
+                     "<br/><br/>3-Komutlar Client root hesabı üzerinden çalıştırılmaktadır."
+                     "<br/>Örneğin, \"rm cp mv mkdir rmdir vb.\" komutlar Client root kullanıcısının ev dizinde işlemler yapar."
+                     "<br/><br/>4-Birden fazla istemcide komut çalıştırmak için istemcileri seçip çalıştırablirsiniz."
+                     "<br/><br/>5-İstemcilerde script dosyası çalıştırmak için;"
                      "<br/>Örneğin: install.sh dosyasını bash install.sh şeklinde yazıp istemcilerde çalıştırabiliriz."
                      );
         QPrinter pdf;
@@ -123,7 +119,7 @@ QWidget* MainWindow::commandWidget()
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
         d1->setWindowTitle("Komut Çalıştırma Yardım Penceresi");
-        d1->setFixedSize(QSize(boy*150,boy*120));
+        d1->setFixedSize(QSize(boy*215,boy*100));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
 

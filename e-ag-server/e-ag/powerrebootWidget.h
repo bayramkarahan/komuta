@@ -89,7 +89,7 @@ void MainWindow::slotReboot(){
             onlinePcList[i]->setConnectState(false);
             onlinePcList[i]->setSshState(false);
             onlinePcList[i]->setVncState(false);
-            onlinePcList[i]->setFtpState(false);
+            onlinePcList[i]->setXrdpState(false);
             onlinePcList[i]->setUser("noLogin");
             onlinePcList[i]->tcpConnectCounter=0;
         }
@@ -107,7 +107,7 @@ void MainWindow::slotRebootAll(){
             onlinePcList[i]->setConnectState(false);
             onlinePcList[i]->setSshState(false);
             onlinePcList[i]->setVncState(false);
-            onlinePcList[i]->setFtpState(false);
+            onlinePcList[i]->setXrdpState(false);
             onlinePcList[i]->setUser("noLogin");
             onlinePcList[i]->tcpConnectCounter=0;
         }
@@ -125,7 +125,7 @@ void MainWindow::slotPowerOff(){
             onlinePcList[i]->setConnectState(false);
             onlinePcList[i]->setSshState(false);
             onlinePcList[i]->setVncState(false);
-            onlinePcList[i]->setFtpState(false);
+            onlinePcList[i]->setXrdpState(false);
             onlinePcList[i]->setUser("noLogin");
             onlinePcList[i]->tcpConnectCounter=0;
         }
@@ -143,7 +143,7 @@ void MainWindow::slotPowerOffAll(){
             onlinePcList[i]->setConnectState(false);
             onlinePcList[i]->setSshState(false);
             onlinePcList[i]->setVncState(false);
-            onlinePcList[i]->setFtpState(false);
+            onlinePcList[i]->setXrdpState(false);
             onlinePcList[i]->setUser("noLogin");
             onlinePcList[i]->tcpConnectCounter=0;
         }

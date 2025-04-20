@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MyPc_t {
     QByteArrayData data[49];
-    char stringdata0[673];
+    char stringdata0[675];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,49 +45,49 @@ QT_MOC_LITERAL(9, 94, 22), // "pcTcpPortControlSignal"
 QT_MOC_LITERAL(10, 117, 2), // "ip"
 QT_MOC_LITERAL(11, 120, 22), // "pcSshPortControlSignal"
 QT_MOC_LITERAL(12, 143, 22), // "pcVncPortControlSignal"
-QT_MOC_LITERAL(13, 166, 22), // "pcFtpPortControlSignal"
-QT_MOC_LITERAL(14, 189, 25), // "pcKilitStateControlSignal"
-QT_MOC_LITERAL(15, 215, 11), // "_kilitstate"
-QT_MOC_LITERAL(16, 227, 35), // "pcKilitTransparanStateControl..."
-QT_MOC_LITERAL(17, 263, 21), // "_transparankilitstate"
-QT_MOC_LITERAL(18, 285, 24), // "pcIconStateControlSignal"
-QT_MOC_LITERAL(19, 310, 10), // "_iconstate"
-QT_MOC_LITERAL(20, 321, 12), // "pcMenuSignal"
-QT_MOC_LITERAL(21, 334, 5), // "_slot"
-QT_MOC_LITERAL(22, 340, 7), // "setSize"
-QT_MOC_LITERAL(23, 348, 2), // "_w"
-QT_MOC_LITERAL(24, 351, 2), // "_h"
-QT_MOC_LITERAL(25, 354, 5), // "_font"
-QT_MOC_LITERAL(26, 360, 7), // "setUser"
-QT_MOC_LITERAL(27, 368, 3), // "_os"
-QT_MOC_LITERAL(28, 372, 11), // "setHostname"
-QT_MOC_LITERAL(29, 384, 9), // "_hostname"
-QT_MOC_LITERAL(30, 394, 20), // "setKilitControlState"
-QT_MOC_LITERAL(31, 415, 5), // "state"
-QT_MOC_LITERAL(32, 421, 30), // "setKilitTransparanControlState"
-QT_MOC_LITERAL(33, 452, 19), // "setIconControlState"
-QT_MOC_LITERAL(34, 472, 26), // "timertcpConnectControlSlot"
-QT_MOC_LITERAL(35, 499, 15), // "setConnectState"
-QT_MOC_LITERAL(36, 515, 10), // "setPcState"
-QT_MOC_LITERAL(37, 526, 11), // "setSshState"
-QT_MOC_LITERAL(38, 538, 11), // "setVncState"
-QT_MOC_LITERAL(39, 550, 11), // "setFtpState"
-QT_MOC_LITERAL(40, 562, 14), // "slotMouseClick"
-QT_MOC_LITERAL(41, 577, 20), // "slotMouseDoubleClick"
-QT_MOC_LITERAL(42, 598, 12), // "slotSelectPc"
-QT_MOC_LITERAL(43, 611, 14), // "slotUnselectPc"
-QT_MOC_LITERAL(44, 626, 10), // "slothidePc"
-QT_MOC_LITERAL(45, 637, 15), // "getIpPortStatus"
-QT_MOC_LITERAL(46, 653, 3), // "ip_"
-QT_MOC_LITERAL(47, 657, 4), // "port"
-QT_MOC_LITERAL(48, 662, 10) // "slotPcAyar"
+QT_MOC_LITERAL(13, 166, 23), // "pcXrdpPortControlSignal"
+QT_MOC_LITERAL(14, 190, 25), // "pcKilitStateControlSignal"
+QT_MOC_LITERAL(15, 216, 11), // "_kilitstate"
+QT_MOC_LITERAL(16, 228, 35), // "pcKilitTransparanStateControl..."
+QT_MOC_LITERAL(17, 264, 21), // "_transparankilitstate"
+QT_MOC_LITERAL(18, 286, 24), // "pcIconStateControlSignal"
+QT_MOC_LITERAL(19, 311, 10), // "_iconstate"
+QT_MOC_LITERAL(20, 322, 12), // "pcMenuSignal"
+QT_MOC_LITERAL(21, 335, 5), // "_slot"
+QT_MOC_LITERAL(22, 341, 7), // "setSize"
+QT_MOC_LITERAL(23, 349, 2), // "_w"
+QT_MOC_LITERAL(24, 352, 2), // "_h"
+QT_MOC_LITERAL(25, 355, 5), // "_font"
+QT_MOC_LITERAL(26, 361, 7), // "setUser"
+QT_MOC_LITERAL(27, 369, 3), // "_os"
+QT_MOC_LITERAL(28, 373, 11), // "setHostname"
+QT_MOC_LITERAL(29, 385, 9), // "_hostname"
+QT_MOC_LITERAL(30, 395, 20), // "setKilitControlState"
+QT_MOC_LITERAL(31, 416, 5), // "state"
+QT_MOC_LITERAL(32, 422, 30), // "setKilitTransparanControlState"
+QT_MOC_LITERAL(33, 453, 19), // "setIconControlState"
+QT_MOC_LITERAL(34, 473, 26), // "timertcpConnectControlSlot"
+QT_MOC_LITERAL(35, 500, 15), // "setConnectState"
+QT_MOC_LITERAL(36, 516, 10), // "setPcState"
+QT_MOC_LITERAL(37, 527, 11), // "setSshState"
+QT_MOC_LITERAL(38, 539, 11), // "setVncState"
+QT_MOC_LITERAL(39, 551, 12), // "setXrdpState"
+QT_MOC_LITERAL(40, 564, 14), // "slotMouseClick"
+QT_MOC_LITERAL(41, 579, 20), // "slotMouseDoubleClick"
+QT_MOC_LITERAL(42, 600, 12), // "slotSelectPc"
+QT_MOC_LITERAL(43, 613, 14), // "slotUnselectPc"
+QT_MOC_LITERAL(44, 628, 10), // "slothidePc"
+QT_MOC_LITERAL(45, 639, 15), // "getIpPortStatus"
+QT_MOC_LITERAL(46, 655, 3), // "ip_"
+QT_MOC_LITERAL(47, 659, 4), // "port"
+QT_MOC_LITERAL(48, 664, 10) // "slotPcAyar"
 
     },
     "MyPc\0pcClickSignal\0\0mac\0pcRightClickSignal\0"
     "pcListeSignal\0pcHideSignal\0_mac\0"
     "pcListeStateSignal\0pcTcpPortControlSignal\0"
     "ip\0pcSshPortControlSignal\0"
-    "pcVncPortControlSignal\0pcFtpPortControlSignal\0"
+    "pcVncPortControlSignal\0pcXrdpPortControlSignal\0"
     "pcKilitStateControlSignal\0_kilitstate\0"
     "pcKilitTransparanStateControlSignal\0"
     "_transparankilitstate\0pcIconStateControlSignal\0"
@@ -97,7 +97,7 @@ QT_MOC_LITERAL(48, 662, 10) // "slotPcAyar"
     "setKilitTransparanControlState\0"
     "setIconControlState\0timertcpConnectControlSlot\0"
     "setConnectState\0setPcState\0setSshState\0"
-    "setVncState\0setFtpState\0slotMouseClick\0"
+    "setVncState\0setXrdpState\0slotMouseClick\0"
     "slotMouseDoubleClick\0slotSelectPc\0"
     "slotUnselectPc\0slothidePc\0getIpPortStatus\0"
     "ip_\0port\0slotPcAyar"
@@ -206,7 +206,7 @@ void MyPc::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         case 5: _t->pcTcpPortControlSignal((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 6: _t->pcSshPortControlSignal((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 7: _t->pcVncPortControlSignal((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
-        case 8: _t->pcFtpPortControlSignal((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 8: _t->pcXrdpPortControlSignal((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 9: _t->pcKilitStateControlSignal((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
         case 10: _t->pcKilitTransparanStateControlSignal((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
         case 11: _t->pcIconStateControlSignal((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
@@ -222,7 +222,7 @@ void MyPc::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         case 21: _t->setPcState((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 22: _t->setSshState((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 23: _t->setVncState((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 24: _t->setFtpState((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 24: _t->setXrdpState((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 25: _t->slotMouseClick(); break;
         case 26: _t->slotMouseDoubleClick(); break;
         case 27: _t->slotSelectPc(); break;
@@ -293,7 +293,7 @@ void MyPc::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         }
         {
             using _t = void (MyPc::*)(QString , QString );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MyPc::pcFtpPortControlSignal)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MyPc::pcXrdpPortControlSignal)) {
                 *result = 8;
                 return;
             }
@@ -423,7 +423,7 @@ void MyPc::pcVncPortControlSignal(QString _t1, QString _t2)
 }
 
 // SIGNAL 8
-void MyPc::pcFtpPortControlSignal(QString _t1, QString _t2)
+void MyPc::pcXrdpPortControlSignal(QString _t1, QString _t2)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
     QMetaObject::activate(this, &staticMetaObject, 8, _a);

@@ -1,6 +1,6 @@
 #ifndef VNCRDPWIDGET_H
 #define VNCRDPWIDGET_H
-
+#include<CustomInputDialog.h>
 QWidget* MainWindow::rdpWidget()
 {
     int e=en;
@@ -132,12 +132,10 @@ QWidget* MainWindow::rdpWidget()
                      "<br/>2-İstemci simgelerinin altındaki V işareti vnc servisini ifade eder."
                      "<br/><br/>3-V işareti yeşilse vnc çalışıyor. Kırmızı ise vnc çalışmıyordur."
                      "<br/><br/>4-Sorunsuz ekran paylaşımı yapmak için istemcilerde vnc servisinin çalışıyor olması gerekmektedir."
-                     "<br/><br/>5-vnc servisinin çalışıp çalışmadığını manuel test etmek için Temel İşlemler bölümünden \"Servis Sorgula\" seçeneğini kullanabilirsiniz."
-                     "<br/><br/>6-Birden fazla istemciye Sunucu ekranı paylaşmak için istemci simgelerine çift tıklayıp seçilerek paylaşılabilir."
-                     "<br/><br/>7-Sunucu ekranı paylaşılırken, istemci ekranında hangi çözünürlükte görülmesini istiyorsak çözünürlük seçenekleri kullanılınabilir."
-                     "<br/><br/>8-Sunucu ekranı paylaşılırken, istemciler ekranı kontrol edip/edemeyeceği seçilebilir."
-                     "<br/><br/>9-Canlı istemci ekranına erişim \"Vnc Ekran Erişimi\" ile yapılabilir."
-                     "<br/><br/>10-Canlı istemci ekranından bağımsız erişim \"Rdp Ekran Erişimi\" ile yapılabilir."
+                     "<br/><br/>5-Sunucu ekranı paylaşılırken, istemci ekranında hangi çözünürlükte görülmesini istiyorsak çözünürlük seçenekleri kullanılınabilir."
+                     "<br/><br/>6-Sunucu ekranı paylaşılırken, istemciler ekranı kontrol edip/edemeyeceği seçilebilir."
+                     "<br/><br/>7-Canlı istemci ekranına erişim \"Vnc Ekran Erişimi\" ile yapılabilir."
+                     "<br/><br/>8-Canlı istemci ekranından bağımsız erişim \"Rdp Ekran Erişimi\" ile yapılabilir."
                      );
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/ekranpaylasimi.pdf");
@@ -157,7 +155,7 @@ QWidget* MainWindow::rdpWidget()
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
         d1->setWindowTitle("Ekran Paylaşımı Yardım Penceresi");
-        d1->setFixedSize(QSize(boy*150,boy*120));
+        d1->setFixedSize(QSize(boy*215,boy*100));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
 
@@ -295,10 +293,16 @@ void MainWindow::slotVncFlipAllStop(){
 }
 void MainWindow::slotRdp(){
     hostAddressMacButtonSlot();
+    QString _activeuser=getActiveUserName();
+    CustomInputDialog  cid("XRDP Erişim Bilgileri","Client Kullanıcı Adını Girizin\n"
+                                                   "Erişilecek Kullanıcıda Masaüstü Açık Olmamalı.\n"
+                                                   "Açık Masaüsütünü Kontrol Etmek için VNC Tercih Edin.",_activeuser,300,150);
+    //qDebug()<<"CustomInputDialog dan gelen bilgi: "<<cid.getText();
+QString _remoteuser = cid.getText();
     bool ok;
-    QString _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
+   /* QString _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
                                                 " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
-                                                "", &ok);
+                                                "", &ok);*/
     QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
                                                   _remoteuser+"İstemcideki Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
                                                   "", &ok);
@@ -306,15 +310,17 @@ void MainWindow::slotRdp(){
     if(_remoteuser!=""&&_remotepasswd!="")
     {
         QString  komut;
+        if(pcIp->text()=="")
+        {
         QMessageBox msgBox;
-        msgBox.setText(" Uzak masaüstüne açık olan kullanıcı hesabından erişemezsiniz."
-                       "\n Eğer uzak masaüstüne erişemiyorsanız;"
-                       "\n Açık masaüstü için Vnc seçeneklerini kullanın.");
+        msgBox.setText(" Client Bilgisayar Seçiniz...");
         msgBox.exec();
-
+        }else
+        {
         komut.append("nohup  rdesktop ").append(" -u ").append(_remoteuser).append(" -p ").append(_remotepasswd+" ").append(pcIp->text()).append(" -g 75% &");
         system(komut.toStdString().c_str());
         qDebug()<<"rdp:"<<komut;
+        }
 
     }
 

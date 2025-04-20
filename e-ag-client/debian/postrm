@@ -19,5 +19,5 @@ systemctl stop e-ag-x11vnclogin.service || true
 systemctl disable e-ag-networkprofil.service || true
 systemctl stop e-ag-networkprofil.service || true
 
-systemctl daemon-reload
+systemctl daemon-reload  || true
 exit 0

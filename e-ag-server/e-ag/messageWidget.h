@@ -73,7 +73,7 @@ QWidget* MainWindow::messageWidget()
                      "<center><img src=\":/icons/istemci.png\" /></center>"
                      "<br/><br/>2-İstemci simgelerinin altındaki X işareti login olmuş kullanıcıyı ifade eder."
                      "<br/><br/>3-X işareti yeşilse kullanıcı login olduğunu ifade eder. Kırmızı ise login olmadığını ifade eder."
-                     "<br/><br/>4-Birden fazla istemciye mesaj göndermek için istemci simgelerine çift tıklayıp seçilerek gönderilebilir."
+                     "<br/><br/>4-Birden fazla istemciye mesaj göndermek için istemciler seçilerek gönderilebilir."
                      );
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/mesaj.pdf");
@@ -93,7 +93,7 @@ QWidget* MainWindow::messageWidget()
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
         d1->setWindowTitle("Mesaj Gönderme Penceresi");
-        d1->setFixedSize(QSize(boy*150,boy*120));
+        d1->setFixedSize(QSize(boy*215,boy*100));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
 

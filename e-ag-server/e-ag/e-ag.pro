@@ -35,7 +35,9 @@ SOURCES += \
     scdimgserverthread.cpp
 
 HEADERS += \
+    CustomInputDialog.h \
     Database.h \
+    MyDialog.h \
     SettingsWidget.h \
     baseWidget.h \
     filecopyWidget.h \

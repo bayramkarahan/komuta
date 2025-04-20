@@ -41,7 +41,7 @@ QWidget* MainWindow::baseWidget()
 
         // QDesktopServices::openUrl(QUrl("192.168.1.101:6085"));
     });
-    /* QToolButton *xrdpConnectPcButton = new QToolButton();
+     QToolButton *xrdpConnectPcButton = new QToolButton();
     xrdpConnectPcButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     xrdpConnectPcButton->setIcon(QIcon(":icons/rdp.svg"));
     xrdpConnectPcButton->setIconSize(QSize(yukseklik,boy*8));
@@ -53,7 +53,7 @@ QWidget* MainWindow::baseWidget()
     connect(xrdpConnectPcButton, &QToolButton::clicked, [=]() {
         slotRdp();
     });
-*/
+
     QToolButton *terminalPcButton = new QToolButton();
     terminalPcButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     terminalPcButton->setIcon(QIcon(":icons/ssh.svg"));
@@ -149,24 +149,20 @@ QWidget* MainWindow::baseWidget()
         QTextDocument *doc=new QTextDocument();
 
         doc->setHtml("<center><h2>Temel İşlemler</h2></center>"
-                     "<center><img width=1024 src=\":/icons/temelislem.png\" /></center> "
-                     "1-Ağ üzerinde açık istemcileri listelemek için Yenile seçeneği kullanılmalıdır."
-                     "<br/><br/>2-Birden fazla istemciyi seçmek için çift tıklama/sol tuşa basarak alan seçimi yapılabilir."
-                     "Seçili olmayan istemcileri seçmek için Pc Seç seçeneği kullanılır."
+                     "<center><img src=\":/icons/temelislem.png\" /></center> "
                      "<br/><br/>3-İstemcinin canlı ekranı Vnc seçeneği ile erişilebilir."
                      "<br/><br/>4-İstemcinin kullanıcıdan bağımsız ekranına Rdp seçeneği ile erişilebilir."
                      "<br/><br/>5-İstemcinin ssh üzerinden konsoluna bağlanmak için Terminal seçeneği kullanılabilir."
-                     "<br/><br/>6-İstemcinin dosyalarına dosya yöneticisi ile erişmek için Ftp seçeneği kullanılabilir."
                      "<br/><br/>7-İstemcinin uzaktan başlatmak için Pc Aç seçeneği kullanılabilir."
                      "Pc Aç seçeneği için; İstemcinin BIOS seçeneklerinden Wake On Lan seçeneği aktif edilmeli. "
-                     "<br/><br/>8-İstemci simgelerinin altındaki P V S F X işaretleri servisleri ifade eder."
+                     "<br/><br/>8-İstemci simgelerinin altındaki P V S R X işaretleri servisleri ifade eder."
                      "<center><img src=\":/icons/istemci.png\" /></center>"
                      "Simgeler yeşilse servis çalışıyor. Kırmızı ise servis çalışmıyordur."
                      "<br/>P=İstemci, yeşil=istemci açık/kırmızı=istemci kapalı"
-                     "<br/>V=Vnc servisi, yeşil=açık/kırmızı=kapalı"
-                     "<br/>S=Ssh servisi, yeşil=açık/kırmızı=kapalı"
-                     "<br/>F=Ftp servisi, yeşil=açık/kırmızı=kapalı"
-                     "<br/>X=x11 ekranı, yeşil=kullanıcı login olmuş/kırmızı=kullanıcı login olmamış"
+                     "<br/>V=Vnc servisi, yeşil=Aktif masaüsütü kontrolü açık/Aktif masaüsütü kontrolü kırmızı=kapalı"
+                     "<br/>S=Ssh servisi, yeşil=Uzak terminal açık/kırmızı=Uzak terminal kapalı"
+                     "<br/>R=Xrdp servisi, yeşil=Uzak masaüstü kontrolü açık/kırmızı=uzak masaüstü kontrolü kapalı"
+                     "<br/>X=x11 ekranı, yeşil=Kullanıcı login olmuş/kırmızı=kullanıcı login olmamış"
                      );
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/temelislem.pdf");
@@ -186,7 +182,7 @@ QWidget* MainWindow::baseWidget()
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
         d1->setWindowTitle("Temel İşlemler Yardım Penceresi");
-        d1->setFixedSize(QSize(boy*150,boy*120));
+        d1->setFixedSize(QSize(boy*215,boy*110));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
 
@@ -206,11 +202,10 @@ QWidget* MainWindow::baseWidget()
 
     layout->addWidget(vncConnectPcButton, 0,2,3,1);
     layout->addWidget(novncConnectPcButton, 0,5,3,1);
-
-    //  layout->addWidget(xrdpConnectPcButton, 0,6,3,1);
+    layout->addWidget(xrdpConnectPcButton, 0,6,3,1);
 
     layout->addWidget(terminalPcButton, 0,7,3,1);
-    layout->addWidget(ftpPc, 0,8,3,1);
+    //layout->addWidget(ftpPc, 0,8,3,1);
     layout->addWidget(wolButton, 0,9,3,1);
 
     layout->addWidget(kilitWidget(), 0,10,3,1);

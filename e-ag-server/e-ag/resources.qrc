@@ -61,7 +61,6 @@
         <file>icons/temelislem.png</file>
         <file>icons/istemci.png</file>
         <file>icons/ekranpaylasimi.png</file>
-        <file>icons/sshcommand.png</file>
         <file>icons/dosyakopyalama.png</file>
         <file>icons/mesaj.png</file>
         <file>icons/video.png</file>
@@ -77,5 +76,6 @@
         <file>icons/video.svg</file>
         <file>icons/streamstart.svg</file>
         <file>icons/streamstop.svg</file>
+        <file>icons/runcommand.png</file>
     </qresource>
 </RCC>

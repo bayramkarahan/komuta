@@ -173,7 +173,9 @@ DIST          = ../../../e-ag/e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
-		/home/etapadmin/Masaüstü/e-ag/e-ag.pro ../../../e-ag/Database.h \
+		/home/etapadmin/Masaüstü/e-ag/e-ag.pro ../../../e-ag/CustomInputDialog.h \
+		../../../e-ag/Database.h \
+		../../../e-ag/MyDialog.h \
 		../../../e-ag/SettingsWidget.h \
 		../../../e-ag/baseWidget.h \
 		../../../e-ag/filecopyWidget.h \
@@ -411,7 +413,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../e-ag/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../../../e-ag/Database.h ../../../e-ag/SettingsWidget.h ../../../e-ag/baseWidget.h ../../../e-ag/filecopyWidget.h ../../../e-ag/languageWidget.h ../../../e-ag/lockWidget.h ../../../e-ag/loginLogoutWidget.h ../../../e-ag/mainwindow.h ../../../e-ag/menu.h ../../../e-ag/messageWidget.h ../../../e-ag/mypc.h ../../../e-ag/pcdata.h ../../../e-ag/powerrebootWidget.h ../../../e-ag/rubberband.h ../../../e-ag/runcommandWidget.h ../../../e-ag/scdimgclient.h ../../../e-ag/scdimgserver.h ../../../e-ag/scdimgserverthread.h ../../../e-ag/screenViewWidget.h ../../../e-ag/sliderWidget.h ../../../e-ag/tcpudp.h ../../../e-ag/selectpc.h ../../../e-ag/funtion.h ../../../e-ag/videoWidget.h ../../../e-ag/vncrdpWidget.h ../../../e-ag/volumeWidget.h ../../../e-ag/wolWidget.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../../../e-ag/CustomInputDialog.h ../../../e-ag/Database.h ../../../e-ag/MyDialog.h ../../../e-ag/SettingsWidget.h ../../../e-ag/baseWidget.h ../../../e-ag/filecopyWidget.h ../../../e-ag/languageWidget.h ../../../e-ag/lockWidget.h ../../../e-ag/loginLogoutWidget.h ../../../e-ag/mainwindow.h ../../../e-ag/menu.h ../../../e-ag/messageWidget.h ../../../e-ag/mypc.h ../../../e-ag/pcdata.h ../../../e-ag/powerrebootWidget.h ../../../e-ag/rubberband.h ../../../e-ag/runcommandWidget.h ../../../e-ag/scdimgclient.h ../../../e-ag/scdimgserver.h ../../../e-ag/scdimgserverthread.h ../../../e-ag/screenViewWidget.h ../../../e-ag/sliderWidget.h ../../../e-ag/tcpudp.h ../../../e-ag/selectpc.h ../../../e-ag/funtion.h ../../../e-ag/videoWidget.h ../../../e-ag/vncrdpWidget.h ../../../e-ag/volumeWidget.h ../../../e-ag/wolWidget.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../e-ag/main.cpp ../../../e-ag/mainwindow.cpp ../../../e-ag/mypc.cpp ../../../e-ag/pcdata.cpp ../../../e-ag/rubberband.cpp ../../../e-ag/scdimgclient.cpp ../../../e-ag/scdimgserver.cpp ../../../e-ag/scdimgserverthread.cpp $(DISTDIR)/
 
 
@@ -469,7 +471,6 @@ qrc_resources.cpp: ../../../e-ag/resources.qrc \
 		../../../e-ag/icons/lock.svg \
 		../../../e-ag/icons/rdp.svg \
 		../../../e-ag/icons/networkvncallstop.svg \
-		../../../e-ag/icons/sshcommand.png \
 		../../../e-ag/icons/filecopy.svg \
 		../../../e-ag/icons/mesaj.png \
 		../../../e-ag/icons/novnc.svg \
@@ -513,6 +514,7 @@ qrc_resources.cpp: ../../../e-ag/resources.qrc \
 		../../../e-ag/icons/transparanunlock.svg \
 		../../../e-ag/icons/senddesktopfile.svg \
 		../../../e-ag/icons/streamstop.svg \
+		../../../e-ag/icons/runcommand.png \
 		../../../e-ag/icons/webblock.svg \
 		../../../e-ag/icons/settings.svg \
 		../../../e-ag/icons/transparanlock.svg \
@@ -530,7 +532,7 @@ compiler_moc_header_clean:
 	-$(DEL_FILE) moc_mainwindow.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
 moc_mainwindow.cpp: ../../../e-ag/mainwindow.h \
 		../../../e-ag/mypc.h \
-		../../../e-ag/pcdata.h \
+		/home/etapadmin/Masaüstü/e-ag/pcdata.h \
 		../../../e-ag/Database.h \
 		../../../e-ag/scdimgclient.h \
 		moc_predefs.h \
@@ -538,7 +540,7 @@ moc_mainwindow.cpp: ../../../e-ag/mainwindow.h \
 	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/build/Desktop-Debug/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../../e-ag/mainwindow.h -o moc_mainwindow.cpp
 
 moc_mypc.cpp: ../../../e-ag/mypc.h \
-		../../../e-ag/pcdata.h \
+		/home/etapadmin/Masaüstü/e-ag/pcdata.h \
 		../../../e-ag/Database.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
@@ -583,7 +585,7 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 
 main.o: ../../../e-ag/main.cpp ../../../e-ag/mainwindow.h \
 		../../../e-ag/mypc.h \
-		../../../e-ag/pcdata.h \
+		/home/etapadmin/Masaüstü/e-ag/pcdata.h \
 		../../../e-ag/Database.h \
 		../../../e-ag/scdimgclient.h \
 		../../../e-ag/scdimgserver.h
@@ -591,14 +593,14 @@ main.o: ../../../e-ag/main.cpp ../../../e-ag/mainwindow.h \
 
 mainwindow.o: ../../../e-ag/mainwindow.cpp ../../../e-ag/mainwindow.h \
 		../../../e-ag/mypc.h \
-		../../../e-ag/pcdata.h \
+		/home/etapadmin/Masaüstü/e-ag/pcdata.h \
 		../../../e-ag/Database.h \
 		../../../e-ag/scdimgclient.h \
-		../../../e-ag/menu.h \
-		../../../e-ag/tcpudp.h \
-		../../../e-ag/init.h \
-		../../../e-ag/selectpc.h \
-		../../../e-ag/funtion.h \
+		/home/etapadmin/Masaüstü/e-ag/menu.h \
+		/home/etapadmin/Masaüstü/e-ag/tcpudp.h \
+		/home/etapadmin/Masaüstü/e-ag/init.h \
+		/home/etapadmin/Masaüstü/e-ag/selectpc.h \
+		/home/etapadmin/Masaüstü/e-ag/funtion.h \
 		../../../e-ag/SettingsWidget.h \
 		../../../e-ag/lockWidget.h \
 		../../../e-ag/volumeWidget.h \
@@ -606,6 +608,7 @@ mainwindow.o: ../../../e-ag/mainwindow.cpp ../../../e-ag/mainwindow.h \
 		../../../e-ag/loginLogoutWidget.h \
 		../../../e-ag/screenViewWidget.h \
 		../../../e-ag/vncrdpWidget.h \
+		../../../e-ag/CustomInputDialog.h \
 		../../../e-ag/runcommandWidget.h \
 		../../../e-ag/filecopyWidget.h \
 		../../../e-ag/messageWidget.h \
@@ -617,7 +620,7 @@ mainwindow.o: ../../../e-ag/mainwindow.cpp ../../../e-ag/mainwindow.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../../e-ag/mainwindow.cpp
 
 mypc.o: ../../../e-ag/mypc.cpp ../../../e-ag/mypc.h \
-		../../../e-ag/pcdata.h \
+		/home/etapadmin/Masaüstü/e-ag/pcdata.h \
 		../../../e-ag/Database.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mypc.o ../../../e-ag/mypc.cpp
 
