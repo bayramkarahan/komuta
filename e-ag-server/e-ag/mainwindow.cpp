@@ -185,15 +185,7 @@ statusbar->addPermanentWidget(sliderWidget(),0);
 
 /*************************************************************************/
  hostListe->show();
-/*
-pcListeSlot();
 
- if(btnlist.count()>0)
-{
-btnlist[btnlist.count()-1]->slotMouseClick();
-
-pcClickSlot(btnlist[btnlist.count()-1]->mac);
-}
 /*************************************************************************/
  }
 
@@ -366,6 +358,14 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
              }
              sn++;
         }
+     }
+
+/***************pc seçimi yapılıyor önemli***********************/
+     if(onlinePcList1.size()>0)
+     {
+         onlinePcList1[onlinePcList1.size()-1]->slotMouseClick();
+
+         pcClickSlot(onlinePcList1[onlinePcList1.size()-1]->mac);
      }
  }
 void MainWindow::pcHideSignalSlot(QString _mac)
