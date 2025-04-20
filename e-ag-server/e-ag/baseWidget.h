@@ -1,6 +1,6 @@
 #ifndef BASEWIDGET_H
 #define BASEWIDGET_H
-
+#include<MyDialog.h>
 
 QWidget* MainWindow::baseWidget()
 {
@@ -106,12 +106,21 @@ QWidget* MainWindow::baseWidget()
         //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
         if(_remoteuser!=""&&_remotepasswd!="")
         {
-            system("cp /usr/share/e-ag/filezilla.xml ~/.config/filezilla/");
+            QString ftpapp="nemo";
+            if(QFile::exists("/usr/bin/nemo")) ftpapp="nemo";
+            else if(QFile::exists("/usr/bin/thunar")) ftpapp="thunar";
+            else if(QFile::exists("/usr/bin/nautilus"))ftpapp="nautilus";
+            else if(QFile::exists("/usr/bin/dolphin")) ftpapp="dolphin";
+            else if(QFile::exists("/usr/bin/pcmanfm")) ftpapp="pcmanfm";
+            else{
+            MyDialog("Uyarı","ftp için nemo, thunar, nautilus, dolphi, pcmanfm vb. uygulama bulunamadı.\n"
+                              "Bu uygulamalardan birini kururarak ftp işlemi yapabilirsiniz..","","","tamam",500,100).exec();
+            }
             textBrowser_receivedMessages->clear();
             QStringList arguments;
             QString  komut;
-            komut.append("nohup filezilla ").append(_remoteuser+":").append(_remotepasswd).append("@"+pcIp->text()+" &");
-            // qDebug()<<komut;
+            komut.append("nohup ").append(ftpapp).append(" sftp://").append(_remoteuser+":").append(_remotepasswd).append("@"+pcIp->text()+" &");
+             qDebug()<<komut;
             arguments << "-c" << komut;
             QProcess process;
             process.start("/bin/bash",arguments);
@@ -150,12 +159,14 @@ QWidget* MainWindow::baseWidget()
 
         doc->setHtml("<center><h2>Temel İşlemler</h2></center>"
                      "<center><img src=\":/icons/temelislem.png\" /></center> "
-                     "<br/><br/>3-İstemcinin canlı ekranı Vnc seçeneği ile erişilebilir."
-                     "<br/><br/>4-İstemcinin kullanıcıdan bağımsız ekranına Rdp seçeneği ile erişilebilir."
-                     "<br/><br/>5-İstemcinin ssh üzerinden konsoluna bağlanmak için Terminal seçeneği kullanılabilir."
-                     "<br/><br/>7-İstemcinin uzaktan başlatmak için Pc Aç seçeneği kullanılabilir."
+                     "<br/><br/>1-Vnc seçeneği istemcide açık olan masaüstüne erişilir."
+                     "<br/><br/>2-noVnc seçeneği istemcide açık olan masaüstüne web tarayısıyla erişilir."
+                     "<br/><br/>3-Rdp ile istemci üzerinde açık olmayan bir kullanıcı ile masaüstüne erişilir."
+                     "<br/><br/>4-Terminal ile  ssh üzerinden konsoluna bağlanmak kullanılır."
+                     "<br/><br/>5-FTP ile dosya yöneticisini kullanarak istemciye bağlanıp dosya transferi için kullanılır."
+                     "<br/><br/>6-İstemcinin uzaktan başlatmak için Pc Aç seçeneği kullanılabilir."
                      "Pc Aç seçeneği için; İstemcinin BIOS seçeneklerinden Wake On Lan seçeneği aktif edilmeli. "
-                     "<br/><br/>8-İstemci simgelerinin altındaki P V S R X işaretleri servisleri ifade eder."
+                     "<br/><br/>7-İstemci simgelerinin altındaki P V S R X işaretleri servisleri ifade eder."
                      "<center><img src=\":/icons/istemci.png\" /></center>"
                      "Simgeler yeşilse servis çalışıyor. Kırmızı ise servis çalışmıyordur."
                      "<br/>P=İstemci, yeşil=istemci açık/kırmızı=istemci kapalı"
@@ -182,7 +193,7 @@ QWidget* MainWindow::baseWidget()
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
         d1->setWindowTitle("Temel İşlemler Yardım Penceresi");
-        d1->setFixedSize(QSize(boy*215,boy*110));
+        d1->setFixedSize(QSize(boy*215,boy*120));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
 
@@ -205,7 +216,7 @@ QWidget* MainWindow::baseWidget()
     layout->addWidget(xrdpConnectPcButton, 0,6,3,1);
 
     layout->addWidget(terminalPcButton, 0,7,3,1);
-    //layout->addWidget(ftpPc, 0,8,3,1);
+    layout->addWidget(ftpPc, 0,8,3,1);
     layout->addWidget(wolButton, 0,9,3,1);
 
     layout->addWidget(kilitWidget(), 0,10,3,1);

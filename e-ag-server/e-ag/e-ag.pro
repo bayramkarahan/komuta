@@ -115,19 +115,18 @@ ngx.path = /etc/nginx/
 #webdisable.files = webdisable.sh
 #webdisable.path = /usr/share/e-ag/
 
-filezilla.files = filezilla.xml
-filezilla.path = /usr/share/e-ag/
+#filezilla.files = filezilla.xml
+#filezilla.path = /usr/share/e-ag/
 
 
 INSTALLS += target desktop_file icon x11passwd\
-x11servicedesktop x11servicelogin filezilla
+x11servicedesktop x11servicelogin
 
 DISTFILES +=e-ag.svg\
     e-ag.desktop\
     x11vncpasswd\
     e-ag-x11vncdesktop.service\
-    e-ag-x11vnclogin.service\
-    filezilla.xml
+    e-ag-x11vnclogin.service
 
 
 

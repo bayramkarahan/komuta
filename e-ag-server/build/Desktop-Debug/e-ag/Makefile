@@ -86,7 +86,6 @@ DIST          = ../../../e-ag/e-ag.svg \
 		../../../e-ag/x11vncpasswd \
 		../../../e-ag/e-ag-x11vncdesktop.service \
 		../../../e-ag/e-ag-x11vnclogin.service \
-		../../../e-ag/filezilla.xml \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -96,6 +95,7 @@ DIST          = ../../../e-ag/e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -229,6 +229,7 @@ Makefile: ../../../e-ag/e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -318,6 +319,7 @@ Makefile: ../../../e-ag/e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
@@ -616,7 +618,8 @@ mainwindow.o: ../../../e-ag/mainwindow.cpp ../../../e-ag/mainwindow.h \
 		../../../e-ag/videoWidget.h \
 		../../../e-ag/wolWidget.h \
 		../../../e-ag/sliderWidget.h \
-		../../../e-ag/baseWidget.h
+		../../../e-ag/baseWidget.h \
+		../../../e-ag/MyDialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../../e-ag/mainwindow.cpp
 
 mypc.o: ../../../e-ag/mypc.cpp ../../../e-ag/mypc.h \
@@ -728,18 +731,9 @@ uninstall_x11servicelogin: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/lib/systemd/system/ 
 
 
-install_filezilla: first FORCE
-	@test -d $(INSTALL_ROOT)/usr/share/e-ag/ || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag/
-	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/filezilla.xml $(INSTALL_ROOT)/usr/share/e-ag/filezilla.xml
+install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin  FORCE
 
-uninstall_filezilla: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/filezilla.xml
-	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/ 
-
-
-install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin install_filezilla  FORCE
-
-uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin uninstall_filezilla  FORCE
+uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin  FORCE
 
 FORCE:
 
