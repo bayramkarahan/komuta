@@ -867,7 +867,7 @@ void MainWindow::networkProfilLoad()
             veri["selectedNetworkProfil"] =true;
             veri["networkName"] = "network";
             veri["networkTcpPort"] = "7879";
-            veri["serverAddress"]="";
+            veri["serverAddress"]=interfaceList[i].ip;
             veri["networkBroadCastAddress"]=interfaceList[i].broadcast;
             veri["ftpPort"]="12345";
             veri["rootPath"]="/tmp/";

@@ -5,8 +5,8 @@ sed -i 's/WaylandEnable=false/WaylandEnable=false/' /etc/gdm3/daemon.conf
 sed -i 's/#WaylandEnable=true/WaylandEnable=false/' /etc/gdm3/daemon.conf
 sed -i 's/WaylandEnable=true/WaylandEnable=false/' /etc/gdm3/daemon.conf
 fi
-#mkdir /usr/share/e-ag
-#chmod 777 /usr/share/e-ag
+mkdir /usr/share/e-ag
+chmod 777 /usr/share/e-ag
 systemctl daemon-reload || true
 
 systemctl enable ssh.service || true

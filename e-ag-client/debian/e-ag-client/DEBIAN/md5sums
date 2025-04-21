@@ -3,7 +3,7 @@ b0b4afc5f186f01004768013c29edb43  lib/systemd/system/e-ag-client-networkprofil.s
 4d335495b2c270e5df654af6c46a08a7  lib/systemd/system/e-ag-x11vncdesktop.service
 3d68f15b88738d7edb0e0225c9c07306  lib/systemd/system/e-ag-x11vnclogin.service
 fd1c3878c57857c112829afa77e405ee  usr/bin/clientcamera
-ade705fe10a3503dac067f57784d5a12  usr/bin/e-ag-client-console
+5945a6067587a37a1760e71b217ad7da  usr/bin/e-ag-client-console
 652e5a1ef3a21f25f6578d81e3c63c29  usr/bin/e-ag-client-gui
 919602ddb05525024b981f10cea1eb82  usr/bin/e-ag-client-networkprofil
 6d0d715e4883af9d95d47f8ed52f80bd  usr/bin/e-ag-client-tray

@@ -50,13 +50,14 @@ int main(int argc, char *argv[])
     w->networkProfilLoad();
     int ftpPort=0;
     QString rootPath="";
+
     for (const NetProfil &item : w->NetProfilList) {
         if (item.serverAddress=="") continue;
         if (item.selectedNetworkProfil==false) continue;
         ftpPort=item.ftpPort.toInt();
         rootPath=item.rootPath;
     }
-
+qDebug()<<"rootpath: "<<rootPath;
     SCDImgServer srv(0,ftpPort,rootPath);
 
     if (srv.start())

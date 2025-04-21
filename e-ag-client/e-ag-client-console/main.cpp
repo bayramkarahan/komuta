@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
         int ftpPort=0;
         QString rootPath="";
         for (const NetProfil &item : cl->NetProfilList) {
-            if (item.serverAddress=="") continue;
+            //if (item.serverAddress=="") continue;
             if (item.selectedNetworkProfil==false) continue;
             ftpPort=item.ftpPort.toInt();
             rootPath=item.rootPath;
