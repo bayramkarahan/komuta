@@ -55,7 +55,7 @@ void NewtworkProfil::sendBroadcastDatagram()
                     //udpSocketSend->writeDatagram(datagram,QHostAddress("255.255.255.255"), uport.toInt());
                     udpBroadCastSend->writeDatagram(datagram,QHostAddress(broadCastAdres), uport.toInt()+uport.toInt());
                 }
-                qDebug()<<"ServerBroadCast"<<broadCastAdres<<item.networkBroadCastAddress<<msg<<uport;
+                qDebug()<<"ServerBroadCast"<<item.networkIndex<<item.networkBroadCastAddress<<msg<<uport.toInt()+uport.toInt();
              }
         }
     }
