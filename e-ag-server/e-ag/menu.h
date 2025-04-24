@@ -760,15 +760,18 @@ QMenu *MainWindow::languageMenu()
             languageButton->setText(dil);
             languageButton->setFlat(true);
             connect(languageButton, &QPushButton::clicked, [=]() {
-                QString appPath ="/usr/share/e-ag";// a.applicationDirPath();
-                QSettings cfg(appPath + "/config.cfg",QSettings::IniFormat);
-                int port = cfg.value("port",12345).toInt();
-                cfg.setValue("port",port);
-                QString rootPath = cfg.value("rootpath","/tmp/").toString();
-                cfg.setValue("rootpath",rootPath);
-                //QString language = cfg.value("language","tr_TR").toString();
-                cfg.setValue("language",languageButton->text());
-                cfg.sync();
+                DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+                QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
+                if(dizi.count()>0)
+                {
+                    for (const QJsonValue &item : dizi) {
+                        QJsonObject veri=item.toObject();
+                        //qDebug()<<"Yüklenen Ağ Profili:" <<veri;
+                        veri["language"]=languageButton->text();// önemli kısım
+                        db->Sil("networkBroadCastAddress",veri["networkBroadCastAddress"].toString());
+                        db->Ekle(veri);
+                    }
+                }
                 QMessageBox msgBox;
                 msgBox.setText(tr("Uygulama dilinin değişmesi için uygulamayı yeniden başlatın."));
                 msgBox.exec();

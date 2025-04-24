@@ -226,7 +226,7 @@ QWidget* MainWindow::baseWidget()
     layout->addWidget(volumeWidget(), 0,23,3,1);
 
     layout->addWidget(logoutWidget(), 0,25,3,1);
-    //  layout->addWidget(languageWidget(), 0,28,3,1);
+    layout->addWidget(languageWidget(), 0,28,3,1);
 
     layout->addWidget(helpButton, 0,30,3,1);
     d->setLayout(layout);

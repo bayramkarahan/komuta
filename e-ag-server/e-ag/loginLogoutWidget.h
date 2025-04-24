@@ -30,7 +30,7 @@ QWidget* MainWindow::logoutWidget()
     logoutPc->setFixedSize(yukseklik*1.4,boy*7);
     logoutPc->setAutoRaise(true);
     // logoutPc->setAutoFillBackground(true);
-    logoutPc->setText("Oturum Kapat");
+    logoutPc->setText(tr("Oturum Kapat"));
     // logoutPc->setMenu(sessionMenu());
     // logoutPc->setPopupMode(QToolButton::MenuButtonPopup);
 

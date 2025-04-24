@@ -26,7 +26,7 @@ QWidget* MainWindow::messageWidget()
     duyuruButton->setAutoRaise(true);
     // duyuruButton->setAutoFillBackground(true);
     duyuruButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    duyuruButton->setText(tr("Seçili Pc'lere Göndert"));
+    duyuruButton->setText(tr("Seçili Pc'lere Gönder"));
     duyuruButton->setIcon(QIcon(":/icons/selectpcmessage.svg"));
     duyuruButton->setIconSize(QSize(b*8,yukseklik));
     duyuruButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);

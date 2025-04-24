@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
     /***************************************************/
     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
-
     if(dizi.count()>0)
     {
         for (const QJsonValue &item : dizi) {

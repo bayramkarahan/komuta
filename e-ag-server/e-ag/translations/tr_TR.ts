@@ -314,7 +314,7 @@ Gönder</source>
     </message>
     <message>
         <location filename="../languageWidget.h" line="42"/>
-        <source>Dil Seç</source>
+        <source>Dil</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -358,27 +358,32 @@ Gönder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="451"/>
+        <location filename="../mainwindow.cpp" line="319"/>
+        <source>Açık Hosts : </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="429"/>
         <source>Pc Adı: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="452"/>
+        <location filename="../mainwindow.cpp" line="430"/>
         <source>Ip: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="453"/>
+        <location filename="../mainwindow.cpp" line="431"/>
         <source>Mac: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="455"/>
+        <location filename="../mainwindow.cpp" line="433"/>
         <source>Kullanıcı: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="457"/>
+        <location filename="../mainwindow.cpp" line="435"/>
         <source>Sistem: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -563,6 +568,7 @@ Gönder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../loginLogoutWidget.h" line="33"/>
         <location filename="../menu.h" line="602"/>
         <source>Oturum Kapat</source>
         <translation type="unfinished"></translation>
@@ -607,7 +613,7 @@ Gönder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../menu.h" line="773"/>
+        <location filename="../menu.h" line="776"/>
         <source>Uygulama dilinin değişmesi için uygulamayı yeniden başlatın.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -840,7 +846,7 @@ Durdur</source>
     </message>
     <message>
         <location filename="../messageWidget.h" line="29"/>
-        <source>Seçili Pc&apos;lere Göndert</source>
+        <source>Seçili Pc&apos;lere Gönder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -316,7 +316,7 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
     std::copy_if(onlinePcList.begin(), onlinePcList.end(), std::back_inserter(onlinePcList1), [](const MyPc *mypc) {
         return mypc->visibleState==true; // visibleState==true filtreleniyor
     });
-    hostsCountLabel->setText("Açık Hosts : "+QString::number(onlinePcList1.size()));
+    hostsCountLabel->setText(tr("Açık Hosts : ")+QString::number(onlinePcList1.size()));
 
     /*******************************************************************/
 
@@ -370,29 +370,7 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
  }
 void MainWindow::pcHideSignalSlot(QString _mac)
  {
-    //qDebug()<<"pcHideSignalSlot: Gizlenecek Hosts:"<<_mac;
-     /*foreach (MyPc *item, onlinePcList) {
-         //qDebug() << item->mac; // Her bir ismi ekrana yazdırır
-         if(item->mac==_mac)
-         {
-             qDebug()<<"****Host Gizleniyor..: "<<_mac<<item->ip;
-                 //qDeleteAll(hostListe->findChildren<QWidget *>(QString(), Qt::FindDirectChildrenOnly));
-             qDebug()<<"11";
-             layout->removeWidget(item);
-             qDebug()<<"12";
-             //hostListe->removeWidget(onlinePcList[i]);
-             ///delete item;
-             qDebug()<<"13";
-             ///onlinePcList.removeAt(i);
-             qDebug()<<"14";
-             //pcDetect();
-             break;
-         }
-     }
-
-     return;*/
-
-     for(int i=0;i<onlinePcList.count();i++)
+    for(int i=0;i<onlinePcList.count();i++)
          {
          if(onlinePcList[i]->mac==_mac)
          {

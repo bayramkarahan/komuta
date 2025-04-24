@@ -39,7 +39,7 @@ QWidget* MainWindow::languageWidget()
     languageMenuButton->setFixedSize(e*8,b*7);
     languageMenuButton->setAutoRaise(true);
     //languageMenuButton->setAutoFillBackground(true);
-    languageMenuButton->setText(tr("Dil Seç"));
+    languageMenuButton->setText(tr("Dil"));
     languageMenuButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     QMenu *menuu=languageMenu();
     languageMenuButton->setMenu(menuu);

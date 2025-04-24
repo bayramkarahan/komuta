@@ -6,7 +6,7 @@
     <message>
         <location filename="../CustomInputDialog.h" line="21"/>
         <source>Tamam</source>
-        <translation type="unfinished">Okey</translation>
+        <translation>Okey</translation>
     </message>
     <message>
         <location filename="../CustomInputDialog.h" line="22"/>
@@ -124,7 +124,7 @@ Bu uygulamalardan birini kururarak ftp işlemi yapabilirsiniz..</source>
     <message>
         <location filename="../SettingsWidget.h" line="132"/>
         <source>Ayarlar Yardım Penceresi</source>
-        <translation>Sttings Window</translation>
+        <translation>Settings Window</translation>
     </message>
     <message>
         <location filename="../SettingsWidget.h" line="185"/>
@@ -314,8 +314,12 @@ Gönder</source>
     </message>
     <message>
         <location filename="../languageWidget.h" line="42"/>
+        <source>Dil</source>
+        <translation>Lang</translation>
+    </message>
+    <message>
         <source>Dil Seç</source>
-        <translation>Select Language</translation>
+        <translation type="vanished">Select Language</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="101"/>
@@ -358,29 +362,34 @@ Gönder</source>
         <translation>Opretions Log</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="451"/>
+        <location filename="../mainwindow.cpp" line="319"/>
+        <source>Açık Hosts : </source>
+        <translation>Open Hosts:</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="429"/>
         <source>Pc Adı: </source>
-        <translation type="unfinished">Pc Name</translation>
+        <translation>Pc Name</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="452"/>
+        <location filename="../mainwindow.cpp" line="430"/>
         <source>Ip: </source>
-        <translation type="unfinished">Ip:</translation>
+        <translation>Ip:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="453"/>
+        <location filename="../mainwindow.cpp" line="431"/>
         <source>Mac: </source>
-        <translation type="unfinished">Mac:</translation>
+        <translation>Mac:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="455"/>
+        <location filename="../mainwindow.cpp" line="433"/>
         <source>Kullanıcı: </source>
-        <translation type="unfinished">User Name:</translation>
+        <translation>User Name:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="457"/>
+        <location filename="../mainwindow.cpp" line="435"/>
         <source>Sistem: </source>
-        <translation type="unfinished">System:</translation>
+        <translation>System:</translation>
     </message>
     <message>
         <location filename="../menu.h" line="34"/>
@@ -563,6 +572,7 @@ Gönder</source>
         <translation>Login</translation>
     </message>
     <message>
+        <location filename="../loginLogoutWidget.h" line="33"/>
         <location filename="../menu.h" line="602"/>
         <source>Oturum Kapat</source>
         <translation>Logout</translation>
@@ -607,9 +617,9 @@ Gönder</source>
         <translation>Hide List</translation>
     </message>
     <message>
-        <location filename="../menu.h" line="773"/>
+        <location filename="../menu.h" line="776"/>
         <source>Uygulama dilinin değişmesi için uygulamayı yeniden başlatın.</source>
-        <translation>Cahnge Language for Restart application</translation>
+        <translation>Change Language for Restart application</translation>
     </message>
     <message>
         <location filename="../selectpc.h" line="29"/>
@@ -840,8 +850,9 @@ Durdur</source>
     </message>
     <message>
         <location filename="../messageWidget.h" line="29"/>
-        <source>Seçili Pc&apos;lere Göndert</source>
-        <translation></translation>
+        <source>Seçili Pc&apos;lere Gönder</source>
+        <translation>Send Select Client
+ </translation>
     </message>
     <message>
         <location filename="../messageWidget.h" line="35"/>
