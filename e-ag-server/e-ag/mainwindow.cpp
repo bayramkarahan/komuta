@@ -133,14 +133,14 @@ MainWindow::MainWindow(QWidget *parent) :
    /***********************************************************************/
     tabwid=new QTabWidget();
     tabwid->setFixedSize(this->width(),boy*24);
-    tabwid->addTab(baseWidget(),QIcon(":/icons/toolbox.svg"),"Temel İşlemler");
-    tabwid->addTab(rdpWidget(),QIcon(":/icons/vnc.svg"),"Ekran Paylaşımı");
-    tabwid->addTab(commandWidget(),QIcon(":/icons/bash.svg"),"Komut Çalıştır");
-    tabwid->addTab(messageWidget(),QIcon(":/icons/message.svg"),"Mesaj Yaz");
-    tabwid->addTab(fileWidget(),QIcon(":/icons/filecopy.svg"),"Dosya Kopyala");
-    tabwid->addTab(videoWidget(),QIcon(":/icons/camera.svg"),"Video/Kamera");
-    tabwid->addTab(settingsWidget(),QIcon(":/icons/settings.svg"),"Ayarlar");
-    tabwid->addTab(textBrowser_receivedMessages,QIcon(":/icons/log.svg"),"İşlem Raporu");
+    tabwid->addTab(baseWidget(),QIcon(":/icons/toolbox.svg"),tr("Temel İşlemler"));
+    tabwid->addTab(rdpWidget(),QIcon(":/icons/vnc.svg"),tr("Ekran Paylaşımı"));
+    tabwid->addTab(commandWidget(),QIcon(":/icons/bash.svg"),tr("Komut Çalıştır"));
+    tabwid->addTab(messageWidget(),QIcon(":/icons/message.svg"),tr("Mesaj Yaz"));
+    tabwid->addTab(fileWidget(),QIcon(":/icons/filecopy.svg"),tr("Dosya Kopyala"));
+    tabwid->addTab(videoWidget(),QIcon(":/icons/camera.svg"),tr("Video/Kamera"));
+    tabwid->addTab(settingsWidget(),QIcon(":/icons/settings.svg"),tr("Ayarlar"));
+    tabwid->addTab(textBrowser_receivedMessages,QIcon(":/icons/log.svg"),tr("İşlem Raporu"));
     tabwid->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     tabwid->setTabPosition(QTabWidget::North);
     /***********************************************************************/

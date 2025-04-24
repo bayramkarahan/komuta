@@ -31,7 +31,7 @@ QMenu *MainWindow::commandExampleMenu()
    QPushButton *updateCommandButton= new QPushButton;
    updateCommandButton->setFixedSize(200, 30);
    updateCommandButton->setIconSize(QSize(200,30));
-   updateCommandButton->setText(" Güncelle");
+   updateCommandButton->setText(tr("Güncelle"));
    updateCommandButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
    updateCommandButton->setFlat(true);
 
@@ -44,7 +44,7 @@ QMenu *MainWindow::commandExampleMenu()
    QPushButton *updateProblemCommandButton= new QPushButton;
    updateProblemCommandButton->setFixedSize(200, 30);
    updateProblemCommandButton->setIconSize(QSize(200,30));
-   updateProblemCommandButton->setText(" Paket Problemleri Düzelt");
+   updateProblemCommandButton->setText(tr(" Paket Problemleri Düzelt"));
    updateProblemCommandButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
    updateProblemCommandButton->setFlat(true);
 
@@ -57,20 +57,20 @@ QMenu *MainWindow::commandExampleMenu()
    QPushButton *installCommandButton= new QPushButton;
    installCommandButton->setFixedSize(200, 30);
    installCommandButton->setIconSize(QSize(200,30));
-   installCommandButton->setText(" Paket Yükleme");
+   installCommandButton->setText(tr(" Paket Yükleme"));
    installCommandButton->setStyleSheet("Text-align:left;  font-size:"+font+"px;");
    installCommandButton->setFlat(true);
 
    connect(installCommandButton, &QPushButton::clicked, [=]() {
 
-       commandFileL->setText("apt-get install paket");
+       commandFileL->setText(tr("apt-get install paket"));
        menu->close();
 });
 
    QPushButton *removeCommandButton= new QPushButton;
    removeCommandButton->setFixedSize(200, 30);
    removeCommandButton->setIconSize(QSize(200,30));
-   removeCommandButton->setText(" Paket Kaldırma");
+   removeCommandButton->setText(tr(" Paket Kaldırma"));
    removeCommandButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
    removeCommandButton->setFlat(true);
 
@@ -83,38 +83,38 @@ QMenu *MainWindow::commandExampleMenu()
    QPushButton *mkdirCommandButton= new QPushButton;
    mkdirCommandButton->setFixedSize(200, 30);
    mkdirCommandButton->setIconSize(QSize(200,30));
-   mkdirCommandButton->setText(" Klasör Oluştur");
+   mkdirCommandButton->setText(tr(" Klasör Oluştur"));
    mkdirCommandButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
    mkdirCommandButton->setFlat(true);
 
    connect(mkdirCommandButton, &QPushButton::clicked, [=]() {
 
-       commandFileL->setText("mkdir klasor ");
+       commandFileL->setText(tr("mkdir klasor "));
        menu->close();
 });
    QPushButton *rmdirCommandButton= new QPushButton;
    rmdirCommandButton->setFixedSize(200, 30);
    rmdirCommandButton->setIconSize(QSize(200,30));
-   rmdirCommandButton->setText(" Klasör Sil");
+   rmdirCommandButton->setText(tr(" Klasör Sil"));
    rmdirCommandButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
    rmdirCommandButton->setFlat(true);
 
    connect(rmdirCommandButton, &QPushButton::clicked, [=]() {
 
-       commandFileL->setText("rmdir klasor");
+       commandFileL->setText(tr("rmdir klasor"));
        menu->close();
 });
    /*************************************/
        QPushButton *sessionLoginCommandButton= new QPushButton;
        sessionLoginCommandButton->setFixedSize(200, 30);
        sessionLoginCommandButton->setIconSize(QSize(200,30));
-       sessionLoginCommandButton->setText(" Oturum Aç");
+       sessionLoginCommandButton->setText(tr(" Oturum Aç"));
        sessionLoginCommandButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
        sessionLoginCommandButton->setFlat(true);
 
        connect(sessionLoginCommandButton, &QPushButton::clicked, [=]() {
 
-           commandFileL->setText("sshlogin <user> <password>");
+           commandFileL->setText(tr("sshlogin <user> <password>"));
     menu->close();
     });
 
@@ -122,7 +122,7 @@ QMenu *MainWindow::commandExampleMenu()
        QPushButton *closePcCommandButton= new QPushButton;
        closePcCommandButton->setFixedSize(200, 30);
        closePcCommandButton->setIconSize(QSize(200,30));
-       closePcCommandButton->setText(" Pc'yi Kapat");
+       closePcCommandButton->setText(tr(" Pc'yi Kapat"));
        closePcCommandButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
        closePcCommandButton->setFlat(true);
 
@@ -135,7 +135,7 @@ QMenu *MainWindow::commandExampleMenu()
        QPushButton *rebootPcCommandButton= new QPushButton;
        rebootPcCommandButton->setFixedSize(200, 30);
        rebootPcCommandButton->setIconSize(QSize(200,30));
-       rebootPcCommandButton->setText(" Pc'yi Yeniden Başlat");
+       rebootPcCommandButton->setText(tr(" Pc'yi Yeniden Başlat"));
        rebootPcCommandButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
        rebootPcCommandButton->setFlat(true);
 
@@ -183,7 +183,7 @@ QMenu *MainWindow::poweroffRebootMenu()
     closeAllButton->setIconSize(QSize(yukseklik*1.8,yukseklik/3));
     closeAllButton->setIcon(QIcon(":icons/close.svg"));
     closeAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-    closeAllButton->setText("Tümünü Kapat");
+    closeAllButton->setText(tr("Tümünü Kapat"));
     closeAllButton->setFlat(true);
     connect(closeAllButton, &QPushButton::clicked, [=]() {
         slotPowerOffAll();
@@ -197,7 +197,7 @@ QMenu *MainWindow::poweroffRebootMenu()
     rebootAllButton->setIconSize(QSize(yukseklik*1.8,yukseklik/3));
     rebootAllButton->setIcon(QIcon(":icons/reboot.svg"));
     rebootAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-    rebootAllButton->setText("Tümünü Y. Başlat");
+    rebootAllButton->setText(tr("Tümünü Y. Başlat"));
     rebootAllButton->setFlat(true);
     connect(rebootAllButton, &QPushButton::clicked, [=]() {
         slotRebootAll();
@@ -233,7 +233,7 @@ QMenu *MainWindow::ekranImageMenu()
     screenStartAll->setFixedSize(yukseklik*1.8, yukseklik/3);
     screenStartAll->setIconSize(QSize(yukseklik*1.8,yukseklik/3));
     screenStartAll->setIcon(QIcon(":icons/monitor.svg"));
-    screenStartAll->setText("Tüm Ekranları İzle");
+    screenStartAll->setText(tr("Tüm Ekranları İzle"));
    screenStartAll->setFlat(true);
    screenStartAll->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
 
@@ -246,7 +246,7 @@ QMenu *MainWindow::ekranImageMenu()
     screenStopAll->setFixedSize(yukseklik*1.8, yukseklik/3);
     screenStopAll->setIconSize(QSize(yukseklik*1.8,yukseklik/3));
     screenStopAll->setIcon(QIcon(":icons/monitorstop.svg"));
-    screenStopAll->setText("İzlemeleri Durdur");
+    screenStopAll->setText(tr("İzlemeleri Durdur"));
     screenStopAll->setFlat(true);
     screenStopAll->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
 
@@ -284,7 +284,7 @@ QMenu *MainWindow::komutMenu()
    QPushButton *kilitButton= new QPushButton;
    kilitButton->setFixedSize(170, 30);
    kilitButton->setIconSize(QSize(150,30));
-   kilitButton->setText(" Seçili Pc'de Çalıştır");
+   kilitButton->setText(tr(" Seçili Pc'de Çalıştır"));
    kilitButton->setFlat(true);
    kilitButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
 
@@ -299,7 +299,7 @@ QMenu *MainWindow::komutMenu()
    QPushButton *kilitAllButton= new QPushButton;
    kilitAllButton->setFixedSize(170, 30);
    kilitAllButton->setIconSize(QSize(150,30));
-   kilitAllButton->setText(" Tüm Pc'lerde Çalıştır");
+   kilitAllButton->setText(tr(" Tüm Pc'lerde Çalıştır"));
    kilitAllButton->setFlat(true);
    kilitAllButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
 
@@ -344,7 +344,7 @@ QMenu *MainWindow::sessionMenu()
     logoutAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
     logoutAllButton->setIcon(QIcon(":icons/session.svg"));
     logoutAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-     logoutAllButton->setText("Oturumları Kapat");
+     logoutAllButton->setText(tr("Oturumları Kapat"));
     logoutAllButton->setFlat(true);
    connect(logoutAllButton, &QPushButton::clicked, [=]() {
        slotLogoutAll();
@@ -355,7 +355,7 @@ QMenu *MainWindow::sessionMenu()
    loginAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
    loginAllButton->setIcon(QIcon(":icons/login.svg"));
    loginAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
-    loginAllButton->setText("Oturumları Aç");
+    loginAllButton->setText(tr("Oturumları Aç"));
    loginAllButton->setFlat(true);
   connect(loginAllButton, &QPushButton::clicked, [=]() {
       //slotLoginAll();
@@ -391,7 +391,7 @@ QMenu *MainWindow::rdpMenu()
     QPushButton *vncButton= new QPushButton;
     vncButton->setFixedSize(220, 30);
     vncButton->setIconSize(QSize(150,30));
-    vncButton->setText(" Vnc-Seçili Pc'ye Bağlan");
+    vncButton->setText(tr(" Vnc-Seçili Pc'ye Bağlan"));
     vncButton->setFlat(true);
     vncButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
    // kilitButton->setIcon(QIcon(":icons/saveprofile.png"));
@@ -406,7 +406,7 @@ QMenu *MainWindow::rdpMenu()
    QPushButton *serverEkranYansitButton= new QPushButton;
    serverEkranYansitButton->setFixedSize(180, 30);
    serverEkranYansitButton->setIconSize(QSize(150,30));
-   serverEkranYansitButton->setText(" Ekranı Pc'lere Yansıt");
+   serverEkranYansitButton->setText(tr(" Ekranı Pc'lere Yansıt"));
    serverEkranYansitButton->setFlat(true);
    serverEkranYansitButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
   // kilitButton->setIcon(QIcon(":icons/saveprofile.png"));
@@ -419,7 +419,7 @@ slotVncFlipAll(ekranScale->currentText(),"-viewonly");
    QPushButton *serverEkranYansitKapatButton= new QPushButton;
    serverEkranYansitKapatButton->setFixedSize(180, 30);
    serverEkranYansitKapatButton->setIconSize(QSize(150,30));
-   serverEkranYansitKapatButton->setText(" Ekran Yansıtmayı Durdur");
+   serverEkranYansitKapatButton->setText(tr(" Ekran Yansıtmayı Durdur"));
    serverEkranYansitKapatButton->setFlat(true);
    serverEkranYansitKapatButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
   // kilitButton->setIcon(QIcon(":icons/saveprofile.png"));
@@ -431,7 +431,7 @@ slotVncFlipAll(ekranScale->currentText(),"-viewonly");
    QPushButton *serverEkranYansitSeciliPcButton= new QPushButton;
    serverEkranYansitSeciliPcButton->setFixedSize(180, 30);
    serverEkranYansitSeciliPcButton->setIconSize(QSize(150,30));
-   serverEkranYansitSeciliPcButton->setText(" Seçili Pc'lere Yansıt");
+   serverEkranYansitSeciliPcButton->setText(tr(" Seçili Pc'lere Yansıt"));
    serverEkranYansitSeciliPcButton->setFlat(true);
    serverEkranYansitSeciliPcButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
   // kilitButton->setIcon(QIcon(":icons/saveprofile.png"));
@@ -443,7 +443,7 @@ slotVncFlipAll(ekranScale->currentText(),"-viewonly");
    QPushButton *serverEkranYansitKapatSeciliPcButton= new QPushButton;
    serverEkranYansitKapatSeciliPcButton->setFixedSize(200, 30);
    serverEkranYansitKapatSeciliPcButton->setIconSize(QSize(150,30));
-   serverEkranYansitKapatSeciliPcButton->setText(" Seçili Pc'lerden Ynst Durdur");
+   serverEkranYansitKapatSeciliPcButton->setText(tr(" Seçili Pc'lerden Ynst Durdur"));
    serverEkranYansitKapatSeciliPcButton->setFlat(true);
    serverEkranYansitKapatSeciliPcButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
   // kilitButton->setIcon(QIcon(":icons/saveprofile.png"));
@@ -456,7 +456,7 @@ slotVncFlipAll(ekranScale->currentText(),"-viewonly");
    QPushButton *rdpConnectButton= new QPushButton;
    rdpConnectButton->setFixedSize(180, 30);
    rdpConnectButton->setIconSize(QSize(150,30));
-   rdpConnectButton->setText(" Rdp-Seçili Pc'ye Bağlan");
+   rdpConnectButton->setText(tr(" Rdp-Seçili Pc'ye Bağlan"));
    rdpConnectButton->setFlat(true);
    rdpConnectButton->setStyleSheet("Text-align:left; font-size:"+font+"px;");
   // kilitButton->setIcon(QIcon(":icons/saveprofile.png"));
@@ -514,7 +514,7 @@ void MainWindow::pcMenu(bool singlepc)
                 if(vncports.length()>0)
                 {
                     if(vncports[0]!="0"&&vncports[0]!=""){
-                    QAction *pVncAction0 = new QAction("Vnc Bağlan-"+vncports[0],this);
+                    QAction *pVncAction0 = new QAction(tr("Vnc Bağlan-")+vncports[0],this);
                     pVncAction0->setIcon(QIcon(":/icons/vnc.svg"));
                     pVncAction0->setIconVisibleInMenu(true);
                     connect(pVncAction0 ,SIGNAL(triggered()),this,SLOT(slotVnc0()));
@@ -525,7 +525,7 @@ void MainWindow::pcMenu(bool singlepc)
                 if(vncports.length()>1)
                 {
                     if(vncports[1]!="0"&&vncports[1]!=""){
-                    QAction *pVncAction1 = new QAction("Vnc Bağlan-"+vncports[1],this);
+                    QAction *pVncAction1 = new QAction(tr("Vnc Bağlan-")+vncports[1],this);
                     pVncAction1->setIcon(QIcon(":/icons/vnc.svg"));
                     pVncAction1->setIconVisibleInMenu(true);
                     connect(pVncAction1 ,SIGNAL(triggered()),this,SLOT(slotVnc1()));
@@ -535,7 +535,7 @@ void MainWindow::pcMenu(bool singlepc)
                 if(vncports.length()>2)
                 {
                     if(vncports[2]!="0"&&vncports[2]!=""){
-                    QAction *pVncAction2 = new QAction("Vnc Bağlan-"+vncports[2],this);
+                    QAction *pVncAction2 = new QAction(tr("Vnc Bağlan-")+vncports[2],this);
                     pVncAction2->setIcon(QIcon(":/icons/vnc.svg"));
                     pVncAction2->setIconVisibleInMenu(true);
                     connect(pVncAction2 ,SIGNAL(triggered()),this,SLOT(slotVnc2()));
@@ -553,12 +553,12 @@ void MainWindow::pcMenu(bool singlepc)
     pContextMenu->addAction(pcaptionAction );
 */
     pContextMenu->setStyleSheet("width:165px; background-color: gray; font-size:"+font+"px;");
-    QAction *pVncFlipAction = new QAction("Ekranı Yansıt",this);
+    QAction *pVncFlipAction = new QAction(tr("Ekranı Yansıt"),this);
     pVncFlipAction->setIcon(QIcon(":/icons/vnc.svg"));
     pVncFlipAction->setIconVisibleInMenu(true);
     //connect(pVncFlipAction ,SIGNAL(triggered()),this,SLOT(slotVncFlip()));
 
-    QAction *pVncFlipStopAction = new QAction("Ekranı Yansıtmayı Durdur",this);
+    QAction *pVncFlipStopAction = new QAction(tr("Ekranı Yansıtmayı Durdur"),this);
     pVncFlipStopAction->setIcon(QIcon(":/icons/vnc.svg"));
     pVncFlipStopAction->setIconVisibleInMenu(true);
     //connect(pVncFlipStopAction ,SIGNAL(triggered()),this,SLOT(slotVncFlipStop()));
@@ -568,75 +568,75 @@ void MainWindow::pcMenu(bool singlepc)
     pRdpAction->setIconVisibleInMenu(true);
     //connect(pRdpAction ,SIGNAL(triggered()),this,SLOT(slotRdp()));
 
-    QAction *pFtpAction = new QAction("Ftp",this);
+    QAction *pFtpAction = new QAction(tr("Ftp"),this);
     pFtpAction->setIcon(QIcon(":/icons/ftp.svg"));
     pFtpAction->setIconVisibleInMenu(true);
     //connect(pFtpAction ,SIGNAL(triggered()),this,SLOT(slotFtp()));
 
 
-    QAction *pKilitAction = new QAction("Kilitle",this);
+    QAction *pKilitAction = new QAction(tr("Kilitle"),this);
     pKilitAction->setIcon(QIcon(":/icons/lock.svg"));
     pKilitAction->setIconVisibleInMenu(true);
     connect(pKilitAction ,SIGNAL(triggered()),this,SLOT(slotKilit()));
 
-    QAction *pKilitAcAction = new QAction("Kilit Aç",this);
+    QAction *pKilitAcAction = new QAction(tr("Kilit Aç"),this);
     pKilitAcAction->setIcon(QIcon(":/icons/unlock.svg"));
     pKilitAcAction->setIconVisibleInMenu(true);
     connect(pKilitAcAction ,SIGNAL(triggered()),this,SLOT(slotKilitAc()));
 
-    QAction *pRebootAction = new QAction("Yeniden Başlat",this);
+    QAction *pRebootAction = new QAction(tr("Yeniden Başlat"),this);
     pRebootAction->setIcon(QIcon(":/icons/reboot.svg"));
     pRebootAction->setIconVisibleInMenu(true);
     connect(pRebootAction ,SIGNAL(triggered()),this,SLOT(slotReboot()));
 
-    QAction *pKapatAction = new QAction("Kapat",this);
+    QAction *pKapatAction = new QAction(tr("Kapat"),this);
     pKapatAction->setIcon(QIcon(":/icons/close.svg"));
     pKapatAction->setIconVisibleInMenu(true);
     connect(pKapatAction ,SIGNAL(triggered()),this,SLOT(slotPowerOff()));
 
-    QAction *pLoginAction = new QAction("Oturum Aç",this);
+    QAction *pLoginAction = new QAction(tr("Oturum Aç"),this);
     pLoginAction->setIcon(QIcon(":/icons/login.svg"));
     pLoginAction->setIconVisibleInMenu(true);
     connect(pLoginAction ,SIGNAL(triggered()),this,SLOT(slotLogin()));
 
-    QAction *pLogoutAction = new QAction("Oturum Kapat",this);
+    QAction *pLogoutAction = new QAction(tr("Oturum Kapat"),this);
     pLogoutAction->setIcon(QIcon(":/icons/session.svg"));
     pLogoutAction->setIconVisibleInMenu(true);
     connect(pLogoutAction ,SIGNAL(triggered()),this,SLOT(slotLogout()));
 
-    QAction *pMesajAction = new QAction("Duyuru İlet",this);
+    QAction *pMesajAction = new QAction(tr("Duyuru İlet"),this);
     pMesajAction->setIcon(QIcon(":/icons/message.svg"));
     pMesajAction->setIconVisibleInMenu(true);
     //connect(pMesajAction ,SIGNAL(triggered()),this,SLOT(slotMesaj()));
 
-    QAction *pEkranIzleAction = new QAction("Ekran İzle",this);
+    QAction *pEkranIzleAction = new QAction(tr("Ekran İzle"),this);
     pEkranIzleAction->setIcon(QIcon(":/icons/command.svg"));
     pEkranIzleAction->setIconVisibleInMenu(true);
     //connect(pEkranIzleAction ,SIGNAL(triggered()),this,SLOT(slotEkranIzle()));
 
-    QAction *pEkranIzleDurdurAction = new QAction("Ekran İzlemeyi Durdur",this);
+    QAction *pEkranIzleDurdurAction = new QAction(tr("Ekran İzlemeyi Durdur"),this);
     pEkranIzleDurdurAction->setIcon(QIcon(":/icons/command.svg"));
     pEkranIzleDurdurAction->setIconVisibleInMenu(true);
     //connect(pEkranIzleDurdurAction ,SIGNAL(triggered()),this,SLOT(slotEkranIzleDurdur()));
 
-    QAction *pCommandAction = new QAction("Komut Çalıştır",this);
+    QAction *pCommandAction = new QAction(tr("Komut Çalıştır"),this);
     pCommandAction->setIcon(QIcon(":/icons/command.svg"));
     pCommandAction->setIconVisibleInMenu(true);
     //connect(pCommandAction ,SIGNAL(triggered()),this,SLOT(slotCommand()));
 
-    QAction *pvolumeonAction = new QAction("Ses Aç",this);
+    QAction *pvolumeonAction = new QAction(tr("Ses Aç"),this);
     pvolumeonAction->setIcon(QIcon(":/icons/volumeon.svg"));
     pvolumeonAction->setIconVisibleInMenu(true);
     QObject::connect(pvolumeonAction, &QAction::triggered, [&]() {
          udpSendData("x11command","volumeon","");
     });
-    QAction *pvolumeoffAction = new QAction("Ses Kapat",this);
+    QAction *pvolumeoffAction = new QAction(tr("Ses Kapat"),this);
     pvolumeoffAction->setIcon(QIcon(":/icons/volumeoff.svg"));
     pvolumeoffAction->setIconVisibleInMenu(true);
     QObject::connect(pvolumeoffAction, &QAction::triggered, [&]() {
         udpSendData("x11command","volumeoff","");
     });
-    QAction *pshowhostAction = new QAction("Listeden Gizle",this);
+    QAction *pshowhostAction = new QAction(tr("Listeden Gizle"),this);
     pshowhostAction->setIcon(QIcon(":/icons/showhost.svg"));
     pshowhostAction->setIconVisibleInMenu(true);
      QObject::connect(pshowhostAction, &QAction::triggered, [&]() {

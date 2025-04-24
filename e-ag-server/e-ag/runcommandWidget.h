@@ -15,7 +15,7 @@ QWidget* MainWindow::commandWidget()
     commandFileL->setStyleSheet("font-size:"+QString::number(font.toInt()+5)+"px;");
 
     //commandFileL->setFont(ff);
-    QLabel *commandFileLabel=new QLabel("Komut");
+    QLabel *commandFileLabel=new QLabel(tr("Komut"));
     commandFileLabel->setFixedSize(e*12,yukseklik);
 
     commandExampleButton=new QToolButton();
@@ -24,7 +24,7 @@ QWidget* MainWindow::commandWidget()
     //commandExampleButton->setAutoFillBackground(true);
     commandExampleButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     commandExampleButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    commandExampleButton->setText("Hazır\nKomutlar");
+    commandExampleButton->setText(tr("Hazır\nKomutlar"));
     commandExampleButton->setIcon(QIcon(":icons/command.svg"));
     commandExampleButton->setIconSize(QSize(b*6,yukseklik*0.9));
 
@@ -47,9 +47,9 @@ QWidget* MainWindow::commandWidget()
     commandExecuteButton->setIconSize(QSize(b*8,yukseklik*0.9));
     commandExecuteButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
-    commandExecuteButton->setText("Terminalde\nÇalıştır");
+    commandExecuteButton->setText(tr("Terminalde\nÇalıştır"));
     connect(commandExecuteButton, &QToolButton::clicked, [=]() {
-        if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
+        if(pcMac->text()==""){mesajSlot(tr("Pc Seçiniz"));return;}
         udpSendData("consolecommand","consolecommand",commandFileL->text());
     });
 
@@ -61,14 +61,14 @@ QWidget* MainWindow::commandWidget()
     x11CommandButton->setFixedSize(e*24,yukseklik*2);
     x11CommandButton->setAutoRaise(true);
     //x11CommandButton->setAutoFillBackground(true);
-    x11CommandButton->setText("Masaüstlerinde\n Çalıştır");
+    x11CommandButton->setText(tr("Masaüstlerinde\n Çalıştır"));
     x11CommandButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     x11CommandButton->setIcon(QIcon(":/icons/user.svg"));
     x11CommandButton->setIconSize(QSize(b*8,yukseklik*0.9));
     x11CommandButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     connect(x11CommandButton, &QToolButton::clicked, [=]() {
-        if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
+        if(pcMac->text()==""){mesajSlot(tr("Pc Seçiniz"));return;}
         udpSendData("x11command","x11command",commandFileL->text());
     });
 
@@ -81,7 +81,7 @@ QWidget* MainWindow::commandWidget()
     helpButton->setAutoRaise(true);
     // bilgiButton->setAutoFillBackground(true);
     helpButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    helpButton->setText("Yardım");
+    helpButton->setText(tr("Yardım"));
     helpButton->setIcon(QIcon(":/icons/help.svg"));
     helpButton->setIconSize(QSize(b*8,yukseklik*0.9));
     helpButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -89,7 +89,7 @@ QWidget* MainWindow::commandWidget()
     connect(helpButton, &QToolButton::clicked, [=]() {
         QTextDocument *doc=new QTextDocument();
 
-        doc->setHtml("<center><h2>Komut Çalıştırma</h2></center>"
+        doc->setHtml(tr("<center><h2>Komut Çalıştırma</h2></center>"
                      "<center><img src=\":/icons/runcommand.png\" /></center> "
                      "<center><img src=\":/icons/istemci.png\" /></center>"
                      "<br/><br/>1-Terminalde çalıştır işlemi arka planda terminalde root kullanıcısı olarak işlemleri yapar."
@@ -100,7 +100,7 @@ QWidget* MainWindow::commandWidget()
                      "<br/><br/>4-Birden fazla istemcide komut çalıştırmak için istemcileri seçip çalıştırablirsiniz."
                      "<br/><br/>5-İstemcilerde script dosyası çalıştırmak için;"
                      "<br/>Örneğin: install.sh dosyasını bash install.sh şeklinde yazıp istemcilerde çalıştırabiliriz."
-                     );
+                        ));
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/sshcommand.pdf");
         pdf.setOutputFormat(QPrinter::PdfFormat);
@@ -118,7 +118,7 @@ QWidget* MainWindow::commandWidget()
 
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
-        d1->setWindowTitle("Komut Çalıştırma Yardım Penceresi");
+        d1->setWindowTitle(tr("Komut Çalıştırma Yardım Penceresi"));
         d1->setFixedSize(QSize(boy*215,boy*100));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
@@ -193,7 +193,7 @@ void MainWindow::slotPcCommandAll(QString _kmt){
 
 
     }*/
-    mesajSlot("Komut Tüm Hostlarda Çalıştırıldı.");
+    mesajSlot(tr("Komut Tüm Hostlarda Çalıştırıldı."));
 
 }
 

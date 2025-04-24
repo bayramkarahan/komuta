@@ -7,7 +7,7 @@ QWidget* MainWindow::kilittransparanWidget()
     int b=boy;
     int yukseklik=e*12;
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Ekran Yansıtma Seçenekleri");
+    sor->setWindowTitle(tr("Ekran Yansıtma Seçenekleri"));
     sor->setStyleSheet("font-size:"+QString::number(font.toInt())+"px;");
 
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
@@ -27,7 +27,7 @@ QWidget* MainWindow::kilittransparanWidget()
     transparanUnlockPc->setFixedSize(yukseklik*1.4,boy*7);
     transparanUnlockPc->setAutoRaise(true);
     // transparanUnlockPc->setAutoFillBackground(true);
-    transparanUnlockPc->setText("Şeffaf Kilit Aç");
+    transparanUnlockPc->setText(tr("Şeffaf Kilit Aç"));
     //transparanUnlockPc->setMenu(sessionMenu());
     //transparanUnlockPc->setPopupMode(QToolButton::MenuButtonPopup);
 
@@ -43,7 +43,7 @@ QWidget* MainWindow::kilittransparanWidget()
     transparanLockPc->setFixedSize(yukseklik*1.4,boy*7);
     transparanLockPc->setAutoRaise(true);
     // transparanLockPc->setAutoFillBackground(true);
-    transparanLockPc->setText("Şeffaf Kilitle");
+    transparanLockPc->setText(tr("Şeffaf Kilitle"));
     //transparanLockPc->setMenu(sessionMenu());
     //transparanLockPc->setPopupMode(QToolButton::MenuButtonPopup);
     connect(transparanLockPc, &QToolButton::clicked, [=]() {
@@ -86,7 +86,7 @@ QWidget* MainWindow::kilitWidget()
     int b=boy;
     int yukseklik=b*12;
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Kilit Seçenekleri");
+    sor->setWindowTitle(tr("Kilit Seçenekleri"));
     sor->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
     sor->setFixedSize(yukseklik*1.4,boy*16);
@@ -104,7 +104,7 @@ QWidget* MainWindow::kilitWidget()
     lockPc->setFixedSize(yukseklik*1.4,b*7);
     lockPc->setAutoRaise(true);
     // lockPc->setAutoFillBackground(true);
-    lockPc->setText("Kilitle");
+    lockPc->setText(tr("Kilitle"));
 
     // lockPc->setMenu(kilitMenu());
     // lockPc->setPopupMode(QToolButton::MenuButtonPopup);
@@ -126,7 +126,7 @@ QWidget* MainWindow::kilitWidget()
         auto end = std::chrono::high_resolution_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
         std::cout << "Bir başka uzun süren işlem " << duration.count() << " milisaniye sürdü." << std::endl;
-        mesajSlot("Seçili Hostlarda Ekran Kilitlendi.");
+        mesajSlot(tr("Seçili Hostlarda Ekran Kilitlendi."));
     });
     /**************************************************/
     QToolButton *unlockPc=new QToolButton();
@@ -136,7 +136,7 @@ QWidget* MainWindow::kilitWidget()
     unlockPc->setFixedSize(yukseklik*1.4,b*7);
     unlockPc->setAutoRaise(true);
     //unlockPc->setAutoFillBackground(true);
-    unlockPc->setText("Kilit Aç");
+    unlockPc->setText(tr("Kilit Aç"));
     //  unlockPc->setMenu(kilitMenu());
     //unlockPc->setPopupMode(QToolButton::MenuButtonPopup);
 
@@ -190,7 +190,7 @@ void MainWindow::slotKilit(){
             onlinePcList[i]->setKilitControlState(true);
         }
     }
-    mesajSlot("Seçili Hostlarda Ekran Kilitlendi.");
+    mesajSlot(tr("Seçili Hostlarda Ekran Kilitlendi."));
 
 }
 void MainWindow::slotTransparanKilit()
@@ -205,7 +205,7 @@ void MainWindow::slotTransparanKilit()
            // udpSendData("x11command","transparankilitstatetrue",onlinePcList[i]->ip);
         }
     }
-    mesajSlot("Seçili Hostlar Şeffaf Kilitlendi.");
+    mesajSlot(tr("Seçili Hostlar Şeffaf Kilitlendi."));
 
 }
 void MainWindow::slotKilitAc(){
@@ -219,7 +219,7 @@ void MainWindow::slotKilitAc(){
             //udpSendData("x11command","kilitstatefalse",onlinePcList[i]->ip);
         }
     }
-    mesajSlot("Seçili Hostlarda Kilit Açıldı.");
+    mesajSlot(tr("Seçili Hostlarda Kilit Açıldı."));
 
 }
 void MainWindow::slotTransparanKilitAc(){
@@ -233,7 +233,7 @@ void MainWindow::slotTransparanKilitAc(){
             //udpSendData("x11command","transparankilitstatefalse",onlinePcList[i]->ip);
         }
     }
-    mesajSlot("Seçili Hostlarda Şeffaf Kilit Açıldı.");
+    mesajSlot(tr("Seçili Hostlarda Şeffaf Kilit Açıldı."));
 
 }
 
@@ -247,7 +247,7 @@ QMenu *MainWindow::kilitMenu()
     kilitAllButton->setFixedSize(yukseklik*1.7, yukseklik/3);
     kilitAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
 
-    kilitAllButton->setText(" Tümünü Kilitle");
+    kilitAllButton->setText(tr(" Tümünü Kilitle"));
     kilitAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
     kilitAllButton->setFlat(true);
     kilitAllButton->setIcon(QIcon(":icons/lock.svg"));
@@ -262,7 +262,7 @@ QMenu *MainWindow::kilitMenu()
     QPushButton *kilitAcAllButton= new QPushButton;
     kilitAcAllButton->setFixedSize(yukseklik*1.7, yukseklik/3);
     kilitAcAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
-    kilitAcAllButton->setText(" Tüm Kilitleri Aç");
+    kilitAcAllButton->setText(tr(" Tüm Kilitleri Aç"));
     kilitAcAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
     kilitAcAllButton->setFlat(true);
     kilitAcAllButton->setIcon(QIcon(":icons/unlock.svg"));
@@ -304,7 +304,7 @@ QMenu *MainWindow::transparanKilitMenu()
     QPushButton *transparanKilitAllButton= new QPushButton;
     transparanKilitAllButton->setFixedSize(yukseklik*1.7, yukseklik/3);
     transparanKilitAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
-    transparanKilitAllButton->setText(" Tümünü Kilitle");
+    transparanKilitAllButton->setText(tr(" Tümünü Kilitle"));
     transparanKilitAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
     transparanKilitAllButton->setFlat(true);
     transparanKilitAllButton->setIcon(QIcon(":icons/transparanlock.svg"));
@@ -318,7 +318,7 @@ QMenu *MainWindow::transparanKilitMenu()
     QPushButton *transparankilitAcAllButton= new QPushButton;
     transparankilitAcAllButton->setFixedSize(yukseklik*1.7, yukseklik/3);
     transparankilitAcAllButton->setIconSize(QSize(yukseklik*1.7,yukseklik/3));
-    transparankilitAcAllButton->setText(" Tüm Kilitleri Aç");
+    transparankilitAcAllButton->setText(tr(" Tüm Kilitleri Aç"));
     transparankilitAcAllButton->setStyleSheet("Text-align:left; font-size:"+QString::number(font.toInt()-2)+"px;");
     transparankilitAcAllButton->setFlat(true);
     transparankilitAcAllButton->setIcon(QIcon(":icons/transparanunlock.svg"));
@@ -338,9 +338,6 @@ QMenu *MainWindow::transparanKilitMenu()
     // layout->addWidget(logoutButton, 4,0,1,2);
     layout->addWidget(transparanKilitAllButton, 5,0,1,1);
     layout->addWidget(transparankilitAcAllButton, 6,0,1,1);
-
-    // layout->addWidget(new QLabel("<font size=1>Ayarları Kaydet</font>"),6,1,1,1,Qt::AlignHCenter);
-    //layout->setColumnStretch(6, 255);
 
     // add a widget action to the context menu
     auto wa = new QWidgetAction(this);

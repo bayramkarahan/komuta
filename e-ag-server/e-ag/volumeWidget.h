@@ -6,7 +6,7 @@ QWidget* MainWindow::volumeWidget()
     int b=boy;
     int yukseklik=b*12;
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Ses Seçenekleri");
+    sor->setWindowTitle(tr("Ses Seçenekleri"));
     sor->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
@@ -24,7 +24,7 @@ QWidget* MainWindow::volumeWidget()
     offVolumePc->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     offVolumePc->setFixedSize(yukseklik*1.4,b*7);
     offVolumePc->setAutoRaise(true);
-    offVolumePc->setText("Ses Kapat");
+    offVolumePc->setText(tr("Ses Kapat"));
     connect(offVolumePc, &QToolButton::clicked, [=]() {
         if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
         udpSendData("x11command","volumeoff","");
@@ -36,10 +36,10 @@ QWidget* MainWindow::volumeWidget()
     onVolumePc->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     onVolumePc->setFixedSize(yukseklik*1.4,b*7);
     onVolumePc->setAutoRaise(true);
-    onVolumePc->setText("Ses Aç");
+    onVolumePc->setText(tr("Ses Aç"));
 
     connect(onVolumePc, &QToolButton::clicked, [=]() {
-        if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
+        if(pcMac->text()==""){mesajSlot(tr("Pc Seçiniz"));return;}
         udpSendData("x11command","volumeon","");
     });
 

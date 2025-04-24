@@ -5,7 +5,7 @@ void MainWindow::wolWidget()
 {
     // qDebug()<<"ayar click";
     QDialog * d = new QDialog();
-    d->setWindowTitle("Kapalı Host Listesi");
+    d->setWindowTitle(tr("Kapalı Host Listesi"));
     d->setFixedSize(QSize(boy*100,boy*100));
     d->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     auto appIcon = QIcon(":/icons/e-ag.svg");
@@ -18,10 +18,10 @@ void MainWindow::wolWidget()
     twl->setColumnCount(4);
     //twl->setRowCount(0);
 
-    twl->setHorizontalHeaderItem(0, new QTableWidgetItem("Seç"));
-    twl->setHorizontalHeaderItem(1, new QTableWidgetItem("Ip"));
-    twl->setHorizontalHeaderItem(2, new QTableWidgetItem("Mac"));
-    twl->setHorizontalHeaderItem(3, new QTableWidgetItem("Adı"));
+    twl->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Seç")));
+    twl->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Ip")));
+    twl->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Mac")));
+    twl->setHorizontalHeaderItem(3, new QTableWidgetItem(tr("Adı")));
 
     twl->setSelectionBehavior(QAbstractItemView::SelectRows);
     twl->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -58,7 +58,7 @@ void MainWindow::wolWidget()
     powerOnButton->setAutoRaise(true);
     powerOnButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     // powerOnButton->setFont(f2);
-    powerOnButton->setText("Seçili Pc'leri Aç");
+    powerOnButton->setText(tr("Seçili Pc'leri Aç"));
 
     connect(powerOnButton, &QPushButton::clicked, [=]() {
         int numRows = twl->rowCount();
@@ -85,7 +85,7 @@ void MainWindow::wolWidget()
     powerOnButtonAll->setAutoRaise(true);
     powerOnButtonAll->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     //powerOnButtonAll->setFont(f2);
-    powerOnButtonAll->setText("Tüm Pc'leri Aç");
+    powerOnButtonAll->setText(tr("Tüm Pc'leri Aç"));
 
     connect(powerOnButtonAll, &QPushButton::clicked, [=]() {
         int numRows = twl->rowCount();
@@ -146,7 +146,7 @@ void MainWindow::slotWakeOnLan(QString _ip,QString _mac)
             qDebug()<<kmt29;
         }
     }
-    mesajSlot("Seçili Hostlar Uzaktan  Başlatıl.");
+    mesajSlot(tr("Seçili Hostlar Uzaktan  Başlatıl."));
 
 }
 

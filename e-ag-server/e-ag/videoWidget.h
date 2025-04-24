@@ -19,7 +19,7 @@ QWidget* MainWindow::videoWidget()
     //commandFileLE->setFont(ff);
     commandFileLE->setStyleSheet("font-size:"+QString::number(font.toInt()+2)+"px;");
 
-    QLabel *commandFileLabel=new QLabel("Video Dosyası:");
+    QLabel *commandFileLabel=new QLabel(tr("Video Dosyası:"));
     commandFileLabel->setFixedSize(e*15,yukseklik);
     commandFileLabel->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
@@ -60,7 +60,7 @@ QWidget* MainWindow::videoWidget()
         ses->addItems(seslst);
     }
     /****************************************************************************************/
-    QLabel *pathLabel=new QLabel("Kamera ve Ses:");
+    QLabel *pathLabel=new QLabel(tr("Kamera ve Ses:"));
     pathLabel->setFixedSize(e*15,yukseklik);
     pathLabel->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     // messageBox.setIcon(QMessageBox::Question);
@@ -73,7 +73,7 @@ QWidget* MainWindow::videoWidget()
 
     videoYayinButton->setIconSize(QSize(b*8,yukseklik*0.9));
     videoYayinButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    videoYayinButton->setText("Videoyu\nÇalıştır");
+    videoYayinButton->setText(tr("Videoyu\nÇalıştır"));
     connect(videoYayinButton, &QToolButton::clicked, [=]() {
         // if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
         QString name = QUrl::fromLocalFile(commandFileLE->text()).path(QUrl::FullyEncoded);
@@ -121,7 +121,7 @@ QWidget* MainWindow::videoWidget()
 
     liveStreamButton->setIconSize(QSize(b*8,yukseklik*0.9));
     liveStreamButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    liveStreamButton->setText("Kamerayı\nÇalıştır");
+    liveStreamButton->setText(tr("Kamerayı\nÇalıştır"));
     connect(liveStreamButton, &QToolButton::clicked, [=]() {
         streamState=true;
         liveStreamButton->setStyleSheet("QToolButton { background-color: rgba(0, 255, 0, 1.0); }");
@@ -140,14 +140,14 @@ QWidget* MainWindow::videoWidget()
 
     videoStopButton->setIconSize(QSize(b*8,yukseklik*0.9));
     videoStopButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    videoStopButton->setText("Videoyu\nDurdur");
+    videoStopButton->setText(tr("Videoyu\nDurdur"));
     connect(videoStopButton, &QToolButton::clicked, [=]() {
         if(streamState)
         {
             qDebug()<<"video yayın stop"<<streamState;
             system("pkill servervideo");
             ///udpSendData("x11command","x11command","pkill clientcamera");
-            mesajSlot("Video durduruldu.");
+            mesajSlot(tr("Video durduruldu."));
             streamState=false;
             videoYayinButton->setStyleSheet("QToolButton { background-color: rgba(0,255, 0, 0.0); }");
 
@@ -163,7 +163,7 @@ QWidget* MainWindow::videoWidget()
 
     liveStreamStopButton->setIconSize(QSize(b*8,yukseklik*0.9));
     liveStreamStopButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    liveStreamStopButton->setText("Kamerayı\nDurdur");
+    liveStreamStopButton->setText(tr("Kamerayı\nDurdur"));
     connect(liveStreamStopButton, &QToolButton::clicked, [=]() {
         if(streamState)
         {
@@ -185,7 +185,7 @@ QWidget* MainWindow::videoWidget()
 
     liveStreamShareButton->setIconSize(QSize(b*8,yukseklik*0.9));
     liveStreamShareButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    liveStreamShareButton->setText("Pc'ye\nYayınla");
+    liveStreamShareButton->setText(tr("Pc'ye\nYayınla"));
     connect(liveStreamShareButton, &QToolButton::clicked, [=]() {
         //if(streamState)
         //{
@@ -207,7 +207,7 @@ QWidget* MainWindow::videoWidget()
 
     liveStreamShareStopButton->setIconSize(QSize(b*8,yukseklik*0.9));
     liveStreamShareStopButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    liveStreamShareStopButton->setText("Pc Yayını\nDurdur");
+    liveStreamShareStopButton->setText(tr("Pc Yayını\nDurdur"));
     connect(liveStreamShareStopButton, &QToolButton::clicked, [=]() {
         //if(streamState)
         //{
@@ -224,7 +224,7 @@ QWidget* MainWindow::videoWidget()
     helpButton->setAutoRaise(true);
     // bilgiButton->setAutoFillBackground(true);
     helpButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    helpButton->setText("Yardım");
+    helpButton->setText(tr("Yardım"));
     helpButton->setIcon(QIcon(":/icons/help.svg"));
     helpButton->setIconSize(QSize(b*8,yukseklik*0.9));
     helpButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -232,7 +232,7 @@ QWidget* MainWindow::videoWidget()
     connect(helpButton, &QToolButton::clicked, [=]() {
         QTextDocument *doc=new QTextDocument();
 
-        doc->setHtml("<center><h2>Video/Kamera Yayını</h2></center>"
+        doc->setHtml(tr("<center><h2>Video/Kamera Yayını</h2></center>"
                      "<center><img src=\":/icons/video.png\" /></center> "
                      "<br/>1-Sunucudaki bir Video Dosyası/Kamera login olmuş kullanıcılarda paylaşılabillir."
                      "<center><img src=\":/icons/istemci.png\" /></center>"
@@ -240,7 +240,7 @@ QWidget* MainWindow::videoWidget()
                      "<br/><br/>3-İstemci simgelerinin altındaki X işareti login olmuş kullanıcıyı ifade eder."
                      "<br/><br/>4-X işareti yeşilse kullanıcı login olduğunu ifade eder. Kırmızı ise login olmadığını ifade eder."
                      "<br/><br/>5-Birden fazla istemciye Video Dosyası/Kamera paylaşmak için istemci seçilerek paylaşılabilir."
-                     );
+                        ));
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/video.pdf");
         pdf.setOutputFormat(QPrinter::PdfFormat);
@@ -258,7 +258,7 @@ QWidget* MainWindow::videoWidget()
 
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
-        d1->setWindowTitle("Video/Kamera Yayın Yardım Penceresi");
+        d1->setWindowTitle(tr("Video/Kamera Yayın Yardım Penceresi"));
         d1->setFixedSize(QSize(boy*215,boy*90));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);

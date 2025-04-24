@@ -10,14 +10,14 @@ QWidget* MainWindow::settingsWidget()
     QWidget * d = new QWidget();
     //d->setFixedSize(this->width(),boy*16);
 
-    d->setWindowTitle("Duyuru Mesaj Penceresi");
+    d->setWindowTitle(tr("Ayarlar Penceresi"));
 
     QToolButton *acountButton=new QToolButton();
     acountButton->setFixedSize(e*27,yukseklik);
     acountButton->setAutoRaise(true);
     // duyuruButton->setAutoFillBackground(true);
     acountButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    acountButton->setText("Ağ Profilleri");
+    acountButton->setText(tr("Ağ Profilleri"));
     acountButton->setIcon(QIcon(":/icons/session.svg"));
     acountButton->setIconSize(QSize(b*8,b*8));
     acountButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -33,7 +33,7 @@ QWidget* MainWindow::settingsWidget()
     macListe1Button->setAutoRaise(true);
     // macListe1Button->setAutoFillBackground(true);
     macListe1Button->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    macListe1Button->setText("İstemci Liste");
+    macListe1Button->setText(tr("İstemci Liste"));
     macListe1Button->setIcon(QIcon(":/icons/maclist.svg"));
     macListe1Button->setIconSize(QSize(b*8,yukseklik/2));
     macListe1Button->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -49,7 +49,7 @@ QWidget* MainWindow::settingsWidget()
     webblockButton->setAutoRaise(true);
     // webblockButton->setAutoFillBackground(true);
     webblockButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    webblockButton->setText("Web Engelleme");
+    webblockButton->setText(tr("Web Engelleme"));
     webblockButton->setIcon(QIcon(":/icons/webblock.svg"));
     webblockButton->setIconSize(QSize(b*8,yukseklik/2));
     webblockButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -65,7 +65,7 @@ QWidget* MainWindow::settingsWidget()
     clientShowButton->setAutoRaise(true);
     // clientShowButton->setAutoFillBackground(true);
     clientShowButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    clientShowButton->setText("Gizli Bilgisayarlar");
+    clientShowButton->setText(tr("Gizli Bilgisayarlar"));
     clientShowButton->setIcon(QIcon(":/icons/showhost.svg"));
     clientShowButton->setIconSize(QSize(b*8,yukseklik/2));
     clientShowButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -79,7 +79,7 @@ QWidget* MainWindow::settingsWidget()
     bilgiButton->setAutoRaise(true);
     // bilgiButton->setAutoFillBackground(true);
     bilgiButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    bilgiButton->setText("Hakkında");
+    bilgiButton->setText(tr("Hakkında"));
     bilgiButton->setIcon(QIcon(":/icons/about.svg"));
     bilgiButton->setIconSize(QSize(b*8,yukseklik/2));
     bilgiButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -94,7 +94,7 @@ QWidget* MainWindow::settingsWidget()
     helpButton->setAutoRaise(true);
     // bilgiButton->setAutoFillBackground(true);
     helpButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    helpButton->setText("Yardım");
+    helpButton->setText(tr("Yardım"));
     helpButton->setIcon(QIcon(":/icons/help.svg"));
     helpButton->setIconSize(QSize(b*8,yukseklik/2));
     helpButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -102,7 +102,7 @@ QWidget* MainWindow::settingsWidget()
     connect(helpButton, &QToolButton::clicked, [=]() {
         QTextDocument *doc=new QTextDocument();
 
-        doc->setHtml("<center><h2>Ayarlar</h2></center>"
+        doc->setHtml(tr("<center><h2>Ayarlar</h2></center>"
                      "<center><img src=\":/icons/ayar.png\"></center> "
                      "<br/><center><img src=\":/icons/userayar.png\"/></center>"
                      "<br/>1-Uygulamadaki Yerel Ağ: bulunduğumuz ağ örn:192.168.1.255 şeklinde girilmeli."
@@ -111,7 +111,7 @@ QWidget* MainWindow::settingsWidget()
                      "<br/><br/>4-Gizlenmiş istemcileri tekrar listede görünmesi için Gizli Bilgisayarlar Göster seçeneğini kullanabilirsiniz."
                      "<br/><br/>5-İstemcilerde web sitesini kelime bazlı kısıtlamaları için;"
                      " Web Engeleme seçeneğini kullanabilirsiniz."
-                     );
+                        ));
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/ayar.pdf");
         pdf.setOutputFormat(QPrinter::PdfFormat);
@@ -129,7 +129,7 @@ QWidget* MainWindow::settingsWidget()
 
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
-        d1->setWindowTitle("Ayarlar Yardım Penceresi");
+        d1->setWindowTitle(tr("Ayarlar Yardım Penceresi"));
         d1->setFixedSize(QSize(boy*215,boy*127));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
@@ -181,11 +181,11 @@ void MainWindow::hideShowPcSlot()
     twlh->setColumnCount(5);
     //twlh->setRowCount(0);
 
-    twlh->setHorizontalHeaderItem(0, new QTableWidgetItem("Seç"));
-    twlh->setHorizontalHeaderItem(1, new QTableWidgetItem("Ip"));
-    twlh->setHorizontalHeaderItem(2, new QTableWidgetItem("Mac"));
-    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem("Adı"));
-    twlh->setHorizontalHeaderItem(4, new QTableWidgetItem("Host"));
+    twlh->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Seç")));
+    twlh->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Ip")));
+    twlh->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Mac")));
+    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem(tr("Adı")));
+    twlh->setHorizontalHeaderItem(4, new QTableWidgetItem(tr("Host")));
 
     twlh->setSelectionBehavior(QAbstractItemView::SelectRows);
     twlh->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -227,7 +227,7 @@ void MainWindow::hideShowPcSlot()
     showPcButton->setAutoRaise(true);
     showPcButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     // showPcButton->setFont(f2);
-    showPcButton->setText("Seçili Bilgisayarı Göster");
+    showPcButton->setText(tr("Seçili Bilgisayarı Göster"));
 
     connect(showPcButton, &QPushButton::clicked, [=]() {
         int numRows = twlh->rowCount();
@@ -284,7 +284,7 @@ QWidget* MainWindow::HostListWidget()
     bw=en*10;
     bh=boy*10;
     QDialog *wd=new QDialog();
-    wd->setWindowTitle("İstemci Listesi");
+    wd->setWindowTitle(tr("İstemci Listesi"));
     auto appIcon = QIcon(":/icons/e-ag.svg");
     wd->setWindowIcon(appIcon);
     wd->setFixedSize(en*95,boy*60);
@@ -299,11 +299,11 @@ QWidget* MainWindow::HostListWidget()
     twlh->setFixedSize(QSize(boy*93,boy*50));
     twlh->setColumnCount(5);
     //twlh->setRowCount(0);
-    twlh->setHorizontalHeaderItem(0, new QTableWidgetItem("Mac"));
-    twlh->setHorizontalHeaderItem(1, new QTableWidgetItem("Ip"));
-    twlh->setHorizontalHeaderItem(2, new QTableWidgetItem("Adı"));
-    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem("Host"));
-    twlh->setHorizontalHeaderItem(4, new QTableWidgetItem("Listele"));
+    twlh->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Mac")));
+    twlh->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Ip")));
+    twlh->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Adı")));
+    twlh->setHorizontalHeaderItem(3, new QTableWidgetItem(tr("Host")));
+    twlh->setHorizontalHeaderItem(4, new QTableWidgetItem(tr("Listele")));
 
     twlh->setSelectionBehavior(QAbstractItemView::SelectRows);
     twlh->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -342,7 +342,7 @@ QWidget* MainWindow::HostListWidget()
     printButton->setStyleSheet(" font-size:"+QString::number(font.toInt()-2)+"px;");
     printButton->resize(bw,bh);
     printButton->move(wd->width()/2-bw/2,wd->height()-bh);
-    printButton->setText("Yazdır");
+    printButton->setText(tr("Yazdır"));
     //connect(printButton, SIGNAL(clicked()),this, SLOT(printButtonSlot()));
     connect(printButton, &QPushButton::clicked, [=]() {
         QString strStream;
@@ -353,14 +353,14 @@ QWidget* MainWindow::HostListWidget()
         out <<  "<html>\n"
                "<head>\n"
                "<meta Content=\"Text/html; charset=Windows-1251\">\n"
-            <<  QString("<title>%1</title>\n").arg(QString("Ağ IP ve Mac Adres Listesi"))
+            <<  QString("<title>%1</title>\n").arg(QString(tr("Ağ IP ve Mac Adres Listesi")))
             <<  "</head>\n"
                "<body bgcolor=#ffffff link=#5000A0>\n"
                "<table border=1 width=600 cellspacing=0 cellpadding=2>\n";
 
         // headers
         out << "<thead>";
-        out << QString("<tr><th colspan=5>%1</th></tr>").arg(QString("Ağ IP ve Mac Adres Listesi"));
+        out << QString("<tr><th colspan=5>%1</th></tr>").arg(QString(tr("Ağ IP ve Mac Adres Listesi")));
 
         out<<"<tr bgcolor=#f0f0f0>";
 
@@ -413,7 +413,7 @@ void MainWindow::webBlockWidget()
 {
     // qDebug()<<"ayar click";
     QDialog * d = new QDialog();
-    d->setWindowTitle("Web Filtresi");
+    d->setWindowTitle(tr("Web Filtresi"));
     d->setFixedSize(QSize(boy*95,boy*50));
     d->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     auto appIcon = QIcon(":/icons/e-ag.svg");
@@ -428,9 +428,9 @@ void MainWindow::webBlockWidget()
     twlh->setFixedSize(QSize(boy*90,boy*35));
     twlh->setColumnCount(5);
     //twlh->setRowCount(0);
-    twlh->setHorizontalHeaderItem(0, new QTableWidgetItem("Seç"));
-    twlh->setHorizontalHeaderItem(1, new QTableWidgetItem("Index"));
-    twlh->setHorizontalHeaderItem(2, new QTableWidgetItem("Engelenen Kelime"));
+    twlh->setHorizontalHeaderItem(0, new QTableWidgetItem(tr("Seç")));
+    twlh->setHorizontalHeaderItem(1, new QTableWidgetItem(tr("Index")));
+    twlh->setHorizontalHeaderItem(2, new QTableWidgetItem(tr("Engelenen Kelime")));
     twlh->setHorizontalHeaderItem(3, new QTableWidgetItem(""));
     twlh->setHorizontalHeaderItem(4, new QTableWidgetItem(""));
 
@@ -458,7 +458,7 @@ void MainWindow::webBlockWidget()
         QLineEdit * index = new QLineEdit();
         QLineEdit * word = new QLineEdit();
         QToolButton *saveButton= new QToolButton;
-        saveButton->setText("Kelimeyi Kaydet");
+        saveButton->setText(tr("Kelimeyi Kaydet"));
         saveButton->setFixedWidth(boy*17);
         connect(saveButton, &QPushButton::clicked, [=]() {
             //qDebug()<<"Değişiklikler Kaydedildi.."<<insertButton->toolTip();
@@ -489,7 +489,7 @@ void MainWindow::webBlockWidget()
             webBlockWidget();
         });
         QToolButton *removeButton= new QToolButton;
-        removeButton->setText("Profili Sil");
+        removeButton->setText(tr("Profili Sil"));
         removeButton->setFixedWidth(boy*12);
         connect(removeButton, &QPushButton::clicked, [=]() {
             //qDebug()<<"Profil Silindi.."<<networkRemoveButton->toolTip();
@@ -529,7 +529,7 @@ void MainWindow::webBlockWidget()
     insertWordButton->setAutoRaise(true);
     insertWordButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     // newNetworkButton->setFont(f2);
-    insertWordButton->setText("Yeni Profil Ekle");
+    insertWordButton->setText(tr("Yeni Profil Ekle"));
 
     connect(insertWordButton, &QPushButton::clicked, [=]() {
         DatabaseHelper *db=new DatabaseHelper(localDir+"webblockserver.json");
@@ -551,7 +551,7 @@ void MainWindow::webBlockWidget()
     webAyarGuncelleButton->setAutoRaise(true);
     webAyarGuncelleButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     // webAyarGuncelleButton->setFont(f2);
-    webAyarGuncelleButton->setText("Açık Pc'lerin Web Filtre Listesini Güncelle");
+    webAyarGuncelleButton->setText(tr("Açık Pc'lerin Web Filtre Listesini Güncelle"));
 
     connect(webAyarGuncelleButton, &QPushButton::clicked, [=]() {
 
@@ -603,7 +603,7 @@ void MainWindow::networkProfil()
 {
     // qDebug()<<"ayar click";
     QDialog * d = new QDialog();
-    d->setWindowTitle("Ağ Profil Listesi");
+    d->setWindowTitle(tr("Ağ Profil Listesi"));
     d->setFixedSize(QSize(boy*180,boy*50));
     d->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     auto appIcon = QIcon(":/icons/e-ag.svg");
@@ -676,7 +676,7 @@ void MainWindow::networkProfil()
 
 
         QToolButton *savetButton= new QToolButton;
-        savetButton->setText("Kaydet");
+        savetButton->setText(tr("Kaydet"));
         savetButton->setFixedWidth(boy*10);
         connect(savetButton, &QPushButton::clicked, [=]() {
             //qDebug()<<"Değişiklikler Kaydedildi.."<<networkInsertButton->toolTip();

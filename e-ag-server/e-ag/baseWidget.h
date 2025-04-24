@@ -21,7 +21,7 @@ QWidget* MainWindow::baseWidget()
     // vncConnectPcButton->setAutoFillBackground(true);
     vncConnectPcButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     vncConnectPcButton->setFixedSize(yukseklik*0.95,yukseklik*1.5);
-    vncConnectPcButton->setText("VNC");
+    vncConnectPcButton->setText(tr("VNC"));
     connect(vncConnectPcButton, &QToolButton::clicked, [=]() {
         slotVnc(_display);
     });
@@ -34,7 +34,7 @@ QWidget* MainWindow::baseWidget()
     // vncConnectPcButton->setAutoFillBackground(true);
     novncConnectPcButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     novncConnectPcButton->setFixedSize(yukseklik*0.95,yukseklik*1.5);
-    novncConnectPcButton->setText("noVNC");
+    novncConnectPcButton->setText(tr("noVNC"));
     connect(novncConnectPcButton, &QToolButton::clicked, [=]() {
         QString kmt26="env MOZ_USE_XINPUT2=1 /usr/lib/firefox/firefox "+pcIp->text()+":6085/vnc.html";
         system(kmt26.toStdString().c_str());
@@ -49,7 +49,7 @@ QWidget* MainWindow::baseWidget()
    // xrdpConnectPcButton->setAutoFillBackground(true);
     xrdpConnectPcButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     xrdpConnectPcButton->setFixedSize(yukseklik*0.95,yukseklik*1.5);
-    xrdpConnectPcButton->setText("RDP");
+    xrdpConnectPcButton->setText(tr("RDP"));
     connect(xrdpConnectPcButton, &QToolButton::clicked, [=]() {
         slotRdp();
     });
@@ -97,11 +97,11 @@ QWidget* MainWindow::baseWidget()
     connect(ftpPc, &QToolButton::clicked, [=]() {
         QString _remoteuser=getActiveUserName();
         bool ok;
-        _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
-                                                    " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
+        _remoteuser = QInputDialog::getText(0, tr("İstemci Parolası"),
+                                                    tr(" İstemcideki Kullanıcının Adını Giriniz :"), QLineEdit::Normal,
                                                     _remoteuser, &ok);
-        QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
-                                                      _remoteuser+" Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
+        QString _remotepasswd = QInputDialog::getText(0, tr("İstemci Parolası"),
+                                                      _remoteuser+tr(" Kullanıcının Parolasını Giriniz :"), QLineEdit::Normal,
                                                       "", &ok);
         //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
         if(_remoteuser!=""&&_remotepasswd!="")
@@ -113,8 +113,8 @@ QWidget* MainWindow::baseWidget()
             else if(QFile::exists("/usr/bin/dolphin")) ftpapp="dolphin";
             else if(QFile::exists("/usr/bin/pcmanfm")) ftpapp="pcmanfm";
             else{
-            MyDialog("Uyarı","ftp için nemo, thunar, nautilus, dolphi, pcmanfm vb. uygulama bulunamadı.\n"
-                              "Bu uygulamalardan birini kururarak ftp işlemi yapabilirsiniz..","","","tamam",500,100).exec();
+                MyDialog(tr("Uyarı"),tr("ftp için nemo, thunar, nautilus, dolphi, pcmanfm vb. uygulama bulunamadı.\n"
+                              "Bu uygulamalardan birini kururarak ftp işlemi yapabilirsiniz.."),"","","tamam",500,100).exec();
             }
             textBrowser_receivedMessages->clear();
             QStringList arguments;
@@ -137,7 +137,7 @@ QWidget* MainWindow::baseWidget()
     wolButton->setFixedSize(yukseklik*0.95,yukseklik*1.5);
     wolButton->setAutoRaise(true);
     // ftpPc->setAutoFillBackground(true);
-    wolButton->setText("Pc Aç");
+    wolButton->setText(tr("Pc Aç"));
     connect(wolButton, &QToolButton::clicked, [=]() {
         wolWidget();
     });
@@ -157,7 +157,7 @@ QWidget* MainWindow::baseWidget()
 
         QTextDocument *doc=new QTextDocument();
 
-        doc->setHtml("<center><h2>Temel İşlemler</h2></center>"
+        doc->setHtml(tr("<center><h2>Temel İşlemler</h2></center>"
                      "<center><img src=\":/icons/temelislem.png\" /></center> "
                      "<br/><br/>1-Vnc seçeneği istemcide açık olan masaüstüne erişilir."
                      "<br/><br/>2-noVnc seçeneği istemcide açık olan masaüstüne web tarayısıyla erişilir."
@@ -174,7 +174,7 @@ QWidget* MainWindow::baseWidget()
                      "<br/>S=Ssh servisi, yeşil=Uzak terminal açık/kırmızı=Uzak terminal kapalı"
                      "<br/>R=Xrdp servisi, yeşil=Uzak masaüstü kontrolü açık/kırmızı=uzak masaüstü kontrolü kapalı"
                      "<br/>X=x11 ekranı, yeşil=Kullanıcı login olmuş/kırmızı=kullanıcı login olmamış"
-                     );
+                        ));
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/temelislem.pdf");
         pdf.setOutputFormat(QPrinter::PdfFormat);
@@ -192,7 +192,7 @@ QWidget* MainWindow::baseWidget()
 
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
-        d1->setWindowTitle("Temel İşlemler Yardım Penceresi");
+        d1->setWindowTitle(tr("Temel İşlemler Yardım Penceresi"));
         d1->setFixedSize(QSize(boy*215,boy*120));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);

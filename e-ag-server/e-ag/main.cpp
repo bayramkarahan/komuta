@@ -33,31 +33,49 @@
 
 int main(int argc, char *argv[])
 {
+    QString localDir="/usr/share/e-ag/";
     QApplication a(argc, argv);
     //return a.exec();
+    QString language="";
     QLocale locale;
     QString systemlanguage = locale.name();
-    //qDebug()<<"Sistem dili:"<<systemlanguage;
+    qDebug()<<"Sistem dili:"<<systemlanguage;
+    language=systemlanguage;
+    int ftpPort=12345;
+    QString rootPath="/tmp";
+    /***************************************************/
+    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+    QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
 
-
-/*
+    if(dizi.count()>0)
+    {
+        for (const QJsonValue &item : dizi) {
+            QJsonObject veri=item.toObject();
+            //qDebug()<<"Yüklenen Ağ Profili:" <<veri;
+            NetProfil np;
+            np.networkIndex=veri["networkIndex"].toString();
+            np.selectedNetworkProfil=veri["selectedNetworkProfil"].toBool();
+            np.networkName=veri["networkName"].toString();
+            np.networkTcpPort=veri["networkTcpPort"].toString();
+            np.networkBroadCastAddress=veri["networkBroadCastAddress"].toString();
+            np.serverAddress=veri["serverAddress"].toString();
+            np.ftpPort=veri["ftpPort"].toString();
+            np.rootPath=veri["rootPath"].toString();
+            np.language=veri["language"].toString();
+            np.lockScreenState=veri["lockScreenState"].toBool();
+            np.webblockState=veri["webblockState"].toBool();
+            language=np.language;
+            rootPath=np.rootPath;
+            ftpPort=np.ftpPort.toInt();
+        }
+    }
+    /***************************************************/
     QTranslator *translator = new QTranslator();
     translator->load("translations/"+language+".qm");
     qApp->installTranslator(translator);
-*/
-
     MainWindow *w=new MainWindow();
-    w->networkProfilLoad();
-    int ftpPort=0;
-    QString rootPath="";
-
-    for (const NetProfil &item : w->NetProfilList) {
-        if (item.serverAddress=="") continue;
-        if (item.selectedNetworkProfil==false) continue;
-        ftpPort=item.ftpPort.toInt();
-        rootPath=item.rootPath;
-    }
-qDebug()<<"rootpath: "<<rootPath;
+    /******************************************************/
+    qDebug()<<"Language:"<<language<<"rootPath:"<<rootPath<<"ftpPort:"<<ftpPort;
     SCDImgServer srv(0,ftpPort,rootPath);
 
     if (srv.start())

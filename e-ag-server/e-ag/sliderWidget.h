@@ -65,7 +65,7 @@ void MainWindow::updateSlider(int val)
     int columnSayisi=hostListe->width()/(nwidth+en*4);
         //pcListeGuncelleSlot(columnSayisi,nwidth,nheight);
     pcListeGuncelleSlotnew("updateSlider");
-    mesajSlot("Host Boyutları Değiştirildi.");
+    mesajSlot(tr("Host Boyutları Değiştirildi."));
 }
 
 #endif // SLIDERWIDGET_H

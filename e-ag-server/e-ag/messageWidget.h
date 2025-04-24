@@ -9,13 +9,13 @@ QWidget* MainWindow::messageWidget()
     int yukseklik=b*7;
     QWidget * d = new QWidget();
     // d->setFixedSize(this->width(),boy*16);
-    d->setWindowTitle("Duyuru Mesaj Penceresi");
+    d->setWindowTitle(tr("Duyuru Mesaj Penceresi"));
     QLineEdit *commandFileLE = new QLineEdit();
     commandFileLE->setFixedSize(e*80,boy*15);
     // commandFileLE->setFont(ff);
     commandFileLE->setStyleSheet("font-size:"+QString::number(font.toInt()+2)+"px;");
 
-    QLabel *commandFileLabel=new QLabel("Mesaj / Duyuru");
+    QLabel *commandFileLabel=new QLabel(tr("Mesaj / Duyuru"));
     commandFileLabel->setFixedSize(e*15,yukseklik);
     commandFileLabel->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
@@ -26,13 +26,13 @@ QWidget* MainWindow::messageWidget()
     duyuruButton->setAutoRaise(true);
     // duyuruButton->setAutoFillBackground(true);
     duyuruButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    duyuruButton->setText("Seçili Pc'lere Göndert");
+    duyuruButton->setText(tr("Seçili Pc'lere Göndert"));
     duyuruButton->setIcon(QIcon(":/icons/selectpcmessage.svg"));
     duyuruButton->setIconSize(QSize(b*8,yukseklik));
     duyuruButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     connect(duyuruButton, &QToolButton::clicked, [=]() {
-        if(pcMac->text()==""){mesajSlot("Pc Seçiniz");return;}
+        if(pcMac->text()==""){mesajSlot(tr("Pc Seçiniz"));return;}
         udpSendData("x11command","ekranmesaj",commandFileLE->text());
         mesajSlot("Seçili Pc'ye Mesaj Gönderildi.");
     });
@@ -44,14 +44,14 @@ QWidget* MainWindow::messageWidget()
     duyuruAllButton->setAutoRaise(true);
     // duyuruAllButton->setAutoFillBackground(true);
     duyuruAllButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    duyuruAllButton->setText("Tüm Pc'lere Gönder");
+    duyuruAllButton->setText(tr("Tüm Pc'lere Gönder"));
     duyuruAllButton->setIcon(QIcon(":/icons/allpcmessage.svg"));
     duyuruAllButton->setIconSize(QSize(b*8,yukseklik));
     duyuruAllButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
     connect(duyuruAllButton, &QToolButton::clicked, [=]() {
          udpSendData("x11command","ekranmesaj",commandFileLE->text());
-        mesajSlot("Ağ'a Mesaj Gönderildi.");
+        mesajSlot(tr("Ağ'a Mesaj Gönderildi."));
     });
 
     QToolButton *helpButton= new QToolButton;
@@ -59,7 +59,7 @@ QWidget* MainWindow::messageWidget()
     helpButton->setAutoRaise(true);
     // bilgiButton->setAutoFillBackground(true);
     helpButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    helpButton->setText("Yardım");
+    helpButton->setText(tr("Yardım"));
     helpButton->setIcon(QIcon(":/icons/help.svg"));
     helpButton->setIconSize(QSize(b*8,yukseklik));
     helpButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -67,14 +67,14 @@ QWidget* MainWindow::messageWidget()
     connect(helpButton, &QToolButton::clicked, [=]() {
         QTextDocument *doc=new QTextDocument();
 
-        doc->setHtml("<center><h2>Mesaj Gönderme</h2></center>"
+        doc->setHtml(tr("<center><h2>Mesaj Gönderme</h2></center>"
                      "<center><img src=\":/icons/mesaj.png\" /></center> "
                      "<br/>1-Mesaj sadece X işareti yeşil olan istemcilere gönderilebilir."
                      "<center><img src=\":/icons/istemci.png\" /></center>"
                      "<br/><br/>2-İstemci simgelerinin altındaki X işareti login olmuş kullanıcıyı ifade eder."
                      "<br/><br/>3-X işareti yeşilse kullanıcı login olduğunu ifade eder. Kırmızı ise login olmadığını ifade eder."
                      "<br/><br/>4-Birden fazla istemciye mesaj göndermek için istemciler seçilerek gönderilebilir."
-                     );
+                        ));
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/mesaj.pdf");
         pdf.setOutputFormat(QPrinter::PdfFormat);
@@ -92,7 +92,7 @@ QWidget* MainWindow::messageWidget()
 
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
-        d1->setWindowTitle("Mesaj Gönderme Penceresi");
+        d1->setWindowTitle(tr("Mesaj Gönderme Penceresi"));
         d1->setFixedSize(QSize(boy*215,boy*100));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);

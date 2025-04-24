@@ -8,7 +8,7 @@ QWidget* MainWindow::rdpWidget()
     int yukseklik=b*8;
 
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Ekran Yansıtma Seçenekleri");
+    sor->setWindowTitle(tr("Ekran Yansıtma Seçenekleri"));
     sor->setStyleSheet("font-size:"+QString::number(font.toInt())+"px;");
 
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
@@ -26,7 +26,7 @@ QWidget* MainWindow::rdpWidget()
     cb->setText("");
     cb->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     QLabel *cbLabel=new QLabel(sor);
-    cbLabel->setText("Sunucuyu\nKontrol \nEdebilsin");
+    cbLabel->setText(tr("Sunucuyu\nKontrol \nEdebilsin"));
     cbLabel->setFixedSize(e*20,b*5);
     cbLabel->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     cbLabel->setAlignment(Qt::AlignCenter);
@@ -39,7 +39,7 @@ QWidget* MainWindow::rdpWidget()
     vncPc->setAutoRaise(true);
     vncPc->setIconSize(QSize(b*8,yukseklik));
     // vncPc->setAutoFillBackground(true);
-    vncPc->setText("Vnc Ekran\n Erişimi");
+    vncPc->setText(tr("Vnc Ekran\n Erişimi"));
     connect(vncPc, &QToolButton::clicked, [=]() {
         slotVnc(_display);
     });
@@ -52,12 +52,12 @@ QWidget* MainWindow::rdpWidget()
     rdpPc->setAutoRaise(true);
     rdpPc->setIconSize(QSize(b*8,yukseklik));
     // rdpPc->setAutoFillBackground(true);
-    rdpPc->setText("Rdp Ekran\n Erişimi");
+    rdpPc->setText(tr("Rdp Ekran\n Erişimi"));
     connect(rdpPc, &QToolButton::clicked, [=]() {
         slotRdp();
     });
     QLabel *boyutLabel=new QLabel(sor);
-    boyutLabel->setText("Sunucu Ekran Boyutu");
+    boyutLabel->setText(tr("Sunucu Ekran Boyutu"));
     boyutLabel->setFixedSize(e*25,b*5);
     boyutLabel->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
@@ -79,7 +79,7 @@ QWidget* MainWindow::rdpWidget()
     QToolButton *serverEkranYansitSeciliPcButton= new QToolButton();
     serverEkranYansitSeciliPcButton->setFixedSize(e*18,yukseklik*2);
     //serverEkranYansitSeciliPcButton->setIconSize(QSize(150,30));
-    serverEkranYansitSeciliPcButton->setText("Ekranı Pc'lere\n Yansıt");
+    serverEkranYansitSeciliPcButton->setText(tr("Ekranı Pc'lere\n Yansıt"));
     serverEkranYansitSeciliPcButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     serverEkranYansitSeciliPcButton->setAutoRaise(true);
     serverEkranYansitSeciliPcButton->setIconSize(QSize(b*8,yukseklik));
@@ -106,7 +106,7 @@ QWidget* MainWindow::rdpWidget()
     ekranYansitDurdur->setAutoRaise(true);
     ekranYansitDurdur->setIconSize(QSize(b*8,yukseklik));
     // ekranYansitDurdur->setAutoFillBackground(true);
-    ekranYansitDurdur->setText("Yansıtmayı \nDurdur");
+    ekranYansitDurdur->setText(tr("Yansıtmayı \nDurdur"));
     connect(ekranYansitDurdur, &QToolButton::clicked, [=]() {
         //slotEkranIzleDurdur();
         slotVncFlipStop();
@@ -117,7 +117,7 @@ QWidget* MainWindow::rdpWidget()
     helpButton->setAutoRaise(true);
     // bilgiButton->setAutoFillBackground(true);
     helpButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    helpButton->setText("Yardım");
+    helpButton->setText(tr("Yardım"));
     helpButton->setIcon(QIcon(":/icons/help.svg"));
     helpButton->setIconSize(QSize(b*8,yukseklik));
     helpButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -125,7 +125,7 @@ QWidget* MainWindow::rdpWidget()
     connect(helpButton, &QToolButton::clicked, [=]() {
         QTextDocument *doc=new QTextDocument();
 
-        doc->setHtml("<center><h2>Ekran Paylaşımı</h2></center>"
+        doc->setHtml(tr("<center><h2>Ekran Paylaşımı</h2></center>"
                      "<center><img src=\":/icons/ekranpaylasimi.png\" /></center> "
                      "<br/>1-Ekran paylaşımı vnc servisi ile çalıştırılmaktadır."
                      "<center><img src=\":/icons/istemci.png\" /></center>"
@@ -136,7 +136,7 @@ QWidget* MainWindow::rdpWidget()
                      "<br/><br/>6-Sunucu ekranı paylaşılırken, istemciler ekranı kontrol edip/edemeyeceği seçilebilir."
                      "<br/><br/>7-Canlı istemci ekranına erişim \"Vnc Ekran Erişimi\" ile yapılabilir."
                      "<br/><br/>8-Canlı istemci ekranından bağımsız erişim \"Rdp Ekran Erişimi\" ile yapılabilir."
-                     );
+                        ));
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/ekranpaylasimi.pdf");
         pdf.setOutputFormat(QPrinter::PdfFormat);
@@ -154,7 +154,7 @@ QWidget* MainWindow::rdpWidget()
 
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
-        d1->setWindowTitle("Ekran Paylaşımı Yardım Penceresi");
+        d1->setWindowTitle(tr("Ekran Paylaşımı Yardım Penceresi"));
         d1->setFixedSize(QSize(boy*215,boy*100));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);
@@ -215,7 +215,7 @@ void MainWindow::slotVnc(QString _dsp){
     komut.append("nohup ssvncviewer -scale 0.9 ").append(pcIp->text()).append(":"+display+" \-passwd \/usr\/bin\/x11vncpasswd &");
     qDebug()<<"vnc:"<<komut;
     system(komut.toStdString().c_str());
-    mesajSlot("Seçili Hostda Vnc Başlatıldı.");
+    mesajSlot(tr("Seçili Hostda Vnc Başlatıldı."));
 
 }
 void MainWindow::slotVncFlip(QString scale,QString viewState){
@@ -249,7 +249,7 @@ void MainWindow::slotVncFlipStop(){
     udpSendData("x11command","x11command",kmt);
     QString kmt10="kill $(ps -aux|grep 5901|awk '{print $2 }')";
     system(kmt10.toStdString().c_str());
-    mesajSlot("Seçili Hostlarda Ekran Yansıtma Durduruldu.");
+    mesajSlot(tr("Seçili Hostlarda Ekran Yansıtma Durduruldu."));
 
 }
 void MainWindow::slotVncFlipAll(QString scale,QString viewState){
@@ -272,7 +272,7 @@ void MainWindow::slotVncFlipAll(QString scale,QString viewState){
         udpSendData("x11command","x11command",kmt);
         system("sleep 0.1");
     }
-    mesajSlot("Tüm Hostlara Ekran Yansıltıldı.");
+    mesajSlot(tr("Tüm Hostlara Ekran Yansıltıldı."));
 
 }
 void MainWindow::slotVncFlipAllStop(){
@@ -288,23 +288,22 @@ void MainWindow::slotVncFlipAllStop(){
     }*/
     QString kmt10="kill $(ps -aux|grep 5901|awk '{print $2 }')";
     system(kmt10.toStdString().c_str());
-    mesajSlot("Tüm Hostlarda Ekran Yansıtma Durduruldu.");
+    mesajSlot(tr("Tüm Hostlarda Ekran Yansıtma Durduruldu."));
 
 }
 void MainWindow::slotRdp(){
     hostAddressMacButtonSlot();
     QString _activeuser=getActiveUserName();
-    CustomInputDialog  cid("XRDP Erişim Bilgileri","Client Kullanıcı Adını Girizin\n"
-                                                   "Erişilecek Kullanıcıda Masaüstü Açık Olmamalı.\n"
-                                                   "Açık Masaüsütünü Kontrol Etmek için VNC Tercih Edin.",_activeuser,300,150);
+    CustomInputDialog  cid(tr("XRDP Erişim Bilgileri"),tr("Client Kullanıcı Adını Girizin\n"
+                            "Açık Masaüsütünü Kontrol Etmek için VNC Tercih Edin."),_activeuser,300,150);
     //qDebug()<<"CustomInputDialog dan gelen bilgi: "<<cid.getText();
 QString _remoteuser = cid.getText();
     bool ok;
    /* QString _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
                                                 " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
                                                 "", &ok);*/
-    QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
-                                                  _remoteuser+"İstemcideki Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
+    QString _remotepasswd = QInputDialog::getText(0, tr("İstemci Parolası"),
+                                                  _remoteuser+tr("İstemcideki Kullanıcının Parolasını Giriniz :"), QLineEdit::Normal,
                                                   "", &ok);
     //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
     if(_remoteuser!=""&&_remotepasswd!="")
@@ -313,7 +312,7 @@ QString _remoteuser = cid.getText();
         if(pcIp->text()=="")
         {
         QMessageBox msgBox;
-        msgBox.setText(" Client Bilgisayar Seçiniz...");
+        msgBox.setText(tr(" Client Bilgisayar Seçiniz..."));
         msgBox.exec();
         }else
         {
@@ -324,7 +323,7 @@ QString _remoteuser = cid.getText();
 
     }
 
-      mesajSlot("Seçili Hostda Rdp Başlatıldı.");
+      mesajSlot(tr("Seçili Hostda Rdp Başlatıldı."));
 
 }
 

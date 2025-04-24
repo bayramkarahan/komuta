@@ -9,7 +9,7 @@ QWidget*  MainWindow::fileWidget()
     QFont ff( "Arial", 20, 0);
     int yukseklik=b*7.5;
     QWidget * d = new QWidget();
-    d->setWindowTitle("ssh Dosya Kopyalama Penceresi");
+    d->setWindowTitle(tr("Dosya Kopyalama Penceresi"));
     QLineEdit *le = new QLineEdit();
     le->setFixedSize(e*75,boy*15);
     le->setStyleSheet("font-size:"+QString::number(font.toInt()+2)+"px;");
@@ -33,7 +33,7 @@ QWidget*  MainWindow::fileWidget()
     fileSelectButton->setFixedSize(e*13,yukseklik*2);
     fileSelectButton->setAutoRaise(true);
     //fileSelectButton->setAutoFillBackground(true);
-    fileSelectButton->setText("Dosya\nSeç");
+    fileSelectButton->setText(tr("Dosya\nSeç"));
     fileSelectButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     fileSelectButton->setIcon(QIcon(":/icons/openfile.svg"));
     fileSelectButton->setIconSize(QSize(b*6,yukseklik*0.9));
@@ -46,7 +46,7 @@ QWidget*  MainWindow::fileWidget()
 
         QFileInfo fi(le->text());
 
-        mesajSlot("Dosya Seçildi.");
+        mesajSlot(tr("Dosya Seçildi."));
     });
 
 
@@ -54,7 +54,7 @@ QWidget*  MainWindow::fileWidget()
     fileCopyButton->setFixedSize(e*13,yukseklik*2);
     fileCopyButton->setAutoRaise(true);
     fileCopyButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    fileCopyButton->setText("Pc'lere\nKopyala");
+    fileCopyButton->setText(tr("Pc'lere\nKopyala"));
     fileCopyButton->setIcon(QIcon(":/icons/selectcopyfile.svg"));
     fileCopyButton->setIconSize(QSize(b*8,yukseklik*0.9));
     fileCopyButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -95,7 +95,7 @@ QWidget*  MainWindow::fileWidget()
     fileCopyInstallButton->setFixedSize(e*13,yukseklik*2);
     fileCopyInstallButton->setAutoRaise(true);
     fileCopyInstallButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    fileCopyInstallButton->setText("Paketi\nKur");
+    fileCopyInstallButton->setText(tr("Paketi\nKur"));
     fileCopyInstallButton->setIcon(QIcon(":/icons/install.svg"));
     fileCopyInstallButton->setIconSize(QSize(b*8,yukseklik*0.9));
     fileCopyInstallButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -148,7 +148,7 @@ QWidget*  MainWindow::fileWidget()
     fileCopyInstallScriptButton->setFixedSize(e*13,yukseklik*2);
     fileCopyInstallScriptButton->setAutoRaise(true);
     fileCopyInstallScriptButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    fileCopyInstallScriptButton->setText("Scripti\nÇalıştır");
+    fileCopyInstallScriptButton->setText(tr("Scripti\nÇalıştır"));
     fileCopyInstallScriptButton->setIcon(QIcon(":/icons/bash.svg"));
     fileCopyInstallScriptButton->setIconSize(QSize(b*8,yukseklik*0.9));
     fileCopyInstallScriptButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -203,7 +203,7 @@ QWidget*  MainWindow::fileWidget()
     QToolButton *fileCopyDesktopNotGetSendButton=new QToolButton();
     fileCopyDesktopNotGetSendButton->setFixedSize(e*13,yukseklik*2);
     fileCopyDesktopNotGetSendButton->setAutoRaise(true);
-    fileCopyDesktopNotGetSendButton->setText("Masaüstüne\nGönder");
+    fileCopyDesktopNotGetSendButton->setText(tr("Masaüstüne\nGönder"));
     fileCopyDesktopNotGetSendButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     fileCopyDesktopNotGetSendButton->setIcon(QIcon(":/icons/senddesktopfile.svg"));
     fileCopyDesktopNotGetSendButton->setIconSize(QSize(b*8,yukseklik*0.9));
@@ -241,7 +241,7 @@ QWidget*  MainWindow::fileWidget()
     QToolButton *fileCopyDesktopSendButton=new QToolButton();
     fileCopyDesktopSendButton->setFixedSize(e*13,yukseklik*2);
     fileCopyDesktopSendButton->setAutoRaise(true);
-    fileCopyDesktopSendButton->setText("Çalışma\n Dağıt");
+    fileCopyDesktopSendButton->setText(tr("Çalışma\n Dağıt"));
     fileCopyDesktopSendButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     fileCopyDesktopSendButton->setIcon(QIcon(":/icons/senddesktopquiz.svg"));
     fileCopyDesktopSendButton->setIconSize(QSize(b*8,yukseklik*0.9));
@@ -284,7 +284,7 @@ QWidget*  MainWindow::fileWidget()
     fileCopyDesktopGetButton->setFixedSize(e*13,yukseklik*2);
     fileCopyDesktopGetButton->setAutoRaise(true);
     //fileCopyDesktopGetButton->setAutoFillBackground(true);
-    fileCopyDesktopGetButton->setText("Çalışma\n Topla");
+    fileCopyDesktopGetButton->setText(tr("Çalışma\n Topla"));
     fileCopyDesktopGetButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
     fileCopyDesktopGetButton->setIcon(QIcon(":/icons/getdesktopquiz.svg"));
     fileCopyDesktopGetButton->setIconSize(QSize(b*8,yukseklik*0.9));
@@ -311,7 +311,7 @@ QWidget*  MainWindow::fileWidget()
     helpButton->setAutoRaise(true);
     // bilgiButton->setAutoFillBackground(true);
     helpButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    helpButton->setText("Yardım");
+    helpButton->setText(tr("Yardım"));
     helpButton->setIcon(QIcon(":/icons/help.svg"));
     helpButton->setIconSize(QSize(b*8,yukseklik*0.9));
     helpButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
@@ -319,7 +319,7 @@ QWidget*  MainWindow::fileWidget()
     connect(helpButton, &QToolButton::clicked, [=]() {
         QTextDocument *doc=new QTextDocument();
 
-        doc->setHtml("<center><h2>Dosya Kopyalama</h2></center>"
+        doc->setHtml(tr("<center><h2>Dosya Kopyalama</h2></center>"
                      "<center><img src=\":/icons/dosyakopyalama.png\" /></center> "
                      "<center><img src=\":/icons/istemci.png\" /></center>"
                      "<br/><br/>1-Klasör içeriğinin tamamını kopyalamak için dosya ismi yerine * konulması gerekir;"
@@ -331,7 +331,7 @@ QWidget*  MainWindow::fileWidget()
                      "<br/><br/>6-Birden fazla istemciye kopyalama için istemcileri seçerek kopyalanabilir."
                      "<br/><br/>7-<b>Paketi Kur</b> seçeneği ile deb uzantılı paketi istemciye kururulumu yapılır."
                      "<br/><br/>8-<b>Scripti Çalıştır</b> seçeneği ile scripti istemci üzerinde çalıştırır."
-                       );
+                        ));
         QPrinter pdf;
         pdf.setOutputFileName("/tmp/dosyakopyalama.pdf");
         pdf.setOutputFormat(QPrinter::PdfFormat);
@@ -349,7 +349,7 @@ QWidget*  MainWindow::fileWidget()
 
         vbox->addLayout(hbox1);
         QDialog * d1 = new QDialog();
-        d1->setWindowTitle("Dosya Kopyalama Yardım Penceresi");
+        d1->setWindowTitle(tr("Dosya Kopyalama Yardım Penceresi"));
         d1->setFixedSize(QSize(boy*215,boy*110));
         auto appIcon = QIcon(":/icons/e-ag.svg");
         d1->setWindowIcon(appIcon);

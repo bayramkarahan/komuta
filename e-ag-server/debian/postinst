@@ -9,6 +9,9 @@ mkdir /usr/share/e-ag
 chmod 777 /usr/share/e-ag
 systemctl daemon-reload || true
 
+systemctl enable e-ag-networkprofil.service || true
+systemctl start e-ag-networkprofil.service || true
+
 systemctl enable ssh.service || true
 systemctl start ssh.service || true
 
@@ -21,6 +24,5 @@ systemctl start e-ag-x11vnclogin.service || true
 systemctl enable e-ag-x11vncdesktop.service || true
 systemctl start e-ag-x11vncdesktop.service || true
 
-systemctl enable e-ag-networkprofil.service || true
-systemctl start e-ag-networkprofil.service || true
+
 exit 0

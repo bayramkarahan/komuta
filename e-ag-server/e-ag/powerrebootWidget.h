@@ -8,7 +8,7 @@ QWidget* MainWindow::poweroffrebootWidget()
     int yukseklik=e*12;
 
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Kapatma ve Yeniden Başlatma Seçenekleri");
+    sor->setWindowTitle(tr("Kapatma ve Yeniden Başlatma Seçenekleri"));
     sor->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
@@ -28,7 +28,7 @@ QWidget* MainWindow::poweroffrebootWidget()
     closePc->setFixedSize(yukseklik*1.4,boy*7);
     closePc->setAutoRaise(true);
     //closePc->setAutoFillBackground(true);
-    closePc->setText("Kapat");
+    closePc->setText(tr("Kapat"));
     // closePc->setMenu(sessionMenu());
     // closePc->setPopupMode(QToolButton::MenuButtonPopup);
     connect(closePc, &QToolButton::clicked, [=]() {
@@ -42,7 +42,7 @@ QWidget* MainWindow::poweroffrebootWidget()
     rebootPc->setFixedSize(yukseklik*1.4,boy*7);
     rebootPc->setAutoRaise(true);
     //rebootPc->setAutoFillBackground(true);
-    rebootPc->setText("Yeniden Başlat");
+    rebootPc->setText(tr("Yeniden Başlat"));
     // rebootPc->setMenu(sessionMenu());
     // rebootPc->setPopupMode(QToolButton::MenuButtonPopup);
 
@@ -94,7 +94,7 @@ void MainWindow::slotReboot(){
             onlinePcList[i]->tcpConnectCounter=0;
         }
     }
-    mesajSlot("Seçili Hostlar Yeniden Başlatıldı.");
+    mesajSlot(tr("Seçili Hostlar Yeniden Başlatıldı."));
 
 }
 void MainWindow::slotRebootAll(){
@@ -112,7 +112,7 @@ void MainWindow::slotRebootAll(){
             onlinePcList[i]->tcpConnectCounter=0;
         }
     }
-    mesajSlot("Tüm Hostlar Yeniden Başlatıldı.");
+    mesajSlot(tr("Tüm Hostlar Yeniden Başlatıldı."));
 
 }
 void MainWindow::slotPowerOff(){
@@ -130,7 +130,7 @@ void MainWindow::slotPowerOff(){
             onlinePcList[i]->tcpConnectCounter=0;
         }
     }
-    mesajSlot("Seçili Hostlar Kapatıldı.");
+    mesajSlot(tr("Seçili Hostlar Kapatıldı."));
 
 }
 void MainWindow::slotPowerOffAll(){
@@ -148,7 +148,7 @@ void MainWindow::slotPowerOffAll(){
             onlinePcList[i]->tcpConnectCounter=0;
         }
     }
-    mesajSlot("Tüm Hostlar Kapatıldı.");
+    mesajSlot(tr("Tüm Hostlar Kapatıldı."));
 
 }
 

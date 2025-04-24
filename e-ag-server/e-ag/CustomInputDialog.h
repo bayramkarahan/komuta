@@ -18,8 +18,8 @@ public:
         label_ = new QLabel(girdimesaj);
         lineEdit_ = new QLineEdit;
         lineEdit_->setText(defaultvalue);
-        okButton_ = new QPushButton("Tamam");
-        cancelButton_ = new QPushButton("İptal");
+        okButton_ = new QPushButton(tr("Tamam"));
+        cancelButton_ = new QPushButton(tr("İptal"));
 
         QHBoxLayout *buttonLayout = new QHBoxLayout;
         buttonLayout->addWidget(okButton_);

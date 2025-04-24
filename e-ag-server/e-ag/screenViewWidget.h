@@ -7,7 +7,7 @@ QWidget* MainWindow::ekranWidget()
     int yukseklik=e*12;
 
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Ekran Yansıtma Seçenekleri");
+    sor->setWindowTitle(tr("Ekran Yansıtma Seçenekleri"));
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
     sor->setFixedSize(yukseklik*1.4,boy*16);
     sor->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
@@ -24,7 +24,7 @@ QWidget* MainWindow::ekranWidget()
     screenImagePc->setFixedSize(yukseklik*1.4,boy*7);
     screenImagePc->setAutoRaise(true);
     // screenImagePc->setAutoFillBackground(true);
-    screenImagePc->setText("Ekran İzle");
+    screenImagePc->setText(tr("Ekran İzle"));
     // screenImagePc->setMenu(sessionMenu());
     // screenImagePc->setPopupMode(QToolButton::MenuButtonPopup);
 
@@ -39,7 +39,7 @@ QWidget* MainWindow::ekranWidget()
     screenImagePcStop->setFixedSize(yukseklik*1.4,boy*7);
     screenImagePcStop->setAutoRaise(true);
     // screenImagePcStop->setAutoFillBackground(true);
-    screenImagePcStop->setText("İzleme Durdur");
+    screenImagePcStop->setText(tr("İzleme Durdur"));
     // screenImagePcStop->setMenu(sessionMenu());
     //screenImagePcStop->setPopupMode(QToolButton::MenuButtonPopup);
 
@@ -83,7 +83,7 @@ void MainWindow::slotEkranIzle()
         }
     }
    udpSendData("x11command","x11command","serverscreen");
-    mesajSlot("Seçili Ekran İzlemeler Başlatıldı.");
+    mesajSlot(tr("Seçili Ekran İzlemeler Başlatıldı."));
 }
 void MainWindow::slotEkranIzleDurdur()
 {   
@@ -95,7 +95,7 @@ void MainWindow::slotEkranIzleDurdur()
         }
     }
     udpSendData("x11command","x11command","pkill serverscreen");
-    mesajSlot("Seçili Ekran İzlemeler Durduruldu.");
+    mesajSlot(tr("Seçili Ekran İzlemeler Durduruldu."));
 }
 void MainWindow::slotEkranIzleAll()
 {
@@ -106,7 +106,7 @@ void MainWindow::slotEkranIzleAll()
             onlinePcList[i]->setIconControlState(true);
           }
     }
-    mesajSlot("Tüm Ekran İzlemeler Başlatıldı.");
+    mesajSlot(tr("Tüm Ekran İzlemeler Başlatıldı."));
 
 }
 void MainWindow::slotEkranIzleAllDurdur()
@@ -118,7 +118,7 @@ void MainWindow::slotEkranIzleAllDurdur()
             onlinePcList[i]->setIconControlState(false);
          }
     }
-    mesajSlot("Tüm Ekran İzlemeler Durduruldu.");
+    mesajSlot(tr("Tüm Ekran İzlemeler Durduruldu."));
 
 }
 

@@ -9,7 +9,7 @@ QWidget* MainWindow::logoutWidget()
     int yukseklik=e*12;
 
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Oturum Seçenekleri");
+    sor->setWindowTitle(tr("Oturum Seçenekleri"));
     sor->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
@@ -48,7 +48,7 @@ QWidget* MainWindow::logoutWidget()
     loginPc->setFixedSize(yukseklik*1.4,boy*7);
     loginPc->setAutoRaise(true);
     // portKontrol->setAutoFillBackground(true);
-    loginPc->setText("Oturum Aç");
+    loginPc->setText(tr("Oturum Aç"));
     connect(loginPc, &QToolButton::clicked, [=]() {
         slotLogin();
     });
@@ -114,11 +114,11 @@ void MainWindow::slotLogoutAll(){
 void MainWindow::slotLogin(){
     QString _remoteuser=getActiveUserName();
     bool ok;
-    _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
-                                                " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
+    _remoteuser = QInputDialog::getText(0, tr("İstemci Parolası"),
+                                                tr(" İstemcideki Kullanıcının Adını Giriniz :"), QLineEdit::Normal,
                                                 _remoteuser, &ok);
-    QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
-                                                  _remoteuser+" Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
+    QString _remotepasswd = QInputDialog::getText(0, tr("İstemci Parolası"),
+                                                  _remoteuser+tr(" Kullanıcının Parolasını Giriniz :"), QLineEdit::Normal,
                                                   "", &ok);
     //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
     if(_remoteuser!=""&&_remotepasswd!="")

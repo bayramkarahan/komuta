@@ -13,14 +13,14 @@ public:
         /*
         QVBoxLayout *layout = new QVBoxLayout(this);
         */
-        QPushButton *okButton = new QPushButton("Tamam");
+        QPushButton *okButton = new QPushButton(tr("Tamam"));
         connect(okButton, &QPushButton::clicked, this, &MyDialog::done);
         //layout->addWidget(okButton);
 
-        QPushButton *cancelButton = new QPushButton("Vazgeç");
+        QPushButton *cancelButton = new QPushButton(tr("Vazgeç"));
         connect(cancelButton, &QPushButton::clicked, this, &MyDialog::reject);
         //layout->addWidget(cancelButton);
-        QPushButton *yesButton = new QPushButton("Evet");
+        QPushButton *yesButton = new QPushButton(tr("Evet"));
         connect(yesButton, &QPushButton::clicked, this, &MyDialog::accept);
         //layout->addWidget(yesButton);
 

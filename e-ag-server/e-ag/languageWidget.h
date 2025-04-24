@@ -9,7 +9,7 @@ QWidget* MainWindow::languageWidget()
     int yukseklik=e*12;
 
     QWidget *sor=new QWidget();
-    sor->setWindowTitle("Çoklu Dil");
+    sor->setWindowTitle(tr("Çoklu Dil"));
     sor->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
 
     sor->setWindowFlags(Qt::WindowStaysOnTopHint|Qt::Tool);
