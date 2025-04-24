@@ -448,13 +448,13 @@ if(remoteUserName==""||remotePassword==""||
            pcMac->setText(onlinePcList[i]->mac);
            pcName->setText(onlinePcList[i]->caption);
           /// btnlist[i]->slotUnselectPc();
-            pcNamelbl->setText("Pc Adı: "+pcName->text());
-            pcIplbl->setText("Ip: "+pcIp->text());
-            pcMaclbl->setText("Mac: "+pcMac->text());
+            pcNamelbl->setText(tr("Pc Adı: ")+pcName->text());
+            pcIplbl->setText(tr("Ip: ")+pcIp->text());
+            pcMaclbl->setText(tr("Mac: ")+pcMac->text());
 
-            pcUserlbl->setText("Kullanıcı: "+onlinePcList[i]->user);
+            pcUserlbl->setText(tr("Kullanıcı: ")+onlinePcList[i]->user);
            /// pcScreenlbl->setText("Ekran: "+onlinePcList[i]->display);
-            pcSystemlbl->setText("Sistem: "+onlinePcList[i]->hostname.trimmed());
+            pcSystemlbl->setText(tr("Sistem: ")+onlinePcList[i]->hostname.trimmed());
            /* if(btnlist[i]->display=="")  _display="0";
             else
                 _display=onlinePcList[i]->display.right(1);

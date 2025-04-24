@@ -358,6 +358,31 @@ Gönder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="451"/>
+        <source>Pc Adı: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="452"/>
+        <source>Ip: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="453"/>
+        <source>Mac: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="455"/>
+        <source>Kullanıcı: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="457"/>
+        <source>Sistem: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../menu.h" line="34"/>
         <source>Güncelle</source>
         <translation type="unfinished"></translation>
