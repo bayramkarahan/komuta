@@ -738,7 +738,7 @@ QMenu *MainWindow::languageMenu()
     layout->setContentsMargins(0, 0, 0,0);
     /**********************************************************************************/
     // .qm dosyalarının bulunduğu dizini belirtin
-    QString directory = "./translations"; // Örnek olarak "./translations" dizini
+    QString directory = localDir+"translations"; // Örnek olarak "./translations" dizini
 
     QStringList qmFiles = listQmFiles(directory);
     int dilSayisi=0;

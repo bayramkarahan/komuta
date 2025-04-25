@@ -728,9 +728,20 @@ uninstall_x11servicelogin: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/lib/systemd/system/ 
 
 
-install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin  FORCE
+install_lang: first FORCE
+	@test -d $(INSTALL_ROOT)/usr/share/e-ag/translations/ || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag/translations/
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/en_EN.qm $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/tr_TR.qm $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.qm
 
-uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin  FORCE
+uninstall_lang: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.qm
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
+	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/translations/ 
+
+
+install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin install_lang  FORCE
+
+uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin uninstall_lang  FORCE
 
 FORCE:
 

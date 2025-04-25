@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     }
     /***************************************************/
     QTranslator *translator = new QTranslator();
-    translator->load("translations/"+language+".qm");
+    translator->load(localDir+"translations/"+language+".qm");
     qApp->installTranslator(translator);
     MainWindow *w=new MainWindow();
     /******************************************************/

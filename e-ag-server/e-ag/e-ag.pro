@@ -119,14 +119,18 @@ ngx.path = /etc/nginx/
 #filezilla.path = /usr/share/e-ag/
 
 
+lang.files = translations/*.qm
+lang.path = /usr/share/e-ag/translations/
+
 INSTALLS += target desktop_file icon x11passwd\
-x11servicedesktop x11servicelogin
+x11servicedesktop x11servicelogin lang
 
 DISTFILES +=e-ag.svg\
     e-ag.desktop\
     x11vncpasswd\
     e-ag-x11vncdesktop.service\
-    e-ag-x11vnclogin.service
+    e-ag-x11vnclogin.service\
+
 
 
 
