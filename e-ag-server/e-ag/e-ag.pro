@@ -118,12 +118,16 @@ ngx.path = /etc/nginx/
 #filezilla.files = filezilla.xml
 #filezilla.path = /usr/share/e-ag/
 
+polkit_policy.files = e-ag.policy
+polkit_policy.path = /usr/share/polkit-1/actions/
+polkit_rules.files = e-ag.rules
+polkit_rules.path = /usr/share/polkit-1/rules.d/
 
 lang.files = translations/*.qm
 lang.path = /usr/share/e-ag/translations/
 
 INSTALLS += target desktop_file icon x11passwd\
-x11servicedesktop x11servicelogin lang
+x11servicedesktop x11servicelogin lang polkit_rules polkit_policy
 
 DISTFILES +=e-ag.svg\
     e-ag.desktop\

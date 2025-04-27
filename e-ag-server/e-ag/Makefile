@@ -95,6 +95,7 @@ DIST          = e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -227,6 +228,7 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -315,6 +317,7 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
@@ -739,9 +742,27 @@ uninstall_lang: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/translations/ 
 
 
-install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin install_lang  FORCE
+install_polkit_rules: first FORCE
+	@test -d $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/ || mkdir -p $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.rules $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/e-ag.rules
 
-uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin uninstall_lang  FORCE
+uninstall_polkit_rules: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/e-ag.rules
+	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/polkit-1/rules.d/ 
+
+
+install_polkit_policy: first FORCE
+	@test -d $(INSTALL_ROOT)/usr/share/polkit-1/actions/ || mkdir -p $(INSTALL_ROOT)/usr/share/polkit-1/actions/
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/e-ag.policy $(INSTALL_ROOT)/usr/share/polkit-1/actions/e-ag.policy
+
+uninstall_polkit_policy: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/polkit-1/actions/e-ag.policy
+	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/polkit-1/actions/ 
+
+
+install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin install_lang install_polkit_rules install_polkit_policy  FORCE
+
+uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin uninstall_lang uninstall_polkit_rules uninstall_polkit_policy  FORCE
 
 FORCE:
 

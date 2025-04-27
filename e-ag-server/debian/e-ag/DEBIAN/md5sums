@@ -14,3 +14,5 @@ cbe73e59d02d270e332c6f6262f6d6b6  usr/share/doc/e-ag/changelog.gz
 c641b45324a55458eeaebd1341396b33  usr/share/e-ag/e-ag.svg
 091287857ca0204f8f506f0b3ad5784e  usr/share/e-ag/translations/en_EN.qm
 a3f3550eff0b24e2ae98acb8bea9bb2d  usr/share/e-ag/translations/tr_TR.qm
+baff0da26f426d424c5f8656ed92e3ad  usr/share/polkit-1/actions/e-ag.policy
+2e2ffdb57b3d0316ad7abb09f9b0e559  usr/share/polkit-1/rules.d/e-ag.rules
