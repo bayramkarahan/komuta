@@ -104,35 +104,6 @@ public:
         Kaydet(guncellenmisVeriler);
     }
 
-    // Örnek kullanım:
-    //veriSil("ad", "Ayşe");
-
-
-    void network1Save()
-    {
-        QString appPath ="/usr/share/e-ag";
-        QSettings ayarlar(appPath + "/e-ag.cfg",QSettings::IniFormat);
-        ayarlar.setValue("selectNetworkProfil1", true);
-        ayarlar.setValue("networkProfil1", "Netwokr-1");
-        ayarlar.setValue("networkTcpPort1", 7879);
-        ayarlar.setValue("networkBroadCastAddress11", 800);
-        ayarlar.setValue("networkBroadCastAddress12", 800);
-    }
-    void Remove()
-    {
-        QString appPath ="/usr/share/e-ag";
-        QSettings ayarlar(appPath + "/persistlist1.cfg","hosts");
-        ayarlar.remove("sonKullanilanDosya");
-        ayarlar.remove("pencereBoyutu");
-    }
-    void Find()
-    {
-        QString appPath ="/usr/share/e-ag";
-        QSettings ayarlar(appPath + "/e-ag.cfg",QSettings::IniFormat);
-        QString sonDosya = ayarlar.value("sonKullanilanDosya").toString();
-        int genislik = ayarlar.value("pencereGenisligi", 640).toInt(); // Varsayılan değer 640
-        QSize boyut = ayarlar.value("pencereBoyutu").toSize();
-    }
 
 };
 

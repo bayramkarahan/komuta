@@ -98,8 +98,10 @@ void NewtworkProfil::networkProfilLoad()
         qDebug()<<"Yeni Network Ekleniyor.";
 
         hostAddressMacButtonSlot();
+        bool appendStatus=false;
         for(int i=0;i<interfaceList.count();i++)
-        {
+        {   
+            appendStatus=true;
             //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
             QJsonObject veri;
             veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
@@ -116,7 +118,7 @@ void NewtworkProfil::networkProfilLoad()
             db->Sil("networkBroadCastAddress",interfaceList[i].broadcast);
             db->Ekle(veri);
         }
-        networkProfilLoad();
+        if(appendStatus){  networkProfilLoad();}
         //qDebug()<<"eagconf bilgileri farklı güncelleniyor.";
         //system("systemctl restart e-ag-client-console.service");
         //system("systemctl restart e-ag-client-networkprofil.service");

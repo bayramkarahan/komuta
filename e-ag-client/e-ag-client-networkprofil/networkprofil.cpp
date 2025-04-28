@@ -129,6 +129,7 @@ void NewtworkProfil::networkProfilSave(NetProfil np)
     veri["language"]=np.language;
     veri["lockScreenState"]=np.lockScreenState;
     veri["webblockState"]=np.webblockState;
+    db->Sil("networkName","networknullip");//ilk ip olmayan eklenen kayıt silinir
     db->Sil("networkBroadCastAddress",np.networkBroadCastAddress);
     db->Ekle(veri);
     networkProfilLoad();
@@ -166,7 +167,7 @@ void NewtworkProfil::networkProfilLoad()
         hostAddressMacButtonSlot();
         for(int i=0;i<interfaceList.count();i++)
         {
-            //qDebug()<<"broadcast address:"<<i<<ipmaclist[i].broadcast;
+            //qDebug()<<"broadcast address:"<<i<<interfaceList[i].broadcast;
             QJsonObject veri;
             veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
             veri["selectedNetworkProfil"] =true;
@@ -180,6 +181,24 @@ void NewtworkProfil::networkProfilLoad()
             veri["lockScreenState"]=false;
             veri["webblockState"]=false;
             db->Sil("networkBroadCastAddress",interfaceList[i].broadcast);
+            db->Ekle(veri);
+        }
+        //internet yoksa olur
+        if(interfaceList.count()==0)
+        {
+            //qDebug()<<"broadcast address:"<<i<<interfaceList[i].broadcast;
+            QJsonObject veri;
+            veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
+            veri["selectedNetworkProfil"] =true;
+            veri["networkName"] = "networknullip";
+            veri["networkTcpPort"] = "7879";
+            veri["serverAddress"]="";
+            veri["networkBroadCastAddress"]="";
+            veri["ftpPort"]="12345";
+            veri["rootPath"]="/tmp/";
+            veri["language"]="tr_TR";
+            veri["lockScreenState"]=false;
+            veri["webblockState"]=false;
             db->Ekle(veri);
         }
         networkProfilLoad();

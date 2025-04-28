@@ -121,6 +121,24 @@ void Client::networkProfilLoad()
             db->Sil("networkBroadCastAddress",interfaceList[i].broadcast);
             db->Ekle(veri);
         }
+        //internet yoksa olur
+        if(interfaceList.count()==0)
+        {
+            //qDebug()<<"broadcast address:"<<i<<interfaceList[i].broadcast;
+            QJsonObject veri;
+            veri["networkIndex"] =QString::number(db->getIndex("networkIndex"));
+            veri["selectedNetworkProfil"] =true;
+            veri["networkName"] = "networknullip";
+            veri["networkTcpPort"] = "7879";
+            veri["serverAddress"]="";
+            veri["networkBroadCastAddress"]="";
+            veri["ftpPort"]="12345";
+            veri["rootPath"]="/tmp/";
+            veri["language"]="tr_TR";
+            veri["lockScreenState"]=false;
+            veri["webblockState"]=false;
+            db->Ekle(veri);
+        }
         networkProfilLoad();
     }
 }
