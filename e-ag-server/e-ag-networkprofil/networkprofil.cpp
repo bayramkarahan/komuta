@@ -21,6 +21,7 @@ NewtworkProfil::NewtworkProfil()
     udpSocketSendConsoleTimer->start(5000);
 
 }
+
 void NewtworkProfil::sendBroadcastDatagram()
 {
       for (const NetProfil &item : NetProfilList) {

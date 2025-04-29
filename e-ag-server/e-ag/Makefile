@@ -95,7 +95,6 @@ DIST          = e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -228,7 +227,6 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -317,7 +315,6 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
-/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
@@ -695,12 +692,12 @@ uninstall_desktop_file: FORCE
 
 
 install_icon: first FORCE
-	@test -d $(INSTALL_ROOT)/usr/share/e-ag || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag
-	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/icons/e-ag.svg $(INSTALL_ROOT)/usr/share/e-ag/e-ag.svg
+	@test -d $(INSTALL_ROOT)/usr/share/icons/ || mkdir -p $(INSTALL_ROOT)/usr/share/icons/
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/icons/e-ag.svg $(INSTALL_ROOT)/usr/share/icons/e-ag.svg
 
 uninstall_icon: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/e-ag.svg
-	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/ 
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/icons/e-ag.svg
+	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/icons/ 
 
 
 install_x11passwd: first FORCE

@@ -92,7 +92,7 @@ desktop_file.files = e-ag.desktop
 desktop_file.path = /usr/share/applications/
 
 icon.files = icons/e-ag.svg
-icon.path = /usr/share/e-ag
+icon.path = /usr/share/icons/
 
 #x11service.files = x11vnc-e-ag.service
 #x11service.path = /lib/systemd/system/

@@ -163,6 +163,7 @@ MainWindow::MainWindow(QWidget *parent) :
     udpSocketGet = new QUdpSocket();
     udpSocketGet->bind(NetProfilList.first().networkTcpPort.toInt(), QUdpSocket::ShareAddress);
     QObject::connect(udpSocketGet,&QUdpSocket::readyRead,[&](){udpSocketServerRead();});
+    qDebug()<<"Port....::"<<NetProfilList.first().networkTcpPort.toInt();
     /*********************************************************/
 
  QGridLayout* layoutMain = new QGridLayout(mainWidget);
