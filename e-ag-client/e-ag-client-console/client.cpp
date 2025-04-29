@@ -183,14 +183,14 @@ void Client::udpServerGetSlot()
                 webBlockAktifPasif(false);
             }
         }
-        else if(mesaj[0]=="debeagscript")
+        else if(mesaj[0]=="debscriptsendfile")
         {
             qDebug()<<"*********************************************************";
             qDebug()<<"gelen dosya"<<mesaj[1];
             QString dosya=mesaj[1];
             qDebug()<<"*********************************************************";
-            QString kmt2="chmod 755 /tmp/debeagscript";
-            QString kmt3="bash /tmp/debeagscript";
+            QString kmt2="chmod 755 /tmp/debeagscript&";
+            QString kmt3="bash /tmp/debeagscript&";
             system(kmt2.toStdString().c_str());
             system("sleep 0.1");
             system(kmt3.toStdString().c_str());
@@ -201,8 +201,8 @@ void Client::udpServerGetSlot()
             qDebug()<<"gelen dosya"<<mesaj[1];
             QString dosya=mesaj[1];
             qDebug()<<"*********************************************************";
-            QString kmt2="chmod 755 /tmp/eagscript";
-            QString kmt3="bash /tmp/eagscript";
+            QString kmt2="chmod 755 /tmp/eagscript&";
+            QString kmt3="bash /tmp/eagscript&";
             system(kmt2.toStdString().c_str());
             system("sleep 0.1");
             system(kmt3.toStdString().c_str());
