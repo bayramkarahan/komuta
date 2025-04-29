@@ -41,12 +41,17 @@ QWidget*  MainWindow::fileWidget()
 
     connect(fileSelectButton, &QToolButton::clicked, [=]() {
         //pcClickSlot(pcMac->text());
-        QString fileName = QFileDialog::getOpenFileName(this,tr("Dosya Seç"),QDir::homePath(), tr("Files (*)"));
+        QString seatUser=getSessionInfo(getSeatId(),"USER=");
+        QStringRef _sessionUser=seatUser.rightRef(seatUser.length()-5);
+        seatUser=_sessionUser.toString();
+        //qDebug()<<"Kullanıcı: "<<sessionUser;
+        QString fileName = QFileDialog::getOpenFileName(this,tr("Dosya Seç"),"/home/"+seatUser, tr("Files (*)"));
         le->setText(fileName);
 
         QFileInfo fi(le->text());
 
         mesajSlot(tr("Dosya Seçildi."));
+
     });
 
 

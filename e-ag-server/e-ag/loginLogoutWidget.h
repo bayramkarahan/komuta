@@ -112,18 +112,18 @@ void MainWindow::slotLogoutAll(){
 
 }
 void MainWindow::slotLogin(){
-    QString _remoteuser=getActiveUserName();
+    QString seatUser=getSessionInfo(getSeatId(),"USER=");
+    QStringRef _sessionUser=seatUser.rightRef(seatUser.length()-5);
+    seatUser=_sessionUser.toString();
     bool ok;
-    _remoteuser = QInputDialog::getText(0, tr("İstemci Parolası"),
-                                                tr(" İstemcideki Kullanıcının Adını Giriniz :"), QLineEdit::Normal,
-                                                _remoteuser, &ok);
-    QString _remotepasswd = QInputDialog::getText(0, tr("İstemci Parolası"),
-                                                  _remoteuser+tr(" Kullanıcının Parolasını Giriniz :"), QLineEdit::Normal,
-                                                  "", &ok);
-    //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
-    if(_remoteuser!=""&&_remotepasswd!="")
+
+    CustomInputDialog  cid(tr("İstemci Kullanıcısı"),tr(" İstemcideki Kullanıcının Adını Giriniz :"),seatUser,300,100);
+    seatUser = cid.getText();
+    CustomInputDialog  cid1(tr("İstemci Parolası"),tr(" İstemcideki Kullanıcının Parolasını Giriniz :"),"",300,100);
+    QString _remotepasswd=cid1.getText();
+    if(seatUser!=""&&_remotepasswd!="")
     {
-        QString komut="sshlogin "+_remoteuser+" "+_remotepasswd;
+        QString komut="sshlogin "+seatUser+" "+_remotepasswd;
          udpSendData("consolecommand","consolecommand",komut);
         // qDebug()<<"komut:"<<komut;
        /* for(int i=0;i<onlinePcList.count();i++)

@@ -27,16 +27,15 @@ QString MainWindow::getActiveUserName() {
 }
 void MainWindow::slotTerminal()
 {
-    QString _remoteuser=getActiveUserName();
+    QString seatUser=getSessionInfo(getSeatId(),"USER=");
+    QStringRef _sessionUser=seatUser.rightRef(seatUser.length()-5);
+    seatUser=_sessionUser.toString();
     bool ok;
-     _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
-                                                " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
-                                                _remoteuser, &ok);
-    QString _remotepasswd = QInputDialog::getText(0, "İstemci Parolası",
-                                                  _remoteuser+" Kullanıcının Parolasını Giriniz :", QLineEdit::Normal,
-                                                  "", &ok);
-    //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
-    if(_remoteuser!=""&&_remotepasswd!="")
+    CustomInputDialog  cid(tr("İstemci Kullanıcısı"),tr(" İstemcideki Kullanıcının Adını Giriniz :"),seatUser,300,100);
+    seatUser = cid.getText();
+    CustomInputDialog  cid1(tr("İstemci Parolası"),tr(" İstemcideki Kullanıcının Parolasını Giriniz :"),"",300,100);
+    QString _remotepasswd=cid1.getText();
+    if(seatUser!=""&&_remotepasswd!="")
     {
         QString kmt10="xterm -fa \"Monospace\" -fs 14 -e \"ssh etapadmin@"+pcIp->text()+"\" &";
         system(kmt10.toStdString().c_str());
@@ -72,5 +71,73 @@ QString MainWindow::getIpPortStatus(QString ip_,QString port)
     if(result.toInt()>0){ return "open";}
     else {return "close";}
 }
+
+QString  MainWindow::getSeatId()
+{
+    QString tempseatId;
+    if(QFile::exists("/run/systemd/seats/seat0"))
+    {
+        QStringList list;
+        const int size = 256;
+        //seat=fileToList("/run/systemd/seats","seat0");
+        //qDebug()<<"seat:"<<seat;
+        FILE* fp = fopen("/run/systemd/seats/seat0", "r");
+        if(fp == NULL)
+        {
+            perror("Error opening /run/systemd/seats/seat0");
+        }
+
+        char line[size];
+        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
+        while(fgets(line, size, fp))
+        {
+            QString satir=line;
+            satir.chop(1);
+            if(satir.contains("ACTIVE=")){
+                QStringRef _seatid=satir.rightRef(satir.length()-7);
+                tempseatId=_seatid.toString();
+                //qDebug()<<seatId;
+            }
+
+        }
+
+        fclose(fp);
+    }
+
+    return tempseatId;
+}
+QString MainWindow::getSessionInfo(QString id, QString parametre)
+{
+    QString tempsessionParametre;
+    QString filename="/run/systemd/sessions/"+id;
+
+    if(QFile::exists(filename))
+    {
+        const int size = 256;
+        FILE* fp = fopen(filename.toStdString().c_str(), "r");
+        if(fp == NULL)
+        {
+            perror("Error opening /run/systemd/sessions/");
+        }
+
+        char line[size];
+        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
+        while(fgets(line, size, fp))
+        {
+            QString satir=line;
+            satir.chop(1);
+            //   tempsessionlist<<satir;
+            //qDebug()<<"satir: "<<satir;
+            if(satir.contains(parametre)){
+                tempsessionParametre=satir;
+            }
+        }
+
+        fclose(fp);
+    }
+
+    return tempsessionParametre;
+}
+
 
 #endif // FUNTION_H

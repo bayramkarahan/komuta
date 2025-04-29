@@ -293,19 +293,17 @@ void MainWindow::slotVncFlipAllStop(){
 }
 void MainWindow::slotRdp(){
     hostAddressMacButtonSlot();
-    QString _activeuser=getActiveUserName();
+    QString seatUser=getSessionInfo(getSeatId(),"USER=");
+    QStringRef _sessionUser=seatUser.rightRef(seatUser.length()-5);
+    seatUser=_sessionUser.toString();
     CustomInputDialog  cid(tr("XRDP Erişim Bilgileri"),tr("Client Kullanıcı Adını Girizin\n"
-                            "Açık Masaüsütünü Kontrol Etmek için VNC Tercih Edin."),_activeuser,300,150);
-    //qDebug()<<"CustomInputDialog dan gelen bilgi: "<<cid.getText();
+                            "Açık Masaüsütünü Kontrol Etmek için VNC Tercih Edin."),seatUser,300,150);
 QString _remoteuser = cid.getText();
     bool ok;
-   /* QString _remoteuser = QInputDialog::getText(0, "İstemci Parolası",
-                                                " İstemcideki Kullanıcının Adını Giriniz :", QLineEdit::Normal,
-                                                "", &ok);*/
-    QString _remotepasswd = QInputDialog::getText(0, tr("İstemci Parolası"),
-                                                  _remoteuser+tr("İstemcideki Kullanıcının Parolasını Giriniz :"), QLineEdit::Normal,
-                                                  "", &ok);
-    //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
+
+CustomInputDialog  cid1(tr("İstemci Parolası"),tr(" İstemcideki Kullanıcının Parolasını Giriniz :"),"",300,100);
+QString _remotepasswd=cid1.getText();
+
     if(_remoteuser!=""&&_remotepasswd!="")
     {
         QString  komut;

@@ -103,9 +103,12 @@ QWidget* MainWindow::videoWidget()
     fileSelectButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     fileSelectButton->setText("...");
     connect(fileSelectButton, &QToolButton::clicked, [=]() {
-
+        QString seatUser=getSessionInfo(getSeatId(),"USER=");
+        QStringRef _sessionUser=seatUser.rightRef(seatUser.length()-5);
+        seatUser=_sessionUser.toString();
+        //qDebug()<<"Kullanıcı: "<<sessionUser;
         pcClickSlot(pcMac->text());
-        QString fileName = QFileDialog::getOpenFileName(this,tr("Dosya Seç"),QDir::homePath(), tr("Files (*.*)"));
+        QString fileName = QFileDialog::getOpenFileName(this,tr("Dosya Seç"),"/home/"+seatUser, tr("Files (*.*)"));
         //qDebug()<<fileName;
         commandFileLE->setText(fileName);
 

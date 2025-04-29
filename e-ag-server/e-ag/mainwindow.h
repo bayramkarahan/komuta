@@ -65,6 +65,7 @@
 #include <iostream>
 #include<Database.h>
 #include<qtermwidget5/qtermwidget.h>
+#include<CustomInputDialog.h>
 namespace Ui {
 class MainWindow;
 }
@@ -136,6 +137,8 @@ protected:
      void slotVnc2();
      static  bool karsilastirMyPc(const MyPc *mypc1, const MyPc *mypc2);
      void networkProfilLoad();
+     QString getSeatId();
+     QString getSessionInfo(QString id, QString parametre);
 private slots:
      QString getActiveUserName();
      void pcMenu(bool singlepc);

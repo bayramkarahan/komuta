@@ -95,16 +95,17 @@ QWidget* MainWindow::baseWidget()
     // ftpPc->setAutoFillBackground(true);
     ftpPc->setText("FTP");
     connect(ftpPc, &QToolButton::clicked, [=]() {
-        QString _remoteuser=getActiveUserName();
+        QString seatUser=getSessionInfo(getSeatId(),"USER=");
+        QStringRef _sessionUser=seatUser.rightRef(seatUser.length()-5);
+        seatUser=_sessionUser.toString();
         bool ok;
-        _remoteuser = QInputDialog::getText(0, tr("İstemci Parolası"),
-                                                    tr(" İstemcideki Kullanıcının Adını Giriniz :"), QLineEdit::Normal,
-                                                    _remoteuser, &ok);
-        QString _remotepasswd = QInputDialog::getText(0, tr("İstemci Parolası"),
-                                                      _remoteuser+tr(" Kullanıcının Parolasını Giriniz :"), QLineEdit::Normal,
-                                                      "", &ok);
-        //QString komut="sshlogin "+remoteUserName+" "+remotePassword;
-        if(_remoteuser!=""&&_remotepasswd!="")
+
+        CustomInputDialog  cid(tr("İstemci Kullanıcısı"),tr(" İstemcideki Kullanıcının Adını Giriniz :"),seatUser,300,100);
+        seatUser = cid.getText();
+        CustomInputDialog  cid1(tr("İstemci Parolası"),tr(" İstemcideki Kullanıcının Parolasını Giriniz :"),"",300,100);
+        QString _remotepasswd=cid1.getText();
+
+        if(seatUser!=""&&_remotepasswd!="")
         {
             QString ftpapp="nemo";
             if(QFile::exists("/usr/bin/nemo")) ftpapp="nemo";
@@ -119,7 +120,7 @@ QWidget* MainWindow::baseWidget()
             textBrowser_receivedMessages->clear();
             QStringList arguments;
             QString  komut;
-            komut.append("nohup ").append(ftpapp).append(" sftp://").append(_remoteuser+":").append(_remotepasswd).append("@"+pcIp->text()+" &");
+            komut.append("nohup ").append(ftpapp).append(" sftp://").append(seatUser+":").append(_remotepasswd).append("@"+pcIp->text()+" &");
              qDebug()<<komut;
             arguments << "-c" << komut;
             QProcess process;
