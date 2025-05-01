@@ -72,7 +72,7 @@ MainWindow::MainWindow(QWidget *parent) :
     hostAddressMacButtonSlot();
     rb1=new QRadioButton();
     rb2=new QRadioButton();
-
+    //system("systemctl restart e-ag-networkprofil.service");
     networkProfilLoad();///hesap ve ayarların yüklenmesi yapılıyor...
 //setMouseTracking(true);
 //installEventFilter(this);

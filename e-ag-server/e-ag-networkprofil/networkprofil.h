@@ -58,6 +58,7 @@ private slots:
     QString localDir;
     QString localDir1;
     QUdpSocket *udpBroadCastSend = nullptr;
+    bool networkProfilLoadStatus=false;
 };
 
 #endif // NETWORKPROFIL_H

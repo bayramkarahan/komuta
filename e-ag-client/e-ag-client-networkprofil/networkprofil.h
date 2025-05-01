@@ -44,7 +44,6 @@ public:
 
 signals:
   public slots:
-    void socketBaglama();
     void networkProfilLoad();
     bool stringToBool(const QString& str) {
         return str.toLower() == "true"; // Büyük/küçük harf duyarsız karşılaştırma
@@ -61,9 +60,7 @@ private slots:
     QString localDir1;
     QString ip;
     QString tcpPort;
-    QUdpSocket *udpServerSend = nullptr;
     QUdpSocket *udpServerGet = nullptr;
-
 };
 
 #endif // NETWORKPROFIL_H

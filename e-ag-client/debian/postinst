@@ -8,7 +8,7 @@ sed -i 's/WaylandEnable=true/WaylandEnable=false/' /etc/gdm3/daemon.conf
 sed -i 's/AutomaticLogin=ogrenci/#AutomaticLogin=ogrenci/' /etc/gdm3/daemon.conf
 sed -i 's/#AutomaticLogin=ogrenci/#AutomaticLogin=ogrenci/' /etc/gdm3/daemon.conf
 
-#mkdir /usr/share/e-ag
+mkdir -p /usr/share/e-ag
 #chmod 777 /usr/share/e-ag
 systemctl daemon-reload || true
 

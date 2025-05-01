@@ -10,42 +10,22 @@ NewtworkProfil::NewtworkProfil()
 {
     localDir="/usr/share/e-ag/";
     localDir1="/tmp/";
-    hostAddressMacButtonSlot();
+
     networkProfilLoad();
-    QString uport=NetProfilList.first().networkTcpPort;
+
+   QString uport=NetProfilList.first().networkTcpPort;
     std::reverse(uport.begin(), uport.end());
     udpServerGet = new QUdpSocket();
     udpServerGet->bind(uport.toInt()+uport.toInt(), QUdpSocket::ShareAddress);
     QObject::connect(udpServerGet,&QUdpSocket::readyRead,[&](){udpServerGetSlot(); });
 }
 
+
 NewtworkProfil::~NewtworkProfil()
 {
     //QString data="portStatus|mydisp|noLogin|0|0|0|0|myenv|noLogin|0|0|0|0|0|0|0|close";
     udpServerGet->close();
     udpServerGet->deleteLater();
-    udpServerSend->close();
-    udpServerSend->deleteLater();
-}
-void NewtworkProfil::socketBaglama()
-{
-    qDebug()<<"socket bağlantıları kuruluyor...."<<NetProfilList.first().networkTcpPort;
-    /***********************************/
-
-          //  QHostAddress *host  = new QHostAddress("192.168.63.254");
-         //  QHostAddress *server = new QHostAddress("192.168.23.253");*/
-            QString uport=NetProfilList.first().networkTcpPort;
-            std::reverse(uport.begin(), uport.end());
-
-           udpServerSend = new QUdpSocket();
-           udpServerGet = new QUdpSocket();
-
-           udpServerGet->bind(uport.toInt(), QUdpSocket::ShareAddress);
-
-           //udpSocketGet->bind(*host, uport.toInt());
-            QObject::connect(udpServerGet,&QUdpSocket::readyRead,[&](){udpServerGetSlot();});
-            qDebug()<<tcpPort<<uport<<"udp bağlandı";
-
 }
 void NewtworkProfil::udpServerGetSlot()
 {
@@ -137,6 +117,10 @@ void NewtworkProfil::networkProfilSave(NetProfil np)
 void NewtworkProfil::networkProfilLoad()
 {
 
+    qDebug()<<"networkProfilLoad: "<<NetProfilList.count()
+             <<"interfaceList: "<<interfaceList.count();
+    hostAddressMacButtonSlot();
+    //if(interfaceList.count()==0)  return;
     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     //QJsonArray dizi=db->Oku();
     QJsonArray dizi=db->Ara("selectedNetworkProfil",true);

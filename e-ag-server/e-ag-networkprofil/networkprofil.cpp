@@ -11,7 +11,6 @@ NewtworkProfil::NewtworkProfil()
     localDir="/usr/share/e-ag/";
     localDir1="/tmp/";
     udpBroadCastSend = new QUdpSocket();
-    hostAddressMacButtonSlot();
     networkProfilLoad();
      /**************************************************************************/
     QTimer *udpSocketSendConsoleTimer = new QTimer();
@@ -24,6 +23,12 @@ NewtworkProfil::NewtworkProfil()
 
 void NewtworkProfil::sendBroadcastDatagram()
 {
+    hostAddressMacButtonSlot();
+    if(interfaceList.count()==0||!networkProfilLoadStatus) {
+        networkProfilLoadStatus=false;
+        networkProfilLoad();
+    }
+
       for (const NetProfil &item : NetProfilList) {
         if (item.serverAddress=="") continue;
         if (item.selectedNetworkProfil==false) continue;
@@ -71,6 +76,12 @@ NewtworkProfil::~NewtworkProfil()
 
 void NewtworkProfil::networkProfilLoad()
 {
+   /* qDebug()<<"networkProfilLoad: "<<NetProfilList.count()
+             <<"interfaceList: "<<interfaceList.count()
+             <<"networkProfilLoadStatus"<<networkProfilLoadStatus;*/
+    hostAddressMacButtonSlot();
+    if(interfaceList.count()==0)  return;
+
     DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     //QJsonArray dizi=db->Oku();
     QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
@@ -94,6 +105,7 @@ void NewtworkProfil::networkProfilLoad()
             np.lockScreenState=veri["lockScreenState"].toBool();
             np.webblockState=veri["webblockState"].toBool();
             NetProfilList.append(np);
+            networkProfilLoadStatus=true;
         }
     }else{
         qDebug()<<"Yeni Network Ekleniyor.";

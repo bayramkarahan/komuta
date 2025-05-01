@@ -1,12 +1,12 @@
 Package: e-ag-dbgsym
 Source: e-ag
-Version: 2.5.3
+Version: 2.5.4
 Auto-Built-Package: debug-symbols
 Architecture: amd64
 Maintainer: Bayram KARAHAN <bayramk@gmail.com>
 Installed-Size: 183
-Depends: e-ag (= 2.5.3)
+Depends: e-ag (= 2.5.4)
 Section: debug
 Priority: optional
 Description: debug symbols for e-ag
-Build-Ids: 696ac901672b5d903bcf83646aa367605286e770 7e858d40b5bb414ac90a5c773c764fcf46e36b2e 8ebad1278e90e3fac93a863804c122c8b52a2a03 94298501d917bc056e269a249a623588fc3669de 9dc532c241b7bbd3f0cb65590fc4a39e4bbd0b69 a822ee9d0bf1a1964527c59b99a0a876b800b267
+Build-Ids: 7e858d40b5bb414ac90a5c773c764fcf46e36b2e 85da975b1a781957e38057fa73d1f02a69fd080a 8ebad1278e90e3fac93a863804c122c8b52a2a03 94298501d917bc056e269a249a623588fc3669de 9dc532c241b7bbd3f0cb65590fc4a39e4bbd0b69 a822ee9d0bf1a1964527c59b99a0a876b800b267
