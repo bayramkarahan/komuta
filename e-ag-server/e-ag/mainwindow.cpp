@@ -159,11 +159,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(newPcDetectTimer, SIGNAL(timeout()), this, SLOT(pcDetect()));
     newPcDetectTimer->start(5000);
     /********************* Broadcast Message yollanıyor *****************************************/
+    QString uport="7879";
+    if(NetProfilList.count()>0)
+        uport=NetProfilList.first().networkTcpPort;
+
     udpSocketSend = new QUdpSocket(this);
     udpSocketGet = new QUdpSocket();
-    udpSocketGet->bind(NetProfilList.first().networkTcpPort.toInt(), QUdpSocket::ShareAddress);
+    udpSocketGet->bind(uport.toInt(), QUdpSocket::ShareAddress);
     QObject::connect(udpSocketGet,&QUdpSocket::readyRead,[&](){udpSocketServerRead();});
-    qDebug()<<"Port....::"<<NetProfilList.first().networkTcpPort.toInt();
+    qDebug()<<"Port.:"<<uport;
     /*********************************************************/
 
  QGridLayout* layoutMain = new QGridLayout(mainWidget);

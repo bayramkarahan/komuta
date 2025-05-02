@@ -12,8 +12,9 @@ NewtworkProfil::NewtworkProfil()
     localDir1="/tmp/";
 
     networkProfilLoad();
-
-   QString uport=NetProfilList.first().networkTcpPort;
+    QString uport="7879";
+    if(NetProfilList.count()>0)
+        uport=NetProfilList.first().networkTcpPort;
     std::reverse(uport.begin(), uport.end());
     udpServerGet = new QUdpSocket();
     udpServerGet->bind(uport.toInt()+uport.toInt(), QUdpSocket::ShareAddress);

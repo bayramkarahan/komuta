@@ -31,7 +31,7 @@ void Client::udpServerSendSlot(QString _data)
     if(udpServerGetStatus) return;
     hostAddressMacButtonSlot();
     if(udpServerSend == nullptr){
-        qDebug()<<"bağlı değil";
+        qDebug()<<"Server bağlı değil! Bağlanıyor...";
         socketBaglama();//bağlı değilse bağlan
     }
     /***********************************************************************/
@@ -337,39 +337,6 @@ void Client::udpTrayGetSlot()
         if(mesaj[0]=="clientTrayEnv")  clientTrayEnv=rmesaj;
     }
 }
-
-QString Client::getIpPortStatus(QString service,int number)
-{
-    QString result="";
-    QStringList arguments;
-    arguments << "-c" << QString(service);
-    QProcess process;
-    process.start("/bin/bash",arguments);
-    if(process.waitForFinished(-1))
-    {
-        result = process.readAll();
-        result.chop(1);
-    }
-   // qDebug()<<"Port sorgulama:"<<result<<service;
-    if(result.toInt()>number){ return "open";}
-    else {return "close";}
-}
-bool Client::uygulamaCalisiyorMu(const QString& uygulamaAdi) {
-    QString komut=uygulamaAdi;
-    QStringList arguments;
-    arguments << "-c" << komut;
-    QProcess process;
-    process.start("/bin/bash",arguments);
-    process.waitForFinished();
-    //qDebug()<<"çalışan komut: "<<komut;
-    if (process.exitCode() == 0) {
-        // Uygulama çalışıyor
-        return true;
-    } else {
-        // Uygulama çalışmıyor
-        return false;
-    }
-}
 void Client::tcpMesajSendTimerSlot()
 {
 
@@ -443,118 +410,20 @@ void Client::tcpMesajSendTimerSlot()
     data="";
 
 }
-QString Client::findX11vncPort(QString kmt) {
-    //qDebug()<<"x11vnc portu test ediliyor....."<<kmt;
-    QString ports="";
-    QProcess process;
-    process.start(kmt);
-    process.waitForFinished();
-    QString output = process.readAllStandardOutput();
-    //qDebug()<<"test sonucu:"<<output.split("\n");
 
-    QStringList lines = output.split("\n");
-    for (const QString& line : lines) {
-
-        QStringList parts = line.split(" ");
-        if (line.contains("x11vnc")) {
-            if (line.contains("tcp6")) {
-                // qDebug()<<"satir"<<line;
-                for (const QString& part : parts) {
-                    if (part.contains("59")) {
-                        //qDebug()<<"satir"<<part.split(":")[3];
-                        //return part.split(":")[1];
-                        ports=ports+part.split(":")[3]+"-";
-
-                    }
-                }
-            }
-        }
-    }
-    return ports;
-}
-QString  Client::getSeatId()
-{
-    QString tempseatId;
-    if(QFile::exists("/run/systemd/seats/seat0"))
-    {
-        QStringList list;
-        const int size = 256;
-        //seat=fileToList("/run/systemd/seats","seat0");
-        //qDebug()<<"seat:"<<seat;
-        FILE* fp = fopen("/run/systemd/seats/seat0", "r");
-        if(fp == NULL)
-        {
-            perror("Error opening /run/systemd/seats/seat0");
-        }
-
-        char line[size];
-        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
-        while(fgets(line, size, fp))
-        {
-            QString satir=line;
-            satir.chop(1);
-            if(satir.contains("ACTIVE=")){
-                QStringRef _seatid=satir.rightRef(satir.length()-7);
-                tempseatId=_seatid.toString();
-                //qDebug()<<seatId;
-            }
-
-        }
-
-        fclose(fp);
-    }
-
-    return tempseatId;
-}
-QString Client::getSessionInfo(QString id, QString parametre)
-{
-    QString tempsessionParametre;
-    QString filename="/run/systemd/sessions/"+id;
-
-    if(QFile::exists(filename))
-    {
-        const int size = 256;
-        FILE* fp = fopen(filename.toStdString().c_str(), "r");
-        if(fp == NULL)
-        {
-            perror("Error opening /run/systemd/sessions/");
-        }
-
-        char line[size];
-        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
-        while(fgets(line, size, fp))
-        {
-            QString satir=line;
-            satir.chop(1);
-            //   tempsessionlist<<satir;
-            //qDebug()<<"satir: "<<satir;
-            if(satir.contains(parametre)){
-                tempsessionParametre=satir;
-            }
-        }
-
-        fclose(fp);
-    }
-
-    return tempsessionParametre;
-}
-Client::~Client()
-{
-    QString data="portStatus|mydisp|noLogin|0|0|0|0|myenv|noLogin|0|0|0|0|0|0|0|close";
-    udpServerSendSlot(data);
-    udpServerSend->close();
-    udpServerSend->deleteLater();
-}
 
 void Client::socketBaglama()
 {
-    qDebug()<<"socket bağlantıları kuruluyor...."<<NetProfilList.first().networkTcpPort;
+    QString uport="7879";
+    if(NetProfilList.count()>0)
+        uport=NetProfilList.first().networkTcpPort;
+    std::reverse(uport.begin(), uport.end());
+    qDebug()<<"SocketBaglama";
+    qDebug()<<"Socket bağlantı portu: "<<uport;
     /***********************************/
 
     //  QHostAddress *host  = new QHostAddress("192.168.63.254");
     //  QHostAddress *server = new QHostAddress("192.168.23.253");*/
-    QString uport=NetProfilList.first().networkTcpPort;
-    std::reverse(uport.begin(), uport.end());
 
     udpServerSend = new QUdpSocket();
     udpTraySend= new QUdpSocket();
@@ -571,7 +440,7 @@ void Client::socketBaglama()
     QObject::connect(udpTrayGet,&QUdpSocket::readyRead,[&](){udpTrayGetSlot();});
     QObject::connect(udpGuiGet,&QUdpSocket::readyRead,[&](){udpGuiGetSlot();});
 
-    qDebug()<<tcpPort<<uport<<"udp bağlandı";
+    qDebug()<<uport<<"udp bağlandı";
     tcpMesajSendTimerSlot();
 
 
@@ -694,4 +563,139 @@ void Client::webBlockAktifPasif(bool _state)
         system(kmt28.toStdString().c_str());
 
     }
+}
+
+QString Client::getIpPortStatus(QString service,int number)
+{
+    QString result="";
+    QStringList arguments;
+    arguments << "-c" << QString(service);
+    QProcess process;
+    process.start("/bin/bash",arguments);
+    if(process.waitForFinished(-1))
+    {
+        result = process.readAll();
+        result.chop(1);
+    }
+    // qDebug()<<"Port sorgulama:"<<result<<service;
+    if(result.toInt()>number){ return "open";}
+    else {return "close";}
+}
+bool Client::uygulamaCalisiyorMu(const QString& uygulamaAdi) {
+    QString komut=uygulamaAdi;
+    QStringList arguments;
+    arguments << "-c" << komut;
+    QProcess process;
+    process.start("/bin/bash",arguments);
+    process.waitForFinished();
+    //qDebug()<<"çalışan komut: "<<komut;
+    if (process.exitCode() == 0) {
+        // Uygulama çalışıyor
+        return true;
+    } else {
+        // Uygulama çalışmıyor
+        return false;
+    }
+}
+QString Client::findX11vncPort(QString kmt) {
+    //qDebug()<<"x11vnc portu test ediliyor....."<<kmt;
+    QString ports="";
+    QProcess process;
+    process.start(kmt);
+    process.waitForFinished();
+    QString output = process.readAllStandardOutput();
+    //qDebug()<<"test sonucu:"<<output.split("\n");
+
+    QStringList lines = output.split("\n");
+    for (const QString& line : lines) {
+
+        QStringList parts = line.split(" ");
+        if (line.contains("x11vnc")) {
+            if (line.contains("tcp6")) {
+                // qDebug()<<"satir"<<line;
+                for (const QString& part : parts) {
+                    if (part.contains("59")) {
+                        //qDebug()<<"satir"<<part.split(":")[3];
+                        //return part.split(":")[1];
+                        ports=ports+part.split(":")[3]+"-";
+
+                    }
+                }
+            }
+        }
+    }
+    return ports;
+}
+QString  Client::getSeatId()
+{
+    QString tempseatId;
+    if(QFile::exists("/run/systemd/seats/seat0"))
+    {
+        QStringList list;
+        const int size = 256;
+        //seat=fileToList("/run/systemd/seats","seat0");
+        //qDebug()<<"seat:"<<seat;
+        FILE* fp = fopen("/run/systemd/seats/seat0", "r");
+        if(fp == NULL)
+        {
+            perror("Error opening /run/systemd/seats/seat0");
+        }
+
+        char line[size];
+        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
+        while(fgets(line, size, fp))
+        {
+            QString satir=line;
+            satir.chop(1);
+            if(satir.contains("ACTIVE=")){
+                QStringRef _seatid=satir.rightRef(satir.length()-7);
+                tempseatId=_seatid.toString();
+                //qDebug()<<seatId;
+            }
+
+        }
+
+        fclose(fp);
+    }
+
+    return tempseatId;
+}
+QString Client::getSessionInfo(QString id, QString parametre)
+{
+    QString tempsessionParametre;
+    QString filename="/run/systemd/sessions/"+id;
+
+    if(QFile::exists(filename))
+    {
+        const int size = 256;
+        FILE* fp = fopen(filename.toStdString().c_str(), "r");
+        if(fp == NULL)
+        {
+            perror("Error opening /run/systemd/sessions/");
+        }
+
+        char line[size];
+        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
+        while(fgets(line, size, fp))
+        {
+            QString satir=line;
+            satir.chop(1);
+            //   tempsessionlist<<satir;
+            //qDebug()<<"satir: "<<satir;
+            if(satir.contains(parametre)){
+                tempsessionParametre=satir;
+            }
+        }
+
+        fclose(fp);
+    }
+
+    return tempsessionParametre;
+}
+Client::~Client()
+{
+    //QString data="portStatus|mydisp|noLogin|0|0|0|0|myenv|noLogin|0|0|0|0|0|0|0|close";
+    //udpServerSendSlot(data);
+    udpServerSend->close();
+    udpServerSend->deleteLater();
 }

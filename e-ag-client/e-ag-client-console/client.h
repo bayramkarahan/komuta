@@ -73,7 +73,7 @@ private:
     QString localDir;
     QString localDir1;
     QString ip;
-    QString tcpPort;
+
     QUdpSocket *udpServerSend = nullptr;
     QUdpSocket *udpServerGet = nullptr;
     QUdpSocket *udpTraySend = nullptr;
