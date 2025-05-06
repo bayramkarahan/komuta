@@ -8,6 +8,7 @@
 
 Client::Client()
 {
+
     localDir="/usr/share/e-ag/";
     localDir1="/tmp/";
     hostAddressMacButtonSlot();
@@ -17,23 +18,28 @@ Client::Client()
         tcpMesajSendTimerSlot();
     });
     tcpMesajSendTimer->start(7000);
+
     networkProfilLoad();
+
     for (const NetProfil &item : NetProfilList) {
         if (item.serverAddress=="") continue;
         if (item.selectedNetworkProfil==false) continue;
         if(item.webblockState) webBlockAktifPasif(true);
     }
+
 }
 
 
 void Client::udpServerSendSlot(QString _data)
 {
+
     if(udpServerGetStatus) return;
     hostAddressMacButtonSlot();
     if(udpServerSend == nullptr){
         qDebug()<<"Server bağlı değil! Bağlanıyor...";
         socketBaglama();//bağlı değilse bağlan
     }
+
     /***********************************************************************/
     for (const NetProfil &item : NetProfilList) {
         if (item.serverAddress=="") continue;
@@ -382,6 +388,7 @@ void Client::tcpMesajSendTimerSlot()
     {
         clientTrayEnv="clientTrayEnv|noLogin|0";
     }
+
     //pgrep 15 karakterden fazla olmamalı bundan dolayı tray yerine tra bırakılmıştır
     if (!uygulamaCalisiyorMu("pgrep e-ag-client-tra")) {
         clientTrayEnv="clientTrayEnv|noLogin|0";
@@ -394,7 +401,6 @@ void Client::tcpMesajSendTimerSlot()
     if (getIpPortStatus("systemctl status ssh.service|grep 'running'|wc -l",0)=="open")
         sshState=true;
     else sshState=false;
-
     QString vncports=findX11vncPort("netstat -tulnp");
     //qDebug()<<"vnc portları: "<<vncports;
     //findX11vncPort("lsof -i -P -n | grep x11vnc|grep IPv4");
@@ -404,7 +410,6 @@ void Client::tcpMesajSendTimerSlot()
     else xrdpState=false;
     /*************************************/
     QString data=clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(xrdpState);
-
     udpServerSendSlot(data);
     tempdata=data;
     data="";
@@ -414,6 +419,7 @@ void Client::tcpMesajSendTimerSlot()
 
 void Client::socketBaglama()
 {
+
     QString uport="7879";
     if(NetProfilList.count()>0)
         uport=NetProfilList.first().networkTcpPort;
@@ -421,7 +427,7 @@ void Client::socketBaglama()
     qDebug()<<"SocketBaglama";
     qDebug()<<"Socket bağlantı portu: "<<uport;
     /***********************************/
-
+qDebug()<<"debug socketBaglama2";
     //  QHostAddress *host  = new QHostAddress("192.168.63.254");
     //  QHostAddress *server = new QHostAddress("192.168.23.253");*/
 
@@ -604,17 +610,18 @@ QString Client::findX11vncPort(QString kmt) {
     process.start(kmt);
     process.waitForFinished();
     QString output = process.readAllStandardOutput();
-    //qDebug()<<"test sonucu:"<<output.split("\n");
+    //qDebug()<<"findX11vncPort test sonucu:"<<output.split("\n");
 
     QStringList lines = output.split("\n");
     for (const QString& line : lines) {
 
-        QStringList parts = line.split(" ");
+
         if (line.contains("x11vnc")) {
             if (line.contains("tcp6")) {
-                // qDebug()<<"satir"<<line;
+                QStringList parts = line.split(" ");
+                 //qDebug()<<"satir"<<line<<parts;
                 for (const QString& part : parts) {
-                    if (part.contains("59")) {
+                    if (part.contains(":59")) {
                         //qDebug()<<"satir"<<part.split(":")[3];
                         //return part.split(":")[1];
                         ports=ports+part.split(":")[3]+"-";
@@ -624,6 +631,9 @@ QString Client::findX11vncPort(QString kmt) {
             }
         }
     }
+    //qDebug()<<"findX11vncPort test sonucu00:"<<ports;
+
+
     return ports;
 }
 QString  Client::getSeatId()
