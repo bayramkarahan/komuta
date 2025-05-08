@@ -109,18 +109,7 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     this->ip=_ip;
     this->mac=_mac;
     setPcState(true);
-    /*QStringList perlist=fileToList("persistlist",localDir);
 
-    QString perline=listGetLine(perlist,_mac);
-    if(perline!="")
-    {
-        //perlist=listRemove(list,mac);
-        qDebug()<<"kayıt var";
-    }else
-    {
-        qDebug()<<"kayıt yok";
-    }
-    */
 
     DatabaseHelper *db=new DatabaseHelper(localDir+"persist.json");
     QJsonArray dizi=db->Ara("mac",this->mac);
@@ -376,31 +365,20 @@ void MyPc::setHostname(QString _hostname)
         hostnameLabel->setText(this->caption);
     else
         hostnameLabel->setText(this->hostname);
+    if(hostname!=_hostname)
+    {
+        //qDebug()<<"Yeni Host Ekleniyor.";
+        QJsonObject veri;
+        veri["mac"] = this->mac;
+        veri["ip"] = this->ip;
+        veri["caption"] = this->caption;
+        veri["hostname"] = this->hostname;
+        veri["visibleState"] =this->visibleState;
+        DatabaseHelper *db=new DatabaseHelper(localDir+"persist.json");
+        db->Sil("mac",this->mac);
+        db->Ekle(veri);
+    }
 
-    //qDebug()<<"Yeni Host Ekleniyor.";
-    QJsonObject veri;
-    veri["mac"] = this->mac;
-    veri["ip"] = this->ip;
-    veri["caption"] = this->caption;
-    veri["hostname"] = this->hostname;
-    veri["visibleState"] =this->visibleState;
-    DatabaseHelper *db=new DatabaseHelper(localDir+"persist.json");
-    db->Sil("mac",this->mac);
-    db->Ekle(veri);
-    /*
-    QStringList list=PcData::onlinePcListe;
-    QString line=listGetLine(list,mac);
-    list=listRemove(list,mac); //değişecek satır siliniyor
-    list<<ip+"|"+mac+"|" +ps+"|" +ss+"|" +vs+"|"+fs+"|"+ cs+"|"+pcname+"|"+lss+"|"+hostname;
-    ///listToFile(list,"iplistname");
-    PcData::onlinePcListe=list;
-
-    QStringList persistlist=fileToList("persistlist");
-    persistlist=listRemove(persistlist,mac); //değişecek satır siliniyor
-    persistlist<<ip+"|"+mac+"|" +ps+"|" +ss+"|" +vs+"|"+fs+"|"+ cs+"|"+pcname+"|"+lss+"|"+hostname;
-
-    listToFile(persistlist,"persistlist");
-*/
 }
 void MyPc::setSize(int _w, int _h, QString _font)
 {

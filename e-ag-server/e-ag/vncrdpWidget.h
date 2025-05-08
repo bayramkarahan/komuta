@@ -73,7 +73,7 @@ QWidget* MainWindow::rdpWidget()
     ekranScale1->addItem("1920x1080");
     ekranScale1->addItem("3840x2160");
 
-    ekranScale1->setCurrentIndex(3);
+    ekranScale1->setCurrentIndex(4);
 
 
     QToolButton *serverEkranYansitSeciliPcButton= new QToolButton();

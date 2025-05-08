@@ -59,7 +59,7 @@ QWidget*  MainWindow::fileWidget()
     fileCopyButton->setFixedSize(e*13,yukseklik*2);
     fileCopyButton->setAutoRaise(true);
     fileCopyButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
-    fileCopyButton->setText(tr("Pc'lere\nKopyala"));
+    fileCopyButton->setText(tr("Ev Dizinine\nGönder"));
     fileCopyButton->setIcon(QIcon(":/icons/selectcopyfile.svg"));
     fileCopyButton->setIconSize(QSize(b*8,yukseklik*0.9));
     fileCopyButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
