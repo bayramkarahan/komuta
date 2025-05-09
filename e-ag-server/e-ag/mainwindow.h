@@ -185,7 +185,7 @@ private slots:
 
     void pcListeGuncelleSlotnew(QString mission);
     void pcHideSignalSlot(QString _mac);
-
+    void pcCloseSignalSlot(QString ip,QString mac);
     void bilgiAlButtonSlot();
 
     void pcRightClickSignalSlot();

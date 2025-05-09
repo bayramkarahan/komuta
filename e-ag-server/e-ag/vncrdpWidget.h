@@ -233,13 +233,13 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
     system(kmt11.toStdString().c_str());
 
     hostAddressMacButtonSlot();
-    for(int k=0;k<interfaceList.count();k++)
-    {
+    //for(int k=0;k<interfaceList.count();k++)
+    //{
         QString  kmt;
-        kmt.append("vncviewer "+viewState+" -fullscreen ").append(interfaceList[k].ip).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd");
-        udpSendData("x11command","x11command",kmt);
-        system("sleep 0.1");
-    }
+        kmt.append(viewState+":5901");
+        udpSendData("x11command","vncviewer",kmt);
+        //system("sleep 0.1");
+    //}
     mesajSlot("Seçili Hostlara Ekran Yansıltıldı.");
 
 }

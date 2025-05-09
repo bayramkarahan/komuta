@@ -41,7 +41,7 @@ void  MainWindow::udpSendData(QString _mesajTur,QString _gorev,QString _ekmesaj)
                         QString msg=_mesajTur+"|"+_gorev+"|"+_ekmesaj+"|"+item.serverAddress+"|"+uport;
                         QByteArray datagram = msg.toUtf8();
                         udpSocketSend->writeDatagram(datagram,QHostAddress(onlinePcList[i]->ip), uport.toInt());
-                        ///qDebug()<<"Mesaj Gönderildi:"<<msg;
+                        qDebug()<<"Mesaj Gönderildi:"<<msg;
                     }
                 }
                 /***********************************************************************/
@@ -69,6 +69,20 @@ void MainWindow::udpSocketServerRead()
         mesaj=rmesaj.split("|");
         //qDebug()<<"Client Mesaj:"<<rmesaj;
         QString _mac=mesaj[2];
+        /********************************************/
+        bool findedStatus=false;
+        for(int i=0;i<onlinePcList.count();i++)
+        {
+            if(_mac.toUpper()==onlinePcList[i]->mac.toUpper())
+            {
+                findedStatus=true;
+            }
+        }
+        if(!findedStatus){
+            slotPcEkle(mesaj[1],_mac.toUpper());
+            pcListeGuncelleSlotnew("openpcDetect");
+        }
+        /*********************************************/
         for(int i=0;i<onlinePcList.count();i++)
         {
             if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[3]=="sendfileclient"){
@@ -223,7 +237,16 @@ QString MainWindow::getMacForIP(QString ipAddress)
 
      return mac;
 }
-
+void MainWindow::pcCloseSignalSlot(QString ip,QString mac)
+{
+    qDebug()<<"pcCloseSignalSlot: "<<ip<<mac;
+    for(int i=0;i<onlinePcList.count();i++)
+    {
+        if(onlinePcList[i]->mac==mac){
+            slotPcSil(i,onlinePcList[i]->ip,onlinePcList[i]->mac);
+        }
+    }
+}
 QString MainWindow::getIpPortStatus(QString service)
 {
     QString result="";
@@ -318,6 +341,9 @@ void MainWindow::slotPcEkle(QString _ip,QString _mac)
 
     connect(mypc, SIGNAL(pcHideSignal(QString)),this,
     SLOT(pcHideSignalSlot(QString)));
+
+    connect(mypc, SIGNAL(pcCloseSignal(QString,QString)),
+            this, SLOT(pcCloseSignalSlot(QString,QString)));
 
     connect(mypc, SIGNAL(pcRightClickSignal()),
             this, SLOT(pcRightClickSignalSlot()));

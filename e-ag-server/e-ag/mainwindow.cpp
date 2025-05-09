@@ -157,7 +157,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     newPcDetectTimer= new QTimer(this);
     connect(newPcDetectTimer, SIGNAL(timeout()), this, SLOT(pcDetect()));
-    newPcDetectTimer->start(5000);
+    //newPcDetectTimer->start(5000);
     /********************* Broadcast Message yollanıyor *****************************************/
     QString uport="7879";
     if(NetProfilList.count()>0)

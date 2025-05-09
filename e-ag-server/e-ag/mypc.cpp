@@ -151,6 +151,7 @@ void MyPc::timertcpConnectControlSlot()
         setXrdpState(false);
         setUser("noLogin");
         tcpConnectCounter=0;
+        emit pcCloseSignal(ip,mac);
     }
 
 }
@@ -162,7 +163,7 @@ void MyPc::setConnectState(bool state){
     }
     else
     {
-       iconstateLabel->setStyleSheet("background-color:rgba(125,255,125,50)");
+       iconstateLabel->setStyleSheet("background-color:rgba(127,127,127,100)");
     }
 }
 void MyPc::setPcState(bool state){

@@ -83,6 +83,7 @@ void pcClickSignal(QString mac);
 void pcRightClickSignal();
 void pcListeSignal();
 void pcHideSignal(QString _mac);
+void pcCloseSignal(QString ip,QString mac);
 void pcListeStateSignal();
 void pcTcpPortControlSignal(QString mac,QString ip);
 void pcSshPortControlSignal(QString mac,QString ip);

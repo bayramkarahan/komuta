@@ -190,11 +190,25 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         qDebug()<<"Gelen Mesaj:"<<_data;
         QStringList lst=_data.split("|");
         gelenKomut->setText(lst[1]+"  "+lst[2]);
+
         if(lst[1]=="ekranmesaj")
         {
             qDebug()<<"ekranmesaj:"<<lst[1]<<lst[2];
             ekran->setWindowFlags(Qt::Tool);
             ekran->ekranMesaj("Yönetici Mesajı:",lst[2]);
+            ekran->show();
+
+        }
+        if(lst[1]=="vncviewer")
+        {
+            qDebug()<<"mesaj:"<<lst[1]<<lst[2]<<lst[3];
+            system("pkill vncviewer &");
+            QStringList params=lst[2].split(":");
+            QString  kmt;
+            kmt.append("vncviewer "+params[0]+" -fullscreen ").append(lst[3]).append(":"+params[1]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+            system(kmt.toStdString().c_str());
+            ekran->setWindowFlags(Qt::Tool);
+            ekran->ekranKomutMesaj("Çalışan Komut:",kmt);
             ekran->show();
 
         }
