@@ -74,15 +74,15 @@ int main(int argc, char *argv[])
     qApp->installTranslator(translator);
     MainWindow *w=new MainWindow();
     /******************************************************/
-    qDebug()<<"Language:"<<language<<"rootPath:"<<rootPath<<"ftpPort:"<<ftpPort;
+    //qDebug()<<"Language:"<<language<<"rootPath:"<<rootPath<<"ftpPort:"<<ftpPort;
     SCDImgServer srv(0,ftpPort,rootPath);
 
     if (srv.start())
     {
 
         w->show();
-        return a.exec();
+        a.exec();
     }
-
+    delete w;
     return 0;
 }

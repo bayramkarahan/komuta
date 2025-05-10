@@ -128,6 +128,7 @@ void NewtworkProfil::networkProfilLoad()
             veri["language"]="tr_TR";
             veri["lockScreenState"]=false;
             veri["webblockState"]=false;
+            if(interfaceList[i].ip.contains("172.17"))veri["selectedNetworkProfil"] =false;
             db->Sil("networkBroadCastAddress",interfaceList[i].broadcast);
             db->Ekle(veri);
         }

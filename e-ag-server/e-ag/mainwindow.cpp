@@ -167,7 +167,7 @@ MainWindow::MainWindow(QWidget *parent) :
     udpSocketGet = new QUdpSocket();
     udpSocketGet->bind(uport.toInt(), QUdpSocket::ShareAddress);
     QObject::connect(udpSocketGet,&QUdpSocket::readyRead,[&](){udpSocketServerRead();});
-    qDebug()<<"Port.:"<<uport;
+    //qDebug()<<"Port.:"<<uport;
     /*********************************************************/
 
  QGridLayout* layoutMain = new QGridLayout(mainWidget);
@@ -291,7 +291,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
 
 void MainWindow::resizeEvent(QResizeEvent *event)
  {
- qDebug()<<"main boyut değişti";
+ //qDebug()<<"main boyut değişti";
  selectWidget->setFixedSize(this->width(),selectWidget->height());
  //ustMenuWidget->setFixedSize(this->width(),ustMenuWidget->height());
  textBrowser_receivedMessages->setFixedSize(this->width(),boy*19-2);
@@ -452,11 +452,13 @@ void MainWindow::pcRightClickSignalSlot()
 {
     pcrightmenu=true;
 }
+
 MainWindow::~MainWindow()
 {
-    qDebug()<<"Kapatıldı.";
+    qDebug()<<"e-ag Kapatıldı.";
+    system("sleep 1");
     slotVncFlipStop();
-
+    system("sleep 1");
     if(streamState)
     {
         system("pkill servervideo");
@@ -464,7 +466,7 @@ MainWindow::~MainWindow()
         system("pkill servercamera");
         system("pkill clientcamera");
     }
-    system("sleep 1");
+
 }
 
 void MainWindow::paintEvent(QPaintEvent* event)
