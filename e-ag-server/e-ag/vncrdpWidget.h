@@ -238,7 +238,7 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
         kmt20="nohup sudo -u "+seatUser+" /usr/bin/x11vnc -display :"+seatDisplay+" -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
     qDebug()<<"Çalışacak Komut: "<<seatUser<<seatDisplay<<kmt20;
     system(kmt20.toStdString().c_str());
-    system("sleep 1");
+    system("sleep 2");
     QString  kmt(viewState+":5901");
     udpSendData("x11command","vncviewer",kmt);
     mesajSlot("Seçili Hostlara Ekran Yansıltıldı.");
