@@ -10,6 +10,9 @@ class SCDImgClient : public QTcpSocket
 {
   Q_OBJECT
 
+public:
+  QString host;
+  quint16 port;
   private:
 
     enum OperationType   {PUT,GET,DEL};
@@ -18,8 +21,7 @@ class SCDImgClient : public QTcpSocket
     enum TransferMode    {TM_NONE=0,TM_SINGLEFILE=1,TM_MULTIFILE=2};
     enum DownloadStream  {DS_TO_BUFFER,DS_TO_STDOUT,DS_TO_FILE,DS_TO_THUMBNAIL};
 
-    QString host;
-    quint16 port;
+
 
     int  timeout;
 

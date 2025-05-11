@@ -7,5 +7,10 @@ class PcData
 public:
     static QStringList onlinePcListe;
 };
+/*
+namespace Ui {
+class MainWindow;
+}*/
+
 
 #endif // PCDATA_H

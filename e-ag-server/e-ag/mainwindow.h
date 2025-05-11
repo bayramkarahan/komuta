@@ -66,49 +66,21 @@
 #include<Database.h>
 #include<qtermwidget5/qtermwidget.h>
 #include<CustomInputDialog.h>
-namespace Ui {
-class MainWindow;
-}
-class PcRecord
-{
-public:
-    QString ip;
-    QString mac;
-    QString name;
-    QString vncPort;
-    QString hostname;
-    bool pcState;
-    bool sshState;
-    bool ftpState;
-    bool vncState;
-    bool connectState;
-    bool visibleState;
-};
-
+#include <QQueue>
 class IpMac
 {
 public:
     QString ip;
     QString mac;
     QString broadcast;
-
 };
-
-class NetProfil
-{
-public:
-    QString networkIndex;
-    bool selectedNetworkProfil;
-    QString networkName;
-    QString serverAddress;
-    QString networkBroadCastAddress;
-    QString networkTcpPort;
-    QString ftpPort;
-    QString rootPath;
-    QString language;
-    bool lockScreenState;
-    bool webblockState;
-};
+struct fileCopyTask {
+    QString mesajtype;
+    QString ip;
+    QString port;
+    QString sourcePath;
+    QString targetPath;
+ };
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -122,7 +94,7 @@ public:
       QRubberBand *rubberBand;
       QList<IpMac> interfaceList;
       QList<NetProfil> NetProfilList;
-
+      QQueue<fileCopyTask> fileCopyTasks;
  signals:
 
 protected:
@@ -139,6 +111,10 @@ protected:
      void networkProfilLoad();
      QString getSeatId();
      QString getSessionInfo(QString id, QString parametre);
+     //void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+     void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus, fileCopyTask task);
+
+     void listeyiKopyala();
 private slots:
      QString getActiveUserName();
      void pcMenu(bool singlepc);
@@ -181,7 +157,7 @@ private slots:
 
     void selectPc();
     void hostAddressMacButtonSlot();
-     void selectFileCopySlot(QString _mesajtype,QString _ip,QString _sourcePath, QString _targetPath);
+     void selectFileCopySlot(QString _mesajtype,QString _sourcePath, QString _targetPath);
 
     void pcListeGuncelleSlotnew(QString mission);
     void pcHideSignalSlot(QString _mac);

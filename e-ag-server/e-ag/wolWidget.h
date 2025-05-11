@@ -141,7 +141,7 @@ void MainWindow::slotWakeOnLan(QString _ip,QString _mac)
             }
 
             FakeAddress.setAddress (interfaceList[k].broadcast);
-            QString kmt29="wakeonlan "+_mac;
+            QString kmt29="wakeonlan "+_mac+" &";
             system(kmt29.toStdString().c_str());
             qDebug()<<kmt29;
         }

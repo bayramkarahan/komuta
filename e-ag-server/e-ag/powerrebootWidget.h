@@ -91,7 +91,7 @@ void MainWindow::slotReboot(){
             onlinePcList[i]->setVncState(false);
             onlinePcList[i]->setXrdpState(false);
             onlinePcList[i]->setUser("noLogin");
-            onlinePcList[i]->tcpConnectCounter=0;
+            onlinePcList[i]->tcpConnectCounter=5;
         }
     }
     mesajSlot(tr("Seçili Hostlar Yeniden Başlatıldı."));
@@ -109,7 +109,7 @@ void MainWindow::slotRebootAll(){
             onlinePcList[i]->setVncState(false);
             onlinePcList[i]->setXrdpState(false);
             onlinePcList[i]->setUser("noLogin");
-            onlinePcList[i]->tcpConnectCounter=0;
+            onlinePcList[i]->tcpConnectCounter=5;
         }
     }
     mesajSlot(tr("Tüm Hostlar Yeniden Başlatıldı."));
@@ -127,7 +127,7 @@ void MainWindow::slotPowerOff(){
             onlinePcList[i]->setVncState(false);
             onlinePcList[i]->setXrdpState(false);
             onlinePcList[i]->setUser("noLogin");
-            onlinePcList[i]->tcpConnectCounter=0;
+            onlinePcList[i]->tcpConnectCounter=5;
         }
     }
     mesajSlot(tr("Seçili Hostlar Kapatıldı."));
@@ -145,7 +145,7 @@ void MainWindow::slotPowerOffAll(){
             onlinePcList[i]->setVncState(false);
             onlinePcList[i]->setXrdpState(false);
             onlinePcList[i]->setUser("noLogin");
-            onlinePcList[i]->tcpConnectCounter=0;
+            onlinePcList[i]->tcpConnectCounter=5;
         }
     }
     mesajSlot(tr("Tüm Hostlar Kapatıldı."));

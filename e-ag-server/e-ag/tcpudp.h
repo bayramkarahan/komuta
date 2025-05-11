@@ -21,24 +21,30 @@
 #define TCPUDP_H
 void  MainWindow::udpSendData(QString _mesajTur,QString _gorev,QString _ekmesaj)
 {
+    QString uport="7879";
     udpSendDataStatus=true;
     //qDebug()<<"Mesaj Gönderilecek:"<<_mesajTur<<_mesaj<<_ip;
-    for (const NetProfil &item : NetProfilList) {
+   /* for (const NetProfil &item : NetProfilList) {
         if (item.serverAddress=="") continue;
         if (item.selectedNetworkProfil==false) continue;
-        QString uport=item.networkTcpPort;
+        uport=item.networkTcpPort;
         std::reverse(uport.begin(), uport.end());
-        for(int k=0;k<interfaceList.count();k++)
-        {
-            if(item.networkBroadCastAddress==interfaceList[k].broadcast)
-            {
+    }*/
+        //for(int k=0;k<interfaceList.count();k++)
+        //{
+            //if(item.networkBroadCastAddress==interfaceList[k].broadcast)
+            //{
                 /***********************************************************************/
                 /***********************************************************************/
                 for(int i=0;i<onlinePcList.count();i++)
                 {
+
                     if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
                     {
-                        QString msg=_mesajTur+"|"+_gorev+"|"+_ekmesaj+"|"+item.serverAddress+"|"+uport;
+                        uport=onlinePcList[i]->netProfil.networkTcpPort;
+                        std::reverse(uport.begin(), uport.end());
+
+                        QString msg=_mesajTur+"|"+_gorev+"|"+_ekmesaj+"|"+onlinePcList[i]->netProfil.serverAddress+"|"+uport;
                         QByteArray datagram = msg.toUtf8();
                         udpSocketSend->writeDatagram(datagram,QHostAddress(onlinePcList[i]->ip), uport.toInt());
                         qDebug()<<"Mesaj Gönderildi:"<<msg;
@@ -46,12 +52,10 @@ void  MainWindow::udpSendData(QString _mesajTur,QString _gorev,QString _ekmesaj)
                 }
                 /***********************************************************************/
                 /***********************************************************************/
-            }
-        }
-    }
+           // }
+        //}
+
     udpSendDataStatus=false;
-
-
 }
 void MainWindow::udpSocketServerRead()
 {
@@ -98,7 +102,7 @@ void MainWindow::udpSocketServerRead()
                 break;
            }
             if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[0]=="eagclientconf"){
-                qDebug()<<"Client Mesaj:"<<rmesaj;
+                ///qDebug()<<"Client Mesaj:"<<rmesaj;
                 onlinePcList[i]->tcpConnectCounter=0;
                 onlinePcList[i]->setPcState(true);
                 onlinePcList[i]->setConnectState(true);
@@ -347,6 +351,15 @@ void MainWindow::slotPcEkle(QString _ip,QString _mac)
 
     connect(mypc, SIGNAL(pcRightClickSignal()),
             this, SLOT(pcRightClickSignalSlot()));
+
+    for (const NetProfil &item : NetProfilList) {
+        qDebug()<<item.networkBroadCastAddress;
+        if(_ip.section(".",0,2)==item.networkBroadCastAddress.section(".",0,2))
+        {
+            mypc->netProfil=item;
+        }
+    }
+
 
     onlinePcList.append(mypc);
     pcopencount++;

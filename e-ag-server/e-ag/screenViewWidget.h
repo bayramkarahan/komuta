@@ -82,7 +82,7 @@ void MainWindow::slotEkranIzle()
             onlinePcList[i]->setIconControlState(true);
         }
     }
-   udpSendData("x11command","x11command","serverscreen");
+    udpSendData("x11command","x11command","serverscreen");
     mesajSlot(tr("Seçili Ekran İzlemeler Başlatıldı."));
 }
 void MainWindow::slotEkranIzleDurdur()

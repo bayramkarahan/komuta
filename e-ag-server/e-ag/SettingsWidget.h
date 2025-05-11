@@ -555,16 +555,18 @@ void MainWindow::webBlockWidget()
 
     connect(webAyarGuncelleButton, &QPushButton::clicked, [=]() {
 
-        for(int i=0;i<onlinePcList.count();i++)
+        /*for(int i=0;i<onlinePcList.count();i++)
         {
             if((onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
                 onlinePcList[i]->user!="noLogin")
             {
                 //qDebug()<<"giden pc"<<onlinePcList[i]->ip;
-                selectFileCopySlot("webblockserversendfile",onlinePcList[i]->ip, "/usr/share/e-ag/webblockserver.json","webblockserver.json");
+                selectFileCopySlot("webblockserversendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, "/usr/share/e-ag/webblockserver.json","webblockserver.json");
                 system("sleep 0.1");
              }
-        }
+        }*/
+        selectFileCopySlot("webblockserversendfile", "/usr/share/e-ag/webblockserver.json","webblockserver.json");
+
         return;
         hostAddressMacButtonSlot();
         for(int k=0;k<interfaceList.count();k++)

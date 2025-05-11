@@ -36,7 +36,21 @@
 #include<QVideoWidget>
 #include<Database.h>
 #include <QCoreApplication>
-
+class NetProfil
+{
+public:
+    QString networkIndex;
+    bool selectedNetworkProfil;
+    QString networkName;
+    QString serverAddress;
+    QString networkBroadCastAddress;
+    QString networkTcpPort;
+    QString ftpPort;
+    QString rootPath;
+    QString language;
+    bool lockScreenState;
+    bool webblockState;
+};
 class MyPc: public QWidget
 {
     Q_OBJECT
@@ -73,7 +87,7 @@ public:
         QString vncport=0;
         bool select;
         bool multiSelect;
-
+        NetProfil netProfil;
 protected:
 void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;

@@ -88,28 +88,13 @@ QWidget* MainWindow::logoutWidget()
 void MainWindow::slotLogout(){
     QString komut="loginctl terminate-seat seat0";
     udpSendData("consolecommand","consolecommand",komut);
-    /*for(int i=0;i<onlinePcList.count();i++)
-    {
-        if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
-        {
-            udpSendData("consolecommand",komut,onlinePcList[i]->ip);
-        }
-    }*/
     mesajSlot("Seçili Hostlarda Oturum Kapatıldı.");
 
 }
 void MainWindow::slotLogoutAll(){
     QString komut="loginctl terminate-seat seat0";
     udpSendData("consolecommand","consolecommand",komut);
-    /*for(int i=0;i<onlinePcList.count();i++)
-    {
-        if(onlinePcList[i]->connectState)
-        {
-            udpSendData("consolecommand",komut,onlinePcList[i]->ip);
-        }
-    }*/
     mesajSlot("Tüm Hostlarda Oturum Kapatıldı.");
-
 }
 void MainWindow::slotLogin(){
     QString seatUser=getSessionInfo(getSeatId(),"USER=");
@@ -126,13 +111,6 @@ void MainWindow::slotLogin(){
         QString komut="sshlogin "+seatUser+" "+_remotepasswd;
          udpSendData("consolecommand","consolecommand",komut);
         // qDebug()<<"komut:"<<komut;
-       /* for(int i=0;i<onlinePcList.count();i++)
-        {
-            if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
-            {
-                udpSendData("consolecommand",komut,onlinePcList[i]->ip);
-            }
-        }*/
     }
     mesajSlot("Seçili Hostlarda Oturum Açıldı.");
 

@@ -1,5 +1,10 @@
 #ifndef FILECOPYWIDGET_H
 #define FILECOPYWIDGET_H
+#include<scdimgclient.h>
+#include <QDir>
+#include <QTextStream>
+#define  echo QTextStream(stderr) <<
+
 
 QWidget*  MainWindow::fileWidget()
 {
@@ -75,24 +80,16 @@ QWidget*  MainWindow::fileWidget()
         QString uzanti = fi.completeSuffix();
         QString ad = fi.baseName().replace(" ","");
 
-        for(int i=0;i<onlinePcList.count();i++)
+        /*for(int i=0;i<onlinePcList.count();i++)
         {
-            if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
+            if((onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
                 onlinePcList[i]->user!="noLogin")
             {
-                selectFileCopySlot("homesendfile",onlinePcList[i]->ip, pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
-
-                /*sshSelectFileCopySlot( pth.fromPercentEncoding(name1.toUtf8()),"/tmp/"+ad+"."+uzanti);
-                         sshCommandSlot("cp /tmp/"+ad+"."+uzanti+" /home/"+btnlist[i]->user+"/Masaüstü/",btnlist[i]->ip);
-                         sshCommandSlot("chmod 777 /home/"+btnlist[i]->user+"/Masaüstü/"+ad+"."+uzanti,btnlist[i]->ip);
-                         sshCommandSlot("chown "+btnlist[i]->user+":"+btnlist[i]->user+" /home/"+btnlist[i]->user+"/Masaüstü/"+ad+"."+uzanti,btnlist[i]->ip);
-*/
+                selectFileCopySlot("homesendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
             }
-        }
+        }*/
+        selectFileCopySlot("homesendfile",pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
 
-        // mesajSlot("Dosya Masaüstlerine Gönderildi.");
-
-        //         sshSelectFileCopySlot(pth.fromPercentEncoding(name.toUtf8()),ple->text());
         mesajSlot("Dosya Seçili Pc'ye Kopyalandı.");
     });
 
@@ -132,20 +129,22 @@ QWidget*  MainWindow::fileWidget()
 
         system(dosya.toStdString().c_str());
         /*****************************************************************************/
-        for(int i=0;i<onlinePcList.count();i++)
+        /*for(int i=0;i<onlinePcList.count();i++)
         {
             if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
                 onlinePcList[i]->user!="noLogin")
             {
-                selectFileCopySlot("realdebsendfile",onlinePcList[i]->ip,pth.fromPercentEncoding(name1.toUtf8()),name);
+                selectFileCopySlot("realdebsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort,pth.fromPercentEncoding(name1.toUtf8()),name);
                 //system("sleep 0.1");
-                selectFileCopySlot("debscriptsendfile",onlinePcList[i]->ip, "/tmp/debeagscript","debeagscript");
+                selectFileCopySlot("debscriptsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, "/tmp/debeagscript","debeagscript");
             }
-        }
+        }*/
+        selectFileCopySlot("realdebsendfile",pth.fromPercentEncoding(name1.toUtf8()),name);
+        //system("sleep 0.1");
+        selectFileCopySlot("debscriptsendfile", "/tmp/debeagscript","debeagscript");
 
-        /*sshSelectFileCopySlot("/tmp/eaginstall","");
-             sshSelectPcCommandSlot("chmod 755 eaginstall");
-             sshSelectPcCommandSlot("bash eaginstall");*/
+
+
         mesajSlot("Dosya Seçili Pc'ye Kopyalandı ve Kuruldu.");
     });
 
@@ -188,19 +187,21 @@ QWidget*  MainWindow::fileWidget()
 
         system(dosya.toStdString().c_str());
         /*****************************************************************************/
-        for(int i=0;i<onlinePcList.count();i++)
+       /* for(int i=0;i<onlinePcList.count();i++)
         {
             if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
                 onlinePcList[i]->user!="noLogin")
             {
-                selectFileCopySlot("realscriptsendfile",onlinePcList[i]->ip,pth.fromPercentEncoding(name1.toUtf8()),name);
+                selectFileCopySlot("realscriptsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort,pth.fromPercentEncoding(name1.toUtf8()),name);
                 //system("sleep 0.1");
-                selectFileCopySlot("scriptsendfile",onlinePcList[i]->ip, "/tmp/eagscript","eagscript");
+                selectFileCopySlot("scriptsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, "/tmp/eagscript","eagscript");
             }
-        }
-        /*sshSelectFileCopySlot("/tmp/eaginstall","");
-             sshSelectPcCommandSlot("chmod 755 eaginstall");
-             sshSelectPcCommandSlot("bash eaginstall");*/
+        }*/
+        selectFileCopySlot("realscriptsendfile",pth.fromPercentEncoding(name1.toUtf8()),name);
+        //system("sleep 0.1");
+        selectFileCopySlot("scriptsendfile", "/tmp/eagscript","eagscript");
+
+
         mesajSlot("Script Dosya Seçili Pc'ye Kopyalandı ve Kuruldu.");
     });
 
@@ -225,20 +226,18 @@ QWidget*  MainWindow::fileWidget()
         QString uzanti = fi.completeSuffix();
         QString ad = fi.baseName().replace(" ","");
 
-        for(int i=0;i<onlinePcList.count();i++)
+       /* for(int i=0;i<onlinePcList.count();i++)
         {
             if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
                 onlinePcList[i]->user!="noLogin")
             {
-                selectFileCopySlot("desktopsendfile",onlinePcList[i]->ip, pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
-
-                /*sshSelectFileCopySlot( pth.fromPercentEncoding(name1.toUtf8()),"/tmp/"+ad+"."+uzanti);
-                         sshCommandSlot("cp /tmp/"+ad+"."+uzanti+" /home/"+btnlist[i]->user+"/Masaüstü/",btnlist[i]->ip);
-                         sshCommandSlot("chmod 777 /home/"+btnlist[i]->user+"/Masaüstü/"+ad+"."+uzanti,btnlist[i]->ip);
-                         sshCommandSlot("chown "+btnlist[i]->user+":"+btnlist[i]->user+" /home/"+btnlist[i]->user+"/Masaüstü/"+ad+"."+uzanti,btnlist[i]->ip);
-*/
+                selectFileCopySlot("desktopsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
             }
-        }
+        }*/
+        if(uzanti=="")
+            selectFileCopySlot("desktopsendfile", pth.fromPercentEncoding(name1.toUtf8()),ad);
+        else
+            selectFileCopySlot("desktopsendfile", pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
 
         mesajSlot("Dosya Masaüstlerine Gönderildi.");
     });
@@ -266,21 +265,16 @@ QWidget*  MainWindow::fileWidget()
         //QString path=QFileInfo(le->text()).canonicalPath();
         // path=le->text().replace("+","\\ ");
         //qDebug()<<"dosya adı:"<<path;
-        for(int i=0;i<onlinePcList.count();i++)
+       /* for(int i=0;i<onlinePcList.count();i++)
         {
             if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
                 onlinePcList[i]->user!="noLogin")
-            {
-                selectFileCopySlot("desktopsendworkfile",onlinePcList[i]->ip,pth.fromPercentEncoding(name1.toUtf8()),"e-ag-server."+uzanti);
+            {*/
+                //selectFileCopySlot("desktopsendworkfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort,pth.fromPercentEncoding(name1.toUtf8()),"e-ag-server."+uzanti);
+        selectFileCopySlot("desktopsendworkfile",pth.fromPercentEncoding(name1.toUtf8()),"e-ag-server."+uzanti);
 
-                /*sshSelectFileCopySlot(pth.fromPercentEncoding(name1.toUtf8()),"/tmp/e-ag-server."+uzanti);
-                     sshCommandSlot("mv /home/"+btnlist[i]->user+"/Masaüstü/e-ag-server.* /home/"+btnlist[i]->user+"/Masaüstü/e-ag-server.old",btnlist[i]->ip);
-                     sshCommandSlot("cp /tmp/e-ag-server."+uzanti+" /home/"+btnlist[i]->user+"/Masaüstü/",btnlist[i]->ip);
-                     sshCommandSlot("chmod 777 /home/"+btnlist[i]->user+"/Masaüstü/e-ag-server."+uzanti,btnlist[i]->ip);
-                     sshCommandSlot("chown "+btnlist[i]->user+":"+btnlist[i]->user+" /home/"+btnlist[i]->user+"/Masaüstü/e-ag-server."+uzanti,btnlist[i]->ip);
-                    */
-            }
-        }
+        //   }
+        //}
 
         mesajSlot("Dosya Masaüstlerine Gönderildi.");
     });
@@ -389,45 +383,57 @@ QWidget*  MainWindow::fileWidget()
     return d;
 }
 
-void MainWindow::selectFileCopySlot(QString _mesajtype,QString _ip,QString _sourcePath,QString _targetPath)
+void MainWindow::selectFileCopySlot(QString _mesajtype,QString _sourcePath,QString _targetPath)
 {
-    //int Port     = 12345;
-    // QString host = "localhost";
-
-    //SCDImgClient imgc(host,Port,10000); // declare the client obj
-    // connect your client desidered events...
-
-    /* imgc.connect(&imgc, &SCDImgClient::notifyConnected,  onConnect);
-    imgc.connect(&imgc, &SCDImgClient::notifyDisconnect, onDisconnect);
-    imgc.connect(&imgc, &SCDImgClient::notifyError,      onError);
-    imgc.connect(&imgc, &SCDImgClient::finished,         onFinished);
-    imgc.connect(&imgc, &SCDImgClient::fileReceived,     onFileReceived);
-    imgc.connect(&imgc, &SCDImgClient::fileSaving,       onFileSaving);
-*/
-    // qDebug()<<"kopyalanacak dosya: "<<_sourcePath<<_targetPath;
-    //   qDebug()<<"kopyalanacak dosya: "<<_sourcePath<<_targetPath;
-    // SCDImgClient imgc("192.168.23.240",12345,10000); // declare the client obj
-    // int result=imgc.sendFile(_sourcePath,_targetPath);  // send a file to img server (PUT => upload)
-    // qDebug()<<"koplayalama sonucu: "<<result;
-    /// for(int i=0;i<onlinePcList.count();i++)
-    //{
-    // if((onlinePcList[i]->select||onlinePcList[i]->multiSelect))
-    // {
-    //SCDImgClient imgc(onlinePcList[i]->ip,12345,10000); // declare the client obj
-    //int result=imgc.sendFile(_sourcePath,_targetPath);  // send a file to img server (PUT => upload)
-    qDebug()<<"kopyalanacak dosya: "<<_sourcePath<<_targetPath<<_ip;
-    QString komut="/usr/bin/scd-client "+_ip+" 12345 PUT "+_sourcePath+" /"+_targetPath;
-    mesajSlot(komut);
-    // system(komut.toStdString().c_str());
-    QStringList arguments;
-    arguments << "-c" << komut;
-    QProcess process;
-    process.start("/bin/bash",arguments);
-    process.waitForFinished(-1); // will wait forever until finished
-    udpSendData(_mesajtype,_targetPath,"");
-    // }
-    //}
+       for(int i=0;i<onlinePcList.count();i++)
+    {
+     if((onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+     {
+     if((_mesajtype=="desktopsendworkfile"||
+         _mesajtype=="desktopsendfile")
+        &&onlinePcList[i]->user=="noLogin")
+        continue;
+        qDebug()<<"kopyalanacak dosya: "<<_sourcePath<<_targetPath<<onlinePcList[i]->ip;
+        ///QString komut="/usr/bin/scd-client "+onlinePcList[i]->ip+" "+onlinePcList[i]->netProfil.ftpPort+" PUT "+_sourcePath+" /"+_targetPath;
+        //system(komut.toStdString().c_str());
+        fileCopyTasks.enqueue({_mesajtype,onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort,_sourcePath,_targetPath});
+     }
+    }
+    listeyiKopyala();
     mesajSlot("Dosya Seçili Pc'lere Kopyalandı");
 }
+void MainWindow::listeyiKopyala() {
+    if (fileCopyTasks.isEmpty()) {
+        qDebug() << "Tüm bilgisayarlara dosya gönderildi.";
+        return;
+    }
+    fileCopyTask current = fileCopyTasks.dequeue();
+    QString komut="/usr/bin/scd-client "+current.ip+" "+current.port+" PUT "+current.sourcePath+" /"+current.targetPath;
+    /*********************QProcess***********************************/
+    /*********************QProcess***********************************/
+    QStringList arguments;
+    QProcess *process = new QProcess(this);
+    connect(process,
+               QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+               [=](int exitCode, QProcess::ExitStatus exitStatus) {
+                   this->onProcessFinished(exitCode, exitStatus, current);
+                   process->deleteLater();
+                   listeyiKopyala();
+               });
+    arguments << "-c" << komut<<" &";
+    process->start("/bin/bash",arguments);
+}
+
+void MainWindow::onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus, fileCopyTask task) {
+    if (exitStatus == QProcess::NormalExit && exitCode == 0) {
+        qDebug() << "Dosya Kopyalama Başarılı:" << task.mesajtype << "->" << task.ip<<task.targetPath;
+        udpSendData(task.mesajtype,task.targetPath,"");
+    } else {
+        qDebug() << "Dosya Kopyalama Hata oluştu:" << task.mesajtype << "->" << task.ip;
+    }
+    udpSendData(task.mesajtype,task.targetPath,"");
+}
+
+
 
 #endif // FILECOPYWIDGET_H

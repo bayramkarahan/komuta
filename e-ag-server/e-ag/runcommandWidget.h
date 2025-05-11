@@ -53,10 +53,6 @@ QWidget* MainWindow::commandWidget()
         udpSendData("consolecommand","consolecommand",commandFileL->text());
     });
 
-
-
-
-
     QToolButton *x11CommandButton=new QToolButton();
     x11CommandButton->setFixedSize(e*24,yukseklik*2);
     x11CommandButton->setAutoRaise(true);
@@ -71,10 +67,6 @@ QWidget* MainWindow::commandWidget()
         if(pcMac->text()==""){mesajSlot(tr("Pc Seçiniz"));return;}
         udpSendData("x11command","x11command",commandFileL->text());
     });
-
-
-
-
 
     QToolButton *helpButton= new QToolButton;
     helpButton->setFixedSize(e*12,yukseklik*2);
@@ -170,31 +162,12 @@ void MainWindow::slotCommand(QString _kmt)
 
 void MainWindow::slotPcCommandSelect(QString _kmt){
     udpSendData("x11command",_kmt,"");
-    /*for(int i=0;i<onlinePcList.count();i++)
-    {
-        if(onlinePcList[i]->select||onlinePcList[i]->multiSelect)
-        {
-            udpSendData("x11komut",_kmt,onlinePcList[i]->ip);
-
-        }
-    }*/
     mesajSlot("Komut Seçili Hostlarda Çalıştırıldı.");
 
 }
 void MainWindow::slotPcCommandAll(QString _kmt){
-
     udpSendData("x11command",_kmt,"");
-
-
-    /*for(int i=0;i<onlinePcList.count();i++)
-    {
-
-        udpSendData("x11komut",_kmt,onlinePcList[i]->ip);
-
-
-    }*/
     mesajSlot(tr("Komut Tüm Hostlarda Çalıştırıldı."));
-
 }
 
 #endif // RUNCOMMANDWIDGET_H
