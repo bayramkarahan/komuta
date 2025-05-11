@@ -79,16 +79,11 @@ QWidget*  MainWindow::fileWidget()
 
         QString uzanti = fi.completeSuffix();
         QString ad = fi.baseName().replace(" ","");
+        if(uzanti=="")
+            selectFileCopySlot("homesendfile",pth.fromPercentEncoding(name1.toUtf8()),ad);
+         else
+            selectFileCopySlot("homesendfile",pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
 
-        /*for(int i=0;i<onlinePcList.count();i++)
-        {
-            if((onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
-                onlinePcList[i]->user!="noLogin")
-            {
-                selectFileCopySlot("homesendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
-            }
-        }*/
-        selectFileCopySlot("homesendfile",pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
 
         mesajSlot("Dosya Seçili Pc'ye Kopyalandı.");
     });
@@ -129,23 +124,11 @@ QWidget*  MainWindow::fileWidget()
 
         system(dosya.toStdString().c_str());
         /*****************************************************************************/
-        /*for(int i=0;i<onlinePcList.count();i++)
-        {
-            if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
-                onlinePcList[i]->user!="noLogin")
-            {
-                selectFileCopySlot("realdebsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort,pth.fromPercentEncoding(name1.toUtf8()),name);
-                //system("sleep 0.1");
-                selectFileCopySlot("debscriptsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, "/tmp/debeagscript","debeagscript");
-            }
-        }*/
+
         selectFileCopySlot("realdebsendfile",pth.fromPercentEncoding(name1.toUtf8()),name);
         //system("sleep 0.1");
         selectFileCopySlot("debscriptsendfile", "/tmp/debeagscript","debeagscript");
-
-
-
-        mesajSlot("Dosya Seçili Pc'ye Kopyalandı ve Kuruldu.");
+       mesajSlot("Dosya Seçili Pc'ye Kopyalandı ve Kuruldu.");
     });
 
     fileCopyInstallScriptButton=new QToolButton();
@@ -187,16 +170,7 @@ QWidget*  MainWindow::fileWidget()
 
         system(dosya.toStdString().c_str());
         /*****************************************************************************/
-       /* for(int i=0;i<onlinePcList.count();i++)
-        {
-            if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
-                onlinePcList[i]->user!="noLogin")
-            {
-                selectFileCopySlot("realscriptsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort,pth.fromPercentEncoding(name1.toUtf8()),name);
-                //system("sleep 0.1");
-                selectFileCopySlot("scriptsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, "/tmp/eagscript","eagscript");
-            }
-        }*/
+
         selectFileCopySlot("realscriptsendfile",pth.fromPercentEncoding(name1.toUtf8()),name);
         //system("sleep 0.1");
         selectFileCopySlot("scriptsendfile", "/tmp/eagscript","eagscript");
@@ -225,15 +199,6 @@ QWidget*  MainWindow::fileWidget()
 
         QString uzanti = fi.completeSuffix();
         QString ad = fi.baseName().replace(" ","");
-
-       /* for(int i=0;i<onlinePcList.count();i++)
-        {
-            if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
-                onlinePcList[i]->user!="noLogin")
-            {
-                selectFileCopySlot("desktopsendfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort, pth.fromPercentEncoding(name1.toUtf8()),ad+"."+uzanti);
-            }
-        }*/
         if(uzanti=="")
             selectFileCopySlot("desktopsendfile", pth.fromPercentEncoding(name1.toUtf8()),ad);
         else
@@ -265,18 +230,11 @@ QWidget*  MainWindow::fileWidget()
         //QString path=QFileInfo(le->text()).canonicalPath();
         // path=le->text().replace("+","\\ ");
         //qDebug()<<"dosya adı:"<<path;
-       /* for(int i=0;i<onlinePcList.count();i++)
-        {
-            if(onlinePcList[i]->sshState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect)&&
-                onlinePcList[i]->user!="noLogin")
-            {*/
-                //selectFileCopySlot("desktopsendworkfile",onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort,pth.fromPercentEncoding(name1.toUtf8()),"e-ag-server."+uzanti);
-        selectFileCopySlot("desktopsendworkfile",pth.fromPercentEncoding(name1.toUtf8()),"e-ag-server."+uzanti);
-
-        //   }
-        //}
-
-        mesajSlot("Dosya Masaüstlerine Gönderildi.");
+          if(uzanti=="")
+            selectFileCopySlot("desktopsendworkfile",pth.fromPercentEncoding(name1.toUtf8()),"e-ag-server");
+         else
+             selectFileCopySlot("desktopsendworkfile",pth.fromPercentEncoding(name1.toUtf8()),"e-ag-server."+uzanti);
+         mesajSlot("Dosya Masaüstlerine Gönderildi.");
     });
 
     QToolButton *fileCopyDesktopGetButton=new QToolButton();
