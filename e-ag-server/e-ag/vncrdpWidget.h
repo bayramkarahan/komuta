@@ -236,11 +236,35 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
         kmt20="nohup sudo -u "+seatUser+" /usr/bin/x11vnc -display :"+seatDisplay+" -geometry "+scale+" -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
     else
         kmt20="nohup sudo -u "+seatUser+" /usr/bin/x11vnc -display :"+seatDisplay+" -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
-    qDebug()<<"Çalışacak Komut: "<<seatUser<<seatDisplay<<kmt20;
+    //qDebug()<<"Çalışacak Komut: "<<seatUser<<seatDisplay<<kmt20;
     system(kmt20.toStdString().c_str());
     system("sleep 2");
-    QString  kmt(viewState+":5901");
-    udpSendData("x11command","vncviewer",kmt);
+   // QString  kmt(viewState+":5901");
+    /*************************************************************************/
+    /************************************************************************/
+    QString uport="7879";
+    for(int i=0;i<onlinePcList.count();i++)
+    {
+
+        if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+        {
+            QString  komut;
+            komut.append("vncviewer "+viewState+" \-fullscreen ").append(onlinePcList[i]->netProfil.serverAddress).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd ");
+            //udpSendData("x11command","x11command",komut);
+            uport=onlinePcList[i]->netProfil.networkTcpPort;
+            std::reverse(uport.begin(), uport.end());
+
+            QString msg="x11command|x11command|"+komut+"|"+onlinePcList[i]->netProfil.serverAddress+"|"+uport;
+            QByteArray datagram = msg.toUtf8();
+            udpSocketSend->writeDatagram(datagram,QHostAddress(onlinePcList[i]->ip), uport.toInt());
+            qDebug()<<"Mesaj Gönderildi:"<<msg;
+        }
+    }
+    /*************************************************************************/
+    /*************************************************************************/
+
+    //udpSendData("x11command","vncviewer",kmt);
+
     mesajSlot("Seçili Hostlara Ekran Yansıltıldı.");
 }
 void MainWindow::slotVncFlipStop(){

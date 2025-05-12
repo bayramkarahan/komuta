@@ -199,17 +199,18 @@ void MainWindow::tcpMessageControlSlot(QString _data)
             ekran->show();
 
         }
-        if(lst[1]=="vncviewer")
+        else if(lst[1]=="vncviewer")
         {
             qDebug()<<"mesaj:"<<lst[1]<<lst[2]<<lst[3];
             system("pkill vncviewer &");
             QStringList params=lst[2].split(":");
             QString  kmt;
-            kmt.append("vncviewer "+params[0]+" -fullscreen ").append(lst[3]).append(":"+params[1]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+            kmt.append("nohup vncviewer "+params[0]+" \-fullscreen ").append(lst[3]).append(":"+params[1]+" \-passwd \/usr\/bin\/x11vncpasswd &");
+            qDebug()<<"komut:"<<kmt;
             system(kmt.toStdString().c_str());
-            ekran->setWindowFlags(Qt::Tool);
+            /*ekran->setWindowFlags(Qt::Tool);
             ekran->ekranKomutMesaj("Çalışan Komut:",kmt);
-            ekran->show();
+            ekran->show();*/
 
         }
         else if(lst[1]=="kilitstatetrue")
