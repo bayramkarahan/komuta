@@ -227,15 +227,20 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
     QStringRef _sessionUser=seatUser.rightRef(seatUser.length()-5);
     seatUser=_sessionUser.toString();
 
-    QString seatDisplay=getSessionInfo(getSeatId(),"DISPLAY=:");
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    QString seatDisplay = env.value("DISPLAY"); // For Unix-like systems
+
+   /* QString seatDisplay=getSessionInfo(getSeatId(),"DISPLAY=");
     QStringRef _sessionDisplay=seatDisplay.rightRef(seatDisplay.length()-9);
-    seatDisplay=_sessionDisplay.toString();
-    if (seatDisplay=="")seatDisplay="0";
+    seatDisplay=_sessionDisplay.toString();*/
+    if (seatDisplay=="")seatDisplay=":1";
+    qDebug()<<"display: "<<seatDisplay;
+    //return;
 
     if(scale!="")
-        kmt20="nohup sudo -u "+seatUser+" /usr/bin/x11vnc -display :"+seatDisplay+" -geometry "+scale+" -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
+        kmt20="nohup sudo -u "+seatUser+" /usr/bin/x11vnc -display "+seatDisplay+" -geometry "+scale+" -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
     else
-        kmt20="nohup sudo -u "+seatUser+" /usr/bin/x11vnc -display :"+seatDisplay+" -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
+        kmt20="nohup sudo -u "+seatUser+" /usr/bin/x11vnc -display "+seatDisplay+" -forever -loop -noxdamage -repeat -rfbauth /usr/bin/x11vncpasswd -rfbport 5901 -shared &";
     //qDebug()<<"Çalışacak Komut: "<<seatUser<<seatDisplay<<kmt20;
     system(kmt20.toStdString().c_str());
     system("sleep 2");
