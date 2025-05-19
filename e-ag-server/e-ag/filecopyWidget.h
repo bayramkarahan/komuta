@@ -114,12 +114,12 @@ QWidget*  MainWindow::fileWidget()
         QString dosya=QString("cat >/tmp/debeagscript << EOF"
                                 "\n#!/bin/bash"
                                 "\nset -x"
-                                "\napt --fix-broken install -y"
-                                "\napt install -f -y"
-                                "\napt autoremove -y"
-                                "\napt update"
-                                "\ndpkg -i --force-all /tmp/%1"
-                                "\napt install -f -y"
+                                "\napt-get --fix-broken install -y"
+                                "\napt-get install -f -y"
+                                "\napt-get autoremove -y"
+                                "\napt-get update"
+                                "\napt-get install /tmp/%1 -y"
+                                "\napt-get install -f -y"
                                 "\nEOF").arg(name);
 
         system(dosya.toStdString().c_str());
@@ -160,12 +160,11 @@ QWidget*  MainWindow::fileWidget()
         QString dosya=QString("cat >/tmp/eagscript << EOF"
                                 "\n#!/bin/bash"
                                 "\nset -x"
-                                "\napt --fix-broken install -y"
-                                "\napt install -f -y"
-                                "\napt autoremove -y"
-                                "\napt update"
+                                "\napt-get --fix-broken install -y"
+                                "\napt-get install -f -y"
+                                "\napt-get autoremove -y"
+                                "\napt-get update"
                                 "\nbash /tmp/%1"
-                                "\napt install -f -y"
                                 "\nEOF").arg(name);
 
         system(dosya.toStdString().c_str());

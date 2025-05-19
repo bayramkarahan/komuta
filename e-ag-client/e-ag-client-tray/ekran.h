@@ -9,6 +9,7 @@
 #include <QApplication>
 #include <QScreen>
 #include<QToolButton>
+#include<MyDialog.h>
 class Ekran : public QWidget
 {
     Q_OBJECT
@@ -17,6 +18,7 @@ private:
      QLabel *mesajtext;
      QLabel *logo;
   QToolButton *kapatButton;
+     QToolButton *commandDetailButton;
      void closeEvent(QCloseEvent *bar)
     {
         // Do something
@@ -39,9 +41,12 @@ public:
          logo=new QLabel(this);
          kapatButton= new QToolButton(this);
          kapatButton->hide();
+         commandDetailButton= new QToolButton(this);
+         commandDetailButton->hide();
+
         logo->hide();
         }
-     void ekranKomutMesaj(QString baslik,QString mesaj)
+     void ekranKomutMesaj(QString baslik,QString mesaj,QString status,QString Commandmessaj)
      {
          QDesktopWidget widget;
          QRect desktopScreenSize = widget.availableGeometry(widget.primaryScreen());
@@ -60,7 +65,10 @@ public:
          this->setAttribute(Qt::WA_NoSystemBackground, false);
          this->repaint();
          QPalette palet;
-         palet.setBrush(QPalette::Background, QColor(100,100,100,100));
+         if(status=="0")
+            palet.setBrush(QPalette::Background, QColor(0,150,0,100));
+         else
+            palet.setBrush(QPalette::Background, QColor(150,0,0,100));
          this->setPalette(palet);  //setZeminColor(myZeminColor);
          this->repaint();
 
@@ -71,20 +79,29 @@ public:
          mesajtext->move(0,0);
          mesajtext->setText("<center><font size=4>"+mesaj+"</font></center>");
 
+         commandDetailButton->setFixedSize(QSize(80,40));
+         commandDetailButton->setStyleSheet("Text-align:center");
+         commandDetailButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+         commandDetailButton->setText("<->");
+         commandDetailButton->move(desktopScreenSize.width()*0.5-120,0);
+         commandDetailButton->show();
+         connect(commandDetailButton, &QToolButton::clicked, [=]() {
+
+             //MyDialog(tr("Komut Çıktısı"),tr(Commandmessaj.toStdString().c_str()),"","","tamam",500,500).exec();
+             MyDialog *dlg = new MyDialog(tr("Komut Çıktısı"),tr(Commandmessaj.toStdString().c_str()),"","","tamam",500,500);
+             dlg->show(); // Kapatıldığında otomatik olarak silinir
+         });
 
          kapatButton->setFixedSize(QSize(40,40));
-         // kapatButton->setIconSize(QSize(boy,boy));
          kapatButton->setStyleSheet("Text-align:center");
-         //  kapatButton->setIcon(QIcon(":/icons/save.svg"));
-         /// kapatButton->setAutoRaise(true);
          kapatButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-         // kapatButton->setFont(f2);
          kapatButton->setText("X");
          kapatButton->move(desktopScreenSize.width()*0.5-40,0);
          kapatButton->show();
          connect(kapatButton, &QToolButton::clicked, [=]() {
              this->close();
          });
+
 
 
      }

@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Sun, 27 Dec 2020 14:31:08 +0300
+Source: e-ag
+Binary: e-ag e-ag-dbgsym
+Architecture: source amd64
+Version: 2.6.4
+Distribution: unstable
+Urgency: medium
+Maintainer: Bayram KARAHAN <bayramk@gmail.com>
+Changed-By: Bayram KARAHAN <bayramk@gmail.com>
+Description:
+ e-ag       - e-ag Server Uygulaması
+Changes:
+ e-ag (2.6.4) unstable; urgency=medium
+ .
+   * Initial Release
+Checksums-Sha1:
+ 150a89d8046fc43b15b21d1c9128f68c25983af7 542 e-ag_2.6.4.dsc
+ d882e0211b19569348e44afc7f9b497e2aff7b96 26076320 e-ag_2.6.4.tar.gz
+ 34c9c30fcbe3dcc260414fba57953b6ddba9061e 26592 e-ag-dbgsym_2.6.4_amd64.deb
+ 8b8b9db0bf448abd76acd96aba4f04c64ee47f08 10063 e-ag_2.6.4_amd64.buildinfo
+ 9b94c01a98d2cb3a7f6450f6888773ff7cfd3ca8 473356 e-ag_2.6.4_amd64.deb
+Checksums-Sha256:
+ 4117c3d53d9eaa66abe75aa3bfdbff186f6921d4a97983296a951481539086b0 542 e-ag_2.6.4.dsc
+ 2299c8574fe98cba0c2d4cd8c1607d840a923a4b92738277501ffd351bcd885d 26076320 e-ag_2.6.4.tar.gz
+ ff658a1c40281c556374004a63c83e8c6a97a5c65c483fe2ff7e03a975efd449 26592 e-ag-dbgsym_2.6.4_amd64.deb
+ 9d201e9a010379861c73628eecff818a470a9df02798170f4fe305547958b662 10063 e-ag_2.6.4_amd64.buildinfo
+ 69ec4db291fabeacc45e523117d9313d3b95c6bf662071cea93f0bf5ddf0f39c 473356 e-ag_2.6.4_amd64.deb
+Files:
+ 56449277212651f48e257930d797436d 542 utils optional e-ag_2.6.4.dsc
+ e53ad117f778c7b4613612470b875c59 26076320 utils optional e-ag_2.6.4.tar.gz
+ e6fc67c593367d7818f4852577fd4079 26592 debug optional e-ag-dbgsym_2.6.4_amd64.deb
+ 7b4ced2bbf3441488469099b72be77eb 10063 utils optional e-ag_2.6.4_amd64.buildinfo
+ d0f1c073178fd869b8c1a841d11f749b 473356 utils optional e-ag_2.6.4_amd64.deb

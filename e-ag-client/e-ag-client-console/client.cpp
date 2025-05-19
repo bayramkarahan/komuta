@@ -196,10 +196,11 @@ void Client::udpServerGetSlot()
             QString dosya=mesaj[1];
             qDebug()<<"*********************************************************";
             QString kmt2="chmod 755 /tmp/debeagscript&";
-            QString kmt3="bash /tmp/debeagscript&";
+            QString kmt3="bash /tmp/debeagscript";
             system(kmt2.toStdString().c_str());
             system("sleep 0.1");
-            system(kmt3.toStdString().c_str());
+            commandExecuteSlot(kmt3.toStdString().c_str());
+            //system(kmt3.toStdString().c_str());
         }
         else if(mesaj[0]=="scriptsendfile")
         {
@@ -208,10 +209,11 @@ void Client::udpServerGetSlot()
             QString dosya=mesaj[1];
             qDebug()<<"*********************************************************";
             QString kmt2="chmod 755 /tmp/eagscript&";
-            QString kmt3="bash /tmp/eagscript&";
+            QString kmt3="bash /tmp/eagscript";
             system(kmt2.toStdString().c_str());
             system("sleep 0.1");
-            system(kmt3.toStdString().c_str());
+            //system(kmt3.toStdString().c_str());
+            commandExecuteSlot(kmt3.toStdString().c_str());
         }
         else if(mesaj[0]=="homesendfile")
         {
@@ -270,8 +272,8 @@ void Client::udpServerGetSlot()
         else if(mesaj[0]=="consolecommand")
         {
             commandExecuteSlot(mesaj[2]);
-            QByteArray datagram = rmesaj.toUtf8();// +QHostAddress::LocalHost;
-            udpTraySend->writeDatagram(datagram,QHostAddress::LocalHost, 51512);
+            //QByteArray datagram = rmesaj.toUtf8();// +QHostAddress::LocalHost;
+            //udpTraySend->writeDatagram(datagram,QHostAddress::LocalHost, 51512);
         }
         else if(mesaj[0]=="dosyatopla")
         {
@@ -520,26 +522,43 @@ interfaceList.clear();
 }
 void Client::commandExecuteSlot(QString command)
 {
-//echo '12' |sudo -S -u root -i apt-get update'
-qDebug()<<command;
-QStringList arguments;
-arguments << "-c" << command+" &";
-process.start("/bin/bash",arguments);
-process.waitForFinished(-1); // will wait forever until finished
-QString stdout = process.readAllStandardOutput();
-QString stderr = process.readAllStandardError();
-stdout.chop(1);
-stderr.chop(1);
-qDebug()<<"out:"<<stdout<<stdout.count();
-qDebug()<<"err:"<<stderr<<stderr.count();
- //if(stdout)
-//this->ui->lineEdit_message->setText(stdout);
-//on_pushButton_sendMessage_clicked();
-//this->ui->lineEdit_message->setText(stderr);
-//on_pushButton_sendMessage_clicked();
+    qDebug() << "Çalıştırılan komut:" << command;
+    int exitCode;
+    QString stdOut;
+    QString stdErr;
 
-//mesajSlot("Komut Çalıştırıldı");
-qDebug()<<"Komut Çalıştırıldı";
+    connect(&process, &QProcess::readyReadStandardOutput, [&]() {
+        stdOut += process.readAllStandardOutput();
+    });
+
+    connect(&process, &QProcess::readyReadStandardError, [&]() {
+        stdErr += process.readAllStandardError();
+    });
+
+    QStringList arguments;
+    arguments << "-c" << command;  // "&" kaldırıldı
+    process.start("/bin/bash", arguments);
+
+    if (process.waitForFinished(-1)) {  // Sonsuza kadar bekler
+        QString mesaj;
+        if (process.exitStatus() == QProcess::NormalExit && exitCode == 0 && stdErr.isEmpty()) {
+            qDebug() << "Başarılı çıktı:" << stdOut;
+            mesaj = "consolecommand|consolecommand|" + command + "|0|" + stdOut;
+        } else {
+            qDebug() << "Hata çıktı:" << stdErr;
+            mesaj = "consolecommand|consolecommand|" + command + "|1|" + stdErr;
+        }
+
+        QByteArray datagram = mesaj.toUtf8();
+        udpTraySend->writeDatagram(datagram, QHostAddress::LocalHost, 51512);
+
+    } else {
+        QString mesaj = "consolecommand|consolecommand|" + command + "|1|Komut zamanında tamamlanamadı.";
+        QByteArray datagram = mesaj.toUtf8();
+        udpTraySend->writeDatagram(datagram, QHostAddress::LocalHost, 51512);
+    }
+
+    qDebug() << "Komut Çalıştırıldı";
 }
 
 void Client::webBlockAktifPasif(bool _state)
