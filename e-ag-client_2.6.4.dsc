@@ -10,8 +10,8 @@ Build-Depends: debhelper (>= 9), qtdeclarative5-dev
 Package-List:
  e-ag-client deb utils optional arch=amd64
 Checksums-Sha1:
- 8c5872168234e12dbc5708345de1eed434ed4699 12680440 e-ag-client_2.6.4.tar.gz
+ affc5c6ead45d3d1bfb87c1fca0f482765b57892 12369086 e-ag-client_2.6.4.tar.gz
 Checksums-Sha256:
- c60edf257c0ef6cd38f99f518237046dce2637ca5b9d3df39d094894609611f7 12680440 e-ag-client_2.6.4.tar.gz
+ a872ef2a781eff75ad6273417374f7963ab263ee081d4032005e64fea7cc9b98 12369086 e-ag-client_2.6.4.tar.gz
 Files:
- 6a1f02527fe793ba2023fdc1682e871c 12680440 e-ag-client_2.6.4.tar.gz
+ f2c597749b0c9a46e8aa6ff2ff66239a 12369086 e-ag-client_2.6.4.tar.gz

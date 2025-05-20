@@ -20,7 +20,7 @@ public:
         : QDialog(parent)
     {
         // Bellekten otomatik silinmesi için:
-        setAttribute(Qt::WA_DeleteOnClose);
+        //setAttribute(Qt::WA_DeleteOnClose);
 
         // Pencere başlığı ve ikon
         setWindowTitle(baslik);
@@ -32,24 +32,25 @@ public:
         lmesaj->setText(mesaj);
         lmesaj->setWordWrap(true);
         lmesaj->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-
+        //lmesaj->setFixedWidth(_w*0.8);
         // Scroll alanı içine mesajı koy
         QScrollArea *scrollArea = new QScrollArea(this);
         scrollArea->setWidget(lmesaj);
         scrollArea->setWidgetResizable(true);
+        scrollArea->setFixedSize(_w*0.98, _h*0.95);
 
-        QSize screenSize = qApp->screens()[0]->size();
-        scrollArea->setFixedSize(screenSize.width() * 0.8, screenSize.height() * 0.7);
+
+
 
         // Butonlar
         QPushButton *okButton = new QPushButton(tr("Tamam"));
-        connect(okButton, &QPushButton::clicked, this, &MyDialog::accept);
+        //connect(okButton, &QPushButton::clicked, this, &MyDialog::accept);
 
         QPushButton *cancelButton = new QPushButton(tr("Vazgeç"));
-        connect(cancelButton, &QPushButton::clicked, this, &MyDialog::reject);
+        //connect(cancelButton, &QPushButton::clicked, this, &MyDialog::reject);
 
         QPushButton *yesButton = new QPushButton(tr("Evet"));
-        connect(yesButton, &QPushButton::clicked, this, &MyDialog::accept);
+        //connect(yesButton, &QPushButton::clicked, this, &MyDialog::accept);
 
         // Ana layout
         QGridLayout *layout = new QGridLayout(this);
@@ -64,7 +65,7 @@ public:
             layout->addWidget(cancelButton, 1, buttonCol++, 1, 1);
 
         setLayout(layout);
-
+        QSize screenSize = qApp->screens()[0]->size();
         // Ekranın ortasına taşı
         move(screenSize.width() / 2 - width() / 2,
              screenSize.height() / 2 - height() / 2);

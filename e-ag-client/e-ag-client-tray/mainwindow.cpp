@@ -299,7 +299,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         {
             ekran->setWindowFlags(Qt::Tool);
             ekran->ekranKomutMesaj("Çalışan Komut:",lst[2],lst[3],lst[4]);
-            ekran->show();
+            //ekran->show();
         }
         else if(lst[1]=="volumeoff")
         {
