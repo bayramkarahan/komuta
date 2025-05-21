@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Client_t {
-    QByteArrayData data[28];
-    char stringdata0[351];
+    QByteArrayData data[31];
+    char stringdata0[399];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -38,36 +38,40 @@ QT_MOC_LITERAL(2, 23, 0), // ""
 QT_MOC_LITERAL(3, 24, 7), // "service"
 QT_MOC_LITERAL(4, 32, 6), // "number"
 QT_MOC_LITERAL(5, 39, 21), // "tcpMesajSendTimerSlot"
-QT_MOC_LITERAL(6, 61, 13), // "socketBaglama"
-QT_MOC_LITERAL(7, 75, 17), // "networkProfilLoad"
-QT_MOC_LITERAL(8, 93, 12), // "stringToBool"
-QT_MOC_LITERAL(9, 106, 3), // "str"
-QT_MOC_LITERAL(10, 110, 18), // "commandExecuteSlot"
-QT_MOC_LITERAL(11, 129, 7), // "command"
-QT_MOC_LITERAL(12, 137, 16), // "udpServerGetSlot"
-QT_MOC_LITERAL(13, 154, 19), // "uygulamaCalisiyorMu"
-QT_MOC_LITERAL(14, 174, 11), // "uygulamaAdi"
-QT_MOC_LITERAL(15, 186, 14), // "udpTrayGetSlot"
-QT_MOC_LITERAL(16, 201, 13), // "udpGuiGetSlot"
-QT_MOC_LITERAL(17, 215, 17), // "udpServerSendSlot"
-QT_MOC_LITERAL(18, 233, 5), // "_data"
-QT_MOC_LITERAL(19, 239, 24), // "hostAddressMacButtonSlot"
-QT_MOC_LITERAL(20, 264, 18), // "webBlockAktifPasif"
-QT_MOC_LITERAL(21, 283, 6), // "_state"
-QT_MOC_LITERAL(22, 290, 14), // "findX11vncPort"
-QT_MOC_LITERAL(23, 305, 7), // "_servis"
-QT_MOC_LITERAL(24, 313, 9), // "getSeatId"
-QT_MOC_LITERAL(25, 323, 14), // "getSessionInfo"
-QT_MOC_LITERAL(26, 338, 2), // "id"
-QT_MOC_LITERAL(27, 341, 9) // "parametre"
+QT_MOC_LITERAL(6, 61, 19), // "commandDetailStatus"
+QT_MOC_LITERAL(7, 81, 7), // "command"
+QT_MOC_LITERAL(8, 89, 13), // "commandDetail"
+QT_MOC_LITERAL(9, 103, 13), // "commandStatus"
+QT_MOC_LITERAL(10, 117, 13), // "socketBaglama"
+QT_MOC_LITERAL(11, 131, 17), // "networkProfilLoad"
+QT_MOC_LITERAL(12, 149, 12), // "stringToBool"
+QT_MOC_LITERAL(13, 162, 3), // "str"
+QT_MOC_LITERAL(14, 166, 18), // "commandExecuteSlot"
+QT_MOC_LITERAL(15, 185, 16), // "udpServerGetSlot"
+QT_MOC_LITERAL(16, 202, 19), // "uygulamaCalisiyorMu"
+QT_MOC_LITERAL(17, 222, 11), // "uygulamaAdi"
+QT_MOC_LITERAL(18, 234, 14), // "udpTrayGetSlot"
+QT_MOC_LITERAL(19, 249, 13), // "udpGuiGetSlot"
+QT_MOC_LITERAL(20, 263, 17), // "udpServerSendSlot"
+QT_MOC_LITERAL(21, 281, 5), // "_data"
+QT_MOC_LITERAL(22, 287, 24), // "hostAddressMacButtonSlot"
+QT_MOC_LITERAL(23, 312, 18), // "webBlockAktifPasif"
+QT_MOC_LITERAL(24, 331, 6), // "_state"
+QT_MOC_LITERAL(25, 338, 14), // "findX11vncPort"
+QT_MOC_LITERAL(26, 353, 7), // "_servis"
+QT_MOC_LITERAL(27, 361, 9), // "getSeatId"
+QT_MOC_LITERAL(28, 371, 14), // "getSessionInfo"
+QT_MOC_LITERAL(29, 386, 2), // "id"
+QT_MOC_LITERAL(30, 389, 9) // "parametre"
 
     },
     "Client\0getIpPortStatus\0\0service\0number\0"
-    "tcpMesajSendTimerSlot\0socketBaglama\0"
-    "networkProfilLoad\0stringToBool\0str\0"
-    "commandExecuteSlot\0command\0udpServerGetSlot\0"
-    "uygulamaCalisiyorMu\0uygulamaAdi\0"
-    "udpTrayGetSlot\0udpGuiGetSlot\0"
+    "tcpMesajSendTimerSlot\0commandDetailStatus\0"
+    "command\0commandDetail\0commandStatus\0"
+    "socketBaglama\0networkProfilLoad\0"
+    "stringToBool\0str\0commandExecuteSlot\0"
+    "udpServerGetSlot\0uygulamaCalisiyorMu\0"
+    "uygulamaAdi\0udpTrayGetSlot\0udpGuiGetSlot\0"
     "udpServerSendSlot\0_data\0"
     "hostAddressMacButtonSlot\0webBlockAktifPasif\0"
     "_state\0findX11vncPort\0_servis\0getSeatId\0"
@@ -90,39 +94,39 @@ static const uint qt_meta_data_Client[] = {
 
  // slots: name, argc, parameters, tag, flags
        1,    2,   94,    2, 0x0a /* Public */,
-       5,    0,   99,    2, 0x0a /* Public */,
-       6,    0,  100,    2, 0x0a /* Public */,
-       7,    0,  101,    2, 0x0a /* Public */,
-       8,    1,  102,    2, 0x0a /* Public */,
-      10,    1,  105,    2, 0x08 /* Private */,
-      12,    0,  108,    2, 0x08 /* Private */,
-      13,    1,  109,    2, 0x08 /* Private */,
-      15,    0,  112,    2, 0x08 /* Private */,
-      16,    0,  113,    2, 0x08 /* Private */,
-      17,    1,  114,    2, 0x08 /* Private */,
-      19,    0,  117,    2, 0x08 /* Private */,
-      20,    1,  118,    2, 0x08 /* Private */,
-      22,    1,  121,    2, 0x08 /* Private */,
-      24,    0,  124,    2, 0x08 /* Private */,
-      25,    2,  125,    2, 0x08 /* Private */,
+       5,    4,   99,    2, 0x0a /* Public */,
+      10,    0,  108,    2, 0x0a /* Public */,
+      11,    0,  109,    2, 0x0a /* Public */,
+      12,    1,  110,    2, 0x0a /* Public */,
+      14,    1,  113,    2, 0x08 /* Private */,
+      15,    0,  116,    2, 0x08 /* Private */,
+      16,    1,  117,    2, 0x08 /* Private */,
+      18,    0,  120,    2, 0x08 /* Private */,
+      19,    0,  121,    2, 0x08 /* Private */,
+      20,    1,  122,    2, 0x08 /* Private */,
+      22,    0,  125,    2, 0x08 /* Private */,
+      23,    1,  126,    2, 0x08 /* Private */,
+      25,    1,  129,    2, 0x08 /* Private */,
+      27,    0,  132,    2, 0x08 /* Private */,
+      28,    2,  133,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::QString, QMetaType::QString, QMetaType::Int,    3,    4,
+    QMetaType::Void, QMetaType::Bool, QMetaType::QString, QMetaType::QString, QMetaType::QString,    6,    7,    8,    9,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Bool, QMetaType::QString,   13,
+    QMetaType::Void, QMetaType::QString,    7,
     QMetaType::Void,
-    QMetaType::Bool, QMetaType::QString,    9,
-    QMetaType::Void, QMetaType::QString,   11,
-    QMetaType::Void,
-    QMetaType::Bool, QMetaType::QString,   14,
+    QMetaType::Bool, QMetaType::QString,   17,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   18,
+    QMetaType::Void, QMetaType::QString,   21,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   21,
-    QMetaType::QString, QMetaType::QString,   23,
+    QMetaType::Void, QMetaType::Bool,   24,
+    QMetaType::QString, QMetaType::QString,   26,
     QMetaType::QString,
-    QMetaType::QString, QMetaType::QString, QMetaType::QString,   26,   27,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString,   29,   30,
 
        0        // eod
 };
@@ -135,7 +139,7 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         switch (_id) {
         case 0: { QString _r = _t->getIpPortStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 1: _t->tcpMesajSendTimerSlot(); break;
+        case 1: _t->tcpMesajSendTimerSlot((*reinterpret_cast< bool(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3])),(*reinterpret_cast< QString(*)>(_a[4]))); break;
         case 2: _t->socketBaglama(); break;
         case 3: _t->networkProfilLoad(); break;
         case 4: { bool _r = _t->stringToBool((*reinterpret_cast< const QString(*)>(_a[1])));

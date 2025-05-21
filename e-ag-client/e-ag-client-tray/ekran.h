@@ -10,15 +10,22 @@
 #include <QScreen>
 #include<QToolButton>
 #include<MyDialog.h>
+#include<QMessageBox>
 class Ekran : public QWidget
 {
     Q_OBJECT
+public:
+    QString command="";
+    QString commandDetail="";
+    QString commandState="0";
+    MyDialog *dlg;
 private:
      QLabel *basliktext;
      QLabel *mesajtext;
      QLabel *logo;
      QToolButton *kapatButton;
      QToolButton *commandDetailButton;
+
      void closeEvent(QCloseEvent *bar)
     {
         // Do something
@@ -45,39 +52,30 @@ public:
          commandDetailButton->hide();
 
         logo->hide();
+
         }
-     void ekranKomutMesaj(QString baslik,QString mesaj,QString status,QString Commandmessaj)
+     void ekranKomutMesaj()
      {
          QDesktopWidget widget;
          QRect desktopScreenSize = widget.availableGeometry(widget.primaryScreen());
          this->setFixedSize(desktopScreenSize.width()*0.5,40);
-         // qDebug()<<"ekran boyut:"<<desktopScreenSize.width();
          this->move(desktopScreenSize.width()-this->width(),0);
-         //this->setStyleSheet("background-color: #a3acac");
          this->setWindowTitle("Mesaj");
-         this->setAttribute(Qt::WA_TranslucentBackground, true);
-         this->setAttribute(Qt::WA_NoSystemBackground, false);
-         //this->setAttribute(Qt::WA_NoBackground,true);
          this->setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
                               | Qt::X11BypassWindowManagerHint);
 
          this->setAttribute(Qt::WA_TranslucentBackground, true);
          this->setAttribute(Qt::WA_NoSystemBackground, false);
-         this->repaint();
          QPalette palet;
-         if(status=="0")
+         if(commandState=="0")
             palet.setBrush(QPalette::Background, QColor(0,150,0,100));
          else
             palet.setBrush(QPalette::Background, QColor(150,0,0,100));
-         this->setPalette(palet);  //setZeminColor(myZeminColor);
-         this->repaint();
-
-
-
+         this->setPalette(palet);
 
          mesajtext->resize(this->width(),40);
          mesajtext->move(0,0);
-         mesajtext->setText("<center><font size=4>"+mesaj+"</font></center>");
+         mesajtext->setText("<center><font size=4>"+command+"</font></center>");
 
          commandDetailButton->setFixedSize(QSize(80,40));
          commandDetailButton->setStyleSheet("Text-align:center");
@@ -86,12 +84,12 @@ public:
          commandDetailButton->move(desktopScreenSize.width()*0.5-120,0);
          commandDetailButton->show();
          connect(commandDetailButton, &QToolButton::clicked, [=]() {
-
-             MyDialog(tr("Komut Çıktısı"),tr(Commandmessaj.toStdString().c_str()),"","","",desktopScreenSize.width()*0.6,desktopScreenSize.height()*0.5).exec();
-             //MyDialog *dlg = new MyDialog(tr("Komut Çıktısı"),tr(Commandmessaj.toStdString().c_str()),"","","tamam",500,500);
-             //dlg->show(); // Kapatıldığında otomatik olarak silinir
-
-         });
+            dlg= new MyDialog(tr("Komut Süreci"), commandDetail, "", "", "", desktopScreenSize.width()*0.6, desktopScreenSize.height()*0.5,this);
+            dlg->exec();
+            //delete dlg;
+            dlg = nullptr;  // Güvenlik için
+            this->close();
+          });
 
          kapatButton->setFixedSize(QSize(40,40));
          kapatButton->setStyleSheet("Text-align:center");
@@ -104,7 +102,34 @@ public:
          });
 
 
-        this->show();
+        //this->show();
+     }
+
+     QString myMessageBox(QString baslik, QString mesaj, QString evet, QString hayir, QString tamam,int _w,int _h,QMessageBox::Icon icon)
+     {
+         Qt::WindowFlags flags = 0;
+         flags |= Qt::Dialog;
+         flags |= Qt::X11BypassWindowManagerHint;
+
+         QMessageBox messageBox(this);
+         messageBox.setFixedSize(_w, _h);
+         messageBox.setWindowFlags(flags);
+         messageBox.setText(baslik+"\t\t\t");
+         messageBox.setDetailedText(mesaj);
+         QAbstractButton *evetButton;
+         QAbstractButton *hayirButton;
+         QAbstractButton *tamamButton;
+
+         if(evet=="evet") evetButton =messageBox.addButton(tr("Evet"), QMessageBox::ActionRole);
+         if(hayir=="hayir") hayirButton =messageBox.addButton(tr("Hayır"), QMessageBox::ActionRole);
+         if(tamam=="tamam") tamamButton =messageBox.addButton(tr("Tamam"), QMessageBox::ActionRole);
+
+         messageBox.setIcon(icon);
+         messageBox.exec();
+         if(messageBox.clickedButton()==evetButton) return "evet";
+         if(messageBox.clickedButton()==hayirButton) return "hayır";
+         if(messageBox.clickedButton()==tamamButton) return "tamam";
+         return "";
      }
 
      void ekranMesaj(QString baslik,QString mesaj)

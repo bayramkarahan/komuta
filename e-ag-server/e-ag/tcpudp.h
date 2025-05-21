@@ -128,6 +128,10 @@ void MainWindow::udpSocketServerRead()
                     if(mesaj[14]=="1")onlinePcList[i]->setXrdpState(true);
                     else onlinePcList[i]->setXrdpState(false);
                 }
+                //if(mesaj.count()>15)
+                //{
+                qDebug()<<rmesaj;
+                //}
             }
         }
 

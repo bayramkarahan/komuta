@@ -46,7 +46,7 @@ public:
 signals:
   public slots:
     QString  getIpPortStatus(QString service, int number);
-    void tcpMesajSendTimerSlot();
+      void tcpMesajSendTimerSlot(bool commandDetailStatus, QString command, QString commandDetail, QString commandStatus);
     void socketBaglama();
     void networkProfilLoad();
     bool stringToBool(const QString& str) {
@@ -65,6 +65,7 @@ private slots:
     QString getSeatId();
     QString getSessionInfo(QString id, QString parametre);
 private:
+    QTimer *tcpMesajSendTimer;
     QProcess process;
     QTimer *timer;
     QTimer *timerControl;

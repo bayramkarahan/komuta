@@ -4,20 +4,20 @@ Binary: e-ag-client e-ag-client-dbgsym
 Architecture: amd64 source
 Version: 2.6.4
 Checksums-Md5:
- 2b63846d86ebaacf17bb43d8648823ab 584 e-ag-client_2.6.4.dsc
- a527482f57c2e5aaa711a6f75697c618 23864 e-ag-client-dbgsym_2.6.4_amd64.deb
- cd8791b88ab95a335ac6c0a00ad08111 176876 e-ag-client_2.6.4_amd64.deb
+ 76e7fc9996559750933a0675d6dac7c9 584 e-ag-client_2.6.4.dsc
+ d37e3492f5569c558971b1f745de82ff 23904 e-ag-client-dbgsym_2.6.4_amd64.deb
+ 7cd1b81f75332fea96b1545f050a7a1a 178124 e-ag-client_2.6.4_amd64.deb
 Checksums-Sha1:
- 6a4b4ba66598988f7f8d3171c8b7cd5836913de5 584 e-ag-client_2.6.4.dsc
- 36faa5f15cbe3277ba39a7b8c99b3807ff8bfc44 23864 e-ag-client-dbgsym_2.6.4_amd64.deb
- 47b65c55dd4e79e3b655b942efc72e51fffb87c5 176876 e-ag-client_2.6.4_amd64.deb
+ 65dae802c609f20f5d40ac9da203109df7821a50 584 e-ag-client_2.6.4.dsc
+ b1d4c9b8d8ef0a7f9b87246bab930a4e2d8ec2d4 23904 e-ag-client-dbgsym_2.6.4_amd64.deb
+ b1dfefba682b6c57c15aabf1c147d52931986e30 178124 e-ag-client_2.6.4_amd64.deb
 Checksums-Sha256:
- 5f0b28268e8405b70424c31a258bb4089d735baa743e2f39fa088a50cb087fa4 584 e-ag-client_2.6.4.dsc
- b55cc38d4a1824733f81f1de8241ea96c5cc90b70b5004fb372ae7f635c8f691 23864 e-ag-client-dbgsym_2.6.4_amd64.deb
- 29695ab9462d25a7f4376fbf5f8ca459948c25619c8001d1e1f59393abd4a8f8 176876 e-ag-client_2.6.4_amd64.deb
+ 04f7d3ae121ca67e9985f0b26ff79cc277b63b8e194a8509a8e408fa078cea80 584 e-ag-client_2.6.4.dsc
+ 01170d42c888ceca2153adea4dddeae38772d1c66004cec88fbe5cb3133dc95f 23904 e-ag-client-dbgsym_2.6.4_amd64.deb
+ 05a99fb211c69be8b8b4b4268f84841a468b098b6fdb26ef8875bab859629199 178124 e-ag-client_2.6.4_amd64.deb
 Build-Origin: puffOS
 Build-Architecture: amd64
-Build-Date: Tue, 20 May 2025 15:24:17 +0300
+Build-Date: Wed, 21 May 2025 14:38:37 +0300
 Installed-Build-Depends:
  autoconf (= 2.71-3),
  automake (= 1:1.16.5-1.3),

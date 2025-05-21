@@ -12,6 +12,7 @@
 #include <QIcon>
 
 class MyDialog : public QDialog {
+    Q_OBJECT
 public:
     MyDialog(QString baslik, QString mesaj,
              QString evet, QString hayir, QString tamam,
@@ -20,7 +21,7 @@ public:
         : QDialog(parent)
     {
         // Bellekten otomatik silinmesi için:
-        //setAttribute(Qt::WA_DeleteOnClose);
+        setAttribute(Qt::WA_DeleteOnClose);
 
         // Pencere başlığı ve ikon
         setWindowTitle(baslik);
@@ -69,6 +70,10 @@ public:
         // Ekranın ortasına taşı
         move(screenSize.width() / 2 - width() / 2,
              screenSize.height() / 2 - height() / 2);
+    }
+  ~MyDialog()
+    {
+        //  delete ui;
     }
 };
 

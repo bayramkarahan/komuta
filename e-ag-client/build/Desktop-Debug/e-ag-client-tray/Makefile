@@ -55,6 +55,7 @@ OBJECTS_DIR   = ./
 SOURCES       = ../../../e-ag-client-tray/main.cpp \
 		../../../e-ag-client-tray/mainwindow.cpp \
 		../../../e-ag-client-tray/singleinstance.cpp qrc_resources.cpp \
+		moc_MyDialog.cpp \
 		moc_ekran.cpp \
 		moc_mainwindow.cpp \
 		moc_singleinstance.cpp
@@ -62,6 +63,7 @@ OBJECTS       = main.o \
 		mainwindow.o \
 		singleinstance.o \
 		qrc_resources.o \
+		moc_MyDialog.o \
 		moc_ekran.o \
 		moc_mainwindow.o \
 		moc_singleinstance.o
@@ -399,9 +401,14 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_ekran.cpp moc_mainwindow.cpp moc_singleinstance.cpp
+compiler_moc_header_make_all: moc_MyDialog.cpp moc_ekran.cpp moc_mainwindow.cpp moc_singleinstance.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_ekran.cpp moc_mainwindow.cpp moc_singleinstance.cpp
+	-$(DEL_FILE) moc_MyDialog.cpp moc_ekran.cpp moc_mainwindow.cpp moc_singleinstance.cpp
+moc_MyDialog.cpp: ../../../e-ag-client-tray/MyDialog.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-client/build/Desktop-Debug/e-ag-client-tray/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-tray -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include ../../../e-ag-client-tray/MyDialog.h -o moc_MyDialog.cpp
+
 moc_ekran.cpp: ../../../e-ag-client-tray/ekran.h \
 		../../../e-ag-client-tray/MyDialog.h \
 		moc_predefs.h \
@@ -455,6 +462,9 @@ singleinstance.o: ../../../e-ag-client-tray/singleinstance.cpp ../../../e-ag-cli
 
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
+
+moc_MyDialog.o: moc_MyDialog.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MyDialog.o moc_MyDialog.cpp
 
 moc_ekran.o: moc_ekran.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_ekran.o moc_ekran.cpp

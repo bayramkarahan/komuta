@@ -276,17 +276,29 @@ void MainWindow::tcpMessageControlSlot(QString _data)
                     //qDebug() << "Paket başarıyla kuruldu.";
                     //qDebug() << "Çıktı:" << stdOut;
                     //QString mesaj="consolecommand|consolecommand|"+command+"|0|"+stdOut;
-                    ekran->ekranKomutMesaj("Çalışan Komut:",lst[2],"0",stdOut);
 
+                    ekran->command=lst[2];
+                    ekran->commandDetail=stdOut;
+                    ekran->commandState="0";
+                    ekran->ekranKomutMesaj();
                 } else {
                     //qDebug() << "Kurulum sırasında hata oluştu.";
                     //qDebug() << "Çıkış kodu:" << exitCode;
                     // qDebug() << "Hata çıktısı:" << stdErr;
                     //QString mesaj="consolecommand|consolecommand|"+command+"|1"+stdErr;
-                    ekran->ekranKomutMesaj("Çalışan Komut:",lst[2],"1",stdErr);
+                    //ekran->ekranKomutMesaj();
+
+                    ekran->command=lst[2];
+                    ekran->commandDetail=stdErr;
+                    ekran->commandState="1";
+                     ekran->ekranKomutMesaj();
                 }
             } else {
-                ekran->ekranKomutMesaj("Çalışan Komut:",lst[2],"1","Komut zamanında tamamlanamadı veya hata oluştu.");
+                ekran->command=lst[2];
+                ekran->commandDetail="Komut zamanında tamamlanamadı veya hata oluştu.";
+                ekran->commandState="1";
+                ekran->ekranKomutMesaj();
+
             }
 
 
@@ -297,9 +309,13 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         }
         else if(lst[1]=="consolecommand")
         {
-            ekran->setWindowFlags(Qt::Tool);
-            ekran->ekranKomutMesaj("Çalışan Komut:",lst[2],lst[3],lst[4]);
-            //ekran->show();
+            auto ekrn=new Ekran();
+            ekrn->command=lst[2];
+            ekrn->commandDetail=lst[4];
+            ekrn->commandState=lst[3];
+            //ekrn->setWindowFlags(Qt::Tool);
+            ekrn->ekranKomutMesaj();
+            ekrn->show();
         }
         else if(lst[1]=="volumeoff")
         {

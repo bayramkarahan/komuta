@@ -13,9 +13,9 @@ Client::Client()
     localDir1="/tmp/";
     hostAddressMacButtonSlot();
 /************************************************/
-    QTimer *tcpMesajSendTimer = new QTimer();
+    tcpMesajSendTimer = new QTimer();
     QObject::connect(tcpMesajSendTimer, &QTimer::timeout, [&](){
-        tcpMesajSendTimerSlot();
+        tcpMesajSendTimerSlot(false,"","","");
     });
     tcpMesajSendTimer->start(7000);
 
@@ -51,7 +51,7 @@ void Client::udpServerSendSlot(QString _data)
                 QString msg="eagclientconf|"+interfaceList[k].ip+"|"+interfaceList[k].mac+"|"+_data;
                 QByteArray datagram = msg.toUtf8();// +QHostAddress::LocalHost;
                 udpServerSend->writeDatagram(datagram,QHostAddress(item.serverAddress), item.networkTcpPort.toInt());
-                qDebug()<<msg<<item.networkTcpPort;
+                qDebug()<<"server send mesaj:"<<msg<<item.networkTcpPort;
             }
         }
     }
@@ -345,7 +345,7 @@ void Client::udpTrayGetSlot()
         if(mesaj[0]=="clientTrayEnv")  clientTrayEnv=rmesaj;
     }
 }
-void Client::tcpMesajSendTimerSlot()
+void Client::tcpMesajSendTimerSlot(bool commandDetailStatus,QString command,QString commandDetail,QString commandStatus)
 {
 
     sessionUser=getSessionInfo(getSeatId(),"USER=");
@@ -411,8 +411,20 @@ void Client::tcpMesajSendTimerSlot()
         xrdpState=true;
     else xrdpState=false;
     /*************************************/
-    QString data=clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(xrdpState);
+    QString data;
+    if(commandDetailStatus==false)
+    {
+     data=clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(xrdpState);
     udpServerSendSlot(data);
+    }else{
+        qDebug()<<"++++++++++++++++++"<<command<<commandDetail<<commandStatus;
+         data=clientTrayEnv+"|"+clientConsoleEnv+"|"
+               +QString::number(sshState)+"|"+vncports+"|"+QString::number(xrdpState)
+               +"|"+command+"|"+commandDetail+"|"+commandStatus;
+        udpServerSendSlot(data);
+        tcpMesajSendTimer->stop();
+        tcpMesajSendTimer->start(7000);
+    }
     tempdata=data;
     data="";
 
@@ -449,7 +461,7 @@ qDebug()<<"debug socketBaglama2";
     QObject::connect(udpGuiGet,&QUdpSocket::readyRead,[&](){udpGuiGetSlot();});
 
     qDebug()<<uport<<"udp bağlandı";
-    tcpMesajSendTimerSlot();
+    tcpMesajSendTimerSlot(false,"","","");
 
 
 }
@@ -549,16 +561,30 @@ void Client::commandExecuteSlot(QString command)
         if (process.exitStatus() == QProcess::NormalExit && exitCode == 0 && stdErr.isEmpty()) {
             qDebug() << "Başarılı çıktı:" << stdOut;
             mesaj = "consolecommand|consolecommand|" + command + "|0|" + stdOut;
+            //QString data= "commandDetail|" + command + "|0|" + stdOut;
+             qDebug()<<"mesajjjjjjjjjjjjjjj-------------";
+            tcpMesajSendTimerSlot(true, command,stdOut,"0");
+             qDebug()<<"***************************************";
+            //udpServerSendSlot(data);
         } else {
             qDebug() << "Hata çıktı:" << stdErr;
             mesaj = "consolecommand|consolecommand|" + command + "|1|" + stdErr;
+            //QString data= "commandDetail|" + command + "|1|" + stdErr;
+            //udpServerSendSlot(data);
+
+            tcpMesajSendTimerSlot(true, command,stdErr,"1");
+
         }
 
         QByteArray datagram = mesaj.toUtf8();
         udpTraySend->writeDatagram(datagram, QHostAddress::LocalHost, 51512);
 
+
     } else {
         QString mesaj = "consolecommand|consolecommand|" + command + "|1|Komut zamanında tamamlanamadı.";
+        //QString data= "commandDetail|" + command + "|1|Komut zamanında tamamlanamadı.";
+        //udpServerSendSlot(data);
+         tcpMesajSendTimerSlot(true, command,"Komut zamanında tamamlanamadı.","1");
         QByteArray datagram = mesaj.toUtf8();
         udpTraySend->writeDatagram(datagram, QHostAddress::LocalHost, 51512);
     }

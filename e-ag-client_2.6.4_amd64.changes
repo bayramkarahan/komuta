@@ -15,20 +15,20 @@ Changes:
  .
    * Initial Release
 Checksums-Sha1:
- 6a4b4ba66598988f7f8d3171c8b7cd5836913de5 584 e-ag-client_2.6.4.dsc
- affc5c6ead45d3d1bfb87c1fca0f482765b57892 12369086 e-ag-client_2.6.4.tar.gz
- 36faa5f15cbe3277ba39a7b8c99b3807ff8bfc44 23864 e-ag-client-dbgsym_2.6.4_amd64.deb
- ef71c6ebd44dd3fde25a0f46bca697a70737ec85 10107 e-ag-client_2.6.4_amd64.buildinfo
- 47b65c55dd4e79e3b655b942efc72e51fffb87c5 176876 e-ag-client_2.6.4_amd64.deb
+ 65dae802c609f20f5d40ac9da203109df7821a50 584 e-ag-client_2.6.4.dsc
+ f9761781630f8770e26c62b925601802337873d9 13018053 e-ag-client_2.6.4.tar.gz
+ b1d4c9b8d8ef0a7f9b87246bab930a4e2d8ec2d4 23904 e-ag-client-dbgsym_2.6.4_amd64.deb
+ 690ab70539f060f96836991040940328e3dae429 10107 e-ag-client_2.6.4_amd64.buildinfo
+ b1dfefba682b6c57c15aabf1c147d52931986e30 178124 e-ag-client_2.6.4_amd64.deb
 Checksums-Sha256:
- 5f0b28268e8405b70424c31a258bb4089d735baa743e2f39fa088a50cb087fa4 584 e-ag-client_2.6.4.dsc
- a872ef2a781eff75ad6273417374f7963ab263ee081d4032005e64fea7cc9b98 12369086 e-ag-client_2.6.4.tar.gz
- b55cc38d4a1824733f81f1de8241ea96c5cc90b70b5004fb372ae7f635c8f691 23864 e-ag-client-dbgsym_2.6.4_amd64.deb
- 3754247b26149e2937d1ea44ba6ca97397d6251e6742de666826baaf13002d2f 10107 e-ag-client_2.6.4_amd64.buildinfo
- 29695ab9462d25a7f4376fbf5f8ca459948c25619c8001d1e1f59393abd4a8f8 176876 e-ag-client_2.6.4_amd64.deb
+ 04f7d3ae121ca67e9985f0b26ff79cc277b63b8e194a8509a8e408fa078cea80 584 e-ag-client_2.6.4.dsc
+ 668ad9db188a1f9e04acde49ea9b82498da7910da2fcc951d118de8639214101 13018053 e-ag-client_2.6.4.tar.gz
+ 01170d42c888ceca2153adea4dddeae38772d1c66004cec88fbe5cb3133dc95f 23904 e-ag-client-dbgsym_2.6.4_amd64.deb
+ c05bbc5799b45e5246105d9d5432fdaad0d4759f607f303457d97e7afe61da91 10107 e-ag-client_2.6.4_amd64.buildinfo
+ 05a99fb211c69be8b8b4b4268f84841a468b098b6fdb26ef8875bab859629199 178124 e-ag-client_2.6.4_amd64.deb
 Files:
- 2b63846d86ebaacf17bb43d8648823ab 584 utils optional e-ag-client_2.6.4.dsc
- f2c597749b0c9a46e8aa6ff2ff66239a 12369086 utils optional e-ag-client_2.6.4.tar.gz
- a527482f57c2e5aaa711a6f75697c618 23864 debug optional e-ag-client-dbgsym_2.6.4_amd64.deb
- b377b192bef9a8e2c939133f0f702fc4 10107 utils optional e-ag-client_2.6.4_amd64.buildinfo
- cd8791b88ab95a335ac6c0a00ad08111 176876 utils optional e-ag-client_2.6.4_amd64.deb
+ 76e7fc9996559750933a0675d6dac7c9 584 utils optional e-ag-client_2.6.4.dsc
+ c5fb8638ae4329dd24f6b7913732f7f0 13018053 utils optional e-ag-client_2.6.4.tar.gz
+ d37e3492f5569c558971b1f745de82ff 23904 debug optional e-ag-client-dbgsym_2.6.4_amd64.deb
+ c1eeac12a68e649d66e878424c0cb1f0 10107 utils optional e-ag-client_2.6.4_amd64.buildinfo
+ 7cd1b81f75332fea96b1545f050a7a1a 178124 utils optional e-ag-client_2.6.4_amd64.deb
