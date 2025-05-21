@@ -30,10 +30,10 @@ Client::Client()
 }
 
 
-void Client::udpServerSendSlot(QString _data)
+void Client::udpServerSendSlot(QString _data,bool sendStatus)
 {
 
-    if(udpServerGetStatus) return;
+    if(udpServerGetStatus==true&&sendStatus==false) return;
     hostAddressMacButtonSlot();
     if(udpServerSend == nullptr){
         qDebug()<<"Server bağlı değil! Bağlanıyor...";
@@ -415,13 +415,13 @@ void Client::tcpMesajSendTimerSlot(bool commandDetailStatus,QString command,QStr
     if(commandDetailStatus==false)
     {
      data=clientTrayEnv+"|"+clientConsoleEnv+"|"+QString::number(sshState)+"|"+vncports+"|"+QString::number(xrdpState);
-    udpServerSendSlot(data);
+    udpServerSendSlot(data,false);
     }else{
         qDebug()<<"++++++++++++++++++"<<command<<commandDetail<<commandStatus;
          data=clientTrayEnv+"|"+clientConsoleEnv+"|"
                +QString::number(sshState)+"|"+vncports+"|"+QString::number(xrdpState)
                +"|"+command+"|"+commandDetail+"|"+commandStatus;
-        udpServerSendSlot(data);
+        udpServerSendSlot(data,true);
         tcpMesajSendTimer->stop();
         tcpMesajSendTimer->start(7000);
     }

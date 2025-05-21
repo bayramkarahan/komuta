@@ -37,6 +37,7 @@ SOURCES += \
 HEADERS += \
     CustomInputDialog.h \
     Database.h \
+    MyCommand.h \
     MyDialog.h \
     SettingsWidget.h \
     baseWidget.h \

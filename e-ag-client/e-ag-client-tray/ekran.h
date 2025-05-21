@@ -18,7 +18,6 @@ public:
     QString command="";
     QString commandDetail="";
     QString commandState="0";
-    MyDialog *dlg;
 private:
      QLabel *basliktext;
      QLabel *mesajtext;
@@ -84,7 +83,7 @@ public:
          commandDetailButton->move(desktopScreenSize.width()*0.5-120,0);
          commandDetailButton->show();
          connect(commandDetailButton, &QToolButton::clicked, [=]() {
-            dlg= new MyDialog(tr("Komut Süreci"), commandDetail, "", "", "", desktopScreenSize.width()*0.6, desktopScreenSize.height()*0.5,this);
+            MyDialog *dlg= new MyDialog(tr("Komut Süreci"), commandDetail, "", "", "", desktopScreenSize.width()*0.6, desktopScreenSize.height()*0.5,this);
             dlg->exec();
             //delete dlg;
             dlg = nullptr;  // Güvenlik için

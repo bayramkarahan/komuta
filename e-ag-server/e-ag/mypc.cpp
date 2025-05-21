@@ -33,6 +33,8 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 #include<QDialogButtonBox>
+#include<MyCommand.h>
+
 MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
 {
 
@@ -53,26 +55,26 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     palet.setColor(QPalette::Window, QColor(0,0,0,0));
     setPalette(palet);
     setAutoFillBackground(true);
-    pcstateLabel=new QLabel(this);
     sshstateLabel=new QLabel(this);
     vncstateLabel=new QLabel(this);
     userstateLabel=new QLabel(this);
     selectLabel=new QLabel(this);
     selectLabel->setObjectName("selectLabel");
     xrdpstateLabel=new QLabel(this);
+    btncommand=new QToolButton(this);
     btnayar=new QToolButton(this);
     iconstateLabel=new QLabel(this);
     iconstateLabel->setObjectName("iconLabel");
     iconstateLabel->setScaledContents(true);
     iconstateLabel->setStyleSheet("background-color:rgba(0,0,0,0)");
-    pcstateLabel->setText("P");
+    btncommand->setText("C");
     sshstateLabel->setText("S");
     vncstateLabel->setText("V");
     xrdpstateLabel->setText("R");
     userstateLabel->setText("X");
 
     selectLabel->setStyleSheet("QLabel{border: 1px solid gray;border-radius: 5px;}");
-    pcstateLabel->setAlignment(Qt::AlignCenter);
+   // btncommand->setAlignment(Qt::AlignCenter);
     sshstateLabel->setAlignment(Qt::AlignCenter);
     vncstateLabel->setAlignment(Qt::AlignCenter);
     xrdpstateLabel->setAlignment(Qt::AlignCenter);
@@ -83,11 +85,22 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     videoWidget = new QVideoWidget(this);
     receiver->setVideoOutput(videoWidget);
     videoWidget->hide();
+
+    connect(btncommand, &QToolButton::clicked, [=]() {
+        /*qDebug()<<"komut:"<<command;
+        qDebug()<<"komut Sonucu:"<<commandDetail;
+        qDebug()<<"komut durumu:"<<commandState;*/
+        MyCommand *commanddlg= new MyCommand(tr("Komut Süreci"),command,commandDetail,commandState, "", "", "", w*50, h*30,this);
+        commanddlg->exec();
+        //delete commanddlg;
+        commanddlg = nullptr;  // Güvenlik için
+    });
     connect(btnayar, &QToolButton::clicked, [=]() {
         qDebug()<<"slotPcAyar";
         slotPcAyar();
 
 });
+
     btnayar->setIcon(QIcon(":icons/settings.svg"));
     btnayar->setAutoRaise(true);
     //iconLabel->setAutoFillBackground(true);
@@ -98,7 +111,7 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     layout->addWidget(hostnameLabel, 2, 1,1,6,Qt::AlignHCenter);
     layout->addWidget(videoWidget, 3,1,1,5,Qt::AlignHCenter);
     layout->addWidget(iconstateLabel, 3,1,1,6,Qt::AlignHCenter);
-    layout->addWidget(pcstateLabel, 4,1,1,1,Qt::AlignHCenter);
+    layout->addWidget(btncommand, 4,1,1,1,Qt::AlignHCenter);
     layout->addWidget(sshstateLabel, 4, 2,1,1,Qt::AlignHCenter);
     layout->addWidget(vncstateLabel, 4, 3,1,1,Qt::AlignHCenter);
     layout->addWidget(xrdpstateLabel, 4, 4,1,1,Qt::AlignHCenter);
@@ -155,6 +168,29 @@ void MyPc::timertcpConnectControlSlot()
     }
 
 }
+void MyPc::setCommandState(QString _command,QString _commandDetail,QString _commandState)
+{
+    command=_command;
+    commandDetail=_commandDetail;
+    commandState=_commandState;
+    if(commandState=="0")
+    {
+        btncommand->setToolTip(command);
+        btncommand->setStyleSheet("border: 1px solid gray; "
+                                  "border-radius: 6px;"
+                                  "font-size:8px;"
+                                  " text-align: center;"
+                                  "background-color: #00ff00;");
+    }
+    else
+    {
+        btncommand->setStyleSheet("border: 1px solid gray; "
+                                  "border-radius: 6px;"
+                                  "font-size:8px;"
+                                  " text-align: center;"
+                                  "background-color: #ff0000;");
+    }
+}
 void MyPc::setConnectState(bool state){
     connectState=state;
     if(state)
@@ -171,7 +207,7 @@ void MyPc::setPcState(bool state){
     QPalette *palette=new QPalette();
     if(state)
     {
-          pcstateLabel->setStyleSheet("border: 1px solid gray; "
+          btncommand->setStyleSheet("border: 1px solid gray; "
                                       "border-radius: 6px;"
                                       "font-size:8px;"
                                       " text-align: center;"
@@ -186,7 +222,7 @@ void MyPc::setPcState(bool state){
     }
     else
     {
-        pcstateLabel->setStyleSheet("border: 1px solid gray; "
+        btncommand->setStyleSheet("border: 1px solid gray; "
                                     "border-radius: 6px;"
                                     "font-size:8px;"
                                     " text-align: center;"
@@ -392,7 +428,7 @@ void MyPc::setSize(int _w, int _h, QString _font)
     /**************************************/
     hostnameLabel->setFixedSize(w*6.8,h*1.1);
 
-    pcstateLabel->setFixedSize(w*1,h*1);
+    btncommand->setFixedSize(w*1,h*1);
     sshstateLabel->setFixedSize(w*1,h*1);
     vncstateLabel->setFixedSize(w*1,h*1);
     xrdpstateLabel->setFixedSize(w*1,h*1);

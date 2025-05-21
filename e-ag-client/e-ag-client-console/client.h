@@ -58,7 +58,7 @@ private slots:
     bool uygulamaCalisiyorMu(const QString& uygulamaAdi);
     void udpTrayGetSlot();
     void udpGuiGetSlot();
-    void udpServerSendSlot(QString _data);
+    void udpServerSendSlot(QString _data, bool sendStatus);
     void hostAddressMacButtonSlot();
     void webBlockAktifPasif(bool _state);
     QString findX11vncPort(QString _servis);

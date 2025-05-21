@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Client_t {
-    QByteArrayData data[31];
-    char stringdata0[399];
+    QByteArrayData data[32];
+    char stringdata0[410];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -54,15 +54,16 @@ QT_MOC_LITERAL(18, 234, 14), // "udpTrayGetSlot"
 QT_MOC_LITERAL(19, 249, 13), // "udpGuiGetSlot"
 QT_MOC_LITERAL(20, 263, 17), // "udpServerSendSlot"
 QT_MOC_LITERAL(21, 281, 5), // "_data"
-QT_MOC_LITERAL(22, 287, 24), // "hostAddressMacButtonSlot"
-QT_MOC_LITERAL(23, 312, 18), // "webBlockAktifPasif"
-QT_MOC_LITERAL(24, 331, 6), // "_state"
-QT_MOC_LITERAL(25, 338, 14), // "findX11vncPort"
-QT_MOC_LITERAL(26, 353, 7), // "_servis"
-QT_MOC_LITERAL(27, 361, 9), // "getSeatId"
-QT_MOC_LITERAL(28, 371, 14), // "getSessionInfo"
-QT_MOC_LITERAL(29, 386, 2), // "id"
-QT_MOC_LITERAL(30, 389, 9) // "parametre"
+QT_MOC_LITERAL(22, 287, 10), // "sendStatus"
+QT_MOC_LITERAL(23, 298, 24), // "hostAddressMacButtonSlot"
+QT_MOC_LITERAL(24, 323, 18), // "webBlockAktifPasif"
+QT_MOC_LITERAL(25, 342, 6), // "_state"
+QT_MOC_LITERAL(26, 349, 14), // "findX11vncPort"
+QT_MOC_LITERAL(27, 364, 7), // "_servis"
+QT_MOC_LITERAL(28, 372, 9), // "getSeatId"
+QT_MOC_LITERAL(29, 382, 14), // "getSessionInfo"
+QT_MOC_LITERAL(30, 397, 2), // "id"
+QT_MOC_LITERAL(31, 400, 9) // "parametre"
 
     },
     "Client\0getIpPortStatus\0\0service\0number\0"
@@ -72,7 +73,7 @@ QT_MOC_LITERAL(30, 389, 9) // "parametre"
     "stringToBool\0str\0commandExecuteSlot\0"
     "udpServerGetSlot\0uygulamaCalisiyorMu\0"
     "uygulamaAdi\0udpTrayGetSlot\0udpGuiGetSlot\0"
-    "udpServerSendSlot\0_data\0"
+    "udpServerSendSlot\0_data\0sendStatus\0"
     "hostAddressMacButtonSlot\0webBlockAktifPasif\0"
     "_state\0findX11vncPort\0_servis\0getSeatId\0"
     "getSessionInfo\0id\0parametre"
@@ -103,12 +104,12 @@ static const uint qt_meta_data_Client[] = {
       16,    1,  117,    2, 0x08 /* Private */,
       18,    0,  120,    2, 0x08 /* Private */,
       19,    0,  121,    2, 0x08 /* Private */,
-      20,    1,  122,    2, 0x08 /* Private */,
-      22,    0,  125,    2, 0x08 /* Private */,
-      23,    1,  126,    2, 0x08 /* Private */,
-      25,    1,  129,    2, 0x08 /* Private */,
-      27,    0,  132,    2, 0x08 /* Private */,
-      28,    2,  133,    2, 0x08 /* Private */,
+      20,    2,  122,    2, 0x08 /* Private */,
+      23,    0,  127,    2, 0x08 /* Private */,
+      24,    1,  128,    2, 0x08 /* Private */,
+      26,    1,  131,    2, 0x08 /* Private */,
+      28,    0,  134,    2, 0x08 /* Private */,
+      29,    2,  135,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::QString, QMetaType::QString, QMetaType::Int,    3,    4,
@@ -121,12 +122,12 @@ static const uint qt_meta_data_Client[] = {
     QMetaType::Bool, QMetaType::QString,   17,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   21,
+    QMetaType::Void, QMetaType::QString, QMetaType::Bool,   21,   22,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Bool,   24,
-    QMetaType::QString, QMetaType::QString,   26,
+    QMetaType::Void, QMetaType::Bool,   25,
+    QMetaType::QString, QMetaType::QString,   27,
     QMetaType::QString,
-    QMetaType::QString, QMetaType::QString, QMetaType::QString,   29,   30,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString,   30,   31,
 
        0        // eod
 };
@@ -150,7 +151,7 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         case 8: _t->udpTrayGetSlot(); break;
         case 9: _t->udpGuiGetSlot(); break;
-        case 10: _t->udpServerSendSlot((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 10: _t->udpServerSendSlot((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
         case 11: _t->hostAddressMacButtonSlot(); break;
         case 12: _t->webBlockAktifPasif((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 13: { QString _r = _t->findX11vncPort((*reinterpret_cast< QString(*)>(_a[1])));

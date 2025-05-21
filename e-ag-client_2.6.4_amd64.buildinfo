@@ -4,20 +4,20 @@ Binary: e-ag-client e-ag-client-dbgsym
 Architecture: amd64 source
 Version: 2.6.4
 Checksums-Md5:
- 76e7fc9996559750933a0675d6dac7c9 584 e-ag-client_2.6.4.dsc
- d37e3492f5569c558971b1f745de82ff 23904 e-ag-client-dbgsym_2.6.4_amd64.deb
- 7cd1b81f75332fea96b1545f050a7a1a 178124 e-ag-client_2.6.4_amd64.deb
+ fddcbf3257c45db2a849fd9b0709399d 584 e-ag-client_2.6.4.dsc
+ 5c4107963536529524ee2eda21749ede 23852 e-ag-client-dbgsym_2.6.4_amd64.deb
+ ef8735f133edeca7d8d280bc6774ea57 178608 e-ag-client_2.6.4_amd64.deb
 Checksums-Sha1:
- 65dae802c609f20f5d40ac9da203109df7821a50 584 e-ag-client_2.6.4.dsc
- b1d4c9b8d8ef0a7f9b87246bab930a4e2d8ec2d4 23904 e-ag-client-dbgsym_2.6.4_amd64.deb
- b1dfefba682b6c57c15aabf1c147d52931986e30 178124 e-ag-client_2.6.4_amd64.deb
+ 8975ed39522090a1f47a946ae2ab406e3a45a214 584 e-ag-client_2.6.4.dsc
+ ed1066ef85e68f0324e6cc36cad06185bbcd96a0 23852 e-ag-client-dbgsym_2.6.4_amd64.deb
+ 064b0c2629dd5fa13da20753bf09c3b5084ec454 178608 e-ag-client_2.6.4_amd64.deb
 Checksums-Sha256:
- 04f7d3ae121ca67e9985f0b26ff79cc277b63b8e194a8509a8e408fa078cea80 584 e-ag-client_2.6.4.dsc
- 01170d42c888ceca2153adea4dddeae38772d1c66004cec88fbe5cb3133dc95f 23904 e-ag-client-dbgsym_2.6.4_amd64.deb
- 05a99fb211c69be8b8b4b4268f84841a468b098b6fdb26ef8875bab859629199 178124 e-ag-client_2.6.4_amd64.deb
+ 2e7b9bee6e13068e202b812d7142cea16a803740fd7b5e5abab7ad132bd3e038 584 e-ag-client_2.6.4.dsc
+ eb365fde35b32fd998b6e5fbd704e35ab34107725edf0ade67f8c5292f7bf2a8 23852 e-ag-client-dbgsym_2.6.4_amd64.deb
+ f69d0b0477248ccd314f4fbbcd411fe693cd05f1444dfcfbccd2bbf7be252c59 178608 e-ag-client_2.6.4_amd64.deb
 Build-Origin: puffOS
 Build-Architecture: amd64
-Build-Date: Wed, 21 May 2025 14:38:37 +0300
+Build-Date: Wed, 21 May 2025 19:39:51 +0300
 Installed-Build-Depends:
  autoconf (= 2.71-3),
  automake (= 1:1.16.5-1.3),
@@ -29,8 +29,8 @@ Installed-Build-Depends:
  binutils (= 2.40-2),
  binutils-common (= 2.40-2),
  binutils-x86-64-linux-gnu (= 2.40-2),
- bsdextrautils (= 2.38.1-5+deb12u1),
- bsdutils (= 1:2.38.1-5+deb12u1),
+ bsdextrautils (= 2.38.1-5+deb12u3),
+ bsdutils (= 1:2.38.1-5+deb12u3),
  bzip2 (= 1.0.8-5+b1),
  coreutils (= 9.1-1),
  cpp (= 4:12.2.0-3),
@@ -70,18 +70,18 @@ Installed-Build-Depends:
  libattr1 (= 1:2.5.1-4),
  libaudit-common (= 1:3.0.9-1),
  libaudit1 (= 1:3.0.9-1),
- libavahi-client3 (= 0.8-10),
- libavahi-common-data (= 0.8-10),
- libavahi-common3 (= 0.8-10),
+ libavahi-client3 (= 0.8-10+deb12u1),
+ libavahi-common-data (= 0.8-10+deb12u1),
+ libavahi-common3 (= 0.8-10+deb12u1),
  libbinutils (= 2.40-2),
- libblkid1 (= 2.38.1-5+deb12u1),
+ libblkid1 (= 2.38.1-5+deb12u3),
  libbrotli1 (= 1.0.9-2+b6),
  libbsd0 (= 0.11.7-2),
  libbz2-1.0 (= 1.0.8-5+b1),
- libc-bin (= 2.36-9+deb12u8),
- libc-dev-bin (= 2.36-9+deb12u8),
- libc6 (= 2.36-9+deb12u8),
- libc6-dev (= 2.36-9+deb12u8),
+ libc-bin (= 2.36-9+deb12u9),
+ libc-dev-bin (= 2.36-9+deb12u9),
+ libc6 (= 2.36-9+deb12u9),
+ libc6-dev (= 2.36-9+deb12u9),
  libcap-ng0 (= 0.8.3-1+b3),
  libcap2 (= 1:2.66-4),
  libcc1-0 (= 12.2.0-14),
@@ -90,7 +90,7 @@ Installed-Build-Depends:
  libcrypt1 (= 1:4.4.33-2),
  libctf-nobfd0 (= 2.40-2),
  libctf0 (= 2.40-2),
- libcups2 (= 2.4.2-3+deb12u7),
+ libcups2 (= 2.4.2-3+deb12u8),
  libdb5.3 (= 5.3.28+dfsg2-1),
  libdbus-1-3 (= 1.14.10-1~deb12u1),
  libdebconfclient0 (= 0.270),
@@ -109,7 +109,7 @@ Installed-Build-Depends:
  libegl1 (= 1.6.0-1),
  libelf1 (= 0.188-2.1),
  libevdev2 (= 1.13.0+dfsg-1),
- libexpat1 (= 2.5.0-1),
+ libexpat1 (= 2.5.0-1+deb12u1),
  libffi8 (= 3.4.4-1),
  libfile-stripnondeterminism-perl (= 1.13.1-1),
  libfontconfig1 (= 2.14.1-4),
@@ -163,7 +163,7 @@ Installed-Build-Depends:
  libmagic1 (= 1:5.44-3),
  libmd0 (= 1.0.4-2),
  libmd4c0 (= 0.4.8-1),
- libmount1 (= 2.38.1-5+deb12u1),
+ libmount1 (= 2.38.1-5+deb12u3),
  libmpc3 (= 1.3.1-1),
  libmpfr6 (= 4.2.0-1),
  libmtdev1 (= 1.1.6-1),
@@ -186,8 +186,8 @@ Installed-Build-Depends:
  libpng16-16 (= 1.6.39-2),
  libpthread-stubs0-dev (= 0.4-1),
  libpython3-stdlib (= 3.11.2-1+b1),
- libpython3.11-minimal (= 3.11.2-6+deb12u2),
- libpython3.11-stdlib (= 3.11.2-6+deb12u2),
+ libpython3.11-minimal (= 3.11.2-6+deb12u4),
+ libpython3.11-stdlib (= 3.11.2-6+deb12u4),
  libqt5concurrent5 (= 5.15.8+dfsg-11+deb12u2),
  libqt5core5a (= 5.15.8+dfsg-11+deb12u2),
  libqt5dbus5 (= 5.15.8+dfsg-11+deb12u2),
@@ -213,12 +213,12 @@ Installed-Build-Depends:
  libsensors-config (= 1:3.6.0-7.1),
  libsensors5 (= 1:3.6.0-7.1),
  libsm6 (= 2:1.2.3-1),
- libsmartcols1 (= 2.38.1-5+deb12u1),
- libsqlite3-0 (= 3.40.1-2),
+ libsmartcols1 (= 2.38.1-5+deb12u3),
+ libsqlite3-0 (= 3.40.1-2+deb12u1),
  libssl3 (= 3.0.15-1~deb12u1),
  libstdc++6 (= 12.2.0-14),
  libsub-override-perl (= 0.09-4),
- libsystemd0 (= 252.31-1~deb12u1),
+ libsystemd0 (= 252.33-1~deb12u1),
  libtasn1-6 (= 4.19.0-2),
  libtinfo6 (= 6.4-4),
  libtirpc-common (= 1.3.3+ds-1),
@@ -228,9 +228,9 @@ Installed-Build-Depends:
  libtsan2 (= 12.2.0-14),
  libubsan1 (= 12.2.0-14),
  libuchardet0 (= 0.0.7-1),
- libudev1 (= 252.31-1~deb12u1),
+ libudev1 (= 252.33-1~deb12u1),
  libunistring2 (= 1.0-2),
- libuuid1 (= 2.38.1-5+deb12u1),
+ libuuid1 (= 2.38.1-5+deb12u3),
  libvulkan-dev (= 1.3.239.0-1),
  libvulkan1 (= 1.3.239.0-1),
  libwacom-common (= 2.6.0-1),
@@ -276,7 +276,7 @@ Installed-Build-Depends:
  libxxf86vm1 (= 1:1.1.4-1+b2),
  libz3-4 (= 4.8.12-3.1),
  libzstd1 (= 1.5.4+dfsg2-5),
- linux-libc-dev (= 6.1.106-3),
+ linux-libc-dev (= 6.1.115-1),
  login (= 1:4.13+dfsg1-1+b1),
  m4 (= 1.4.19-3),
  mailcap (= 3.70+nmu1),
@@ -294,8 +294,8 @@ Installed-Build-Depends:
  po-debconf (= 1.0.21+nmu1),
  python3 (= 3.11.2-1+b1),
  python3-minimal (= 3.11.2-1+b1),
- python3.11 (= 3.11.2-6+deb12u2),
- python3.11-minimal (= 3.11.2-6+deb12u2),
+ python3.11 (= 3.11.2-6+deb12u4),
+ python3.11-minimal (= 3.11.2-6+deb12u4),
  qt5-qmake (= 5.15.8+dfsg-11+deb12u2),
  qt5-qmake-bin (= 5.15.8+dfsg-11+deb12u2),
  qt5-qmltooling-plugins (= 5.15.8+dfsg-3),
@@ -312,8 +312,8 @@ Installed-Build-Depends:
  sysvinit-utils (= 3.06-4),
  tar (= 1.34+dfsg-1.2+deb12u1),
  usr-is-merged (= 37~deb12u1),
- util-linux (= 2.38.1-5+deb12u1),
- util-linux-extra (= 2.38.1-5+deb12u1),
+ util-linux (= 2.38.1-5+deb12u3),
+ util-linux-extra (= 2.38.1-5+deb12u3),
  x11-common (= 1:7.7+23),
  x11proto-dev (= 2022.1-1),
  xfonts-encodings (= 1:1.0.4-2.2),
@@ -324,6 +324,6 @@ Installed-Build-Depends:
  xz-utils (= 5.4.1-0.2),
  zlib1g (= 1:1.2.13.dfsg-1)
 Environment:
- DEB_BUILD_OPTIONS="parallel=4"
+ DEB_BUILD_OPTIONS="parallel=8"
  LANG="tr_TR.UTF-8"
  SOURCE_DATE_EPOCH="1609068668"

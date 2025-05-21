@@ -104,7 +104,7 @@ void MainWindow::udpSocketServerRead()
             if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[0]=="eagclientconf"){
                 ///qDebug()<<"Client Mesaj:"<<rmesaj;
                 onlinePcList[i]->tcpConnectCounter=0;
-                onlinePcList[i]->setPcState(true);
+                //onlinePcList[i]->setPcState(true);
                 onlinePcList[i]->setConnectState(true);
                 onlinePcList[i]->ip=mesaj[1];
                 if(mesaj.count()==15)
@@ -128,10 +128,13 @@ void MainWindow::udpSocketServerRead()
                     if(mesaj[14]=="1")onlinePcList[i]->setXrdpState(true);
                     else onlinePcList[i]->setXrdpState(false);
                 }
-                //if(mesaj.count()>15)
-                //{
-                qDebug()<<rmesaj;
-                //}
+                if(mesaj.count()>15)
+                {
+                onlinePcList[i]->setCommandState(mesaj[15],mesaj[16],mesaj[17]);
+                qDebug()<<"komut:"<<mesaj[15];
+                qDebug()<<"komut Sonucu:"<<mesaj[16];
+                qDebug()<<"komut durumu:"<<mesaj[17];
+                }
             }
         }
 

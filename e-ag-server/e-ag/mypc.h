@@ -83,6 +83,9 @@ public:
         QString hostname;
         QString caption;
         bool visibleState=true;
+        QString command="";
+        QString commandDetail="";
+        QString commandState="";
 
         QString vncport=0;
         bool select;
@@ -124,6 +127,7 @@ void setPcState(bool state);
 void setSshState(bool state);
 void setVncState(bool state);
 void setXrdpState(bool state);
+void setCommandState(QString _command,QString _commandDetail,QString _commandState);
 void slotMouseClick();
 void slotMouseDoubleClick();
 void slotSelectPc();
@@ -149,8 +153,8 @@ bool refreshContinueState=false;
     qreal h;
 
     QToolButton *btnayar;
+    QToolButton *btncommand;
     QLabel *hostnameLabel;
-    QLabel *pcstateLabel;
     QLabel *sshstateLabel;
     QLabel *vncstateLabel;
     QLabel *connectstateLabel;
