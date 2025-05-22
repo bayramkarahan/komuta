@@ -39,7 +39,7 @@ SOURCES += \
     singleinstance.cpp
 
 HEADERS += \
-    MyDialog.h \
+    MyCommand.h \
     ekran.h \
         mainwindow.h \
     singleinstance.h

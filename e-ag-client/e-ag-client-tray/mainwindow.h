@@ -135,7 +135,8 @@ private:
     QLabel *baslik;
     QTimer *timer;
     QTimer *tcpMesajControlTimer;
-    Ekran *ekran;
+    //Ekran *ekran;
+    QList<Ekran*> ekranList;
 
     QUdpSocket *udpConsoleGet = nullptr;
     QUdpSocket *udpConsoleSend= nullptr;

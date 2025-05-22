@@ -6,7 +6,7 @@ fd1c3878c57857c112829afa77e405ee  usr/bin/clientcamera
 4dbd3f092745a270ad3d884fc4d8df73  usr/bin/e-ag-client-console
 652e5a1ef3a21f25f6578d81e3c63c29  usr/bin/e-ag-client-gui
 5866f6c85338710e8e63164dd9d969b0  usr/bin/e-ag-client-networkprofil
-9188b25b68bf332a648cf6f581b3e0fe  usr/bin/e-ag-client-tray
+fa5cebead94fb06e58d14f788b832ec4  usr/bin/e-ag-client-tray
 b4c7ec3fff5c3388081309db6fe3061a  usr/bin/scd-client
 432fb89411189652c8d054bd60aa8858  usr/bin/serverscreen
 d2d7ec3164d50f18eea4b7c8c3257225  usr/bin/x11vncpasswd

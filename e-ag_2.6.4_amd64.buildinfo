@@ -4,20 +4,20 @@ Binary: e-ag e-ag-dbgsym
 Architecture: amd64 source
 Version: 2.6.4
 Checksums-Md5:
- d70a0590190c41aa4cc04a9132518012 542 e-ag_2.6.4.dsc
- 57887024bfa292392aed8a6292440493 26632 e-ag-dbgsym_2.6.4_amd64.deb
- 798bf146fdb577c5cee8a64ba971c8ab 473176 e-ag_2.6.4_amd64.deb
+ 77cbeccace0f5a4c04b3edb6ec693272 542 e-ag_2.6.4.dsc
+ 6a0ac3ef18da8a837b4a532bb596678d 26800 e-ag-dbgsym_2.6.4_amd64.deb
+ 97faf89e3598949c568622a27618df53 475888 e-ag_2.6.4_amd64.deb
 Checksums-Sha1:
- f8341a039c87d8d41ee223e24ee77a4c2d35a340 542 e-ag_2.6.4.dsc
- e87366df9b670cc887ea2569813bd54dc27c64e0 26632 e-ag-dbgsym_2.6.4_amd64.deb
- eb406b5dc862a1248d6200232b3e71d569c4a5eb 473176 e-ag_2.6.4_amd64.deb
+ 49fac66fdd0f4e6fdbb74f242d11c8edd57a3cb4 542 e-ag_2.6.4.dsc
+ a7267f4122b85d7148b352006a5e21d324983ca5 26800 e-ag-dbgsym_2.6.4_amd64.deb
+ 2062d8360fbb285ede877e87a884bdbb769e6577 475888 e-ag_2.6.4_amd64.deb
 Checksums-Sha256:
- c0df61f98e5414d83e47180d9c9d34ed3c865747424d95af7c1bf8e85c45a900 542 e-ag_2.6.4.dsc
- 384fb74141dc8273f67486dd1564e7020ba6dc66394f68a6d6d5b193e81882a3 26632 e-ag-dbgsym_2.6.4_amd64.deb
- 9ed8f7e2fcf45a8d83c3026103cd4d3f832789b8c5fc8a31823bbce798cb6295 473176 e-ag_2.6.4_amd64.deb
+ 68c2ca5b1706c7ba49840c5403fd1cfd142c0bf0444ed45a45498d05fb6f3eac 542 e-ag_2.6.4.dsc
+ 1c5dcf8d858d891227a6a163b664babc70f2b40cfa99e7b7ec34dd35388dc809 26800 e-ag-dbgsym_2.6.4_amd64.deb
+ 08ad9c8903bd895790466b4e6f4083a0473d55d8d90ebb38a0aea55148f88cad 475888 e-ag_2.6.4_amd64.deb
 Build-Origin: puffOS
 Build-Architecture: amd64
-Build-Date: Tue, 20 May 2025 14:41:56 +0300
+Build-Date: Thu, 22 May 2025 10:59:37 +0300
 Installed-Build-Depends:
  autoconf (= 2.71-3),
  automake (= 1:1.16.5-1.3),

@@ -121,8 +121,8 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
 
     this->ip=_ip;
     this->mac=_mac;
-    setPcState(true);
 
+    setCommandButonState(false);
 
     DatabaseHelper *db=new DatabaseHelper(localDir+"persist.json");
     QJsonArray dizi=db->Ara("mac",this->mac);
@@ -202,23 +202,14 @@ void MyPc::setConnectState(bool state){
        iconstateLabel->setStyleSheet("background-color:rgba(127,127,127,100)");
     }
 }
-void MyPc::setPcState(bool state){
-    pcState=state;
-    QPalette *palette=new QPalette();
-    if(state)
+void MyPc::setCommandButonState(bool state){
+   if(state)
     {
           btncommand->setStyleSheet("border: 1px solid gray; "
                                       "border-radius: 6px;"
                                       "font-size:8px;"
                                       " text-align: center;"
                                       "background-color: #00ff00;");
-
-        iconstateLabel->setStyleSheet("background-color:rgba(125,255,125,50)");
-        /*
-        QStringList list=PcData::onlinePcListe;
-        list=listReplace(list, "pcclose", ps, 2,mac);//pcstate
-        PcData::onlinePcListe=list;
-*/
     }
     else
     {
@@ -226,25 +217,8 @@ void MyPc::setPcState(bool state){
                                     "border-radius: 6px;"
                                     "font-size:8px;"
                                     " text-align: center;"
-                                    "background-color: #ff0000;");
-
-       /// ps="pcclose";
-        iconstateLabel->setStyleSheet("background-color:rgba(255,0,0,100)");
+                                    "background-color: #aaaaaa;");
     }
-        setSshState(false);
-        setVncState(false);
-        setXrdpState(false);
-        setUser("noLogin");
-/*
-        QStringList list=PcData::onlinePcListe;
-
-       list=listReplace(list, "pcclose", ps, 2,mac);//pcstate
-       ///iptal listToFile(list,"iplistname");
-        PcData::onlinePcListe=list;
-       /// emit pcListeSignal();
-*/
-   // }
-
 }
 void MyPc::setSshState(bool state){
 sshState=state;
@@ -457,7 +431,7 @@ MyPc::~MyPc()
 void MyPc::slotMouseClick()
 {
 
-    if(pcState)
+    if(connectState)
     {
         QPalette palet;
 
@@ -550,7 +524,7 @@ void MyPc::slotPcAyar()
     d->setLayout(vbox);
     lineEditA->setText(caption);
 
-    if(pcState)pcstate->setText("Pc: Açık");else pcstate->setText("Pc: Kapalı");
+    if(connectState)connectstate->setText("Pc: Açık");else connectstate->setText("Pc: Kapalı");
     if(sshState)sshstate->setText("Ssh: Açık");else sshstate->setText("Ssh: Kapalı");
     if(vncState) vncstate->setText("Vnc: Açık ("+vncport+")");else vncstate->setText("Vnc: Kapalı ("+vncport+")");
     if(xrdpState)xrdpstate->setText("Xrdp: Açık");else xrdpstate->setText("Xrdp: Kapalı");
@@ -617,7 +591,7 @@ slotMouseDoubleClick();
 }
 
 void MyPc::slotMouseDoubleClick(){
-    if(pcState)
+    if(connectState)
     {
         //qDebug()<<"--------"<<multiSelect;
         if(multiSelect)
@@ -627,14 +601,14 @@ void MyPc::slotMouseDoubleClick(){
     }
 }
 void MyPc::slotSelectPc(){
-    if(pcState)
+    if(connectState)
     {
         multiSelect=true;
         selectLabel->setStyleSheet("QLabel{border: 2px solid blue;border-radius: 5px;}");
     }
 }
 void MyPc::slotUnselectPc(){
-    if(pcState)
+    if(connectState)
     {
         multiSelect=false;
         selectLabel->setStyleSheet("QLabel{border: 1px solid gray;border-radius: 5px;}");

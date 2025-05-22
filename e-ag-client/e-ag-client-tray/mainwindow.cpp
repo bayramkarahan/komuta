@@ -60,7 +60,6 @@ MainWindow::MainWindow(QWidget *parent) :
     /*******************************************************************/
     webblockcb= new QCheckBox("Her Açılışta Web Sitelerini Engelle.");
 
-    ekran=new Ekran();
     gelenKomut=new QLabel("-------------------");
 
     trayIcon=new QSystemTrayIcon(this);
@@ -194,6 +193,12 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         if(lst[1]=="ekranmesaj")
         {
             qDebug()<<"ekranmesaj:"<<lst[1]<<lst[2];
+            for (Ekran* item : ekranList) {
+                delete item;
+            }
+            ekranList.clear();
+            auto ekran=new Ekran();
+            ekranList.append(ekran);
             ekran->setWindowFlags(Qt::Tool);
             ekran->ekranMesaj("Yönetici Mesajı:",lst[2]);
             ekran->show();
@@ -222,6 +227,12 @@ void MainWindow::tcpMessageControlSlot(QString _data)
                 kilitstate=true;
                 transparankilitstate=false;
                 ekranimagestate=false;
+                for ( Ekran *item : ekranList) {
+                    delete item;
+                }
+                ekranList.clear();
+                auto ekran=new Ekran();
+                ekranList.append(ekran);
                 ekran->setWindowFlags(Qt::Tool);
                 ekran->ekranKilit("Yönetici Mesajı:","Ekran Kilitlendi!");
                 ekran->show();
@@ -231,7 +242,11 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         else if(lst[1]=="kilitstatefalse")
         {
             qDebug()<<"ekrankilitac:"<<lst[1];
-            ekran->close();
+            for ( Ekran *item : ekranList) {
+                delete item;
+            }
+            ekranList.clear();
+            //ekran->close();
             kilitstate=false;
         }
         else if(lst[1]=="transparankilitstatetrue")
@@ -242,6 +257,12 @@ void MainWindow::tcpMessageControlSlot(QString _data)
                 kilitstate=false;
                 transparankilitstate=true;
                 ekranimagestate=false;
+                for ( Ekran *item : ekranList) {
+                    delete item;
+                }
+                ekranList.clear();
+                auto ekran=new Ekran();
+                ekranList.append(ekran);
                 ekran->setWindowFlags(Qt::Tool);
                 ekran->ekranTransparanKilit();
                 ekran->show();
@@ -251,11 +272,21 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         else if(lst[1]=="transparankilitstatefalse")
         {
             qDebug()<<"ekrantransparankilitac:"<<lst[1];
-            ekran->close();
+            for ( Ekran *item : ekranList) {
+                delete item;
+            }
+            ekranList.clear();
+            //ekran->close();
             transparankilitstate=false;
         }
         else if(lst[1]=="x11command")
         {
+            for ( Ekran* item : ekranList) {
+                delete item;
+            }
+            ekranList.clear();
+            auto ekran=new Ekran();
+            ekranList.append(ekran);
             ekran->setWindowFlags(Qt::Tool);
             //QString komut="nohup "+lst[2]+" &";
             //system(komut.toStdString().c_str());
@@ -309,14 +340,21 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         }
         else if(lst[1]=="consolecommand")
         {
-            auto ekrn=new Ekran();
-            ekrn->command=lst[2];
-            ekrn->commandDetail=lst[4];
-            ekrn->commandState=lst[3];
-            //ekrn->setWindowFlags(Qt::Tool);
-            ekrn->ekranKomutMesaj();
-            ekrn->show();
-        }
+            for (const Ekran *item : ekranList) {
+                delete item;
+            }
+            ekranList.clear();
+
+            Ekran *ekran=new Ekran();
+            ekran->command=lst[2];
+            ekran->commandDetail=lst[4];
+            ekran->commandState=lst[3];
+            //ekran->setWindowFlags(Qt::Tool);
+            ekran->ekranKomutMesaj();
+            qDebug()<<"mesaj gösteriliyor";
+            ekran->show();
+            ekranList.append(ekran);
+            }
         else if(lst[1]=="volumeoff")
         {
              if(QFile::exists("/usr/bin/wpctl"))

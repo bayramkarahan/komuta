@@ -9,7 +9,7 @@
 #include <QApplication>
 #include <QScreen>
 #include<QToolButton>
-#include<MyDialog.h>
+#include<MyCommand.h>.h>
 #include<QMessageBox>
 class Ekran : public QWidget
 {
@@ -83,7 +83,7 @@ public:
          commandDetailButton->move(desktopScreenSize.width()*0.5-120,0);
          commandDetailButton->show();
          connect(commandDetailButton, &QToolButton::clicked, [=]() {
-            MyDialog *dlg= new MyDialog(tr("Komut Süreci"), commandDetail, "", "", "", desktopScreenSize.width()*0.6, desktopScreenSize.height()*0.5,this);
+            MyCommand *dlg= new MyCommand(tr("Komut Süreci"),command,commandDetail,commandState, "", "", "", desktopScreenSize.width()*0.6, desktopScreenSize.height()*0.5,this);
             dlg->exec();
             //delete dlg;
             dlg = nullptr;  // Güvenlik için

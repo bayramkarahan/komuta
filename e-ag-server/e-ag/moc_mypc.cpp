@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MyPc_t {
-    QByteArrayData data[50];
-    char stringdata0[689];
+    QByteArrayData data[54];
+    char stringdata0[753];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -69,19 +69,23 @@ QT_MOC_LITERAL(33, 436, 30), // "setKilitTransparanControlState"
 QT_MOC_LITERAL(34, 467, 19), // "setIconControlState"
 QT_MOC_LITERAL(35, 487, 26), // "timertcpConnectControlSlot"
 QT_MOC_LITERAL(36, 514, 15), // "setConnectState"
-QT_MOC_LITERAL(37, 530, 10), // "setPcState"
-QT_MOC_LITERAL(38, 541, 11), // "setSshState"
-QT_MOC_LITERAL(39, 553, 11), // "setVncState"
-QT_MOC_LITERAL(40, 565, 12), // "setXrdpState"
-QT_MOC_LITERAL(41, 578, 14), // "slotMouseClick"
-QT_MOC_LITERAL(42, 593, 20), // "slotMouseDoubleClick"
-QT_MOC_LITERAL(43, 614, 12), // "slotSelectPc"
-QT_MOC_LITERAL(44, 627, 14), // "slotUnselectPc"
-QT_MOC_LITERAL(45, 642, 10), // "slothidePc"
-QT_MOC_LITERAL(46, 653, 15), // "getIpPortStatus"
-QT_MOC_LITERAL(47, 669, 3), // "ip_"
-QT_MOC_LITERAL(48, 673, 4), // "port"
-QT_MOC_LITERAL(49, 678, 10) // "slotPcAyar"
+QT_MOC_LITERAL(37, 530, 20), // "setCommandButonState"
+QT_MOC_LITERAL(38, 551, 11), // "setSshState"
+QT_MOC_LITERAL(39, 563, 11), // "setVncState"
+QT_MOC_LITERAL(40, 575, 12), // "setXrdpState"
+QT_MOC_LITERAL(41, 588, 15), // "setCommandState"
+QT_MOC_LITERAL(42, 604, 8), // "_command"
+QT_MOC_LITERAL(43, 613, 14), // "_commandDetail"
+QT_MOC_LITERAL(44, 628, 13), // "_commandState"
+QT_MOC_LITERAL(45, 642, 14), // "slotMouseClick"
+QT_MOC_LITERAL(46, 657, 20), // "slotMouseDoubleClick"
+QT_MOC_LITERAL(47, 678, 12), // "slotSelectPc"
+QT_MOC_LITERAL(48, 691, 14), // "slotUnselectPc"
+QT_MOC_LITERAL(49, 706, 10), // "slothidePc"
+QT_MOC_LITERAL(50, 717, 15), // "getIpPortStatus"
+QT_MOC_LITERAL(51, 733, 3), // "ip_"
+QT_MOC_LITERAL(52, 737, 4), // "port"
+QT_MOC_LITERAL(53, 742, 10) // "slotPcAyar"
 
     },
     "MyPc\0pcClickSignal\0\0mac\0pcRightClickSignal\0"
@@ -97,8 +101,10 @@ QT_MOC_LITERAL(49, 678, 10) // "slotPcAyar"
     "_hostname\0setKilitControlState\0state\0"
     "setKilitTransparanControlState\0"
     "setIconControlState\0timertcpConnectControlSlot\0"
-    "setConnectState\0setPcState\0setSshState\0"
-    "setVncState\0setXrdpState\0slotMouseClick\0"
+    "setConnectState\0setCommandButonState\0"
+    "setSshState\0setVncState\0setXrdpState\0"
+    "setCommandState\0_command\0_commandDetail\0"
+    "_commandState\0slotMouseClick\0"
     "slotMouseDoubleClick\0slotSelectPc\0"
     "slotUnselectPc\0slothidePc\0getIpPortStatus\0"
     "ip_\0port\0slotPcAyar"
@@ -111,7 +117,7 @@ static const uint qt_meta_data_MyPc[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      33,   14, // methods
+      34,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -119,41 +125,42 @@ static const uint qt_meta_data_MyPc[] = {
       14,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,  179,    2, 0x06 /* Public */,
-       4,    0,  182,    2, 0x06 /* Public */,
-       5,    0,  183,    2, 0x06 /* Public */,
-       6,    1,  184,    2, 0x06 /* Public */,
-       8,    2,  187,    2, 0x06 /* Public */,
-      10,    0,  192,    2, 0x06 /* Public */,
-      11,    2,  193,    2, 0x06 /* Public */,
-      12,    2,  198,    2, 0x06 /* Public */,
-      13,    2,  203,    2, 0x06 /* Public */,
-      14,    2,  208,    2, 0x06 /* Public */,
-      15,    3,  213,    2, 0x06 /* Public */,
-      17,    3,  220,    2, 0x06 /* Public */,
-      19,    3,  227,    2, 0x06 /* Public */,
-      21,    3,  234,    2, 0x06 /* Public */,
+       1,    1,  184,    2, 0x06 /* Public */,
+       4,    0,  187,    2, 0x06 /* Public */,
+       5,    0,  188,    2, 0x06 /* Public */,
+       6,    1,  189,    2, 0x06 /* Public */,
+       8,    2,  192,    2, 0x06 /* Public */,
+      10,    0,  197,    2, 0x06 /* Public */,
+      11,    2,  198,    2, 0x06 /* Public */,
+      12,    2,  203,    2, 0x06 /* Public */,
+      13,    2,  208,    2, 0x06 /* Public */,
+      14,    2,  213,    2, 0x06 /* Public */,
+      15,    3,  218,    2, 0x06 /* Public */,
+      17,    3,  225,    2, 0x06 /* Public */,
+      19,    3,  232,    2, 0x06 /* Public */,
+      21,    3,  239,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      23,    3,  241,    2, 0x0a /* Public */,
-      27,    1,  248,    2, 0x0a /* Public */,
-      29,    1,  251,    2, 0x0a /* Public */,
-      31,    1,  254,    2, 0x0a /* Public */,
-      33,    1,  257,    2, 0x0a /* Public */,
-      34,    1,  260,    2, 0x0a /* Public */,
-      35,    0,  263,    2, 0x0a /* Public */,
-      36,    1,  264,    2, 0x0a /* Public */,
-      37,    1,  267,    2, 0x0a /* Public */,
-      38,    1,  270,    2, 0x0a /* Public */,
-      39,    1,  273,    2, 0x0a /* Public */,
-      40,    1,  276,    2, 0x0a /* Public */,
-      41,    0,  279,    2, 0x0a /* Public */,
-      42,    0,  280,    2, 0x0a /* Public */,
-      43,    0,  281,    2, 0x0a /* Public */,
-      44,    0,  282,    2, 0x0a /* Public */,
-      45,    0,  283,    2, 0x0a /* Public */,
-      46,    2,  284,    2, 0x08 /* Private */,
-      49,    0,  289,    2, 0x08 /* Private */,
+      23,    3,  246,    2, 0x0a /* Public */,
+      27,    1,  253,    2, 0x0a /* Public */,
+      29,    1,  256,    2, 0x0a /* Public */,
+      31,    1,  259,    2, 0x0a /* Public */,
+      33,    1,  262,    2, 0x0a /* Public */,
+      34,    1,  265,    2, 0x0a /* Public */,
+      35,    0,  268,    2, 0x0a /* Public */,
+      36,    1,  269,    2, 0x0a /* Public */,
+      37,    1,  272,    2, 0x0a /* Public */,
+      38,    1,  275,    2, 0x0a /* Public */,
+      39,    1,  278,    2, 0x0a /* Public */,
+      40,    1,  281,    2, 0x0a /* Public */,
+      41,    3,  284,    2, 0x0a /* Public */,
+      45,    0,  291,    2, 0x0a /* Public */,
+      46,    0,  292,    2, 0x0a /* Public */,
+      47,    0,  293,    2, 0x0a /* Public */,
+      48,    0,  294,    2, 0x0a /* Public */,
+      49,    0,  295,    2, 0x0a /* Public */,
+      50,    2,  296,    2, 0x08 /* Private */,
+      53,    0,  301,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -184,12 +191,13 @@ static const uint qt_meta_data_MyPc[] = {
     QMetaType::Void, QMetaType::Bool,   32,
     QMetaType::Void, QMetaType::Bool,   32,
     QMetaType::Void, QMetaType::Bool,   32,
+    QMetaType::Void, QMetaType::QString, QMetaType::QString, QMetaType::QString,   42,   43,   44,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::QString, QMetaType::QString, QMetaType::QString,   47,   48,
+    QMetaType::QString, QMetaType::QString, QMetaType::QString,   51,   52,
     QMetaType::Void,
 
        0        // eod
@@ -223,18 +231,19 @@ void MyPc::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void *
         case 19: _t->setIconControlState((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 20: _t->timertcpConnectControlSlot(); break;
         case 21: _t->setConnectState((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 22: _t->setPcState((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 22: _t->setCommandButonState((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 23: _t->setSshState((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 24: _t->setVncState((*reinterpret_cast< bool(*)>(_a[1]))); break;
         case 25: _t->setXrdpState((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 26: _t->slotMouseClick(); break;
-        case 27: _t->slotMouseDoubleClick(); break;
-        case 28: _t->slotSelectPc(); break;
-        case 29: _t->slotUnselectPc(); break;
-        case 30: _t->slothidePc(); break;
-        case 31: { QString _r = _t->getIpPortStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])));
+        case 26: _t->setCommandState((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< QString(*)>(_a[3]))); break;
+        case 27: _t->slotMouseClick(); break;
+        case 28: _t->slotMouseDoubleClick(); break;
+        case 29: _t->slotSelectPc(); break;
+        case 30: _t->slotUnselectPc(); break;
+        case 31: _t->slothidePc(); break;
+        case 32: { QString _r = _t->getIpPortStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
-        case 32: _t->slotPcAyar(); break;
+        case 33: _t->slotPcAyar(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -369,13 +378,13 @@ int MyPc::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 33)
+        if (_id < 34)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 33;
+        _id -= 34;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 33)
+        if (_id < 34)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 33;
+        _id -= 34;
     }
     return _id;
 }

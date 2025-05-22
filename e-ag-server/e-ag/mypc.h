@@ -66,7 +66,7 @@ public:
         }
         bool iconState=false;
         bool iconControlState=false;
-        bool pcState;
+        //bool pcState;
         bool sshState;
         bool vncState;
         bool xrdpState;
@@ -123,7 +123,7 @@ void setKilitTransparanControlState(bool state);
 void setIconControlState(bool state);
 void timertcpConnectControlSlot();
 void setConnectState(bool state);
-void setPcState(bool state);
+void setCommandButonState(bool state);
 void setSshState(bool state);
 void setVncState(bool state);
 void setXrdpState(bool state);

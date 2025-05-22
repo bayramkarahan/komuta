@@ -10,8 +10,8 @@ Build-Depends: debhelper (>= 9), qtdeclarative5-dev
 Package-List:
  e-ag deb utils optional arch=amd64
 Checksums-Sha1:
- 45255af087a0ea8eced2d0c553b2fe0b73325b78 26076355 e-ag_2.6.4.tar.gz
+ 5b688597e8ee5b68c0cb3e6d34f03801e15c6fab 26077394 e-ag_2.6.4.tar.gz
 Checksums-Sha256:
- 6c04fab4140e1ef475661f9a2bf41a4013b97e39515e01cd0f4e06fdcc317b54 26076355 e-ag_2.6.4.tar.gz
+ eca0683ea29e3b4c86ed7be073eeae8805c5e55e67a36e9684753e368ebede33 26077394 e-ag_2.6.4.tar.gz
 Files:
- 4141ede6c4db3692f3039fd1ece5a64c 26076355 e-ag_2.6.4.tar.gz
+ 5a4607d46c221e27635f2769eba87d1d 26077394 e-ag_2.6.4.tar.gz

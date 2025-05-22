@@ -51,6 +51,13 @@ QWidget* MainWindow::commandWidget()
     connect(commandExecuteButton, &QToolButton::clicked, [=]() {
         if(pcMac->text()==""){mesajSlot(tr("Pc Seçiniz"));return;}
         udpSendData("consolecommand","consolecommand",commandFileL->text());
+        for(int i=0;i<onlinePcList.count();i++)
+        {
+            if((onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+            {
+                onlinePcList[i]->setCommandButonState(false);
+            }
+        }
     });
 
     QToolButton *x11CommandButton=new QToolButton();
@@ -66,6 +73,13 @@ QWidget* MainWindow::commandWidget()
     connect(x11CommandButton, &QToolButton::clicked, [=]() {
         if(pcMac->text()==""){mesajSlot(tr("Pc Seçiniz"));return;}
         udpSendData("x11command","x11command",commandFileL->text());
+        /*for(int i=0;i<onlinePcList.count();i++)
+        {
+            if((onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+            {
+                onlinePcList[i]->setCommandButonState(false);
+            }
+        }*/
     });
 
     QToolButton *helpButton= new QToolButton;

@@ -60,6 +60,7 @@ SOURCES       = main.cpp \
 		scdimgclient.cpp \
 		scdimgserver.cpp \
 		scdimgserverthread.cpp qrc_resources.cpp \
+		moc_MyCommand.cpp \
 		moc_mainwindow.cpp \
 		moc_mypc.cpp \
 		moc_rubberband.cpp \
@@ -75,6 +76,7 @@ OBJECTS       = main.o \
 		scdimgserver.o \
 		scdimgserverthread.o \
 		qrc_resources.o \
+		moc_MyCommand.o \
 		moc_mainwindow.o \
 		moc_mypc.o \
 		moc_rubberband.o \
@@ -173,6 +175,7 @@ DIST          = e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		e-ag.pro CustomInputDialog.h \
 		Database.h \
+		MyCommand.h \
 		MyDialog.h \
 		SettingsWidget.h \
 		baseWidget.h \
@@ -409,7 +412,7 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents CustomInputDialog.h Database.h MyDialog.h SettingsWidget.h baseWidget.h filecopyWidget.h languageWidget.h lockWidget.h loginLogoutWidget.h mainwindow.h menu.h messageWidget.h mypc.h pcdata.h powerrebootWidget.h rubberband.h runcommandWidget.h scdimgclient.h scdimgserver.h scdimgserverthread.h screenViewWidget.h sliderWidget.h tcpudp.h selectpc.h funtion.h videoWidget.h vncrdpWidget.h volumeWidget.h wolWidget.h $(DISTDIR)/
+	$(COPY_FILE) --parents CustomInputDialog.h Database.h MyCommand.h MyDialog.h SettingsWidget.h baseWidget.h filecopyWidget.h languageWidget.h lockWidget.h loginLogoutWidget.h mainwindow.h menu.h messageWidget.h mypc.h pcdata.h powerrebootWidget.h rubberband.h runcommandWidget.h scdimgclient.h scdimgserver.h scdimgserverthread.h screenViewWidget.h sliderWidget.h tcpudp.h selectpc.h funtion.h videoWidget.h vncrdpWidget.h volumeWidget.h wolWidget.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp mainwindow.cpp mypc.cpp pcdata.cpp rubberband.cpp scdimgclient.cpp scdimgserver.cpp scdimgserverthread.cpp $(DISTDIR)/
 
 
@@ -523,9 +526,14 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
+compiler_moc_header_make_all: moc_MyCommand.cpp moc_mainwindow.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
+	-$(DEL_FILE) moc_MyCommand.cpp moc_mainwindow.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
+moc_MyCommand.cpp: MyCommand.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include MyCommand.h -o moc_MyCommand.cpp
+
 moc_mainwindow.cpp: mainwindow.h \
 		mypc.h \
 		pcdata.h \
@@ -620,7 +628,8 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 
 mypc.o: mypc.cpp mypc.h \
 		pcdata.h \
-		Database.h
+		Database.h \
+		MyCommand.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mypc.o mypc.cpp
 
 pcdata.o: pcdata.cpp pcdata.h
@@ -642,6 +651,9 @@ scdimgserverthread.o: scdimgserverthread.cpp scdimgserverthread.h \
 
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp
+
+moc_MyCommand.o: moc_MyCommand.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MyCommand.o moc_MyCommand.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

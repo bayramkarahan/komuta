@@ -126,6 +126,13 @@ QWidget*  MainWindow::fileWidget()
         selectFileCopySlot("realdebsendfile",pth.fromPercentEncoding(name1.toUtf8()),name);
         //system("sleep 0.1");
         selectFileCopySlot("debscriptsendfile", "/tmp/debeagscript","debeagscript");
+        for(int i=0;i<onlinePcList.count();i++)
+        {
+            if((onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+            {
+                onlinePcList[i]->setCommandButonState(false);
+            }
+        }
        mesajSlot("Dosya Seçili Pc'ye Kopyalandı ve Kuruldu.");
     });
 
@@ -170,7 +177,13 @@ QWidget*  MainWindow::fileWidget()
         //system("sleep 0.1");
         selectFileCopySlot("scriptsendfile", "/tmp/eagscript","eagscript");
 
-
+    for(int i=0;i<onlinePcList.count();i++)
+    {
+     if((onlinePcList[i]->select||onlinePcList[i]->multiSelect))
+     {
+            onlinePcList[i]->setCommandButonState(false);
+     }
+    }
         mesajSlot("Script Dosya Seçili Pc'ye Kopyalandı ve Kuruldu.");
     });
 
@@ -350,6 +363,7 @@ void MainWindow::selectFileCopySlot(QString _mesajtype,QString _sourcePath,QStri
         ///QString komut="/usr/bin/scd-client "+onlinePcList[i]->ip+" "+onlinePcList[i]->netProfil.ftpPort+" PUT "+_sourcePath+" /"+_targetPath;
         //system(komut.toStdString().c_str());
         fileCopyTasks.enqueue({_mesajtype,onlinePcList[i]->ip,onlinePcList[i]->netProfil.ftpPort,_sourcePath,_targetPath});
+
      }
     }
     listeyiKopyala();

@@ -36,7 +36,7 @@ public:
         lcommandStatus->setFixedWidth(_w*0.98);
         if(commandStatus=="0")
         {
-        lcommandStatus->setText("Komut İstemcide Hatasız Yürütüldü.");
+        lcommandStatus->setText("Komut İstemcide Başarılı Şekilde Yürütüldü.");
         lcommandStatus->setStyleSheet("background-color:rgba(0,100,0,100)");
         }
         else
