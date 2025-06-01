@@ -71,7 +71,8 @@ void MainWindow::udpSocketServerRead()
         QString rmesaj=datagram.constData();
         ///qDebug()<<rmesaj;
         mesaj=rmesaj.split("|");
-        //qDebug()<<"Client Mesaj:"<<rmesaj;
+        qDebug()<<"Client Mesaj:"<<rmesaj;
+
         QString _mac=mesaj[2];
         /********************************************/
         bool findedStatus=false;
@@ -83,9 +84,10 @@ void MainWindow::udpSocketServerRead()
             }
         }
         if(!findedStatus){
-            slotPcEkle(mesaj[1],_mac.toUpper());
+            slotPcEkle(_mac.toUpper(),mesaj[1]);
             pcListeGuncelleSlotnew("openpcDetect");
         }
+
         /*********************************************/
         for(int i=0;i<onlinePcList.count();i++)
         {
@@ -101,6 +103,7 @@ void MainWindow::udpSocketServerRead()
                 system(kmt3.toStdString().c_str());
                 break;
            }
+
             if(_mac.toUpper()==onlinePcList[i]->mac.toUpper()&&mesaj[0]=="eagclientconf"){
                 ///qDebug()<<"Client Mesaj:"<<rmesaj;
                 onlinePcList[i]->tcpConnectCounter=0;
@@ -168,47 +171,6 @@ interfaceList.clear();
 
 
 }
-QStringList MainWindow::readArp()
-{
-    QStringList list;
-    const int size = 256;
-
-        char ip_address[size];
-        int hw_type;
-        int flags;
-        char mac_address[size];
-        char mask[size];
-        char device[size];
-
-        FILE* fp = fopen("/proc/net/arp", "r");
-        if(fp == NULL)
-        {
-            perror("Error opening /proc/net/arp");
-        }
-
-        char line[size];
-        fgets(line, size, fp);    // Skip the first line, which consists of column headers.
-        while(fgets(line, size, fp))
-        {
-            sscanf(line, "%s 0x%x 0x%x %s %s %s\n",
-                   ip_address,
-                   &hw_type,
-                   &flags,
-                   mac_address,
-                   mask,
-                   device);
-            if(flags==2)
-            {
-                ///qDebug()<< ip_address<< mac_address<<hw_type<<flags;
-                list<<QString(ip_address)+"|"+ QString(mac_address);
-
-
-            }
-        }
-
-        fclose(fp);
-   return list;
-}
 QString MainWindow::getMacForIP(QString ipAddress)
 {
     // qDebug()<<"mac adresleri:";
@@ -257,97 +219,17 @@ void MainWindow::pcCloseSignalSlot(QString ip,QString mac)
             slotPcSil(i,onlinePcList[i]->ip,onlinePcList[i]->mac);
         }
     }
+    pcListeGuncelleSlotnew("closepcDetect");
 }
-QString MainWindow::getIpPortStatus(QString service)
-{
-    QString result="";
-    QStringList arguments;
-    arguments << "-c" << QString(service);
-    QProcess process;
-    process.start("/bin/bash",arguments);
-    if(process.waitForFinished(-1))
-    {
-        result = process.readAll();
-        result.chop(1);
-    }
-    qDebug()<<"Port sorgulama:"<<result<<service;
-    if(result.toInt()>0){ return "open";}
-    else {return "close";}
-}
-
-void MainWindow::pcDetect()
-{
-    QStringList arpList=readArp();
-    /*arpList.append("192.168.1.211|11:1d:65:ea:11:22");
-    arpList.append("192.168.1.212|12:1d:65:ea:11:22");
-    arpList.append("192.168.1.213|13:1d:65:ea:11:22");
-    arpList.append("192.168.1.214|14:1d:65:ea:11:22");
-    arpList.append("192.168.1.215|15:1d:65:ea:11:22");
-    arpList.append("192.168.1.216|16:1d:65:ea:11:22");
-    arpList.append("192.168.1.217|17:1d:65:ea:11:22");
-    arpList.append("192.168.1.218|18:1d:65:ea:11:22");
-    arpList.append("192.168.1.219|19:1d:65:ea:11:22");
-    arpList.append("192.168.1.221|21:1d:65:ea:11:22");
-    arpList.append("192.168.1.222|22:1d:65:ea:11:22");
-    arpList.append("192.168.1.223|23:1d:65:ea:11:22");
-    arpList.append("192.168.1.224|24:1d:65:ea:11:22");
-    arpList.append("192.168.1.225|25:1d:65:ea:11:22");
-    arpList.append("192.168.1.226|26:1d:65:ea:11:22");
-    arpList.append("192.168.1.227|27:1d:65:ea:11:22");
-    arpList.append("192.168.1.228|28:1d:65:ea:11:22");
-    arpList.append("192.168.1.229|29:1d:65:ea:11:22");*/
-
-    /*************************************************************/
-    bool openrefreshState=false;
-    bool closerefreshState=false;
-    for(int i=0;i<arpList.count();i++)
-    {
-        QString fmac = arpList[i].split("|")[1];
-        bool bul=false;
-        for (int i=0;i<onlinePcList.count();i++) {
-            if (onlinePcList[i]->mac == fmac)
-                bul=true;
-        }
-        if (!bul) {
-            //Yeni pc varsa ekleme yapılır
-            slotPcEkle(arpList[i].split("|")[0],arpList[i].split("|")[1]);
-            openrefreshState=true;
-        }
-    }
-
-    /******************************************************/
-    for(int i=0;i<onlinePcList.count();i++)
-    {
-        QString fmac = onlinePcList[i]->mac;
-        bool bul=false;
-        for (int i=0;i<arpList.count();i++) {
-            if (arpList[i].split("|")[1] == fmac)
-                bul=true;
-        }
-        if (!bul) {
-            // Kapatılan pc varsa kaldırılır
-           slotPcSil(i,onlinePcList[i]->ip,onlinePcList[i]->mac);
-            closerefreshState=true;
-        }
-    }
-    if(openrefreshState)
-    {
-        //qDebug() << "Liste Güncellemesi yapılıyor.....: ";
-        pcListeGuncelleSlotnew("openpcDetect");
-    }
-    if(closerefreshState)
-    {
-        //qDebug() << "Liste Güncellemesi yapılıyor.....: ";
-        pcListeGuncelleSlotnew("closepcDetect");
-    }
-
-}
-
-void MainWindow::slotPcEkle(QString _ip,QString _mac)
+void MainWindow::slotPcEkle(QString _mac,QString _ip)
 {
     //qDebug() << "Pc Ekle Başla: "<<_ip;
     qDebug() << "Açılan Pc: "<<_ip;
+
     MyPc *mypc=new MyPc(_mac,_ip);
+
+    qDebug() << "diğer işlemler yapılacak";
+
     connect(mypc, SIGNAL(pcClickSignal(QString)),this, SLOT(pcClickSlot(QString)));
 
     connect(mypc, SIGNAL(pcHideSignal(QString)),this,
@@ -373,7 +255,7 @@ void MainWindow::slotPcEkle(QString _ip,QString _mac)
     //pcListeGuncelleSlotnew();
     //qDebug() << "Pc Ekle Son: "<<_ip;
 }
-void MainWindow::slotPcSil(int _index,QString _ip,QString _mac)
+void MainWindow::slotPcSil(int _index,QString _mac,QString _ip)
 {
     qDebug() << "Kapatılan Pc: "<<onlinePcList[_index]->ip;
     pcopencount--;

@@ -27,6 +27,7 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
+    multicast_receiver.cpp \
     mypc.cpp \
     pcdata.cpp \
     rubberband.cpp \
@@ -40,6 +41,8 @@ HEADERS += \
     MyCommand.h \
     MyDialog.h \
     SettingsWidget.h \
+    VideoDecodeThread.h \
+    VideoPlayer.h \
     baseWidget.h \
     filecopyWidget.h \
     languageWidget.h \
@@ -48,6 +51,7 @@ HEADERS += \
         mainwindow.h \
     menu.h \
     messageWidget.h \
+    multicast_receiver.h \
     mypc.h \
     pcdata.h \
     powerrebootWidget.h \
@@ -69,15 +73,19 @@ HEADERS += \
 FORMS +=
 LIBS += -lqtermwidget5
 INCLUDEPATH += /usr/include/qtermwidget5
+# FFmpeg kütüphaneleri
+INCLUDEPATH += /usr/include
+LIBS += -lavformat -lavcodec -lavutil -lswscale
+
 #LIBS += -lgstreamer-1.0 -lgstapp-1.0 -lgstvideo-1.0 -lgstaudio-1.0
 #INCLUDEPATH += /usr/include/gstreamer-1.0
-PKGCONFIG += gstreamer-1.0 gstreamer-base-1.0 gstreamer-video-1.0 gstreamer-rtp-1.0
-LIBS += -lgstreamer-1.0 -lgstapp-1.0 -lgstvideo-1.0 -lgobject-2.0 -lglib-2.0 -lgstaudio-1.0
+#PKGCONFIG += gstreamer-1.0 gstreamer-base-1.0 gstreamer-video-1.0 gstreamer-rtp-1.0
+#LIBS += -lgstreamer-1.0 -lgstapp-1.0 -lgstvideo-1.0 -lgobject-2.0 -lglib-2.0 -lgstaudio-1.0
 
-INCLUDEPATH += /usr/include/gstreamer-1.0 \
-               /usr/include/glib-2.0 \
-               /usr/lib/glib-2.0/include \
-               /usr/include/gstreamer-1.0/gst/video
+#INCLUDEPATH += /usr/include/gstreamer-1.0 \
+#               /usr/include/glib-2.0 \
+#               /usr/lib/glib-2.0/include \
+#               /usr/include/gstreamer-1.0/gst/video
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -124,11 +132,13 @@ polkit_policy.path = /usr/share/polkit-1/actions/
 polkit_rules.files = e-ag.rules
 polkit_rules.path = /usr/share/polkit-1/rules.d/
 
-lang.files = translations/*.qm
-lang.path = /usr/share/e-ag/translations/
+langtr.files = translations/tr_TR.qm
+langtr.path = /usr/share/e-ag/translations/
+langen.files = translations/en_EN.qm
+langen.path = /usr/share/e-ag/translations/
 
 INSTALLS += target desktop_file icon x11passwd\
-x11servicedesktop x11servicelogin lang polkit_rules polkit_policy
+x11servicedesktop x11servicelogin langen langtr polkit_rules polkit_policy
 
 DISTFILES +=e-ag.svg\
     e-ag.desktop\

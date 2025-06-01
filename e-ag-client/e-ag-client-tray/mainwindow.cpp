@@ -206,17 +206,11 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         }
         else if(lst[1]=="vncviewer")
         {
-            qDebug()<<"mesaj:"<<lst[1]<<lst[2]<<lst[3];
+            //qDebug()<<"mesaj:"<<lst[1]<<lst[2]<<lst[3];
             system("pkill vncviewer &");
-            QStringList params=lst[2].split(":");
-            QString  kmt;
-            kmt.append("nohup vncviewer "+params[0]+" \-fullscreen ").append(lst[3]).append(":"+params[1]+" \-passwd \/usr\/bin\/x11vncpasswd &");
-            qDebug()<<"komut:"<<kmt;
-            system(kmt.toStdString().c_str());
-            /*ekran->setWindowFlags(Qt::Tool);
-            ekran->ekranKomutMesaj("Çalışan Komut:",kmt);
-            ekran->show();*/
-
+            system("sleep 1");
+            QString komut="nohup "+lst[2]+" &";
+            system(komut.toStdString().c_str());
         }
         else if(lst[1]=="kilitstatetrue")
         {
@@ -281,7 +275,9 @@ void MainWindow::tcpMessageControlSlot(QString _data)
         }
         else if(lst[1]=="x11command")
         {
-            for ( Ekran* item : ekranList) {
+            QString komut="nohup "+lst[2]+" &";
+            system(komut.toStdString().c_str());
+           /* for ( Ekran* item : ekranList) {
                 delete item;
             }
             ekranList.clear();
@@ -336,7 +332,7 @@ void MainWindow::tcpMessageControlSlot(QString _data)
 
 
 
-            ekran->show();
+            ekran->show();*/
         }
         else if(lst[1]=="consolecommand")
         {

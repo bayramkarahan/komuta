@@ -61,7 +61,6 @@
 #include <QRubberBand>
 #include "scdimgclient.h"
 #include<QInputDialog>
-#include <gst/gst.h>
 #include <iostream>
 #include<Database.h>
 #include<qtermwidget5/qtermwidget.h>
@@ -118,11 +117,11 @@ protected:
 private slots:
      QString getActiveUserName();
      void pcMenu(bool singlepc);
-     QStringList readArp();
+
      void udpSocketServerRead();
-     QString getIpPortStatus(QString service);
+
      void udpSendData(QString _mesajTur,QString _mesaj,QString _ip);
-     void pcDetect();
+
      QWidget *commandWidget();
      QWidget *sliderWidget();
 
@@ -148,7 +147,7 @@ private slots:
     void hideShowPcSlot();
     void networkProfil();
     void updateSlider(int val);
-    QString getIpPortStatus(QString ip_,QString port);
+
 
     void selectSlot();
 
@@ -200,8 +199,8 @@ QString getMacForIP(QString ipAddress);
     void slotEkranIzleDurdur();
     void slotEkranIzleAll();
     void slotEkranIzleAllDurdur();
-    void slotPcEkle(QString _ip,QString _mac);
-    void slotPcSil(int _index,QString _ip,QString _mac);
+    void slotPcEkle(QString _mac,QString _ip);
+    void slotPcSil(int _index,QString _mac,QString _ip);
 
 private:
     bool pcrightmenu;
@@ -325,8 +324,6 @@ private:
     QRadioButton *rb1;
     QRadioButton *rb2;
     bool udpSendDataStatus=false;
-    GstElement *audio_pipeline;
-    GstElement *video_pipeline;
     bool firstRun=false; 
   };
 

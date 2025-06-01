@@ -34,15 +34,12 @@
 #include <QVBoxLayout>
 #include<QDialogButtonBox>
 #include<MyCommand.h>
+#include<VideoPlayer.h>
 
 MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
 {
-
+    receiver=new MulticastReceiver(this);
     setObjectName("mypcobject");
-
-    //timerPortControl= new QTimer(this);
-    //connect(timerPortControl, SIGNAL(timeout()), this, SLOT(timerPortControlSlot()));
-   // timerPortControl->start(5000);
     timertcpConnectControl= new QTimer(this);
     connect(timertcpConnectControl, SIGNAL(timeout()), this, SLOT(timertcpConnectControlSlot()));
     timertcpConnectControl->start(3000);
@@ -64,6 +61,7 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     btncommand=new QToolButton(this);
     btnayar=new QToolButton(this);
     iconstateLabel=new QLabel(this);
+    //videoWidget=new VideoPlayer(this);
     iconstateLabel->setObjectName("iconLabel");
     iconstateLabel->setScaledContents(true);
     iconstateLabel->setStyleSheet("background-color:rgba(0,0,0,0)");
@@ -81,10 +79,6 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     userstateLabel->setAlignment(Qt::AlignCenter);
     hostnameLabel->setAlignment(Qt::AlignTop|Qt::AlignCenter);
     hostnameLabel->raise();
-    receiver = new QMediaPlayer;
-    videoWidget = new QVideoWidget(this);
-    receiver->setVideoOutput(videoWidget);
-    videoWidget->hide();
 
     connect(btncommand, &QToolButton::clicked, [=]() {
         /*qDebug()<<"komut:"<<command;
@@ -109,7 +103,7 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     layout->setContentsMargins(2, 2, 2,2);
     layout->setVerticalSpacing(1);
     layout->addWidget(hostnameLabel, 2, 1,1,6,Qt::AlignHCenter);
-    layout->addWidget(videoWidget, 3,1,1,5,Qt::AlignHCenter);
+    //layout->addWidget(videoWidget, 3,1,1,5,Qt::AlignHCenter);
     layout->addWidget(iconstateLabel, 3,1,1,6,Qt::AlignHCenter);
     layout->addWidget(btncommand, 4,1,1,1,Qt::AlignHCenter);
     layout->addWidget(sshstateLabel, 4, 2,1,1,Qt::AlignHCenter);
@@ -154,7 +148,10 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
 void MyPc::timertcpConnectControlSlot()
 {
     tcpConnectCounter++;
-
+    if(!iconControlState)
+    {
+        iconstateLabel->clear();
+    }
      //iconstateLabel->setText(QString::number(tcpConnectCounter));
     if(tcpConnectCounter>5)
     {
@@ -331,24 +328,64 @@ void MyPc::setIconControlState(bool state)
 
 
         QStringList ipparts=ip.split(".");
-        QString newIp="239.0."+ipparts[2]+"."+ipparts[3];
-        receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address="+newIp+" ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert !  xvimagesink name=qtvideosink"));
-        videoWidget->setStyleSheet("  background-color: rgba(50, 50, 50, 0);");
+        QString newIp="udp://@239.0."+ipparts[2]+"."+ipparts[3]+":1234";
+
+       // receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address="+newIp+" ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert !  xvimagesink name=qtvideosink"));
+       // receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address=" + newIp +
+       //                         " ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert ! ximagesink"));
+
+        /*videoWidget->setStyleSheet("  background-color: rgba(50, 50, 50, 0);");
         videoWidget->show();
         videoWidget->setAspectRatioMode(Qt::IgnoreAspectRatio);
-        receiver->play();
+        receiver->play();*/
+        // Multicast UDP adresini yaz (örnek)
+        //QString url = "udp://@239.255.0.1:1234";
+        //videoWidget->setAddress(newIp);
+        //videoWidget->play();
+         //player(url);
+        //player.show();
+        qDebug()<<"izleniyor..."<<newIp;
+        if (receiver && receiver->isRunning())
+            return;
+
+        if (receiver) {
+            receiver->stop();
+            delete receiver;
+            receiver = nullptr;
+        }
+
+        receiver = new MulticastReceiver(this);
+       // receiver->urlAddress = "udp://@239.0.1.103:1234";
+        receiver->urlAddress = newIp;
+
+        connect(receiver, &MulticastReceiver::frameReady, this, [this](const QImage &img) {
+            if (prevImage != img)
+                iconstateLabel->setPixmap(QPixmap::fromImage(img).scaled(iconstateLabel->size(), Qt::KeepAspectRatio));
+            prevImage= img;
+        });
+
+        receiver->start();
+        //iconstateLabel->show();
         iconControlState=true;
     }
     if(state==false&&transparanKilitControlState==false&&kilitControlState==false)
     {
-        //iconstateLabel->setPixmap(QPixmap(""));
-        videoWidget->hide();
-        receiver->stop();
+
+        //videoWidget->stop();
+        if (receiver) {
+            receiver->stop();
+            receiver->wait();
+            disconnect(receiver, nullptr, this, nullptr);  // sinyal bağlantılarını kes
+            delete receiver;
+            receiver = nullptr;
+            iconstateLabel->clear(); // Ekranı temizle
+        }
+         iconstateLabel->clear();
         iconControlState=false;
+
     }
 
 }
-
 void MyPc::setUser(QString _usr)
 {
     user=_usr;
@@ -375,7 +412,10 @@ void MyPc::setHostname(QString _hostname)
     if(this->caption!="")
         hostnameLabel->setText(this->caption);
     else
+    {
         hostnameLabel->setText(this->hostname);
+        this->caption=this->hostname;
+    }
     if(hostname!=_hostname)
     {
         //qDebug()<<"Yeni Host Ekleniyor.";
@@ -389,7 +429,10 @@ void MyPc::setHostname(QString _hostname)
         db->Sil("mac",this->mac);
         db->Ekle(veri);
     }
-
+    if(this->caption=="")
+     {
+        this->caption=this->hostname;
+    }
 }
 void MyPc::setSize(int _w, int _h, QString _font)
 {
@@ -410,23 +453,22 @@ void MyPc::setSize(int _w, int _h, QString _font)
 
     selectLabel->setFixedSize(w*7, h*7);
     //btnpc->setFixedSize(w*7, h*3);
-    videoWidget->setFixedSize(w*6.9, h*4.6);
-    iconstateLabel->setFixedSize(w*6.9, w*3.3);
+    //videoWidget->setFixedSize(w*6.9, h*4.6);
+    iconstateLabel->setFixedSize(w*6.9, w*3.4);
     //layout1->SetFixedSize->setFixedSize(w*7, h*5);
 
     btnayar->setFixedSize(w*1, h*1);
     btnayar->setIconSize(QSize(w*1.4,h*1.4));
-    /*userstateLabel->setStyleSheet("border: 1px solid gray; "
-                                  "border-radius: 6px;"
-                                  "font-size:8px;"
-                                  " text-align: center;"
-                                  "background-color: #ff0000;");*/
-   /* */
 
 }
 MyPc::~MyPc()
 {
 // qDebug()<<"Pc nesnesi Silindi-----------: "<<ip<<mac;
+    if (receiver) {
+        receiver->stop();
+        delete receiver;
+        receiver = nullptr;
+    }
 }
 void MyPc::slotMouseClick()
 {

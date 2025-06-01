@@ -14,7 +14,7 @@ else
 echo 'WaylandEnable=false'>/etc/gdm3/custom.conf
 fi
 
-mkdir -p /usr/share/e-ag
+#mkdir -p /usr/share/e-ag
 #chmod 777 /usr/share/e-ag
 cp /var/local/e-ag/persist.json /usr/share/e-ag/
 systemctl daemon-reload || true
@@ -25,8 +25,8 @@ systemctl start e-ag-networkprofil.service || true
 systemctl enable ssh.service || true
 systemctl start ssh.service || true
 
-systemctl enable vsftpd.service || true
-systemctl start vsftpd.service || true
+#systemctl enable vsftpd.service || true
+#systemctl start vsftpd.service || true
 
 systemctl enable e-ag-x11vnclogin.service || true
 systemctl start e-ag-x11vnclogin.service || true

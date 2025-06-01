@@ -82,7 +82,9 @@ void MainWindow::slotEkranIzle()
             onlinePcList[i]->setIconControlState(true);
         }
     }
-    udpSendData("x11command","x11command","serverscreen");
+   udpSendData("x11command","x11command","pkill serverscreen");
+   udpSendData("x11command","x11command","pkill ffmpeg");
+   udpSendData("x11command","x11command","serverscreen");
     mesajSlot(tr("Seçili Ekran İzlemeler Başlatıldı."));
 }
 void MainWindow::slotEkranIzleDurdur()
@@ -94,7 +96,9 @@ void MainWindow::slotEkranIzleDurdur()
             onlinePcList[i]->setIconControlState(false);
         }
     }
+
     udpSendData("x11command","x11command","pkill serverscreen");
+    udpSendData("x11command","x11command","pkill ffmpeg");
     mesajSlot(tr("Seçili Ekran İzlemeler Durduruldu."));
 }
 void MainWindow::slotEkranIzleAll()

@@ -36,6 +36,8 @@
 #include<QVideoWidget>
 #include<Database.h>
 #include <QCoreApplication>
+#include<VideoPlayer.h>
+#include<multicast_receiver.h>
 class NetProfil
 {
 public:
@@ -162,10 +164,11 @@ bool refreshContinueState=false;
     QLabel *selectLabel;
     QLabel *userstateLabel;
     QLabel *iconstateLabel;
-
-    QMediaPlayer *receiver;
-    QVideoWidget *videoWidget;
-
+    //VideoPlayer *videoWidget;
+    MulticastReceiver *receiver;
+    QImage prevImage;
 };
+
+
 
 #endif // MYPC_H

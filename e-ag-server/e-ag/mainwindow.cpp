@@ -155,8 +155,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ekranScale->setCurrentIndex(3);
     /*********************************************************************/
 
-    newPcDetectTimer= new QTimer(this);
-    connect(newPcDetectTimer, SIGNAL(timeout()), this, SLOT(pcDetect()));
+    //newPcDetectTimer= new QTimer(this);
+    //connect(newPcDetectTimer, SIGNAL(timeout()), this, SLOT(pcDetect()));
     //newPcDetectTimer->start(5000);
     /********************* Broadcast Message yollanıyor *****************************************/
     QString uport="7879";
@@ -349,7 +349,6 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
      //qDebug()<<"Hosts Listesi Güncellendi..new";//<<columnSayisi<<nwidth<<nheight;
     qDebug()<<"Hosts Listesi Güncellendi..new"<<mission;
      int sn=0;
- //return;
      for(int i=0;i<satir;i++)
      {
          for(int k=0;k<sutun;k++)
@@ -372,6 +371,7 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
 
          pcClickSlot(onlinePcList1[onlinePcList1.size()-1]->mac);
      }
+
  }
 void MainWindow::pcHideSignalSlot(QString _mac)
  {
@@ -384,7 +384,7 @@ void MainWindow::pcHideSignalSlot(QString _mac)
             //hostListe->removeWidget(onlinePcList[i]);
             delete onlinePcList[i];
             onlinePcList.removeAt(i);
-            pcDetect();
+            //pcDetect();
             break;
          }
         }

@@ -37,7 +37,7 @@ void MainWindow::slotTerminal()
     QString _remotepasswd=cid1.getText();
     if(seatUser!=""&&_remotepasswd!="")
     {
-        QString kmt10="xterm -fa \"Monospace\" -fs 14 -e \"ssh etapadmin@"+pcIp->text()+"\" &";
+        QString kmt10="xterm -fa \"Monospace\" -fs 14 -e \"ssh "+seatUser+"@"+pcIp->text()+"\" &";
         system(kmt10.toStdString().c_str());
     }
 // QString kmt10="x-terminal-emulator -e \"ssh "+remoteUserName+"@"+pcIp->text()+"\"";
@@ -55,22 +55,6 @@ void MainWindow::slotTerminal()
     mesajSlot("Seçili Hostda Terminal Başlatıldı.");
 }
 
-QString MainWindow::getIpPortStatus(QString ip_,QString port)
-{
-    QString result="";
-    QStringList arguments;
-    arguments << "-c" << QString("nc -zv -w1 %1 %2 2>&1|grep 'open'|wc -l").arg(ip_,port);
-    QProcess process;
-    process.start("/bin/bash",arguments);
-    if(process.waitForFinished(-1))
-    {
-        result = process.readAll();
-        result.chop(1);
-    }
-    qDebug()<<"Port sorgulama:"<<ip_<<result<<port;
-    if(result.toInt()>0){ return "open";}
-    else {return "close";}
-}
 
 QString  MainWindow::getSeatId()
 {

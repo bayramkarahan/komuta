@@ -254,12 +254,12 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
         {
             QString  komut;
-            komut.append("vncviewer "+viewState+" \-fullscreen ").append(onlinePcList[i]->netProfil.serverAddress).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd ");
+            komut.append("/usr/bin/vncviewer "+viewState+" \-fullscreen ").append(onlinePcList[i]->netProfil.serverAddress).append(":5901 \-passwd \/usr\/bin\/x11vncpasswd ");
             //udpSendData("x11command","x11command",komut);
             uport=onlinePcList[i]->netProfil.networkTcpPort;
             std::reverse(uport.begin(), uport.end());
 
-            QString msg="x11command|x11command|"+komut+"|"+onlinePcList[i]->netProfil.serverAddress+"|"+uport;
+            QString msg="x11command|vncviewer|"+komut+"|"+onlinePcList[i]->netProfil.serverAddress+"|"+uport;
             QByteArray datagram = msg.toUtf8();
             udpSocketSend->writeDatagram(datagram,QHostAddress(onlinePcList[i]->ip), uport.toInt());
             qDebug()<<"Mesaj Gönderildi:"<<msg;

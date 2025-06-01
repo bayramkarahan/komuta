@@ -34,12 +34,12 @@ public:
         // CommandStatus label'ı
         QLabel *lcommandStatus = new QLabel(this);
         lcommandStatus->setFixedWidth(_w*0.98);
-        if(commandStatus=="0")
+        if(commandStatus=="0"&&command!="")
         {
         lcommandStatus->setText("Komut İstemcide Başarılı Şekilde Yürütüldü.");
         lcommandStatus->setStyleSheet("background-color:rgba(0,100,0,100)");
         }
-        else
+        if(commandStatus=="1"&&command!="")
         {
         lcommandStatus->setText("Komut İstemcide Yürütülürken Hatalar Oluştu.");
         lcommandStatus->setStyleSheet("background-color:rgba(100,0,0,100)");

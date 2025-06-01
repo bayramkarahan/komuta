@@ -1,10 +1,11 @@
 #include <QApplication>
-#include <gst/gst.h>
+
 #include <iostream>
 #include<QHostAddress>
 #include<QNetworkInterface>
 #include<QNetworkAddressEntry>
-
+#include<QProcess>
+#include<QScreen>
 class IpMac
 {
 public:
@@ -13,7 +14,7 @@ public:
     QString broadcast;
 
 };
- QList<IpMac> ipmaclist;
+QList<IpMac> ipmaclist;
 
 void hostAddressMacButtonSlot()
 {
@@ -42,44 +43,76 @@ void hostAddressMacButtonSlot()
 
 }
 int main(int argc, char *argv[]) {
-    gst_init(&argc, &argv);
+    QApplication a(argc, argv);
+    QProcess *ffmpegProcess0= new QProcess();
+    QProcess *ffmpegProcess1= new QProcess();
+
     hostAddressMacButtonSlot();
     for(int k=0;k<ipmaclist.count();k++)
     {
+
         qDebug()<<ipmaclist[k].ip;
         QStringList ipparts=ipmaclist[k].ip.split(".");
         QString newIp="239.0."+ipparts[2]+"."+ipparts[3];
         qDebug()<<newIp;
+        QSize screenSize = QGuiApplication::primaryScreen()->size();
+        QString videoSize = QString("%1x%2")
+                                .arg(screenSize.width())
+                                .arg(screenSize.height());
 
-    GstElement *vpipeline,*apipeline;
-    GError *error = NULL;
+#ifdef Q_OS_WIN
+        QString command = "ffmpeg.exe";
+        QStringList arguments = {
+            "-f", "gdigrab",               // Windows için ekran yakalama
+            "-framerate", "30",
+            "-video_size", "1280x800",
+            "-i", "desktop",
+            "-f", "dshow",                // Windows mikrofon
+            "-i", "audio=Microphone",
+#else
+        QString command = "ffmpeg";
 
-    // Video ve ses pipeline'ları
-    std::string videoPipeline = "ximagesrc ! videoscale ! video/x-raw,width=800,height=600 ,framerate=15/1 ! videoconvert ! x264enc tune=zerolatency bitrate=512 ! rtph264pay ! udpsink host="+newIp.toStdString()+" port=5000";
-    //  ximagesrc ! video/x-raw,framerate=30/1 ! videoconvert ! x264enc tune=zerolatency bitrate=1024 ! rtph264pay ! udpsink host="+newIp.toStdString()+" port=5000";
-    //  ximagesrc ! video/x-raw,framerate=15/1 ! videoconvert ! x264enc tune=zerolatency bitrate=512 ! rtph264pay ! udpsink host=239.0.0.1 port=5000
-    //  Video pipeline'ı oluştur
-    vpipeline = gst_parse_launch(videoPipeline.c_str(), &error);
-    if (error) {
-        std::cerr << "Ekran yansıtma pipeline oluşturulamadı: " << error->message << std::endl;
-        g_clear_error(&error);
-        return -1;
+        QStringList arguments = {
+            "-f", "x11grab",              // Linux için ekran yakalama
+            "-framerate", "10",
+            "-video_size",videoSize,
+            "-i", ":0.0",
+#endif
+            "-vcodec", "libx264",
+            "-preset", "ultrafast",
+            "-tune", "zerolatency",
+            "-pix_fmt", "yuv420p",
+            "-s", "800x600",
+            "-b:v", "1500k",
+            "-bufsize", "0",
+            "-flush_packets", "1",
+            "-fflags", "nobuffer",
+            "-g", "10",
+            "-keyint_min", "10",
+            "-f", "mpegts",
+            "udp://"+newIp+":1234?pkt_size=1316&ttl=1"
+        };
+
+        if(k==0)
+        {
+            ffmpegProcess0->start(command, arguments);
+            if (!ffmpegProcess0->waitForStarted()) {
+                qDebug() << "Başlatılamadı-0!";
+            } else {
+                qDebug() << "Yayın başladı-0.";
+            }
+        }
+        /*
+        if(k==1)
+        {
+            ffmpegProcess1->start(command, arguments);
+            if (!ffmpegProcess1->waitForStarted()) {
+                qDebug() << "Başlatılamadı-1!";
+            } else {
+                qDebug() << "Yayın başladı-1.";
+            }
+        }
+*/
     }
-    gst_element_set_state(vpipeline, GST_STATE_PLAYING);
-
-
-    std::cout << "Yayın başladı (Ctrl+C ile durdurun)..." << std::endl;
-
-    // Yayın devam ederken (Ctrl+C ile durdurulana kadar) bekleyin
-    GMainLoop *loop = g_main_loop_new(NULL, FALSE);
-    g_main_loop_run(loop);
-
-    // Pipeline'ları durdur ve temizle
-    gst_element_set_state(vpipeline, GST_STATE_NULL);
-    gst_object_unref(vpipeline);
-    gst_element_set_state(apipeline, GST_STATE_NULL);
-    gst_object_unref(apipeline);
-    }
-    return 0;
+    return a.exec();
 }
-
