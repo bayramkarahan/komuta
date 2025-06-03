@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
 
         receiver = new MulticastReceiver(this);
-        receiver->urlAddress = "udp://@239.0.23.251:1234";
+        receiver->urlAddress = "udp://@239.0.1.104:1234";
 
         connect(receiver, &MulticastReceiver::frameReady, this, [this](const QImage &img) {
             if (prevImage != img)
@@ -37,12 +37,15 @@ MainWindow::MainWindow(QWidget *parent)
     stopButton->setText(tr("Stop"));
     connect(stopButton, &QToolButton::clicked, [=]() {
         if (receiver) {
+            receiver->streamStatus=false;
             receiver->stop();
             receiver->wait();
+
             disconnect(receiver, nullptr, this, nullptr);  // sinyal bağlantılarını kes
             delete receiver;
             receiver = nullptr;
             sahne->clear(); // Ekranı temizle
+
         }
     });
 

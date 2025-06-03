@@ -1,0 +1,16 @@
+b297fd1a4afb5b359eed4f66654284f8  lib/systemd/system/e-ag-client-console.service
+b0b4afc5f186f01004768013c29edb43  lib/systemd/system/e-ag-client-networkprofil.service
+4d335495b2c270e5df654af6c46a08a7  lib/systemd/system/e-ag-x11vncdesktop.service
+3d68f15b88738d7edb0e0225c9c07306  lib/systemd/system/e-ag-x11vnclogin.service
+4dbd3f092745a270ad3d884fc4d8df73  usr/bin/e-ag-client-console
+652e5a1ef3a21f25f6578d81e3c63c29  usr/bin/e-ag-client-gui
+5866f6c85338710e8e63164dd9d969b0  usr/bin/e-ag-client-networkprofil
+4a4807cddd872fa4096b3580ccbabef9  usr/bin/e-ag-client-tray
+b4c7ec3fff5c3388081309db6fe3061a  usr/bin/scd-client
+288a882e17ddee22648f768f3b092602  usr/bin/serverscreen
+d2d7ec3164d50f18eea4b7c8c3257225  usr/bin/x11vncpasswd
+e0febdb4460de3a590519c8f9bb85b65  usr/share/applications/e-ag-client-gui.desktop
+262cb81dd5e5f17a0396618a35168faf  usr/share/doc/e-ag-client/changelog.gz
+8f0e24f763e519ea62b036235aca62e0  usr/share/doc/e-ag-client/copyright
+810d71067df9a3fcd8a13a6805dca150  usr/share/e-ag/webdisable.sh
+c641b45324a55458eeaebd1341396b33  usr/share/icons/e-ag-client.svg

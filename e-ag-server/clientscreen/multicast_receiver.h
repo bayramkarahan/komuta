@@ -25,6 +25,7 @@ public:
     void stop();
 
     QString urlAddress;
+    bool streamStatus=true;
 
 signals:
     void frameReady(const QImage &image);
@@ -32,6 +33,7 @@ signals:
 private:
     static int interrupt_callback(void *ctx);
     std::atomic<bool> m_running{false};  // atomic flag
+
       AVFormatContext *fmt_ctx = nullptr;  // Üye değişken olarak burada tanımla
 };
 

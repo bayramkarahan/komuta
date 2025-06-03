@@ -28,10 +28,10 @@ void MulticastReceiver::stop()
 
 void MulticastReceiver::run()
 {
-    //av_log_set_level(AV_LOG_QUIET);
+    av_log_set_level(AV_LOG_QUIET);
     m_running = true;
+    streamStatus=true;
 
-    QElapsedTimer waitTimer;
     AVFormatContext *fmt_ctx = avformat_alloc_context();
     if (!fmt_ctx) {
         qWarning() << "Could not allocate format context";
@@ -127,7 +127,7 @@ void MulticastReceiver::run()
     av_image_fill_arrays(rgb_frame->data, rgb_frame->linesize, buffer,
                          AV_PIX_FMT_RGB24, codec_ctx->width, codec_ctx->height, 1);
 
-    waitTimer.start();
+
 
     while (m_running && av_read_frame(fmt_ctx, packet) >= 0) {
         if (packet->stream_index == video_stream_index) {
@@ -145,8 +145,8 @@ void MulticastReceiver::run()
 
         av_packet_unref(packet);
 
-        if (waitTimer.elapsed() > 15000) {
-            qWarning() << "Timeout: No video frames received in 5 seconds.";
+        if (!streamStatus) {
+            qWarning() << "stop stream";
             break;
         }
     }

@@ -309,11 +309,6 @@ bool MainWindow::karsilastirMyPc(const MyPc *mypc1, const MyPc *mypc2) {
  }
 void MainWindow::pcListeGuncelleSlotnew(QString mission)
 {
-    //onlinePcList.clear();
-    //qDeleteAll(hostListe->findChildren<MyPc *>());
-    //QList<MyPc*> altNesneler = hostListe->findChildren<MyPc*>();
-    //qDebug()<<altNesneler.size();
-    //qDeleteAll(altNesneler);
     //Sıralama yapıldı caption göre
     std::sort(onlinePcList.begin(), onlinePcList.end(),karsilastirMyPc);
     //sadece gizli olmayanlar filtreleniyor
@@ -365,11 +360,11 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
      }
 
 /***************pc seçimi yapılıyor önemli***********************/
+
      if(onlinePcList1.size()>0)
      {
-         onlinePcList1[onlinePcList1.size()-1]->slotMouseClick();
-
-         pcClickSlot(onlinePcList1[onlinePcList1.size()-1]->mac);
+         onlinePcList1[0]->slotMouseClick();
+         //pcClickSlot(onlinePcList1[onlinePcList1.size()-1]->mac);
      }
 
  }
@@ -400,18 +395,6 @@ void MainWindow::mesajSlot(QString msg)
 }
 void MainWindow::pcClickSlot(QString _mac)
 {
-/*
-if(remoteUserName==""||remotePassword==""||
-        localUserName==""||localPassword=="")
-{
-    ///localNetwork!=""||tcpPort!="")
-    QMessageBox msgBox;
-     msgBox.setText("Uygulamanın Sorunsuz Çalışması İçin Eksik Bilgileri Doldurunuz!");
-     msgBox.exec();
-   acountButtonSlot();
-}
-*/
-
     QPalette palet;
     for(int i=0;i<onlinePcList.length();i++)
      {
@@ -438,10 +421,7 @@ if(remoteUserName==""||remotePassword==""||
             pcUserlbl->setText(tr("Kullanıcı: ")+onlinePcList[i]->user);
            /// pcScreenlbl->setText("Ekran: "+onlinePcList[i]->display);
             pcSystemlbl->setText(tr("Sistem: ")+onlinePcList[i]->hostname.trimmed());
-           /* if(btnlist[i]->display=="")  _display="0";
-            else
-                _display=onlinePcList[i]->display.right(1);
-*/
+
 
         }
       }

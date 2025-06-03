@@ -17,7 +17,7 @@ CXX           = g++
 DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_MULTIMEDIAWIDGETS_LIB -DQT_WIDGETS_LIB -DQT_MULTIMEDIA_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -O2 -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I. -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I. -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = e-ag1.0.0
 DISTDIR = /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/.tmp/e-ag1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-O1
-LIBS          = $(SUBLIBS) -lqtermwidget5 -lgstreamer-1.0 -lgstapp-1.0 -lgstvideo-1.0 -lgobject-2.0 -lglib-2.0 -lgstaudio-1.0 /usr/lib/x86_64-linux-gnu/libQt5PrintSupport.so /usr/lib/x86_64-linux-gnu/libQt5MultimediaWidgets.so /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Multimedia.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Network.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) -lqtermwidget5 -lavformat -lavcodec -lavutil -lswscale /usr/lib/x86_64-linux-gnu/libQt5PrintSupport.so /usr/lib/x86_64-linux-gnu/libQt5MultimediaWidgets.so /usr/lib/x86_64-linux-gnu/libQt5Widgets.so /usr/lib/x86_64-linux-gnu/libQt5Multimedia.so /usr/lib/x86_64-linux-gnu/libQt5Gui.so /usr/lib/x86_64-linux-gnu/libQt5Network.so /usr/lib/x86_64-linux-gnu/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -54,6 +54,7 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		mainwindow.cpp \
+		multicast_receiver.cpp \
 		mypc.cpp \
 		pcdata.cpp \
 		rubberband.cpp \
@@ -61,7 +62,10 @@ SOURCES       = main.cpp \
 		scdimgserver.cpp \
 		scdimgserverthread.cpp qrc_resources.cpp \
 		moc_MyCommand.cpp \
+		moc_VideoDecodeThread.cpp \
+		moc_VideoPlayer.cpp \
 		moc_mainwindow.cpp \
+		moc_multicast_receiver.cpp \
 		moc_mypc.cpp \
 		moc_rubberband.cpp \
 		moc_scdimgclient.cpp \
@@ -69,6 +73,7 @@ SOURCES       = main.cpp \
 		moc_scdimgserverthread.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		multicast_receiver.o \
 		mypc.o \
 		pcdata.o \
 		rubberband.o \
@@ -77,7 +82,10 @@ OBJECTS       = main.o \
 		scdimgserverthread.o \
 		qrc_resources.o \
 		moc_MyCommand.o \
+		moc_VideoDecodeThread.o \
+		moc_VideoPlayer.o \
 		moc_mainwindow.o \
+		moc_multicast_receiver.o \
 		moc_mypc.o \
 		moc_rubberband.o \
 		moc_scdimgclient.o \
@@ -97,6 +105,7 @@ DIST          = e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -178,6 +187,8 @@ DIST          = e-ag.svg \
 		MyCommand.h \
 		MyDialog.h \
 		SettingsWidget.h \
+		VideoDecodeThread.h \
+		VideoPlayer.h \
 		baseWidget.h \
 		filecopyWidget.h \
 		languageWidget.h \
@@ -186,6 +197,7 @@ DIST          = e-ag.svg \
 		mainwindow.h \
 		menu.h \
 		messageWidget.h \
+		multicast_receiver.h \
 		mypc.h \
 		pcdata.h \
 		powerrebootWidget.h \
@@ -204,6 +216,7 @@ DIST          = e-ag.svg \
 		volumeWidget.h \
 		wolWidget.h main.cpp \
 		mainwindow.cpp \
+		multicast_receiver.cpp \
 		mypc.cpp \
 		pcdata.cpp \
 		rubberband.cpp \
@@ -230,6 +243,7 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -318,6 +332,7 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
@@ -412,8 +427,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents CustomInputDialog.h Database.h MyCommand.h MyDialog.h SettingsWidget.h baseWidget.h filecopyWidget.h languageWidget.h lockWidget.h loginLogoutWidget.h mainwindow.h menu.h messageWidget.h mypc.h pcdata.h powerrebootWidget.h rubberband.h runcommandWidget.h scdimgclient.h scdimgserver.h scdimgserverthread.h screenViewWidget.h sliderWidget.h tcpudp.h selectpc.h funtion.h videoWidget.h vncrdpWidget.h volumeWidget.h wolWidget.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp mainwindow.cpp mypc.cpp pcdata.cpp rubberband.cpp scdimgclient.cpp scdimgserver.cpp scdimgserverthread.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents CustomInputDialog.h Database.h MyCommand.h MyDialog.h SettingsWidget.h VideoDecodeThread.h VideoPlayer.h baseWidget.h filecopyWidget.h languageWidget.h lockWidget.h loginLogoutWidget.h mainwindow.h menu.h messageWidget.h multicast_receiver.h mypc.h pcdata.h powerrebootWidget.h rubberband.h runcommandWidget.h scdimgclient.h scdimgserver.h scdimgserverthread.h screenViewWidget.h sliderWidget.h tcpudp.h selectpc.h funtion.h videoWidget.h vncrdpWidget.h volumeWidget.h wolWidget.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp mainwindow.cpp multicast_receiver.cpp mypc.cpp pcdata.cpp rubberband.cpp scdimgclient.cpp scdimgserver.cpp scdimgserverthread.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -526,51 +541,73 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -O2 -std=gnu++11 -Wall -Wextra -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_MyCommand.cpp moc_mainwindow.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
+compiler_moc_header_make_all: moc_MyCommand.cpp moc_VideoDecodeThread.cpp moc_VideoPlayer.cpp moc_mainwindow.cpp moc_multicast_receiver.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_MyCommand.cpp moc_mainwindow.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
+	-$(DEL_FILE) moc_MyCommand.cpp moc_VideoDecodeThread.cpp moc_VideoPlayer.cpp moc_mainwindow.cpp moc_multicast_receiver.cpp moc_mypc.cpp moc_rubberband.cpp moc_scdimgclient.cpp moc_scdimgserver.cpp moc_scdimgserverthread.cpp
 moc_MyCommand.cpp: MyCommand.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include MyCommand.h -o moc_MyCommand.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include MyCommand.h -o moc_MyCommand.cpp
+
+moc_VideoDecodeThread.cpp: VideoDecodeThread.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include VideoDecodeThread.h -o moc_VideoDecodeThread.cpp
+
+moc_VideoPlayer.cpp: VideoPlayer.h \
+		VideoDecodeThread.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include VideoPlayer.h -o moc_VideoPlayer.cpp
 
 moc_mainwindow.cpp: mainwindow.h \
 		mypc.h \
 		pcdata.h \
 		Database.h \
+		VideoPlayer.h \
+		VideoDecodeThread.h \
+		multicast_receiver.h \
 		scdimgclient.h \
 		CustomInputDialog.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mainwindow.h -o moc_mainwindow.cpp
+
+moc_multicast_receiver.cpp: multicast_receiver.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include multicast_receiver.h -o moc_multicast_receiver.cpp
 
 moc_mypc.cpp: mypc.h \
 		pcdata.h \
 		Database.h \
+		VideoPlayer.h \
+		VideoDecodeThread.h \
+		multicast_receiver.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mypc.h -o moc_mypc.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include mypc.h -o moc_mypc.cpp
 
 moc_rubberband.cpp: rubberband.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include rubberband.h -o moc_rubberband.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include rubberband.h -o moc_rubberband.cpp
 
 moc_scdimgclient.cpp: scdimgclient.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include scdimgclient.h -o moc_scdimgclient.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include scdimgclient.h -o moc_scdimgclient.cpp
 
 moc_scdimgserver.cpp: scdimgserver.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include scdimgserver.h -o moc_scdimgserver.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include scdimgserver.h -o moc_scdimgserver.cpp
 
 moc_scdimgserverthread.cpp: scdimgserverthread.h \
 		scdimgserver.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/gstreamer-1.0/gst/video -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include scdimgserverthread.h -o moc_scdimgserverthread.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/etapadmin/Masaüstü/eag/e-ag-server/e-ag -I/usr/include/qtermwidget5 -I/usr/include -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport -I/usr/include/x86_64-linux-gnu/qt5/QtMultimediaWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtMultimedia -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I/usr/include/c++/12 -I/usr/include/x86_64-linux-gnu/c++/12 -I/usr/include/c++/12/backward -I/usr/lib/gcc/x86_64-linux-gnu/12/include -I/usr/local/include -I/usr/include/x86_64-linux-gnu -I/usr/include scdimgserverthread.h -o moc_scdimgserverthread.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -592,6 +629,9 @@ main.o: main.cpp mainwindow.h \
 		mypc.h \
 		pcdata.h \
 		Database.h \
+		VideoPlayer.h \
+		VideoDecodeThread.h \
+		multicast_receiver.h \
 		scdimgclient.h \
 		CustomInputDialog.h \
 		scdimgserver.h
@@ -601,6 +641,9 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		mypc.h \
 		pcdata.h \
 		Database.h \
+		VideoPlayer.h \
+		VideoDecodeThread.h \
+		multicast_receiver.h \
 		scdimgclient.h \
 		CustomInputDialog.h \
 		menu.h \
@@ -626,9 +669,15 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		MyDialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
+multicast_receiver.o: multicast_receiver.cpp multicast_receiver.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o multicast_receiver.o multicast_receiver.cpp
+
 mypc.o: mypc.cpp mypc.h \
 		pcdata.h \
 		Database.h \
+		VideoPlayer.h \
+		VideoDecodeThread.h \
+		multicast_receiver.h \
 		MyCommand.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mypc.o mypc.cpp
 
@@ -655,8 +704,17 @@ qrc_resources.o: qrc_resources.cpp
 moc_MyCommand.o: moc_MyCommand.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_MyCommand.o moc_MyCommand.cpp
 
+moc_VideoDecodeThread.o: moc_VideoDecodeThread.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_VideoDecodeThread.o moc_VideoDecodeThread.cpp
+
+moc_VideoPlayer.o: moc_VideoPlayer.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_VideoPlayer.o moc_VideoPlayer.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
+
+moc_multicast_receiver.o: moc_multicast_receiver.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_multicast_receiver.o moc_multicast_receiver.cpp
 
 moc_mypc.o: moc_mypc.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mypc.o moc_mypc.cpp
@@ -742,14 +800,21 @@ uninstall_x11servicelogin: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/lib/systemd/system/ 
 
 
-install_lang: first FORCE
+install_langen: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/e-ag/translations/ || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag/translations/
 	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/en_EN.qm $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
+
+uninstall_langen: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
+	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/translations/ 
+
+
+install_langtr: first FORCE
+	@test -d $(INSTALL_ROOT)/usr/share/e-ag/translations/ || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag/translations/
 	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/tr_TR.qm $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.qm
 
-uninstall_lang: FORCE
+uninstall_langtr: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.qm
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
 	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/translations/ 
 
 
@@ -771,9 +836,9 @@ uninstall_polkit_policy: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/polkit-1/actions/ 
 
 
-install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin install_lang install_polkit_rules install_polkit_policy  FORCE
+install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin install_langen install_langtr install_polkit_rules install_polkit_policy  FORCE
 
-uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin uninstall_lang uninstall_polkit_rules uninstall_polkit_policy  FORCE
+uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin uninstall_langen uninstall_langtr uninstall_polkit_rules uninstall_polkit_policy  FORCE
 
 FORCE:
 

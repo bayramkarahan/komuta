@@ -227,11 +227,8 @@ void MainWindow::slotPcEkle(QString _mac,QString _ip)
     qDebug() << "Açılan Pc: "<<_ip;
 
     MyPc *mypc=new MyPc(_mac,_ip);
-
-    qDebug() << "diğer işlemler yapılacak";
-
+    mypc->setConnectState(true);
     connect(mypc, SIGNAL(pcClickSignal(QString)),this, SLOT(pcClickSlot(QString)));
-
     connect(mypc, SIGNAL(pcHideSignal(QString)),this,
     SLOT(pcHideSignalSlot(QString)));
 
@@ -242,14 +239,12 @@ void MainWindow::slotPcEkle(QString _mac,QString _ip)
             this, SLOT(pcRightClickSignalSlot()));
 
     for (const NetProfil &item : NetProfilList) {
-        qDebug()<<item.networkBroadCastAddress;
+        //qDebug()<<item.networkBroadCastAddress;
         if(_ip.section(".",0,2)==item.networkBroadCastAddress.section(".",0,2))
         {
             mypc->netProfil=item;
         }
     }
-
-
     onlinePcList.append(mypc);
     pcopencount++;
     //pcListeGuncelleSlotnew();

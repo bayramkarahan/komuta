@@ -135,7 +135,7 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
         this->visibleState=veri.value("visibleState").toBool();
     }else
     {
-        qDebug()<<"Yeni Host Ekleniyor.";
+        ///qDebug()<<"Yeni Host Ekleniyor.";
         QJsonObject veri;
         veri["mac"] = this->mac;
         veri["ip"] = this->ip;
@@ -192,7 +192,7 @@ void MyPc::setConnectState(bool state){
     connectState=state;
     if(state)
     {
-        iconstateLabel->setStyleSheet("background-color:rgba(0,255,0,100)");
+        iconstateLabel->setStyleSheet("background-color:rgba(0,230,0,130)");
     }
     else
     {
@@ -355,8 +355,7 @@ void MyPc::setIconControlState(bool state)
         }
 
         receiver = new MulticastReceiver(this);
-       // receiver->urlAddress = "udp://@239.0.1.103:1234";
-        receiver->urlAddress = newIp;
+        receiver->urlAddress = "udp://@239.0.1.104:1234";
 
         connect(receiver, &MulticastReceiver::frameReady, this, [this](const QImage &img) {
             if (prevImage != img)
@@ -370,16 +369,18 @@ void MyPc::setIconControlState(bool state)
     }
     if(state==false&&transparanKilitControlState==false&&kilitControlState==false)
     {
-
-        //videoWidget->stop();
         if (receiver) {
+            receiver->streamStatus=false;
             receiver->stop();
             receiver->wait();
+
             disconnect(receiver, nullptr, this, nullptr);  // sinyal bağlantılarını kes
             delete receiver;
             receiver = nullptr;
             iconstateLabel->clear(); // Ekranı temizle
+
         }
+
          iconstateLabel->clear();
         iconControlState=false;
 
@@ -477,7 +478,7 @@ void MyPc::slotMouseClick()
     {
         QPalette palet;
 
-      //  qDebug()<<"tıklllllandıı";
+        //qDebug()<<"tıklllllandıı";
         select=true;
          emit pcClickSignal(mac);//nesneler arası data transferi***
 
