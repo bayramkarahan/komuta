@@ -12,18 +12,35 @@ MulticastReceiver::~MulticastReceiver()
     stop();
 }
 
+int MulticastReceiver::interrupt_callback(void *ctx)
+{
+    MulticastReceiver *receiver = static_cast<MulticastReceiver*>(ctx);
+    return !receiver->m_running;  // m_running false ise av_read_frame iptal edilir
+}
+
 void MulticastReceiver::stop()
 {
     m_running = false;
-    wait();  // thread sonlanana kadar bekle
+    if (!wait(3000)) {
+        qWarning() << "MulticastReceiver thread did not stop in time!";
+    }
 }
 
 void MulticastReceiver::run()
 {
+    //av_log_set_level(AV_LOG_QUIET);
     m_running = true;
 
-    // Tüm değişkenleri başta tanımla
-    AVFormatContext *fmt_ctx = nullptr;
+    QElapsedTimer waitTimer;
+    AVFormatContext *fmt_ctx = avformat_alloc_context();
+    if (!fmt_ctx) {
+        qWarning() << "Could not allocate format context";
+        return;
+    }
+
+    fmt_ctx->interrupt_callback.callback = interrupt_callback;
+    fmt_ctx->interrupt_callback.opaque = this;
+
     AVCodecParameters *codecpar = nullptr;
     const AVCodec *codec = nullptr;
     AVCodecContext *codec_ctx = nullptr;
@@ -36,8 +53,10 @@ void MulticastReceiver::run()
     int num_bytes = 0;
     int ret;
 
-    // Aç ve kontrol et
-     ret = avformat_open_input(&fmt_ctx, urlAddress.toStdString().c_str(), nullptr, nullptr);
+    AVDictionary *options = nullptr;
+    av_dict_set(&options, "stimeout", "2000000", 0);
+
+    ret = avformat_open_input(&fmt_ctx, urlAddress.toStdString().c_str(), nullptr, &options);
     if (ret < 0) {
         qWarning() << "Could not open input stream";
         goto cleanup;
@@ -48,7 +67,6 @@ void MulticastReceiver::run()
         goto cleanup;
     }
 
-    // Video stream bul
     for (unsigned int i = 0; i < fmt_ctx->nb_streams; ++i) {
         if (fmt_ctx->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
             video_stream_index = i;
@@ -60,7 +78,6 @@ void MulticastReceiver::run()
         goto cleanup;
     }
 
-    // Codec ayarla
     codecpar = fmt_ctx->streams[video_stream_index]->codecpar;
     codec = avcodec_find_decoder(codecpar->codec_id);
     if (!codec) {
@@ -84,7 +101,6 @@ void MulticastReceiver::run()
         goto cleanup;
     }
 
-    // Frame ve packet ayarla
     frame = av_frame_alloc();
     rgb_frame = av_frame_alloc();
     packet = av_packet_alloc();
@@ -93,7 +109,6 @@ void MulticastReceiver::run()
         goto cleanup;
     }
 
-    // SwsContext ayarla
     sws_ctx = sws_getContext(codec_ctx->width, codec_ctx->height, codec_ctx->pix_fmt,
                              codec_ctx->width, codec_ctx->height, AV_PIX_FMT_RGB24,
                              SWS_BICUBIC, nullptr, nullptr, nullptr);
@@ -102,7 +117,6 @@ void MulticastReceiver::run()
         goto cleanup;
     }
 
-    // Buffer ayarla
     num_bytes = av_image_get_buffer_size(AV_PIX_FMT_RGB24, codec_ctx->width, codec_ctx->height, 1);
     buffer = (uint8_t *)av_malloc(num_bytes * sizeof(uint8_t));
     if (!buffer) {
@@ -113,23 +127,28 @@ void MulticastReceiver::run()
     av_image_fill_arrays(rgb_frame->data, rgb_frame->linesize, buffer,
                          AV_PIX_FMT_RGB24, codec_ctx->width, codec_ctx->height, 1);
 
-    // Okuma döngüsü
+    waitTimer.start();
+
     while (m_running && av_read_frame(fmt_ctx, packet) >= 0) {
         if (packet->stream_index == video_stream_index) {
             if (avcodec_send_packet(codec_ctx, packet) == 0) {
                 while (avcodec_receive_frame(codec_ctx, frame) == 0) {
                     sws_scale(sws_ctx, frame->data, frame->linesize, 0, codec_ctx->height,
                               rgb_frame->data, rgb_frame->linesize);
-                   /* QImage image(rgb_frame->data[0], codec_ctx->width, codec_ctx->height,
-                                 rgb_frame->linesize[0], QImage::Format_RGB888);
-                    emit frameReady(image.copy());*/
+
                     QImage image(rgb_frame->data[0], codec_ctx->width, codec_ctx->height,
                                  rgb_frame->linesize[0], QImage::Format_RGB888);
-                    emit frameReady(image.copy());  // copy() yapılmalı, ki orijinal veri safe olsun
+                    emit frameReady(image.copy());
                 }
             }
         }
+
         av_packet_unref(packet);
+
+        if (waitTimer.elapsed() > 15000) {
+            qWarning() << "Timeout: No video frames received in 5 seconds.";
+            break;
+        }
     }
 
 cleanup:

@@ -75,6 +75,7 @@ QWidget* MainWindow::ekranWidget()
 }
 void MainWindow::slotEkranIzle()
 {
+    qDebug()<<"izle";
    for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
@@ -88,7 +89,8 @@ void MainWindow::slotEkranIzle()
     mesajSlot(tr("Seçili Ekran İzlemeler Başlatıldı."));
 }
 void MainWindow::slotEkranIzleDurdur()
-{   
+{
+    qDebug()<<"durdur-0";
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->connectState&&(onlinePcList[i]->select||onlinePcList[i]->multiSelect))
@@ -96,10 +98,11 @@ void MainWindow::slotEkranIzleDurdur()
             onlinePcList[i]->setIconControlState(false);
         }
     }
-
-    udpSendData("x11command","x11command","pkill serverscreen");
-    udpSendData("x11command","x11command","pkill ffmpeg");
+qDebug()<<"durdur1";
+    udpSendData("x11command","x11command","pkill serverscreen &");
+    udpSendData("x11command","x11command","pkill ffmpeg &");
     mesajSlot(tr("Seçili Ekran İzlemeler Durduruldu."));
+    qDebug()<<"durdur3";
 }
 void MainWindow::slotEkranIzleAll()
 {

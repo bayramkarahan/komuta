@@ -71,7 +71,7 @@ void MainWindow::udpSocketServerRead()
         QString rmesaj=datagram.constData();
         ///qDebug()<<rmesaj;
         mesaj=rmesaj.split("|");
-        qDebug()<<"Client Mesaj:"<<rmesaj;
+       /// qDebug()<<"Client Mesaj:"<<rmesaj;
 
         QString _mac=mesaj[2];
         /********************************************/
@@ -134,9 +134,9 @@ void MainWindow::udpSocketServerRead()
                 if(mesaj.count()>15)
                 {
                 onlinePcList[i]->setCommandState(mesaj[15],mesaj[16],mesaj[17]);
-                qDebug()<<"komut:"<<mesaj[15];
-                qDebug()<<"komut Sonucu:"<<mesaj[16];
-                qDebug()<<"komut durumu:"<<mesaj[17];
+                //qDebug()<<"komut:"<<mesaj[15];
+                //qDebug()<<"komut Sonucu:"<<mesaj[16];
+                //qDebug()<<"komut durumu:"<<mesaj[17];
                 }
             }
         }

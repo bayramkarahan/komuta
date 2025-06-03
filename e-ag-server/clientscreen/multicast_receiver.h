@@ -11,6 +11,7 @@ extern "C" {
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 #include <libavutil/imgutils.h>
+#include <libavutil/log.h>
 }
 
 class MulticastReceiver : public QThread {
@@ -29,7 +30,9 @@ signals:
     void frameReady(const QImage &image);
 
 private:
+    static int interrupt_callback(void *ctx);
     std::atomic<bool> m_running{false};  // atomic flag
+      AVFormatContext *fmt_ctx = nullptr;  // Üye değişken olarak burada tanımla
 };
 
 #endif // MULTICAST_RECEIVER_H

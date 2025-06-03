@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
         }
 
         receiver = new MulticastReceiver(this);
-        receiver->urlAddress = "udp://@239.0.0.1:1234";
+        receiver->urlAddress = "udp://@239.0.23.251:1234";
 
         connect(receiver, &MulticastReceiver::frameReady, this, [this](const QImage &img) {
             if (prevImage != img)
