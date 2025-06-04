@@ -14,9 +14,7 @@ else
 echo 'WaylandEnable=false'>/etc/gdm3/custom.conf
 fi
 
-#mkdir -p /usr/share/e-ag
-#chmod 777 /usr/share/e-ag
-cp /var/local/e-ag/persist.json /usr/share/e-ag/
+
 systemctl daemon-reload || true
 
 systemctl enable e-ag-networkprofil.service || true

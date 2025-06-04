@@ -47,7 +47,7 @@ void  MainWindow::udpSendData(QString _mesajTur,QString _gorev,QString _ekmesaj)
                         QString msg=_mesajTur+"|"+_gorev+"|"+_ekmesaj+"|"+onlinePcList[i]->netProfil.serverAddress+"|"+uport;
                         QByteArray datagram = msg.toUtf8();
                         udpSocketSend->writeDatagram(datagram,QHostAddress(onlinePcList[i]->ip), uport.toInt());
-                        qDebug()<<"Mesaj Gönderildi:"<<msg;
+                        ///qDebug()<<"Mesaj Gönderildi:"<<msg;
                     }
                 }
                 /***********************************************************************/
@@ -212,7 +212,7 @@ QString MainWindow::getMacForIP(QString ipAddress)
 }
 void MainWindow::pcCloseSignalSlot(QString ip,QString mac)
 {
-    qDebug()<<"pcCloseSignalSlot: "<<ip<<mac;
+    //qDebug()<<"pcCloseSignalSlot: "<<ip<<mac;
     for(int i=0;i<onlinePcList.count();i++)
     {
         if(onlinePcList[i]->mac==mac){

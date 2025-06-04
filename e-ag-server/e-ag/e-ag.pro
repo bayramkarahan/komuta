@@ -71,21 +71,24 @@ HEADERS += \
     wolWidget.h
 
 FORMS +=
-LIBS += -lqtermwidget5
-INCLUDEPATH += /usr/include/qtermwidget5
-# FFmpeg kütüphaneleri
-INCLUDEPATH += /usr/include
-LIBS += -lavformat -lavcodec -lavutil -lswscale
 
-#LIBS += -lgstreamer-1.0 -lgstapp-1.0 -lgstvideo-1.0 -lgstaudio-1.0
-#INCLUDEPATH += /usr/include/gstreamer-1.0
-#PKGCONFIG += gstreamer-1.0 gstreamer-base-1.0 gstreamer-video-1.0 gstreamer-rtp-1.0
-#LIBS += -lgstreamer-1.0 -lgstapp-1.0 -lgstvideo-1.0 -lgobject-2.0 -lglib-2.0 -lgstaudio-1.0
+# Linux için FFmpeg ayarları
+unix {
+    LIBS += -lqtermwidget5
+    INCLUDEPATH += /usr/include/qtermwidget5
+    INCLUDEPATH += /usr/include
+    LIBS += -lavformat -lavcodec -lavutil -lswscale
+}
 
-#INCLUDEPATH += /usr/include/gstreamer-1.0 \
-#               /usr/include/glib-2.0 \
-#               /usr/lib/glib-2.0/include \
-#               /usr/include/gstreamer-1.0/gst/video
+# Windows için FFmpeg ayarları (örnek: FFmpeg statik binary kurulu dizin)
+win32 {
+    INCLUDEPATH += C:/ffmpeg/include
+    LIBS += -LC:/ffmpeg/lib \
+            -lavformat \
+            -lavcodec \
+            -lavutil \
+            -lswscale
+}
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -103,12 +106,6 @@ desktop_file.path = /usr/share/applications/
 icon.files = icons/e-ag.svg
 icon.path = /usr/share/icons/
 
-#x11service.files = x11vnc-e-ag.service
-#x11service.path = /lib/systemd/system/
-
-#x11servicesh.files = x11vnc-e-ag.sh
-#x11servicesh.path = /usr/bin/
-
 x11passwd.files = x11vncpasswd
 x11passwd.path = /usr/bin/
 
@@ -118,27 +115,20 @@ x11servicedesktop.path = /lib/systemd/system/
 x11servicelogin.files = e-ag-x11vnclogin.service
 x11servicelogin.path = /lib/systemd/system/
 
-ngx.files = nginx.conf
-ngx.path = /etc/nginx/
-
 #webdisable.files = webdisable.sh
 #webdisable.path = /usr/share/e-ag/
-
-#filezilla.files = filezilla.xml
-#filezilla.path = /usr/share/e-ag/
 
 polkit_policy.files = e-ag.policy
 polkit_policy.path = /usr/share/polkit-1/actions/
 polkit_rules.files = e-ag.rules
 polkit_rules.path = /usr/share/polkit-1/rules.d/
 
-langtr.files = translations/tr_TR.qm
-langtr.path = /usr/share/e-ag/translations/
-langen.files = translations/en_EN.qm
-langen.path = /usr/share/e-ag/translations/
+lang.files = translations/*
+lang.path = /usr/share/e-ag/translations/
+
 
 INSTALLS += target desktop_file icon x11passwd\
-x11servicedesktop x11servicelogin langen langtr polkit_rules polkit_policy
+x11servicedesktop x11servicelogin langen lang polkit_rules polkit_policy
 
 DISTFILES +=e-ag.svg\
     e-ag.desktop\

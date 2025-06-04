@@ -105,7 +105,6 @@ DIST          = e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -243,7 +242,6 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -332,7 +330,6 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
-/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
@@ -800,21 +797,18 @@ uninstall_x11servicelogin: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/lib/systemd/system/ 
 
 
-install_langen: first FORCE
+install_lang: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/e-ag/translations/ || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag/translations/
 	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/en_EN.qm $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
-
-uninstall_langen: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
-	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/translations/ 
-
-
-install_langtr: first FORCE
-	@test -d $(INSTALL_ROOT)/usr/share/e-ag/translations/ || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag/translations/
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/en_EN.ts $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.ts
 	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/tr_TR.qm $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.qm
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/tr_TR.ts $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.ts
 
-uninstall_langtr: FORCE
+uninstall_lang: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.ts
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.qm
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.ts
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
 	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/translations/ 
 
 
@@ -836,9 +830,9 @@ uninstall_polkit_policy: FORCE
 	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/polkit-1/actions/ 
 
 
-install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin install_langen install_langtr install_polkit_rules install_polkit_policy  FORCE
+install: install_target install_target install_desktop_file install_icon install_x11passwd install_x11servicedesktop install_x11servicelogin install_lang install_polkit_rules install_polkit_policy  FORCE
 
-uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin uninstall_langen uninstall_langtr uninstall_polkit_rules uninstall_polkit_policy  FORCE
+uninstall: uninstall_target uninstall_target uninstall_desktop_file uninstall_icon uninstall_x11passwd uninstall_x11servicedesktop uninstall_x11servicelogin uninstall_lang uninstall_polkit_rules uninstall_polkit_policy  FORCE
 
 FORCE:
 

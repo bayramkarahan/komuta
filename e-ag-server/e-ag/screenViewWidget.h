@@ -83,9 +83,10 @@ void MainWindow::slotEkranIzle()
             onlinePcList[i]->setIconControlState(true);
         }
     }
-   udpSendData("x11command","x11command","pkill serverscreen");
-   udpSendData("x11command","x11command","pkill ffmpeg");
-   udpSendData("x11command","x11command","serverscreen");
+    udpSendData("x11command","x11command","pkill serverscreen");
+    udpSendData("x11command","x11command","pkill ffmpeg");
+    system("sleep 1");
+    udpSendData("x11command","x11command","serverscreen");
     mesajSlot(tr("Seçili Ekran İzlemeler Başlatıldı."));
 }
 void MainWindow::slotEkranIzleDurdur()

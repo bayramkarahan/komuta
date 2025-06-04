@@ -68,7 +68,12 @@ MainWindow::MainWindow(QWidget *parent) :
    // qDebug()<<"aşama1";
 
     mainWidget=new QWidget();
+#if defined(Q_OS_WIN)
+    localDir="c:/e-ag/";
+#elif defined(Q_OS_LINUX)
     localDir="/usr/share/e-ag/";
+#endif
+
     hostAddressMacButtonSlot();
     rb1=new QRadioButton();
     rb2=new QRadioButton();
@@ -342,7 +347,7 @@ void MainWindow::pcListeGuncelleSlotnew(QString mission)
 
      /************************************************************/
      //qDebug()<<"Hosts Listesi Güncellendi..new";//<<columnSayisi<<nwidth<<nheight;
-    qDebug()<<"Hosts Listesi Güncellendi..new"<<mission;
+   /// qDebug()<<"Hosts Listesi Güncellendi..new"<<mission;
      int sn=0;
      for(int i=0;i<satir;i++)
      {
@@ -408,7 +413,11 @@ void MainWindow::pcClickSlot(QString _mac)
         }
         else
         {
-            system("nohup rm -rf ~/.ssh &");
+            #if defined(Q_OS_WIN)
+                //system("del ~/ssh &");
+            #elif defined(Q_OS_LINUX)
+                system("rm -rf ~/.ssh &");
+            #endif
 
            pcIp->setText(onlinePcList[i]->ip);
            pcMac->setText(onlinePcList[i]->mac);
@@ -417,12 +426,9 @@ void MainWindow::pcClickSlot(QString _mac)
             pcNamelbl->setText(tr("Pc Adı: ")+pcName->text());
             pcIplbl->setText(tr("Ip: ")+pcIp->text());
             pcMaclbl->setText(tr("Mac: ")+pcMac->text());
-
             pcUserlbl->setText(tr("Kullanıcı: ")+onlinePcList[i]->user);
            /// pcScreenlbl->setText("Ekran: "+onlinePcList[i]->display);
             pcSystemlbl->setText(tr("Sistem: ")+onlinePcList[i]->hostname.trimmed());
-
-
         }
       }
     selectMac=pcMac->text();

@@ -34,7 +34,13 @@
 int main(int argc, char *argv[])
 {
     QString localDir="/usr/share/e-ag/";
-    QApplication a(argc, argv);
+    #if defined(Q_OS_WIN)
+        localDir="c:/e-ag/";
+    #elif defined(Q_OS_LINUX)
+        localDir="/usr/share/e-ag/";
+    #endif
+
+     QApplication a(argc, argv);
     //return a.exec();
     QString language="";
     QLocale locale;

@@ -8,10 +8,6 @@
 
 #systemctl disable x11vnc-e-ag.service
 #systemctl stop x11vnc-e-ag.service
-mkdir -p /var/local/e-ag
-cp /usr/share/e-ag/persist.json /var/local/e-ag/
-rm -rf  /usr/share/e-ag
-#chmod 777 /usr/share/e-ag
 
 systemctl disable e-ag-x11vncdesktop.service || true
 systemctl stop e-ag-x11vncdesktop.service || true

@@ -45,6 +45,11 @@ MyPc::MyPc(const QString _mac, QString _ip, QWidget *parent) : QWidget(parent)
     timertcpConnectControl->start(3000);
 
     localDir="/usr/share/e-ag/";
+    #if defined(Q_OS_WIN)
+        localDir="c:/e-ag/";
+    #elif defined(Q_OS_LINUX)
+        localDir="/usr/share/e-ag/";
+    #endif
     hostnameLabel=new QLabel(this);
     select=false;
     QPalette palet;
@@ -328,7 +333,7 @@ void MyPc::setIconControlState(bool state)
 
 
         QStringList ipparts=ip.split(".");
-        QString newIp="udp://@239.0."+ipparts[2]+"."+ipparts[3]+":1234";
+        QString newIp="udp://@239.0."+ipparts[2]+"."+ipparts[3]+":1234?localaddr=192.168.23.254";
 
        // receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address="+newIp+" ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert !  xvimagesink name=qtvideosink"));
        // receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address=" + newIp +
@@ -355,7 +360,7 @@ void MyPc::setIconControlState(bool state)
         }
 
         receiver = new MulticastReceiver(this);
-        receiver->urlAddress = "udp://@239.0.1.104:1234";
+        receiver->urlAddress = newIp;
 
         connect(receiver, &MulticastReceiver::frameReady, this, [this](const QImage &img) {
             if (prevImage != img)

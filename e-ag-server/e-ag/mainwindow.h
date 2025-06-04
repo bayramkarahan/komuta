@@ -63,7 +63,7 @@
 #include<QInputDialog>
 #include <iostream>
 #include<Database.h>
-#include<qtermwidget5/qtermwidget.h>
+//#include<qtermwidget5/qtermwidget.h>
 #include<CustomInputDialog.h>
 #include <QQueue>
 class IpMac
