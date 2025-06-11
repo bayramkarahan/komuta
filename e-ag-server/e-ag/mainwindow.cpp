@@ -442,9 +442,25 @@ void MainWindow::pcRightClickSignalSlot()
 MainWindow::~MainWindow()
 {
     qDebug()<<"e-ag Kapatıldı.";
-    system("sleep 1");
+    QThread::sleep(1); // saniye cinsinden
+    //system("sleep 1");
     slotVncFlipStop();
-    system("sleep 1");
+    //system("sleep 1");
+    QThread::sleep(1); // saniye cinsinden
+#if defined(Q_OS_WIN)
+
+    if(streamState)
+    {
+         killProcessByName("ffmpeg.exe");
+         killProcessByName("servervideo.exe");
+         killProcessByName("clientvideo.exe");
+         //system("pkill servercamera");
+         system("taskkill /IM servercamera /F");
+         //system("pkill clientcamera");
+         system("taskkill /IM clientcamera /F");
+    }
+#elif defined(Q_OS_LINUX)
+
     if(streamState)
     {
         system("pkill servervideo");
@@ -452,6 +468,7 @@ MainWindow::~MainWindow()
         system("pkill servercamera");
         system("pkill clientcamera");
     }
+#endif
 
 }
 

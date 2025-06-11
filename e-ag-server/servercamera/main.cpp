@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
          << "-flags" << "low_delay"
          << "-strict" << "-2"
          << "-f" << "mpegts"
-         << "udp://239.0.0.1:1234?ttl=1&pkt_size=1316";
+         << "udp://239.0.0.1:1234?ttl=10&pkt_size=1316";
 
     ffmpeg->setProgram("ffmpeg");
     ffmpeg->setArguments(args);

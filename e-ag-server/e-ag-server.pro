@@ -5,5 +5,5 @@ SUBDIRS += \
     e-ag-networkprofil \
     scd-client\
     servercamera\
-   #clientcamera\
+    serverscreen\
     servervideo

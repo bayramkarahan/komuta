@@ -5,6 +5,36 @@
 #include <QProcessEnvironment>
 #include <QString>
 #include <iostream>
+#include <windows.h>
+#include <tlhelp32.h>
+#include <QString>
+
+bool MainWindow::killProcessByName(const QString &processName) {
+    HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+    if (hSnap == INVALID_HANDLE_VALUE) return false;
+
+    PROCESSENTRY32 pe;
+    pe.dwSize = sizeof(PROCESSENTRY32);
+    if (!Process32First(hSnap, &pe)) {
+        CloseHandle(hSnap);
+        return false;
+    }
+
+    bool success = false;
+    do {
+        if (QString::fromWCharArray(pe.szExeFile).compare(processName, Qt::CaseInsensitive) == 0) {
+            HANDLE hProcess = OpenProcess(PROCESS_TERMINATE, FALSE, pe.th32ProcessID);
+            if (hProcess) {
+                TerminateProcess(hProcess, 0);
+                CloseHandle(hProcess);
+                success = true;
+            }
+        }
+    } while (Process32Next(hSnap, &pe));
+
+    CloseHandle(hSnap);
+    return success;
+}
 
 void MainWindow::selectSlot()
 {

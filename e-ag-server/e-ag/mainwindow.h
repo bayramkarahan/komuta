@@ -66,6 +66,7 @@
 //#include<qtermwidget5/qtermwidget.h>
 #include<CustomInputDialog.h>
 #include <QQueue>
+#include <QThread>
 class IpMac
 {
 public:
@@ -114,6 +115,7 @@ protected:
      void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus, fileCopyTask task);
 
      void listeyiKopyala();
+     bool killProcessByName(const QString &processName);
 private slots:
      QString getActiveUserName();
      void pcMenu(bool singlepc);

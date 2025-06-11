@@ -275,9 +275,16 @@ void MainWindow::slotVncFlip(QString scale,QString viewState){
 void MainWindow::slotVncFlipStop(){
     QString  kmt;
     kmt.append("pkill vncviewer");
+
     udpSendData("x11command","x11command",kmt);
-    QString kmt10="kill $(ps -aux|grep 5901|awk '{print $2 }')";
-    system(kmt10.toStdString().c_str());
+    #if defined(Q_OS_WIN)
+
+
+    #elif defined(Q_OS_LINUX)
+        QString kmt10="kill $(ps -aux|grep 5901|awk '{print $2 }')";
+        system(kmt10.toStdString().c_str());
+    #endif
+
     mesajSlot(tr("Seçili Hostlarda Ekran Yansıtma Durduruldu."));
 
 }
