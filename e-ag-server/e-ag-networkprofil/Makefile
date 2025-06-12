@@ -449,8 +449,7 @@ uninstall_target: FORCE
 
 install_networkprofilservice: first FORCE
 	@test -d $(INSTALL_ROOT)/lib/systemd/system/ || mkdir -p $(INSTALL_ROOT)/lib/systemd/system/
-	$(QINSTALL_PROGRAM) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag-networkprofil/e-ag-networkprofil.service $(INSTALL_ROOT)/lib/systemd/system/e-ag-networkprofil.service
-	-: $(INSTALL_ROOT)/lib/systemd/system/e-ag-networkprofil.service
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag-networkprofil/e-ag-networkprofil.service $(INSTALL_ROOT)/lib/systemd/system/e-ag-networkprofil.service
 
 uninstall_networkprofilservice: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/lib/systemd/system/e-ag-networkprofil.service

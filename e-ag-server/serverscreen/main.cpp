@@ -43,6 +43,20 @@ void hostAddressMacButtonSlot()
 
 }
 int main(int argc, char *argv[]) {
+
+    std::vector<std::string> args;
+    std::transform(argv, argv + argc, std::back_inserter(args), [](const char* arg) {
+        return std::string(arg);
+    });
+
+    if(args.size()<2)
+    {
+        std::cout << "Video Çözünürlüğünü 111x222 gibi Yazmalısın."<< std::endl;
+        return 0;
+    }
+
+    std::string videosize=args[1];
+
     QApplication a(argc, argv);
     QProcess *ffmpegProcess0= new QProcess();
     QProcess *ffmpegProcess1= new QProcess();
@@ -59,6 +73,10 @@ int main(int argc, char *argv[]) {
         QString videoSize = QString("%1x%2")
                                 .arg(screenSize.width())
                                 .arg(screenSize.height());
+        QString remoteVideoSize = QString("%1x%2")
+                                .arg(screenSize.width())
+                                .arg(screenSize.height());
+        remoteVideoSize= QString::fromStdString(videosize);
 
 #ifdef Q_OS_WIN
         QString command = "ffmpeg.exe";
@@ -74,7 +92,7 @@ int main(int argc, char *argv[]) {
 
         QStringList arguments = {
             "-f", "x11grab",              // Linux için ekran yakalama
-            "-framerate", "10",
+            "-framerate", "20",
             "-video_size",videoSize,
             "-i", ":0.0",
 #endif
@@ -82,7 +100,7 @@ int main(int argc, char *argv[]) {
             "-preset", "ultrafast",
             "-tune", "zerolatency",
             "-pix_fmt", "yuv420p",
-            "-s", videoSize,
+            "-s", remoteVideoSize,
             "-b:v", "3000k",
             "-bufsize", "0",
             "-flush_packets", "1",

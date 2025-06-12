@@ -36,7 +36,7 @@ SUBTARGETS    =  \
 		sub-e-ag-networkprofil \
 		sub-scd-client \
 		sub-servercamera \
-		sub-clientcamera \
+		sub-serverscreen \
 		sub-servervideo
 
 
@@ -140,31 +140,31 @@ sub-servercamera-install_subtargets: FORCE
 sub-servercamera-uninstall_subtargets: FORCE
 	@test -d servercamera/ || mkdir -p servercamera/
 	cd servercamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/servercamera/servercamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
-sub-clientcamera-qmake_all:  FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr
-	cd clientcamera/ && $(MAKE) -f Makefile qmake_all
-sub-clientcamera: FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile
-sub-clientcamera-make_first: FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile 
-sub-clientcamera-all: FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile all
-sub-clientcamera-clean: FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile clean
-sub-clientcamera-distclean: FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile distclean
-sub-clientcamera-install_subtargets: FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile install
-sub-clientcamera-uninstall_subtargets: FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
+sub-serverscreen-qmake_all:  FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr
+	cd serverscreen/ && $(MAKE) -f Makefile qmake_all
+sub-serverscreen: FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile
+sub-serverscreen-make_first: FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile 
+sub-serverscreen-all: FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile all
+sub-serverscreen-clean: FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile clean
+sub-serverscreen-distclean: FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile distclean
+sub-serverscreen-install_subtargets: FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile install
+sub-serverscreen-uninstall_subtargets: FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
 sub-servervideo-qmake_all:  FORCE
 	@test -d servervideo/ || mkdir -p servervideo/
 	cd servervideo/ && $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/servervideo/servervideo.pro QMAKE_STRIP=: PREFIX=/usr
@@ -351,16 +351,16 @@ e-ag-server.pro:
 qmake: FORCE
 	@$(QMAKE) -o Makefile e-ag-server.pro QMAKE_STRIP=: PREFIX=/usr
 
-qmake_all: sub-e-ag-qmake_all sub-e-ag-networkprofil-qmake_all sub-scd-client-qmake_all sub-servercamera-qmake_all sub-clientcamera-qmake_all sub-servervideo-qmake_all FORCE
+qmake_all: sub-e-ag-qmake_all sub-e-ag-networkprofil-qmake_all sub-scd-client-qmake_all sub-servercamera-qmake_all sub-serverscreen-qmake_all sub-servervideo-qmake_all FORCE
 
-make_first: sub-e-ag-make_first sub-e-ag-networkprofil-make_first sub-scd-client-make_first sub-servercamera-make_first sub-clientcamera-make_first sub-servervideo-make_first  FORCE
-all: sub-e-ag-all sub-e-ag-networkprofil-all sub-scd-client-all sub-servercamera-all sub-clientcamera-all sub-servervideo-all  FORCE
-clean: sub-e-ag-clean sub-e-ag-networkprofil-clean sub-scd-client-clean sub-servercamera-clean sub-clientcamera-clean sub-servervideo-clean  FORCE
-distclean: sub-e-ag-distclean sub-e-ag-networkprofil-distclean sub-scd-client-distclean sub-servercamera-distclean sub-clientcamera-distclean sub-servervideo-distclean  FORCE
+make_first: sub-e-ag-make_first sub-e-ag-networkprofil-make_first sub-scd-client-make_first sub-servercamera-make_first sub-serverscreen-make_first sub-servervideo-make_first  FORCE
+all: sub-e-ag-all sub-e-ag-networkprofil-all sub-scd-client-all sub-servercamera-all sub-serverscreen-all sub-servervideo-all  FORCE
+clean: sub-e-ag-clean sub-e-ag-networkprofil-clean sub-scd-client-clean sub-servercamera-clean sub-serverscreen-clean sub-servervideo-clean  FORCE
+distclean: sub-e-ag-distclean sub-e-ag-networkprofil-distclean sub-scd-client-distclean sub-servercamera-distclean sub-serverscreen-distclean sub-servervideo-distclean  FORCE
 	-$(DEL_FILE) Makefile
 	-$(DEL_FILE) .qmake.stash
-install_subtargets: sub-e-ag-install_subtargets sub-e-ag-networkprofil-install_subtargets sub-scd-client-install_subtargets sub-servercamera-install_subtargets sub-clientcamera-install_subtargets sub-servervideo-install_subtargets FORCE
-uninstall_subtargets: sub-e-ag-uninstall_subtargets sub-e-ag-networkprofil-uninstall_subtargets sub-scd-client-uninstall_subtargets sub-servercamera-uninstall_subtargets sub-clientcamera-uninstall_subtargets sub-servervideo-uninstall_subtargets FORCE
+install_subtargets: sub-e-ag-install_subtargets sub-e-ag-networkprofil-install_subtargets sub-scd-client-install_subtargets sub-servercamera-install_subtargets sub-serverscreen-install_subtargets sub-servervideo-install_subtargets FORCE
+uninstall_subtargets: sub-e-ag-uninstall_subtargets sub-e-ag-networkprofil-uninstall_subtargets sub-scd-client-uninstall_subtargets sub-servercamera-uninstall_subtargets sub-serverscreen-uninstall_subtargets sub-servervideo-uninstall_subtargets FORCE
 
 sub-e-ag-check:
 	@test -d e-ag/ || mkdir -p e-ag/
@@ -374,13 +374,13 @@ sub-scd-client-check:
 sub-servercamera-check:
 	@test -d servercamera/ || mkdir -p servercamera/
 	cd servercamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/servercamera/servercamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
-sub-clientcamera-check:
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
+sub-serverscreen-check:
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
 sub-servervideo-check:
 	@test -d servervideo/ || mkdir -p servervideo/
 	cd servervideo/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/servervideo/servervideo.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
-check: sub-e-ag-check sub-e-ag-networkprofil-check sub-scd-client-check sub-servercamera-check sub-clientcamera-check sub-servervideo-check
+check: sub-e-ag-check sub-e-ag-networkprofil-check sub-scd-client-check sub-servercamera-check sub-serverscreen-check sub-servervideo-check
 
 sub-e-ag-benchmark:
 	@test -d e-ag/ || mkdir -p e-ag/
@@ -394,13 +394,13 @@ sub-scd-client-benchmark:
 sub-servercamera-benchmark:
 	@test -d servercamera/ || mkdir -p servercamera/
 	cd servercamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/servercamera/servercamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
-sub-clientcamera-benchmark:
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
+sub-serverscreen-benchmark:
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
 sub-servervideo-benchmark:
 	@test -d servervideo/ || mkdir -p servervideo/
 	cd servervideo/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/servervideo/servervideo.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
-benchmark: sub-e-ag-benchmark sub-e-ag-networkprofil-benchmark sub-scd-client-benchmark sub-servercamera-benchmark sub-clientcamera-benchmark sub-servervideo-benchmark
+benchmark: sub-e-ag-benchmark sub-e-ag-networkprofil-benchmark sub-scd-client-benchmark sub-servercamera-benchmark sub-serverscreen-benchmark sub-servervideo-benchmark
 install:install_subtargets  FORCE
 
 uninstall: uninstall_subtargets FORCE
@@ -410,7 +410,7 @@ FORCE:
 dist: distdir FORCE
 	(cd `dirname $(DISTDIR)` && $(TAR) $(DISTNAME).tar $(DISTNAME) && $(COMPRESS) $(DISTNAME).tar) && $(MOVE) `dirname $(DISTDIR)`/$(DISTNAME).tar.gz . && $(DEL_FILE) -r $(DISTDIR)
 
-distdir: sub-e-ag-distdir sub-e-ag-networkprofil-distdir sub-scd-client-distdir sub-servercamera-distdir sub-clientcamera-distdir sub-servervideo-distdir FORCE
+distdir: sub-e-ag-distdir sub-e-ag-networkprofil-distdir sub-scd-client-distdir sub-servercamera-distdir sub-serverscreen-distdir sub-servervideo-distdir FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/sanitize.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_devicediscovery_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_edid_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_egl_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfsdeviceintegration_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eventdispatcher_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fb_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fontdatabase_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_glx_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_input_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlmodels.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_svg.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_theme_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_vulkan_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xkbcommon_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qmake_use.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/file_copies.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/testcase_targets.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf e-ag-server.pro $(DISTDIR)/
 
@@ -430,9 +430,9 @@ sub-servercamera-distdir: FORCE
 	@test -d servercamera/ || mkdir -p servercamera/
 	cd servercamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/servercamera/servercamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/servercamera
 
-sub-clientcamera-distdir: FORCE
-	@test -d clientcamera/ || mkdir -p clientcamera/
-	cd clientcamera/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/clientcamera/clientcamera.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/clientcamera
+sub-serverscreen-distdir: FORCE
+	@test -d serverscreen/ || mkdir -p serverscreen/
+	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-server/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/serverscreen
 
 sub-servervideo-distdir: FORCE
 	@test -d servervideo/ || mkdir -p servervideo/

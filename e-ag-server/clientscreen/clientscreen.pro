@@ -9,6 +9,7 @@ SOURCES += \
     multicast_receiver.cpp
 
 HEADERS += \
+    Database.h \
     mainwindow.h \
     multicast_receiver.h
 

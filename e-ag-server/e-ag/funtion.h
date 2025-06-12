@@ -5,11 +5,14 @@
 #include <QProcessEnvironment>
 #include <QString>
 #include <iostream>
+#include <QString>
+#if defined(Q_OS_WIN)
 #include <windows.h>
 #include <tlhelp32.h>
-#include <QString>
+#endif
 
 bool MainWindow::killProcessByName(const QString &processName) {
+    #if defined(Q_OS_WIN)
     HANDLE hSnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
     if (hSnap == INVALID_HANDLE_VALUE) return false;
 
@@ -34,6 +37,7 @@ bool MainWindow::killProcessByName(const QString &processName) {
 
     CloseHandle(hSnap);
     return success;
+    #endif
 }
 
 void MainWindow::selectSlot()

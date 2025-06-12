@@ -89,6 +89,16 @@ QWidget* MainWindow::rdpWidget()
     serverEkranYansitSeciliPcButton->setIcon(QIcon(":icons/networkvnc.svg"));
 
     connect(serverEkranYansitSeciliPcButton, &QPushButton::clicked, [=]() {
+        system("pkill ffmpeg");
+        system("pkill serverscreen");
+        QString kmt="/usr/bin/serverscreen "+ekranScale1->currentText()+" &";
+        system(kmt.toStdString().c_str());
+        QThread::sleep(1); // saniye cinsinden
+        udpSendData("x11command","x11command","pkill clientscreen");
+        QThread::sleep(1); // saniye cinsinden
+        udpSendData("x11command","x11command","clientscreen");
+        mesajSlot(tr("Seçili Ekran İzlemeler Başlatıldı."));
+        return;
         bool cbstate=cb->checkState();
         QString viewState="";
         //qDebug()<<cbstate;
@@ -108,6 +118,15 @@ QWidget* MainWindow::rdpWidget()
     // ekranYansitDurdur->setAutoFillBackground(true);
     ekranYansitDurdur->setText(tr("Yansıtmayı \nDurdur"));
     connect(ekranYansitDurdur, &QToolButton::clicked, [=]() {
+        system("pkill ffmpeg");
+        system("pkill serverscreen");
+        ///system("/usr/bin/serverscreen&");
+        QThread::sleep(1); // saniye cinsinden
+        udpSendData("x11command","x11command","pkill clientscreen");
+        QThread::sleep(1); // saniye cinsinden
+        ///udpSendData("x11command","x11command","clientscreen");
+        mesajSlot(tr("Seçili Ekran İzlemeleri Durduruldu."));
+        return;
         //slotEkranIzleDurdur();
         slotVncFlipStop();
     });

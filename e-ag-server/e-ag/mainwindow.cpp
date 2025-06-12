@@ -447,6 +447,8 @@ MainWindow::~MainWindow()
     slotVncFlipStop();
     //system("sleep 1");
     QThread::sleep(1); // saniye cinsinden
+    udpSendData("x11command","x11command","pkill clientscreen");
+
 #if defined(Q_OS_WIN)
 
     if(streamState)
@@ -467,6 +469,8 @@ MainWindow::~MainWindow()
         system("pkill clientvideo");
         system("pkill servercamera");
         system("pkill clientcamera");
+        system("pkill serverscreen");
+        system("pkill ffmpeg");
     }
 #endif
 

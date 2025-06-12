@@ -38,7 +38,8 @@ SUBTARGETS    =  \
 		sub-e-ag-client-networkprofil \
 		sub-scd-client \
 		sub-clientcamera \
-		sub-serverscreen
+		sub-serverscreen \
+		sub-clientscreen
 
 
 sub-e-ag-client-console-qmake_all:  FORCE
@@ -216,6 +217,31 @@ sub-serverscreen-install_subtargets: FORCE
 sub-serverscreen-uninstall_subtargets: FORCE
 	@test -d serverscreen/ || mkdir -p serverscreen/
 	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
+sub-clientscreen-qmake_all:  FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr
+	cd clientscreen/ && $(MAKE) -f Makefile qmake_all
+sub-clientscreen: FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile
+sub-clientscreen-make_first: FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile 
+sub-clientscreen-all: FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile all
+sub-clientscreen-clean: FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile clean
+sub-clientscreen-distclean: FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile distclean
+sub-clientscreen-install_subtargets: FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile install
+sub-clientscreen-uninstall_subtargets: FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile uninstall
 
 Makefile: e-ag-client.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
@@ -226,7 +252,6 @@ Makefile: e-ag-client.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -306,7 +331,6 @@ Makefile: e-ag-client.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
-/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
@@ -379,16 +403,16 @@ e-ag-client.pro:
 qmake: FORCE
 	@$(QMAKE) -o Makefile e-ag-client.pro QMAKE_STRIP=: PREFIX=/usr
 
-qmake_all: sub-e-ag-client-console-qmake_all sub-e-ag-client-gui-qmake_all sub-e-ag-client-tray-qmake_all sub-e-ag-client-networkprofil-qmake_all sub-scd-client-qmake_all sub-clientcamera-qmake_all sub-serverscreen-qmake_all FORCE
+qmake_all: sub-e-ag-client-console-qmake_all sub-e-ag-client-gui-qmake_all sub-e-ag-client-tray-qmake_all sub-e-ag-client-networkprofil-qmake_all sub-scd-client-qmake_all sub-clientcamera-qmake_all sub-serverscreen-qmake_all sub-clientscreen-qmake_all FORCE
 
-make_first: sub-e-ag-client-console-make_first sub-e-ag-client-gui-make_first sub-e-ag-client-tray-make_first sub-e-ag-client-networkprofil-make_first sub-scd-client-make_first sub-clientcamera-make_first sub-serverscreen-make_first  FORCE
-all: sub-e-ag-client-console-all sub-e-ag-client-gui-all sub-e-ag-client-tray-all sub-e-ag-client-networkprofil-all sub-scd-client-all sub-clientcamera-all sub-serverscreen-all  FORCE
-clean: sub-e-ag-client-console-clean sub-e-ag-client-gui-clean sub-e-ag-client-tray-clean sub-e-ag-client-networkprofil-clean sub-scd-client-clean sub-clientcamera-clean sub-serverscreen-clean  FORCE
-distclean: sub-e-ag-client-console-distclean sub-e-ag-client-gui-distclean sub-e-ag-client-tray-distclean sub-e-ag-client-networkprofil-distclean sub-scd-client-distclean sub-clientcamera-distclean sub-serverscreen-distclean  FORCE
+make_first: sub-e-ag-client-console-make_first sub-e-ag-client-gui-make_first sub-e-ag-client-tray-make_first sub-e-ag-client-networkprofil-make_first sub-scd-client-make_first sub-clientcamera-make_first sub-serverscreen-make_first sub-clientscreen-make_first  FORCE
+all: sub-e-ag-client-console-all sub-e-ag-client-gui-all sub-e-ag-client-tray-all sub-e-ag-client-networkprofil-all sub-scd-client-all sub-clientcamera-all sub-serverscreen-all sub-clientscreen-all  FORCE
+clean: sub-e-ag-client-console-clean sub-e-ag-client-gui-clean sub-e-ag-client-tray-clean sub-e-ag-client-networkprofil-clean sub-scd-client-clean sub-clientcamera-clean sub-serverscreen-clean sub-clientscreen-clean  FORCE
+distclean: sub-e-ag-client-console-distclean sub-e-ag-client-gui-distclean sub-e-ag-client-tray-distclean sub-e-ag-client-networkprofil-distclean sub-scd-client-distclean sub-clientcamera-distclean sub-serverscreen-distclean sub-clientscreen-distclean  FORCE
 	-$(DEL_FILE) Makefile
 	-$(DEL_FILE) .qmake.stash
-install_subtargets: sub-e-ag-client-console-install_subtargets sub-e-ag-client-gui-install_subtargets sub-e-ag-client-tray-install_subtargets sub-e-ag-client-networkprofil-install_subtargets sub-scd-client-install_subtargets sub-clientcamera-install_subtargets sub-serverscreen-install_subtargets FORCE
-uninstall_subtargets: sub-e-ag-client-console-uninstall_subtargets sub-e-ag-client-gui-uninstall_subtargets sub-e-ag-client-tray-uninstall_subtargets sub-e-ag-client-networkprofil-uninstall_subtargets sub-scd-client-uninstall_subtargets sub-clientcamera-uninstall_subtargets sub-serverscreen-uninstall_subtargets FORCE
+install_subtargets: sub-e-ag-client-console-install_subtargets sub-e-ag-client-gui-install_subtargets sub-e-ag-client-tray-install_subtargets sub-e-ag-client-networkprofil-install_subtargets sub-scd-client-install_subtargets sub-clientcamera-install_subtargets sub-serverscreen-install_subtargets sub-clientscreen-install_subtargets FORCE
+uninstall_subtargets: sub-e-ag-client-console-uninstall_subtargets sub-e-ag-client-gui-uninstall_subtargets sub-e-ag-client-tray-uninstall_subtargets sub-e-ag-client-networkprofil-uninstall_subtargets sub-scd-client-uninstall_subtargets sub-clientcamera-uninstall_subtargets sub-serverscreen-uninstall_subtargets sub-clientscreen-uninstall_subtargets FORCE
 
 sub-e-ag-client-console-check:
 	@test -d e-ag-client-console/ || mkdir -p e-ag-client-console/
@@ -411,7 +435,10 @@ sub-clientcamera-check:
 sub-serverscreen-check:
 	@test -d serverscreen/ || mkdir -p serverscreen/
 	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
-check: sub-e-ag-client-console-check sub-e-ag-client-gui-check sub-e-ag-client-tray-check sub-e-ag-client-networkprofil-check sub-scd-client-check sub-clientcamera-check sub-serverscreen-check
+sub-clientscreen-check:
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile check
+check: sub-e-ag-client-console-check sub-e-ag-client-gui-check sub-e-ag-client-tray-check sub-e-ag-client-networkprofil-check sub-scd-client-check sub-clientcamera-check sub-serverscreen-check sub-clientscreen-check
 
 sub-e-ag-client-console-benchmark:
 	@test -d e-ag-client-console/ || mkdir -p e-ag-client-console/
@@ -434,7 +461,10 @@ sub-clientcamera-benchmark:
 sub-serverscreen-benchmark:
 	@test -d serverscreen/ || mkdir -p serverscreen/
 	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
-benchmark: sub-e-ag-client-console-benchmark sub-e-ag-client-gui-benchmark sub-e-ag-client-tray-benchmark sub-e-ag-client-networkprofil-benchmark sub-scd-client-benchmark sub-clientcamera-benchmark sub-serverscreen-benchmark
+sub-clientscreen-benchmark:
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -f Makefile benchmark
+benchmark: sub-e-ag-client-console-benchmark sub-e-ag-client-gui-benchmark sub-e-ag-client-tray-benchmark sub-e-ag-client-networkprofil-benchmark sub-scd-client-benchmark sub-clientcamera-benchmark sub-serverscreen-benchmark sub-clientscreen-benchmark
 install:install_subtargets  FORCE
 
 uninstall: uninstall_subtargets FORCE
@@ -444,9 +474,9 @@ FORCE:
 dist: distdir FORCE
 	(cd `dirname $(DISTDIR)` && $(TAR) $(DISTNAME).tar $(DISTNAME) && $(COMPRESS) $(DISTNAME).tar) && $(MOVE) `dirname $(DISTDIR)`/$(DISTNAME).tar.gz . && $(DEL_FILE) -r $(DISTDIR)
 
-distdir: sub-e-ag-client-console-distdir sub-e-ag-client-gui-distdir sub-e-ag-client-tray-distdir sub-e-ag-client-networkprofil-distdir sub-scd-client-distdir sub-clientcamera-distdir sub-serverscreen-distdir FORCE
+distdir: sub-e-ag-client-console-distdir sub-e-ag-client-gui-distdir sub-e-ag-client-tray-distdir sub-e-ag-client-networkprofil-distdir sub-scd-client-distdir sub-clientcamera-distdir sub-serverscreen-distdir sub-clientscreen-distdir FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
-	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/sanitize.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_devicediscovery_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_edid_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_egl_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfsdeviceintegration_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eventdispatcher_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fb_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fontdatabase_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_glx_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_input_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlmodels.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_svg.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_theme_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_vulkan_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xkbcommon_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qmake_use.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/file_copies.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/testcase_targets.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf e-ag-client.pro $(DISTDIR)/
+	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/sanitize.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/gcc-base-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_core_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_dbus_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_devicediscovery_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_edid_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_egl_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfs_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eglfsdeviceintegration_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_eventdispatcher_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fb_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_fontdatabase_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_glx_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_gui_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_input_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_kms_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_linuxaccessibility_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimedia.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_multimediawidgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_network_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_opengl_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_openglextensions_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_platformcompositor_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_printsupport_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qml.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlmodels.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmltest.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_qmlworkerscript.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quick.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_quickwidgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_service_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_sql_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_svg.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_testlib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_theme_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_vulkan_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_widgets_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xcb_qpa_lib_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xkbcommon_support_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_xml_private.pri /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_functions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qt_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exclusive_builds.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/toolchain.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_pre.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/resolve_config.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/default_post.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/warn_on.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/qmake_use.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/file_copies.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/testcase_targets.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/exceptions.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf e-ag-client.pro $(DISTDIR)/
 
 sub-e-ag-client-console-distdir: FORCE
 	@test -d e-ag-client-console/ || mkdir -p e-ag-client-console/
@@ -475,4 +505,8 @@ sub-clientcamera-distdir: FORCE
 sub-serverscreen-distdir: FORCE
 	@test -d serverscreen/ || mkdir -p serverscreen/
 	cd serverscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/serverscreen/serverscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/serverscreen
+
+sub-clientscreen-distdir: FORCE
+	@test -d clientscreen/ || mkdir -p clientscreen/
+	cd clientscreen/ && ( test -e Makefile || $(QMAKE) -o Makefile /home/etapadmin/Masaüstü/eag/e-ag-client/clientscreen/clientscreen.pro QMAKE_STRIP=: PREFIX=/usr ) && $(MAKE) -e -f Makefile distdir DISTDIR=$(DISTDIR)/clientscreen
 

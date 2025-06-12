@@ -83,7 +83,6 @@ DIST          = e-ag-client.service \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -189,7 +188,6 @@ Makefile: e-ag-client-console.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g+
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
-		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -277,7 +275,6 @@ Makefile: e-ag-client-console.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g+
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
-/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
@@ -488,8 +485,7 @@ uninstall_target: FORCE
 
 install_service: first FORCE
 	@test -d $(INSTALL_ROOT)/lib/systemd/system/ || mkdir -p $(INSTALL_ROOT)/lib/systemd/system/
-	$(QINSTALL_PROGRAM) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/e-ag-client-console.service $(INSTALL_ROOT)/lib/systemd/system/e-ag-client-console.service
-	-: $(INSTALL_ROOT)/lib/systemd/system/e-ag-client-console.service
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/e-ag-client-console.service $(INSTALL_ROOT)/lib/systemd/system/e-ag-client-console.service
 
 uninstall_service: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/lib/systemd/system/e-ag-client-console.service
@@ -516,8 +512,7 @@ uninstall_x11servicelogin: FORCE
 
 install_x11passwd: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/bin/ || mkdir -p $(INSTALL_ROOT)/usr/bin/
-	$(QINSTALL_PROGRAM) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/x11vncpasswd $(INSTALL_ROOT)/usr/bin/x11vncpasswd
-	-: $(INSTALL_ROOT)/usr/bin/x11vncpasswd
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/x11vncpasswd $(INSTALL_ROOT)/usr/bin/x11vncpasswd
 
 uninstall_x11passwd: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/bin/x11vncpasswd
@@ -526,8 +521,7 @@ uninstall_x11passwd: FORCE
 
 install_webdisablefile: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/e-ag/ || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag/
-	$(QINSTALL_PROGRAM) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/webdisable.sh $(INSTALL_ROOT)/usr/share/e-ag/webdisable.sh
-	-: $(INSTALL_ROOT)/usr/share/e-ag/webdisable.sh
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-client/e-ag-client-console/webdisable.sh $(INSTALL_ROOT)/usr/share/e-ag/webdisable.sh
 
 uninstall_webdisablefile: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/webdisable.sh

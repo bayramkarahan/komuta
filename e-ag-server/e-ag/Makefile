@@ -771,8 +771,7 @@ uninstall_icon: FORCE
 
 install_x11passwd: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/bin/ || mkdir -p $(INSTALL_ROOT)/usr/bin/
-	$(QINSTALL_PROGRAM) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/x11vncpasswd $(INSTALL_ROOT)/usr/bin/x11vncpasswd
-	-: $(INSTALL_ROOT)/usr/bin/x11vncpasswd
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/x11vncpasswd $(INSTALL_ROOT)/usr/bin/x11vncpasswd
 
 uninstall_x11passwd: FORCE
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/bin/x11vncpasswd
