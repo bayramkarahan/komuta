@@ -562,7 +562,7 @@ void Client::commandExecuteSlot(QString command)
             qDebug() << "Başarılı çıktı:" << stdOut;
             mesaj = "consolecommand|consolecommand|" + command + "|0|" + stdOut;
             //QString data= "commandDetail|" + command + "|0|" + stdOut;
-             qDebug()<<"mesajjjjjjjjjjjjjjj-------------";
+             qDebug()<<"mesaj";
             tcpMesajSendTimerSlot(true, command,stdOut,"0");
              qDebug()<<"***************************************";
             //udpServerSendSlot(data);

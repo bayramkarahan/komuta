@@ -3,7 +3,7 @@
 3d68f15b88738d7edb0e0225c9c07306  lib/systemd/system/e-ag-x11vnclogin.service
 c5bd546849fe93eaf166ee0c6194d67c  opt/servercamera/bin/servercamera
 9c95449cf268db53e5d018bac93b9fa8  opt/servervideo/bin/servervideo
-b495e7fbfa720bd593cbe25e9962660c  usr/bin/e-ag
+3c3651367fb76e2df9bbb636309295a7  usr/bin/e-ag
 45656a368c7bbe62ab6f383c5e9287f2  usr/bin/e-ag-networkprofil
 b4c7ec3fff5c3388081309db6fe3061a  usr/bin/scd-client
 5141cc8b622242a232bc2828d08fd960  usr/bin/serverscreen

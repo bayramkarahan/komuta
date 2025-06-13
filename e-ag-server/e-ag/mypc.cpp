@@ -326,29 +326,14 @@ void MyPc::setKilitTransparanControlState(bool state){
 }
 void MyPc::setIconControlState(bool state)
 {
+    //qDebug()<<"ip address: "<<this->netProfil.serverAddress;
+
+    //return;
     if(state==true&&transparanKilitControlState==false&&kilitControlState==false)
     {
-        //QPixmap image =  QPixmap("/tmp/"+ip+".png");
-        //iconstateLabel->setPixmap(image);
-
 
         QStringList ipparts=ip.split(".");
-        QString newIp="udp://@239.0."+ipparts[2]+"."+ipparts[3]+":1234?localaddr=192.168.23.254";
-
-       // receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address="+newIp+" ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert !  xvimagesink name=qtvideosink"));
-       // receiver->setMedia(QUrl("gst-pipeline: udpsrc port=5000 address=" + newIp +
-       //                         " ! application/x-rtp, payload=96 ! rtph264depay ! avdec_h264 ! videoconvert ! ximagesink"));
-
-        /*videoWidget->setStyleSheet("  background-color: rgba(50, 50, 50, 0);");
-        videoWidget->show();
-        videoWidget->setAspectRatioMode(Qt::IgnoreAspectRatio);
-        receiver->play();*/
-        // Multicast UDP adresini yaz (örnek)
-        //QString url = "udp://@239.255.0.1:1234";
-        //videoWidget->setAddress(newIp);
-        //videoWidget->play();
-         //player(url);
-        //player.show();
+        QString newIp="udp://@239.0."+ipparts[2]+"."+ipparts[3]+":1234?localaddr="+this->netProfil.serverAddress;
         qDebug()<<"izleniyor..."<<newIp;
         if (receiver && receiver->isRunning())
             return;
