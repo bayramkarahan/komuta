@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Name=komuta
+Name[tr]=komuta
+Type=Application
+Comment=Network Manager Application
+Comment[tr]=Ag Yönetimi Uygulaması
+Terminal=false
+Exec=sh -c "pkexec /usr/bin/komuta"
+Icon=/usr/share/icons/komuta.svg
+Categories=Qt;Utility;
+Keywords=ag;net;komuta;
+GenericName=komuta
+GenericName[tr]=komuta
+Name[tr_TR]=komuta.desktop
