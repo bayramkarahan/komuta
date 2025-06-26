@@ -6,12 +6,12 @@
     <message>
         <location filename="../CustomInputDialog.h" line="21"/>
         <source>Tamam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../CustomInputDialog.h" line="22"/>
         <source>İptal</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -20,7 +20,7 @@
         <location filename="../baseWidget.h" line="24"/>
         <location filename="../selectpc.h" line="35"/>
         <source>VNC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../baseWidget.h" line="37"/>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../baseWidget.h" line="52"/>
         <source>RDP</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../baseWidget.h" line="66"/>

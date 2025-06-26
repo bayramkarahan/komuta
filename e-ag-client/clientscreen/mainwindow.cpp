@@ -5,7 +5,7 @@
 #include<QGuiApplication>
 #include<Database.h>
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QString ip,QWidget *parent)
     : QMainWindow(parent)
 {
     //MulticastReceiver *receiver=new MulticastReceiver(this);
@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     #endif
     QString ipaddress="";
     /***********************************************************/
-    DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
+    /*DatabaseHelper *db=new DatabaseHelper(localDir+"e-ag.json");
     QJsonArray dizi=db->Ara("selectedNetworkProfil",true);
     if(dizi.count()>0)
     {
@@ -38,9 +38,10 @@ MainWindow::MainWindow(QWidget *parent)
             //qDebug()<<"Yüklenen Ağ Profili:" <<veri["serverAddress"].toString();
             ipaddress=veri["serverAddress"].toString();
         }
-    }
-    QStringList ipparts=ipaddress.split(".");
-    QString newIp="udp://@239.0."+ipparts[2]+"."+ipparts[3]+":1234";
+    }*/
+    //QStringList ipparts=ipaddress.split(".");
+    //QString newIp="udp://@239.0."+ipparts[2]+"."+ipparts[3]+":1234";
+    QString newIp="udp://@"+ip+":1234";
 
 
     /************************************************************/

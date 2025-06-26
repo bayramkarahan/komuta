@@ -49,26 +49,27 @@ int main(int argc, char *argv[]) {
         return std::string(arg);
     });
 
-    if(args.size()<2)
+    if(args.size()<3)
     {
-        std::cout << "Video Çözünürlüğünü 111x222 gibi Yazmalısın."<< std::endl;
+        std::cout << "Video Çözünürlüğünü 111x222  239.*.*.* gibi Yazmalısın."<< std::endl;
         return 0;
     }
 
     std::string videosize=args[1];
+    std::string newIp=args[2];
 
     QApplication a(argc, argv);
     QProcess *ffmpegProcess0= new QProcess();
     QProcess *ffmpegProcess1= new QProcess();
 
     hostAddressMacButtonSlot();
-    for(int k=0;k<ipmaclist.count();k++)
-    {
+    //for(int k=0;k<ipmaclist.count();k++)
+    //{
 
-        qDebug()<<ipmaclist[k].ip;
-        QStringList ipparts=ipmaclist[k].ip.split(".");
-        QString newIp="239.0."+ipparts[2]+"."+ipparts[3];
-        qDebug()<<newIp;
+       // qDebug()<<newIp;
+        //QStringList ipparts=ipmaclist[k].ip.split(".");
+        ///QString newIp="239.0."+ipparts[2]+"."+ipparts[3];
+        qDebug()<<QString::fromStdString(newIp);
         QSize screenSize = QGuiApplication::primaryScreen()->size();
         QString videoSize = QString("%1x%2")
                                 .arg(screenSize.width())
@@ -108,18 +109,18 @@ int main(int argc, char *argv[]) {
             "-g", "10",
             "-keyint_min", "10",
             "-f", "mpegts",
-            "udp://"+newIp+":1234?pkt_size=1316&ttl=1"
+            "udp://"+QString::fromStdString(newIp)+":1234?pkt_size=1316&ttl=1"
         };
 
-        if(k==0)
-        {
+        //if(k==0)
+        //{
             ffmpegProcess0->start(command, arguments);
             if (!ffmpegProcess0->waitForStarted()) {
                 qDebug() << "Başlatılamadı-0!";
             } else {
                 qDebug() << "Yayın başladı-0.";
             }
-        }
+        //}
         /*
         if(k==1)
         {
@@ -131,6 +132,6 @@ int main(int argc, char *argv[]) {
             }
         }
 */
-    }
+    //}
     return a.exec();
 }

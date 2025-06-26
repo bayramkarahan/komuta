@@ -9,9 +9,9 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QString ip, QWidget *parent = nullptr);
     ~MainWindow();
-
+    QString ip;
 private:
     QImage prevImage;
     MulticastReceiver *receiver = nullptr;  // ✅ Null ile başlat

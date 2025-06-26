@@ -105,6 +105,7 @@ DIST          = e-ag.svg \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -242,6 +243,7 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri \
+		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri \
@@ -330,6 +332,7 @@ Makefile: e-ag.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/qmake.conf /u
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-base.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/g++-unix.conf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/qconfig.pri:
+/usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_Baloo.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_accessibility_support_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_bootstrap_private.pri:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/modules/qt_lib_concurrent.pri:
@@ -800,12 +803,16 @@ install_lang: first FORCE
 	@test -d $(INSTALL_ROOT)/usr/share/e-ag/translations/ || mkdir -p $(INSTALL_ROOT)/usr/share/e-ag/translations/
 	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/en_EN.qm $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
 	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/en_EN.ts $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.ts
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/en_EN1.ts $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN1.ts
 	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/tr_TR.qm $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.qm
 	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/tr_TR.ts $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.ts
+	$(QINSTALL) /home/etapadmin/Masaüstü/eag/e-ag-server/e-ag/translations/tr_TR1.ts $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR1.ts
 
 uninstall_lang: FORCE
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR1.ts
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.ts
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/tr_TR.qm
+	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN1.ts
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.ts
 	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/share/e-ag/translations/en_EN.qm
 	-$(DEL_DIR) $(INSTALL_ROOT)/usr/share/e-ag/translations/ 

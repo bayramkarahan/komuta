@@ -89,23 +89,42 @@ QWidget* MainWindow::rdpWidget()
     serverEkranYansitSeciliPcButton->setIcon(QIcon(":icons/networkvnc.svg"));
 
     connect(serverEkranYansitSeciliPcButton, &QPushButton::clicked, [=]() {
-        system("pkill ffmpeg");
-        system("pkill serverscreen");
-        QString kmt="/usr/bin/serverscreen "+ekranScale1->currentText()+" &";
-        system(kmt.toStdString().c_str());
-        QThread::sleep(1); // saniye cinsinden
-        udpSendData("x11command","x11command","pkill clientscreen");
-        QThread::sleep(1); // saniye cinsinden
-        udpSendData("x11command","x11command","clientscreen");
-        mesajSlot(tr("Seçili Ekran İzlemeler Başlatıldı."));
-        return;
         bool cbstate=cb->checkState();
         QString viewState="";
         //qDebug()<<cbstate;
         if (!cbstate) viewState="-viewonly";
         slotVncFlip(ekranScale1->currentText(),viewState);
+    });
+
+    QToolButton *serverEkranYansitFfmpegSeciliPcButton= new QToolButton();
+    serverEkranYansitFfmpegSeciliPcButton->setFixedSize(e*18,yukseklik*2);
+    //serverEkranYansitFfmpegSeciliPcButton->setIconSize(QSize(150,30));
+    serverEkranYansitFfmpegSeciliPcButton->setText(tr("Ekranı Pc'lere\n ffmpeg Yansıt"));
+    serverEkranYansitFfmpegSeciliPcButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    serverEkranYansitFfmpegSeciliPcButton->setAutoRaise(true);
+    serverEkranYansitFfmpegSeciliPcButton->setIconSize(QSize(b*8,yukseklik));
+    //  serverEkranYansitFfmpegSeciliPcButton->setAutoFillBackground(true);
+
+    serverEkranYansitFfmpegSeciliPcButton->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
+    serverEkranYansitFfmpegSeciliPcButton->setIcon(QIcon(":icons/networkvnc.svg"));
+
+    connect(serverEkranYansitFfmpegSeciliPcButton, &QPushButton::clicked, [=]() {
+        qDebug()<<interfaceList[0].ip;
+        QStringList ipparts=interfaceList[0].ip.split(".");
+        QString newIp="239.0."+ipparts[2]+"."+ipparts[3];
+        /************************************************************/
+        system("pkill ffmpeg");
+        system("pkill serverscreen");
+        QString kmt="/usr/bin/serverscreen "+ekranScale1->currentText()+" "+newIp+" &";
+        system(kmt.toStdString().c_str());
+        QThread::sleep(1); // saniye cinsinden
+        udpSendData("x11command","x11command","pkill clientscreen");
+        QThread::sleep(1); // saniye cinsinden
+        udpSendData("x11command","x11command","clientscreen "+newIp);
+        mesajSlot(tr("Seçili Ekran İzlemeler Başlatıldı."));
 
     });
+
 
 
     QToolButton* ekranYansitDurdur = new QToolButton();
@@ -118,6 +137,21 @@ QWidget* MainWindow::rdpWidget()
     // ekranYansitDurdur->setAutoFillBackground(true);
     ekranYansitDurdur->setText(tr("Yansıtmayı \nDurdur"));
     connect(ekranYansitDurdur, &QToolButton::clicked, [=]() {
+
+        //slotEkranIzleDurdur();
+        slotVncFlipStop();
+    });
+
+    QToolButton* ekranYansitFfmpegDurdur = new QToolButton();
+    ekranYansitFfmpegDurdur->setStyleSheet("font-size:"+QString::number(font.toInt()-2)+"px;");
+    ekranYansitFfmpegDurdur->setIcon(QIcon(":/icons/networkvncstop.svg"));
+    ekranYansitFfmpegDurdur->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    ekranYansitFfmpegDurdur->setFixedSize(e*18,yukseklik*2);
+    ekranYansitFfmpegDurdur->setAutoRaise(true);
+    ekranYansitFfmpegDurdur->setIconSize(QSize(b*8,yukseklik));
+    // ekranYansitFfmpegDurdur->setAutoFillBackground(true);
+    ekranYansitFfmpegDurdur->setText(tr("Yansıtmayı \nffmpeg Durdur"));
+    connect(ekranYansitFfmpegDurdur, &QToolButton::clicked, [=]() {
         system("pkill ffmpeg");
         system("pkill serverscreen");
         ///system("/usr/bin/serverscreen&");
@@ -126,11 +160,8 @@ QWidget* MainWindow::rdpWidget()
         QThread::sleep(1); // saniye cinsinden
         ///udpSendData("x11command","x11command","clientscreen");
         mesajSlot(tr("Seçili Ekran İzlemeleri Durduruldu."));
-        return;
-        //slotEkranIzleDurdur();
-        slotVncFlipStop();
-    });
 
+    });
     QToolButton *helpButton= new QToolButton;
     helpButton->setFixedSize(e*12,yukseklik*2);
     helpButton->setAutoRaise(true);
@@ -203,10 +234,10 @@ QWidget* MainWindow::rdpWidget()
     layout->addWidget(cbLabel, 2,3,1,1,Qt::AlignCenter);
 
     layout->addWidget(serverEkranYansitSeciliPcButton, 1,4,2,1,Qt::AlignCenter);
-//    layout->addWidget(serverEkranYansitButton, 1,5,2,1,Qt::AlignCenter);
+    layout->addWidget(serverEkranYansitFfmpegSeciliPcButton, 1,5,2,1,Qt::AlignCenter);
 
     layout->addWidget(ekranYansitDurdur, 1,6,2,1,Qt::AlignCenter);
-  //  layout->addWidget(ekranYansitDurdurAll, 1,7,2,1,Qt::AlignCenter);
+    layout->addWidget(ekranYansitFfmpegDurdur, 1,7,2,1,Qt::AlignCenter);
     layout->addWidget(helpButton, 1,8,2,1,Qt::AlignCenter);
 
     return sor;

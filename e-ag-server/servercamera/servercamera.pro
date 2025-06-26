@@ -1,7 +1,7 @@
 QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
+TARGET=servercamera
 CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
